@@ -19,35 +19,6 @@ using MagickaPUP.MagickaClasses.Areas;
 
 namespace MagickaPUP
 {
-    class Thing
-    {
-        private int x;
-        public int Value { get { return x; } set { x = value; } }
-        public Thing next { get; set; }
-
-        public void Print(int indent = 0)
-        {
-            PrintIndent(0, "{");
-            PrintIndent(indent + 1, $"Value = {Value}");
-            PrintIndent(indent + 1, $"Next = ", false);
-            if (next == null)
-            {
-                PrintIndent(0, "null");
-            }
-            else
-            {
-                next.Print(indent + 2);
-            }
-            PrintIndent(indent, "}");
-        }
-
-        private void PrintIndent(int indent, string str, bool nl = true)
-        {
-            for (int i = 0; i < indent; ++i)
-                Console.Write(" ");
-            Console.Write($"{str}{(nl ? "\n" : "")}");
-        }
-    }
 
     class Program
     {

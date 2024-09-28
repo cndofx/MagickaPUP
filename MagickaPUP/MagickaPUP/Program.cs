@@ -53,6 +53,13 @@ namespace MagickaPUP
 
         private CmdEntry[] commands;
 
+        // The help command should ALWAYS override all other commands for safety.
+        // This flags exists to allow quitting the program without running any actions when the help command was used.
+        // Another trick could have been to say that help as -1 args, but rather than doing any dirty tricks, we're doing it cleanly because this way, there is no early
+        // quitting, thus, the rest of the args are parsed, and if any errors exist, we can warn the user and exist the program.
+        // This flag also prevents flooding the console with multiple calls to --help.
+        private bool helpWasExecuted;
+
         #endregion
 
         #region Constructor
@@ -62,6 +69,8 @@ namespace MagickaPUP
             this.packers = new List<Packer>();
             this.unpackers = new List<Unpacker>();
             this.debugLevel = 2; // lvl 2 by default.
+
+            this.helpWasExecuted = false;
 
             this.commands = new CmdEntry[] {
                 new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp),
@@ -112,6 +121,9 @@ namespace MagickaPUP
 
         private bool CmdHelp(string[] args, int current)
         {
+            if (this.helpWasExecuted)
+                return true;
+
             putln($"Usage : MagickaPup.exe --op <input file> <output file>");
             putln();
             putln("Commands:");
@@ -121,6 +133,15 @@ namespace MagickaPUP
 
             putln();
 
+            this.helpWasExecuted = true;
+
+            return true;
+        }
+
+        private bool CmdDebug(string[] args, int current)
+        {
+            int lvl = int.Parse(args[current + 1]);
+            this.debugLevel = lvl;
             return true;
         }
 
@@ -160,19 +181,31 @@ namespace MagickaPUP
             throw new NotImplementedException("Unpack Path is not implemented yet!");
         }
 
-        private bool TryRunCommand(string[] args, int current)
+        #endregion
+
+        #region PrivateMethods - Arg parsing
+
+        private int TryRunCommand(string[] args, int current)
         {
             string arg = args[current];
             foreach (var cmd in this.commands)
             {
                 if (cmd.cmd1 == arg || cmd.cmd2 == arg)
                 {
-                    bool success = HasEnoughArgs(args.Length, current, cmd.args) ? cmd.fn(args, current) : false;
-                    return success;
+                    if (HasEnoughArgs(args.Length, current, cmd.args))
+                    {
+                        cmd.fn(args, current);
+                        return cmd.args;
+                    }
+                    else
+                    {
+                        putln($"Not enough arguments for arg \"{args[current]}\", {cmd.args} {(cmd.args == 1 ? "argument was" : "arguments were")} expected.");
+                        return -1;
+                    }
                 }
             }
             putln($"Unknown or Unexpected argument detected : \"{arg}\"");
-            return false;
+            return -1;
         }
 
         private bool TryParseCommands(string[] args)
@@ -185,20 +218,14 @@ namespace MagickaPUP
 
             for (int i = 0; i < args.Length; ++i)
             {
-                bool success = TryRunCommand(args, i);
-                if (!success)
+                int count = TryRunCommand(args, i);
+                i += count;
+                if (count < 0)
                 {
                     return false;
                 }
             }
 
-            return true;
-        }
-
-        private bool CmdDebug(string[] args, int current)
-        {
-            int lvl = int.Parse(args[current + 1]);
-            this.debugLevel = lvl;
             return true;
         }
 

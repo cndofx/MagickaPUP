@@ -74,7 +74,7 @@ namespace MagickaPUP
 
             this.commands = new CmdEntry[] {
                 new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp),
-                new CmdEntry("-d", "--debug", "<lvl>", "Set the debug logging level (default = 2)", 1, CmdDebug),
+                new CmdEntry("-d", "--debug", "<lvl>", "Set the debug logging level for all commands specified after this one (default = 2)", 1, CmdDebug),
                 new CmdEntry("-p", "--pack", "<input> <output>", "Pack JSON files into XNB files", 2, CmdPack),
                 new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack)
             };
@@ -136,7 +136,7 @@ namespace MagickaPUP
                     }
                     else
                     {
-                        putln($"Not enough arguments for arg \"{args[current]}\", {cmd.args} {(cmd.args == 1 ? "argument was" : "arguments were")} expected.");
+                        putln($"Not enough arguments for arg \"{args[current]}\", {cmd.args} {(cmd.args == 1 ? "argument was" : "arguments were")} expected.\nUsage : {args[current]} {cmd.desc1}");
                         return -1;
                     }
                 }
@@ -181,6 +181,7 @@ namespace MagickaPUP
         }
 
         // The latest call to the debug command will be the one to determine the final debug level.
+        // Every call to the debug command will set the debug level for all commands after it.
         private void CmdDebug(string[] args, int current)
         {
             this.debugLevel = int.Parse(args[current + 1]);
@@ -188,12 +189,16 @@ namespace MagickaPUP
 
         private void CmdPack(string[] args, int current)
         {
-
+            string iName = args[current + 1];
+            string oName = args[current + 2];
+            CmdPackFile(iName, oName, this.debugLevel); // Takes debug level as arg to allow setting different debug levels to different commands.
         }
 
         private void CmdUnpack(string[] args, int current)
         {
-
+            string iName = args[current + 1];
+            string oName = args[current + 2];
+            CmdUnpackFile(iName, oName, this.debugLevel); // Same thing...
         }
 
         private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2)

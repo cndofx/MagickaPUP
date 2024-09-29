@@ -189,16 +189,38 @@ namespace MagickaPUP
 
         private void CmdPack(string[] args, int current)
         {
-            string iName = args[current + 1];
-            string oName = args[current + 2];
-            CmdPackFile(iName, oName, this.debugLevel); // Takes debug level as arg to allow setting different debug levels to different commands.
+            CmdPup(CmdPackFile, CmdPackPath, args, current);
         }
 
         private void CmdUnpack(string[] args, int current)
         {
+            CmdPup(CmdUnpackFile, CmdUnpackPath, args, current);
+        }
+
+        // TODO : Due to the fact that this can detect errors in the input commands before running them, it would be ideal to come back to using Func<string[], int, bool> for all of the Cmd_() functions. That way, we could do some message printing or whatever. Maybe return an error code or enum and then have a list with error messages... or just use exceptions, whatever.
+        private bool CmdPup(Action<string, string, int> pupFile, Action<string, string, int> pupPath, string[] args, int current)
+        {
+            // Get cmd input data
             string iName = args[current + 1];
             string oName = args[current + 2];
-            CmdUnpackFile(iName, oName, this.debugLevel); // Same thing...
+            int lvl = this.debugLevel; // The pup functions take the debug level as arg to allow setting different debug levels for each commands issued on the same program execution.
+
+            // If the specified path is a folder, then process the entire folder structure within it and add all of the files for packing / unpacking
+            if (Directory.Exists(iName))
+            {
+                pupPath(iName, oName, lvl);
+                return true;
+            }
+
+            // If the specified path is a file, then process the single specified file
+            if (File.Exists(iName))
+            {
+                pupFile(iName, oName, this.debugLevel);
+                return true;
+            }
+
+            // If it's neither, then it does not exist, so we don't process it, cause we can't... lol
+            return false;
         }
 
         private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2)
@@ -215,12 +237,12 @@ namespace MagickaPUP
             this.unpackers.Add(u);
         }
 
-        private void CmdPackPath(string iPath, string oPath)
+        private void CmdPackPath(string iPath, string oPath, int debuglvl = 2)
         {
             throw new NotImplementedException("Pack Path is not implemented yet!");
         }
 
-        private void CmdUnpackPath(string iPath, string oPath)
+        private void CmdUnpackPath(string iPath, string oPath, int debuglvl = 2)
         {
             throw new NotImplementedException("Unpack Path is not implemented yet!");
         }

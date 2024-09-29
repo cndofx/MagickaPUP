@@ -117,72 +117,6 @@ namespace MagickaPUP
 
         #endregion
 
-        #region PrivateMethods - Cmd
-
-        private bool CmdHelp(string[] args, int current)
-        {
-            if (this.helpWasExecuted)
-                return true;
-
-            putln($"Usage : MagickaPup.exe --op <input file> <output file>");
-            putln();
-            putln("Commands:");
-            
-            foreach(var command in this.commands)
-                putln($"{command.cmd1}, {command.cmd2} {command.desc1} : {command.desc2}", 1);
-
-            putln();
-
-            this.helpWasExecuted = true;
-
-            return true;
-        }
-
-        private bool CmdDebug(string[] args, int current)
-        {
-            int lvl = int.Parse(args[current + 1]);
-            this.debugLevel = lvl;
-            return true;
-        }
-
-        private bool CmdPack(string[] args, int current)
-        {
-
-            return true;
-        }
-
-        private bool CmdUnpack(string[] args, int current)
-        {
-
-            return true;
-        }
-
-        private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2)
-        {
-            putln($"Registered Packer : (\"{iFilename}\", \"{oFilename}\")");
-            Packer p = new Packer(iFilename, oFilename, debuglvl);
-            this.packers.Add(p);
-        }
-
-        private void CmdUnpackFile(string iFilename, string oFilename, int debuglvl = 2)
-        {
-            putln($"Registered Unpacker : (\"{iFilename}\", \"{oFilename}\")");
-            Unpacker u = new Unpacker(iFilename, oFilename, debuglvl);
-            this.unpackers.Add(u);
-        }
-
-        private void CmdPackPath(string iPath, string oPath)
-        {
-            throw new NotImplementedException("Pack Path is not implemented yet!");
-        }
-
-        private void CmdUnpackPath(string iPath, string oPath)
-        {
-            throw new NotImplementedException("Unpack Path is not implemented yet!");
-        }
-
-        #endregion
-
         #region PrivateMethods - Arg parsing
 
         private int TryRunCommand(string[] args, int current)
@@ -232,6 +166,73 @@ namespace MagickaPUP
         private bool HasEnoughArgs(int argc, int current, int requiredArgs)
         {
             return (current + 1) + requiredArgs <= argc;
+        }
+
+        #endregion
+
+        #region PrivateMethods - Cmd Registering
+
+        private bool CmdHelp(string[] args, int current)
+        {
+            this.helpWasExecuted = true;
+            return true;
+        }
+
+        private bool CmdDebug(string[] args, int current)
+        {
+            int lvl = int.Parse(args[current + 1]);
+            this.debugLevel = lvl;
+            return true;
+        }
+
+        private bool CmdPack(string[] args, int current)
+        {
+
+            return true;
+        }
+
+        private bool CmdUnpack(string[] args, int current)
+        {
+
+            return true;
+        }
+
+        private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2)
+        {
+            putln($"Registered Packer : (\"{iFilename}\", \"{oFilename}\")");
+            Packer p = new Packer(iFilename, oFilename, debuglvl);
+            this.packers.Add(p);
+        }
+
+        private void CmdUnpackFile(string iFilename, string oFilename, int debuglvl = 2)
+        {
+            putln($"Registered Unpacker : (\"{iFilename}\", \"{oFilename}\")");
+            Unpacker u = new Unpacker(iFilename, oFilename, debuglvl);
+            this.unpackers.Add(u);
+        }
+
+        private void CmdPackPath(string iPath, string oPath)
+        {
+            throw new NotImplementedException("Pack Path is not implemented yet!");
+        }
+
+        private void CmdUnpackPath(string iPath, string oPath)
+        {
+            throw new NotImplementedException("Unpack Path is not implemented yet!");
+        }
+
+        #endregion
+
+        #region PrivateMethods - Cmd Execution
+
+        private void ExecHelp()
+        {
+            putln($"Usage : MagickaPup.exe --op <input file> <output file>");
+            putln();
+            putln("Commands:");
+            foreach (var command in this.commands)
+                putln($"{command.cmd1}, {command.cmd2} {command.desc1} : {command.desc2}", 1);
+            putln();
         }
 
         #endregion

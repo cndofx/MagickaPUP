@@ -30,9 +30,9 @@ namespace MagickaPUP
             public string desc1;
             public string desc2;
             public int args;
-            public Func<string[], int, bool> fn;
+            public Action<string[], int> fn;
 
-            public CmdEntry(string cmd1, string cmd2, string desc1, string desc2, int args, Func<string[], int, bool> fn)
+            public CmdEntry(string cmd1, string cmd2, string desc1, string desc2, int args, Action<string[], int> fn)
             {
                 this.cmd1 = cmd1;
                 this.cmd2 = cmd2;
@@ -175,30 +175,25 @@ namespace MagickaPUP
 
         #region PrivateMethods - Cmd Registering
 
-        private bool CmdHelp(string[] args, int current)
+        private void CmdHelp(string[] args, int current)
         {
             this.displayHelp = true;
-            return true;
         }
 
         // The latest call to the debug command will be the one to determine the final debug level.
-        private bool CmdDebug(string[] args, int current)
+        private void CmdDebug(string[] args, int current)
         {
-            int lvl = int.Parse(args[current + 1]);
-            this.debugLevel = lvl;
-            return true;
+            this.debugLevel = int.Parse(args[current + 1]);
         }
 
-        private bool CmdPack(string[] args, int current)
+        private void CmdPack(string[] args, int current)
         {
 
-            return true;
         }
 
-        private bool CmdUnpack(string[] args, int current)
+        private void CmdUnpack(string[] args, int current)
         {
 
-            return true;
         }
 
         private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2)

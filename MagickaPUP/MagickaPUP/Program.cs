@@ -208,7 +208,7 @@ namespace MagickaPUP
             // If the specified path is a folder, then process the entire folder structure within it and add all of the files for packing / unpacking
             if (Directory.Exists(iName))
             {
-                pupPath(iName, oName, lvl);
+                CmdPupPath(pupFile, iName, oName, lvl);
                 return true;
             }
 
@@ -221,6 +221,17 @@ namespace MagickaPUP
 
             // If it's neither, then it does not exist, so we don't process it, cause we can't... lol
             return false;
+        }
+
+        // This function makes the second function pointer argument of CmdPup() obsolete!!!
+        // The purpose of this function is to iterate over the entire folder structure and go adding files to be packed or unpacked.
+        // The output path string should be used to be able to go generating the output folder structure as we recursively explore the input folder structure.
+        // Or maybe the directory generation should be left to be done by the file generation functionality of the Exec() functions or the Packer and Unpacker classes themselves.
+        // TODO : Implement!!!
+        private void CmdPupPath(Action<string, string, int> pupFile, string iName, string oName, int debuglvl = 2)
+        {
+            // DirectoryInfo directoryInfo = new DirectoryInfo(iName);
+            throw new NotImplementedException("Directory based operations are not implemented yet!");
         }
 
         private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2)
@@ -237,6 +248,8 @@ namespace MagickaPUP
             this.unpackers.Add(u);
         }
 
+
+        // TODO : Clean these 2 up, we cannot rely on them because it would be like having 2 completely identical implementations... move on to using the more generic CmdPupPath() function.
         private void CmdPackPath(string iPath, string oPath, int debuglvl = 2)
         {
             throw new NotImplementedException("Pack Path is not implemented yet!");

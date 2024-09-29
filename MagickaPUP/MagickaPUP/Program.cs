@@ -58,7 +58,7 @@ namespace MagickaPUP
         // Another trick could have been to say that help as -1 args, but rather than doing any dirty tricks, we're doing it cleanly because this way, there is no early
         // quitting, thus, the rest of the args are parsed, and if any errors exist, we can warn the user and exist the program.
         // This flag also prevents flooding the console with multiple calls to --help.
-        private bool helpWasExecuted;
+        private bool displayHelp;
 
         #endregion
 
@@ -70,7 +70,7 @@ namespace MagickaPUP
             this.unpackers = new List<Unpacker>();
             this.debugLevel = 2; // lvl 2 by default.
 
-            this.helpWasExecuted = false;
+            this.displayHelp = false;
 
             this.commands = new CmdEntry[] {
                 new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp),
@@ -97,11 +97,14 @@ namespace MagickaPUP
                 return;
             }
 
-            foreach (var packer in this.packers)
-                packer.Pack();
+            if (this.displayHelp)
+            {
+                ExecHelp(); // Early quit if help was called. The help command should always take precedence and prevent any further code execution if called to prevent the user from mistakenly executing code that they did not mean to.
+                return;
+            }
 
-            foreach (var unpacker in this.unpackers)
-                unpacker.Unpack();
+            ExecPack();
+            ExecUnpack();
         }
 
         #endregion
@@ -147,7 +150,7 @@ namespace MagickaPUP
             if (args.Length <= 0)
             {
                 CmdHelp(args, 0);
-                return false;
+                return true;
             }
 
             for (int i = 0; i < args.Length; ++i)
@@ -174,10 +177,11 @@ namespace MagickaPUP
 
         private bool CmdHelp(string[] args, int current)
         {
-            this.helpWasExecuted = true;
+            this.displayHelp = true;
             return true;
         }
 
+        // The latest call to the debug command will be the one to determine the final debug level.
         private bool CmdDebug(string[] args, int current)
         {
             int lvl = int.Parse(args[current + 1]);
@@ -233,6 +237,18 @@ namespace MagickaPUP
             foreach (var command in this.commands)
                 putln($"{command.cmd1}, {command.cmd2} {command.desc1} : {command.desc2}", 1);
             putln();
+        }
+
+        private void ExecPack()
+        {
+            foreach (var packer in this.packers)
+                packer.Pack();
+        }
+
+        private void ExecUnpack()
+        {
+            foreach (var unpacker in this.unpackers)
+                unpacker.Unpack();
         }
 
         #endregion

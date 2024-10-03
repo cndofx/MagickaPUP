@@ -48,6 +48,8 @@ namespace MagickaPUP
         // This flag also prevents flooding the console with multiple calls to --help.
         private bool displayHelp;
 
+        private List<string> pathsToCreate;
+
         #endregion
 
         #region Constructor
@@ -56,6 +58,8 @@ namespace MagickaPUP
         {
             this.packers = new List<Packer>();
             this.unpackers = new List<Unpacker>();
+            this.pathsToCreate = new List<string>();
+            
             this.debugLevel = 2; // lvl 2 by default.
 
             this.displayHelp = false;
@@ -87,10 +91,16 @@ namespace MagickaPUP
 
             if (this.displayHelp)
             {
-                ExecHelp(); // Early quit if help was called. The help command should always take precedence and prevent any further code execution if called to prevent the user from mistakenly executing code that they did not mean to.
+                // Early quit if help was called. The help command should always take precedence and prevent any further code execution if called to prevent the user from mistakenly executing code that they did not mean to.
+                // For example, no directories or files will be created if the help command is invoked, preventing accidentally modifying the files and directory structure when an user who is experimenting with the tool enters a partially valid command.
+                ExecHelp();
                 return;
             }
 
+            // First create the required directories, if there are any that need to be created.
+            ExecDirCreate();
+
+            // Then, pack and unpack the files. If any of the pack operations relied on some folder being created, the prior step will have done that operation.
             ExecPack();
             ExecUnpack();
         }
@@ -177,16 +187,17 @@ namespace MagickaPUP
 
         private void CmdPack(string[] args, int current)
         {
-            CmdPup(CmdPackFile, CmdPackPath, args, current);
+            CmdPup(CmdPackFile, "xnb", args, current);
         }
 
         private void CmdUnpack(string[] args, int current)
         {
-            CmdPup(CmdUnpackFile, CmdUnpackPath, args, current);
+            CmdPup(CmdUnpackFile, "json", args, current);
         }
 
         // TODO : Due to the fact that this can detect errors in the input commands before running them, it would be ideal to come back to using Func<string[], int, bool> for all of the Cmd_() functions. That way, we could do some message printing or whatever. Maybe return an error code or enum and then have a list with error messages... or just use exceptions, whatever.
-        private bool CmdPup(Action<string, string, int> pupFile, Action<string, string, int> pupPath, string[] args, int current)
+        // NOTE : The variable outputExtension is only used for automatic file creation when dealing with the directory based functions. Per file functions allow the user to use any extension they want.
+        private bool CmdPup(Action<string, string, int> pupFile, string outputExtension, string[] args, int current)
         {
             // Get cmd input data
             string iName = args[current + 1];
@@ -196,7 +207,7 @@ namespace MagickaPUP
             // If the specified path is a folder, then process the entire folder structure within it and add all of the files for packing / unpacking
             if (Directory.Exists(iName))
             {
-                CmdPupPath(pupFile, iName, oName, lvl);
+                CmdPupPath(pupFile, outputExtension, iName, oName, lvl);
                 return true;
             }
 
@@ -216,10 +227,32 @@ namespace MagickaPUP
         // The output path string should be used to be able to go generating the output folder structure as we recursively explore the input folder structure.
         // Or maybe the directory generation should be left to be done by the file generation functionality of the Exec() functions or the Packer and Unpacker classes themselves.
         // TODO : Implement!!!
-        private void CmdPupPath(Action<string, string, int> pupFile, string iName, string oName, int debuglvl = 2)
+        private void CmdPupPath(Action<string, string, int> pupFile, string outputExtension, string iName, string oName, int debuglvl = 2)
         {
-            // DirectoryInfo directoryInfo = new DirectoryInfo(iName);
-            throw new NotImplementedException("Directory based operations are not implemented yet!");
+            DirectoryInfo directoryInfo = new DirectoryInfo(iName);
+
+            string iName2;
+            string oName2;
+
+            var files = directoryInfo.GetFiles();
+            foreach (var file in files)
+            {
+                iName2 = Path.Combine(iName, file.Name);
+                oName2 = Path.Combine(oName, file.Name) + "." + outputExtension;
+                pupFile(iName2, oName2, debuglvl);
+            }
+
+
+            var directories = directoryInfo.GetDirectories();
+            foreach (var dir in directories)
+            {
+                iName2 = Path.Combine(iName, dir.Name);
+                oName2 = Path.Combine(oName, dir.Name);
+                this.pathsToCreate.Add(oName2);
+                CmdPupPath(pupFile, outputExtension, iName2, oName2, debuglvl);
+            }
+
+            // throw new NotImplementedException("Directory based operations are not implemented yet!");
         }
 
         private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2)
@@ -234,18 +267,6 @@ namespace MagickaPUP
             putln($"Registered Unpacker : (\"{iFilename}\", \"{oFilename}\")");
             Unpacker u = new Unpacker(iFilename, oFilename, debuglvl);
             this.unpackers.Add(u);
-        }
-
-
-        // TODO : Clean these 2 up, we cannot rely on them because it would be like having 2 completely identical implementations... move on to using the more generic CmdPupPath() function.
-        private void CmdPackPath(string iPath, string oPath, int debuglvl = 2)
-        {
-            throw new NotImplementedException("Pack Path is not implemented yet!");
-        }
-
-        private void CmdUnpackPath(string iPath, string oPath, int debuglvl = 2)
-        {
-            throw new NotImplementedException("Unpack Path is not implemented yet!");
         }
 
         #endregion
@@ -272,6 +293,13 @@ namespace MagickaPUP
         {
             foreach (var unpacker in this.unpackers)
                 unpacker.Unpack();
+        }
+
+        private void ExecDirCreate()
+        {
+            foreach (var dir in this.pathsToCreate)
+                if(!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
         }
 
         #endregion

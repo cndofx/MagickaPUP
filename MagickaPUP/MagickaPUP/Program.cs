@@ -253,8 +253,6 @@ namespace MagickaPUP
                 this.pathsToCreate.Add(oName2);
                 CmdPupPath(pupFile, outputExtension, iName2, oName2, debuglvl);
             }
-
-            // throw new NotImplementedException("Directory based operations are not implemented yet!");
         }
 
         private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2)

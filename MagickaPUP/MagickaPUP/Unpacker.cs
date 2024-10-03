@@ -29,17 +29,6 @@ namespace MagickaPUP
 
         #endregion
 
-        #region wtf
-
-        private readonly string[] errorMessages = {
-            /* 0 */ "Operation successfully completed",
-            /* 1 */ "Wrong file type, must be XNB",
-            /* 2 */ "Wrong platform, must be Windows",
-            /* 3 */ "XNB file is compressed, must be decompressed"
-        };
-
-        #endregion
-
         #region Properties
 
         public string FileNameIn { get { return readfilename; } set { readfilename = value; } }
@@ -163,13 +152,6 @@ namespace MagickaPUP
                 logger.Log(1, "Finished writing JSON file!");
             }
             return 0;
-        }
-
-        public string GetErrorString(int errorCode)
-        {
-            if (errorCode < errorMessages.Length)
-                return errorMessages[errorCode];
-            return "Unknown Error";
         }
 
         #endregion

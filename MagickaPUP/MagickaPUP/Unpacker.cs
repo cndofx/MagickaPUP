@@ -181,8 +181,10 @@ namespace MagickaPUP
 
         private void Wait()
         {
+            /*
             Console.WriteLine("Press <ENTER> to continue...");
             Console.ReadLine();
+            */
         }
 
         #endregion

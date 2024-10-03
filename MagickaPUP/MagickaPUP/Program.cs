@@ -222,11 +222,13 @@ namespace MagickaPUP
             return false;
         }
 
-        // This function makes the second function pointer argument of CmdPup() obsolete!!!
         // The purpose of this function is to iterate over the entire folder structure and go adding files to be packed or unpacked.
-        // The output path string should be used to be able to go generating the output folder structure as we recursively explore the input folder structure.
-        // Or maybe the directory generation should be left to be done by the file generation functionality of the Exec() functions or the Packer and Unpacker classes themselves.
-        // TODO : Implement!!!
+        // The input path string determines what is the directory in which to look for the input files.
+        // The output path string determines what is the directory in which the output files will be stored.
+        // The input folder's subfolder structure is copied into the output folder.
+        // On the Cmd stage, the paths are added to a string list.
+        // On the Exec stage, the paths are finally used to create the directories.
+        // This ensures that no directories will be created until we are sure that the input command is 100% correct.
         private void CmdPupPath(Action<string, string, int> pupFile, string outputExtension, string iName, string oName, int debuglvl = 2)
         {
             DirectoryInfo directoryInfo = new DirectoryInfo(iName);

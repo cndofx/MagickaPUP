@@ -33,7 +33,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
-            logger?.Log(1, "Read GibReference not implemented yet!");
+            logger?.Log(1, "Reading GibReference...");
             this.model = reader.ReadString();
             this.mass = reader.ReadSingle();
             this.scale = reader.ReadSingle();
@@ -49,7 +49,9 @@ namespace MagickaPUP.MagickaClasses.Character
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing GibReference...");
-            throw new NotImplementedException("Write GibReference not implemented yet!");
+            writer.Write(this.model);
+            writer.Write(this.mass);
+            writer.Write(this.scale);
         }
 
         #endregion

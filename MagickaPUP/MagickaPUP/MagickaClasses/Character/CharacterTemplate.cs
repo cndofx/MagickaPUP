@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MagickaPUP.MagickaClasses.Data;
+using MagickaPUP.MagickaClasses.Audio;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -29,6 +30,9 @@ namespace MagickaPUP.MagickaClasses.Character
         public bool isNonSlippery { get; set; }
         public bool hasFairy { get; set; }
         public bool canSeeInvisible { get; set; }
+
+        // Sounds
+        public KeyValuePair<string, Banks>[] attachedSounds { get; set; }
 
         #endregion
 
@@ -62,6 +66,27 @@ namespace MagickaPUP.MagickaClasses.Character
             this.isNonSlippery = reader.ReadBoolean();
             this.hasFairy = reader.ReadBoolean();
             this.canSeeInvisible = reader.ReadBoolean();
+
+            // Read character sounds
+            int numSounds = reader.ReadInt32();
+            for (int i = 0; i < numSounds; ++i)
+            {
+                #region Comment
+                // Can't read more than 4 sounds, since that is the max amount of sounds reserved by magicka for each CharacterTemplate, so we break out.
+                // Note that imo this should potentially be an exception on mpup, but we'll do the thing that magicka does and just let it slide... for now.
+                // Also, note that magicka's code just keeps looping over the non valid values out of bounds rather than breaking, so malformed files will not read
+                // the bytes, which will break things and just crash on load, and also wastes runtime in case of a miswritten byte making this loop iterate for more than it should, when we can just break out and call it a day...
+                // In the future, when the engine rewrite comes around, we could actually modify this to support more than 4 sounds per character template...
+                #endregion
+                if (i >= 4)
+                    break;
+
+                string str = reader.ReadString().ToLowerInvariant(); // id String
+                Banks banks = (Banks)reader.ReadInt32(); // sound banks
+                // Within magicka's code, we compute the hash of the string and then we store wihtin the attached sounds array a pair of type KeyValuePair<int, Banks>(hash,banks)
+                // here we can just store a pair of string and banks and not give a fuck since we don't need to compute the hash for anything.
+                this.attachedSounds[i] = new KeyValuePair<string, Banks>(str, banks);
+            }
         }
 
         public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

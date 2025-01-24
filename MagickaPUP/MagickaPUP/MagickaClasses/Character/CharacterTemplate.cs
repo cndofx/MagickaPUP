@@ -37,6 +37,30 @@ namespace MagickaPUP.MagickaClasses.Character
         #endregion
 
         #region Constructor
+
+        public CharacterTemplate()
+        {
+            // ID Strings Initialization
+            this.characterID = default;
+            this.characterDisplayID = default;
+            
+            // Enum data initialization
+            this.faction = default;
+            this.bloodType = default;
+
+            // Flags initialization
+            this.isEthereal = false;
+            this.looksEthereal = false;
+            this.isFearless = false;
+            this.isUncharmable = false;
+            this.isNonSlippery = false;
+            this.hasFairy = false;
+            this.canSeeInvisible = false;
+
+            // Sounds initialization
+            this.attachedSounds = new KeyValuePair<string, Banks>[4]; // we hard code 4 because this is all that Magicka ever uses.
+        }
+
         #endregion
 
         #region PublicMethods

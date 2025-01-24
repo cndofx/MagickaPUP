@@ -89,6 +89,10 @@ namespace MagickaPUP.MagickaClasses.Character
             // Light initialization
             this.numLights = 0;
             this.lights = new LightHolder[0]; // a character in Magicka can only hold up to 4 light holders.
+
+            // Health initialization
+            this.maxHitPoints = 100.0f; // Maybe this value is not a good one for Magicka, but this is the default I'm going with for now lol...
+            this.numHealthBars = 1; // We should have at least 1 health bar, but even if we set it to 0 it does not matter, the reader code clamps it.
         }
 
         #endregion

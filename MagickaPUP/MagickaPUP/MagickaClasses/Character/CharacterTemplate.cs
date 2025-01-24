@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.MagickaClasses.Audio;
 using MagickaPUP.MagickaClasses.Lightning;
+using MagickaPUP.MagickaClasses.Generic;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -73,6 +74,10 @@ namespace MagickaPUP.MagickaClasses.Character
         public Banks summonElementBank { get; set; }
         public string summonElementCueString { get; set; }
 
+        // Resistances
+        public int numResistances { get; set; }
+        public Resistance[] resistances { get; set; }
+
 
         #endregion
 
@@ -135,6 +140,10 @@ namespace MagickaPUP.MagickaClasses.Character
             this.stunTime = 10.0f;
             this.summonElementBank = default;
             this.summonElementCueString = default;
+
+            // Resistances
+            this.numResistances = 0;
+            this.resistances = new Resistance[11]; // We hard code this to 11, just like Magicka does. Because there are only 11 elements that we should be capable of adding resistances for, with indices 0 to 10 (read the notes within Elements.cs for further context and information)
         }
 
         #endregion
@@ -237,6 +246,17 @@ namespace MagickaPUP.MagickaClasses.Character
             this.summonElementBank = (Banks)reader.ReadInt32();
             this.summonElementCueString = reader.ReadString();
 
+            // Read resistances (elemental resistances)
+            this.numResistances = reader.ReadInt32();
+            for (int i = 0; i < this.numResistances; ++i)
+            {
+                Elements elements = (Elements)reader.ReadInt32();
+                int elementIdx = MagickaDefines.ElementIndex(elements);
+                this.resistances[elementIdx].elements = elements;
+                this.resistances[elementIdx].multiplier = reader.ReadSingle();
+                this.resistances[elementIdx].modifier = reader.ReadSingle();
+                this.resistances[elementIdx].statusResistance = reader.ReadBoolean();
+            }
         }
 
         public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

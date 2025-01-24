@@ -25,7 +25,7 @@ namespace MagickaPUP.MagickaClasses.Character
         public Factions faction { get; set; }
         public BloodType bloodType { get; set; }
 
-        // First set of Flags
+        // Flags
         public bool isEthereal { get; set; }
         public bool looksEthereal { get; set; }
         public bool isFearless { get; set; }
@@ -46,16 +46,33 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numLights { get; set; }
         public LightHolder[] lights { get; set; }
 
-        // Character Health data
+        // Character Health Data
         public float maxHitPoints { get; set; }
         public int numHealthBars { get; set; }
 
-        // Second set of flags
+        // Character Data
         public bool isUndying { get; set; }
         public float undieTime { get; set; }
         public float undieHitPoints { get; set; }
         public int hitTolerance { get; set; }
-        // TODO : Continue...
+        public float knockdownTolerance { get; set; }
+        public int scoreValue { get; set; }
+        public int experienceValue { get; set; }
+        public bool rewardOnKill { get; set; }
+        public bool rewardOnOverkill { get; set; }
+        public int regeneration { get; set; }
+        public float maxPanic { get; set; }
+        public float zapModifier { get; set; }
+        public float length { get; set; }
+        public float radius { get; set; }
+        public float mass { get; set; }
+        public float speed { get; set; }
+        public float turnSpeed { get; set; }
+        public float bleedRate { get; set; }
+        public float stunTime { get; set; }
+        public Banks summonElementBank { get; set; }
+        public string summonElementCueString { get; set; }
+
 
         #endregion
 
@@ -95,6 +112,29 @@ namespace MagickaPUP.MagickaClasses.Character
             // Health initialization
             this.maxHitPoints = 100.0f; // Maybe this value is not a good one for Magicka, but this is the default I'm going with for now lol...
             this.numHealthBars = 1; // We should have at least 1 health bar, but even if we set it to 0 it does not matter, the reader code clamps it.
+
+            // Character Data initialization
+            this.isUndying = false;
+            this.undieTime = 0.0f;
+            this.undieHitPoints = 100.0f;
+            this.hitTolerance = 0;
+            this.knockdownTolerance = 0.0f;
+            this.scoreValue = 100;
+            this.experienceValue = 100;
+            this.rewardOnKill = true;
+            this.rewardOnOverkill = true;
+            this.regeneration = 10;
+            this.maxPanic = 1.0f;
+            this.zapModifier = 0.0f;
+            this.length = 1.0f;
+            this.radius = 1.0f;
+            this.mass = 1.0f;
+            this.speed = 100.0f;
+            this.turnSpeed = 10.0f;
+            this.bleedRate = 10.0f;
+            this.stunTime = 10.0f;
+            this.summonElementBank = default;
+            this.summonElementCueString = default;
         }
 
         #endregion
@@ -174,6 +214,28 @@ namespace MagickaPUP.MagickaClasses.Character
             if (this.numHealthBars <= 0)
                 this.numHealthBars = 1;
 
+            // Read character data
+            this.isUndying = reader.ReadBoolean();
+            this.undieTime = reader.ReadSingle();
+            this.undieHitPoints = reader.ReadSingle();
+            this.hitTolerance = reader.ReadInt32();
+            this.knockdownTolerance = reader.ReadSingle();
+            this.scoreValue = reader.ReadInt32();
+            this.experienceValue = reader.ReadInt32();
+            this.rewardOnKill = reader.ReadBoolean();
+            this.rewardOnOverkill = reader.ReadBoolean();
+            this.regeneration = reader.ReadInt32();
+            this.maxPanic = reader.ReadSingle();
+            this.zapModifier = reader.ReadSingle();
+            this.length = reader.ReadSingle(); /* Math.Max(reader.ReadSingle(), 0.01f); */ // NOTE : this is limited with Math.Max(readValue, 0.01f) within Magicka's code, but we don't care about that here tbh
+            this.radius = reader.ReadSingle();
+            this.mass = reader.ReadSingle();
+            this.speed = reader.ReadSingle();
+            this.turnSpeed = reader.ReadSingle();
+            this.bleedRate = reader.ReadSingle();
+            this.stunTime = reader.ReadSingle();
+            this.summonElementBank = (Banks)reader.ReadInt32();
+            this.summonElementCueString = reader.ReadString();
 
         }
 

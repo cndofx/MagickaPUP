@@ -22,8 +22,8 @@ namespace MagickaPUP.MagickaClasses.Character
         // Enum data
         public Factions faction { get; set; }
         public BloodType bloodType { get; set; }
-        
-        // Flags
+
+        // First set of Flags
         public bool isEthereal { get; set; }
         public bool looksEthereal { get; set; }
         public bool isFearless { get; set; }
@@ -44,6 +44,16 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numLights { get; set; }
         public LightHolder[] lights { get; set; }
 
+        // Character Health data
+        public float maxHitPoints { get; set; }
+        public int numHealthBars { get; set; }
+
+        // Second set of flags
+        public bool isUndying { get; set; }
+        public float undieTime { get; set; }
+        public float undieHitPoints { get; set; }
+        public int hitTolerance { get; set; }
+        // TODO : Continue...
 
         #endregion
 

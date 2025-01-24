@@ -164,6 +164,15 @@ namespace MagickaPUP.MagickaClasses.Character
                     break;
                 this.lights[i] = LightHolder.Read(reader, logger);
             }
+
+            // Read character health data (HP and num health bars)
+            // NOTE : The number of health bars should be at least 1 (duh). If the input is N <= 0, we set it to 1, just as Magicka does internally.
+            this.maxHitPoints = reader.ReadSingle();
+            this.numHealthBars = reader.ReadInt32();
+            if (this.numHealthBars <= 0)
+                this.numHealthBars = 1;
+
+
         }
 
         public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

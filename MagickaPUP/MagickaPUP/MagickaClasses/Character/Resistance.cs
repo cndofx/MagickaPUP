@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
-    public class Resistance : XnaObject
+    // NOTE : Yes, this is NOT an XnaObject... tbh, all classes should be modified to stop this stupid inheritance and virtual/override bullshit. But that requires some massive rework at this point...
+    public class Resistance
     {
         #region Variables
 
-        public Elements element { get; set; } // The element which this resistance is resistant against. Originally named "ResistanceAgainst".
+        public Elements elements { get; set; } // The element which this resistance is resistant against. Originally named "ResistanceAgainst".
         public float multiplier { get; set; }
         public float modifier { get; set; }
         public bool statusResistance { get; set; } // TODO : Figure out what this does. Probably determines whether you get a resistance against burning / cold / poisoned status effects (or any other status effect given by an element).
@@ -24,31 +25,10 @@ namespace MagickaPUP.MagickaClasses.Character
 
         public Resistance()
         {
-            this.element = Elements.None;
+            this.elements = Elements.None;
             this.multiplier = 1.0f;
             this.modifier = 0.0f;
             this.statusResistance = false;
-        }
-
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
-        {
-            base.ReadInstance(reader, logger);
-        }
-
-        public static Resistance Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new Resistance();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
-
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
-        {
-            base.WriteInstance(writer, logger);
         }
 
         #endregion

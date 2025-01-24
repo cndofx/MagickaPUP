@@ -32,6 +32,7 @@ namespace MagickaPUP.MagickaClasses.Character
         public bool canSeeInvisible { get; set; }
 
         // Sounds
+        public int numAttachedSounds { get; set; }
         public KeyValuePair<string, Banks>[] attachedSounds { get; set; }
 
         #endregion
@@ -58,6 +59,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.canSeeInvisible = false;
 
             // Sounds initialization
+            this.numAttachedSounds = 0;
             this.attachedSounds = new KeyValuePair<string, Banks>[4]; // we hard code 4 because this is all that Magicka ever uses.
         }
 
@@ -92,8 +94,8 @@ namespace MagickaPUP.MagickaClasses.Character
             this.canSeeInvisible = reader.ReadBoolean();
 
             // Read character sounds
-            int numSounds = reader.ReadInt32();
-            for (int i = 0; i < numSounds; ++i)
+            this.numAttachedSounds = reader.ReadInt32();
+            for (int i = 0; i < this.numAttachedSounds; ++i)
             {
                 #region Comment
                 // Can't read more than 4 sounds, since that is the max amount of sounds reserved by magicka for each CharacterTemplate, so we break out.

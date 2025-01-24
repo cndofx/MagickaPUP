@@ -18,6 +18,7 @@ namespace MagickaPUP.MagickaClasses.Generic
 
         #region PublicMethods
 
+        // This is some wonky af shit!
         public static int ElementIndex(Elements iElement)
         {
             if (iElement == Elements.All)
@@ -27,6 +28,7 @@ namespace MagickaPUP.MagickaClasses.Generic
             return (int)(Math.Log((double)iElement) * MagickaDefines.ONE_OVER_LN2_F64 + 0.5d);
         }
 
+        // WTF... all of this looks like one giant fucking hack. Not my fault tho.
         public static Elements ElementFromIndex(int iIndex)
         {
             if (iIndex == 11)

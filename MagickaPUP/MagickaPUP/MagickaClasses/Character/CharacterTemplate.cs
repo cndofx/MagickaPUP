@@ -78,6 +78,10 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numResistances { get; set; }
         public Resistance[] resistances { get; set; }
 
+        // Model
+        public int numModelProperties { get; set; }
+        public ModelProperties[] modelProperties { get; set; }
+        public string skinnedModel { get; set; } /* ER */
 
         #endregion
 
@@ -144,6 +148,11 @@ namespace MagickaPUP.MagickaClasses.Character
             // Resistances
             this.numResistances = 0;
             this.resistances = new Resistance[11]; // We hard code this to 11, just like Magicka does. Because there are only 11 elements that we should be capable of adding resistances for, with indices 0 to 10 (read the notes within Elements.cs for further context and information)
+
+            // Model
+            this.numModelProperties = 0;
+            this.modelProperties = new ModelProperties[0];
+            this.skinnedModel = default;
         }
 
         #endregion
@@ -257,6 +266,17 @@ namespace MagickaPUP.MagickaClasses.Character
                 this.resistances[elementIdx].modifier = reader.ReadSingle();
                 this.resistances[elementIdx].statusResistance = reader.ReadBoolean();
             }
+
+            // Read Model
+            this.numModelProperties = reader.ReadInt32();
+            this.modelProperties = new ModelProperties[this.numModelProperties];
+            for (int i = 0; i < this.numModelProperties; ++i)
+            {
+                this.modelProperties[i] = ModelProperties.Read(reader, logger);
+            }
+            this.skinnedModel = reader.ReadString(); /* ER */
+
+            
         }
 
         public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

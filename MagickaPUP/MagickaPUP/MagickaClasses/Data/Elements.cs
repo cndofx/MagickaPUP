@@ -39,4 +39,53 @@ namespace MagickaPUP.MagickaClasses.Data
         Beams = 96
     }
     // TODO : Make a comment with all of the bitmask values listed in binary, like I did with the Factions one.
+
+    /*
+        using this simple snippet from Magicka's code:
+
+        public static int ElementFromIndex(int iIndex)
+        {
+        if (iIndex == 11)
+        {
+	        return -1;
+        }
+        return (int)(Math.Pow(2.0, (double)iIndex) + 0.5);
+        }
+
+        and this:
+        for(int i = 0; i < 12; ++i)
+        Console.WriteLine($"{ElementFromIndex(i)}");
+
+        the output lets us determine corresponding elements for each index:
+
+        1
+        2
+        4
+        8
+        16
+        32
+        64
+        128
+        256
+        512
+        1024
+        -1
+
+        Physical / Earth : 1
+        Water            : 2
+        Cold             : 4
+        Fire             : 8
+        Lightning        : 16
+        Arcane           : 32
+        Life             : 64
+        Shield           : 128
+        Ice              : 256
+        Steam            : 512
+        Poison           : 1024
+
+        The other "element" values correspond to bitfields / flags that let us know certain properties about a spell, for instance, whether it's a beam or not.
+
+    */
+
+
 }

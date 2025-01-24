@@ -4,6 +4,7 @@ using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,14 +37,18 @@ namespace MagickaPUP.MagickaClasses.Character
         {
             logger?.Log(1, "Reading ModelProperties...");
 
-            throw new NotImplementedException("Read ModelProperties is not implemented yet!");
+            this.model = reader.ReadString();
+            this.scale = reader.ReadSingle();
+            this.tint = Vec3.Read(reader, logger);
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ModelProperties...");
 
-            throw new NotImplementedException("Write ModelProperties is not implemented yet!");
+            writer.Write(this.model);
+            writer.Write(this.scale);
+            this.tint.WriteInstance(writer, logger);
         }
 
         #endregion

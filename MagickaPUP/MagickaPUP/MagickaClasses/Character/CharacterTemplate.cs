@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.MagickaClasses.Audio;
+using MagickaPUP.MagickaClasses.Lightning;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -39,6 +40,11 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numGibs { get; set; }
         public GibReference[] gibs { get; set; }
 
+        // Lights
+        public int numLights { get; set; }
+        public LightHolder[] lights { get; set; }
+
+
         #endregion
 
         #region Constructor
@@ -69,6 +75,10 @@ namespace MagickaPUP.MagickaClasses.Character
             // Gibs initialization
             this.numGibs = 0;
             this.gibs = new GibReference[0];
+
+            // Light initialization
+            this.numLights = 0;
+            this.lights = new LightHolder[0]; // a character in Magicka can only hold up to 4 light holders.
         }
 
         #endregion
@@ -130,6 +140,16 @@ namespace MagickaPUP.MagickaClasses.Character
                 this.gibs[i] = GibReference.Read(reader, logger);
             }
 
+            // Read character lights
+            this.numLights = reader.ReadInt32();
+            this.lights = new LightHolder[this.numLights];
+            for (int i = 0; i < this.numLights; ++i)
+            {
+                // Once again, there's a limit of 4 for these. In this case tho, Magicka does throw an exception if the found character has more than 4 point light holders!
+                if (i >= 4)
+                    break;
+                this.lights[i] = LightHolder.Read(reader, logger);
+            }
         }
 
         public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

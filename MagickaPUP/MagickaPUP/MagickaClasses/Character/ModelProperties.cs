@@ -42,6 +42,13 @@ namespace MagickaPUP.MagickaClasses.Character
             this.tint = Vec3.Read(reader, logger);
         }
 
+        public static ModelProperties Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new ModelProperties();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ModelProperties...");

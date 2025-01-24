@@ -12,7 +12,7 @@ namespace MagickaPUP.MagickaClasses.Character
     {
         #region Variables
 
-        public string model { get; set; }
+        public string model { get; set; } /* ER (External Reference) */
         public float mass { get; set; }
         public float scale { get; set; }
 
@@ -34,7 +34,9 @@ namespace MagickaPUP.MagickaClasses.Character
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Read GibReference not implemented yet!");
-            throw new NotImplementedException("Read GibReference not implemented yet!");
+            this.model = reader.ReadString();
+            this.mass = reader.ReadSingle();
+            this.scale = reader.ReadSingle();
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)

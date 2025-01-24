@@ -1,4 +1,5 @@
-﻿using MagickaPUP.XnaClasses;
+﻿using MagickaPUP.IO;
+using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,19 @@ namespace MagickaPUP.MagickaClasses.Character
         #endregion
 
         #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Read GibReference not implemented yet!");
+            throw new NotImplementedException("Read GibReference not implemented yet!");
+        }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing GibReference...");
+            throw new NotImplementedException("Write GibReference not implemented yet!");
+        }
+
         #endregion
 
         #region PrivateMethods

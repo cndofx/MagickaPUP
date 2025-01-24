@@ -37,6 +37,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
         // Gibs
         public int numGibs { get; set; }
+        public GibReference[] gibs { get; set; }
 
         #endregion
 
@@ -64,6 +65,10 @@ namespace MagickaPUP.MagickaClasses.Character
             // Sounds initialization
             this.numAttachedSounds = 0;
             this.attachedSounds = new KeyValuePair<string, Banks>[4]; // we hard code 4 because this is all that Magicka ever uses.
+
+            // Gibs initialization
+            this.numGibs = 0;
+            this.gibs = new GibReference[0];
         }
 
         #endregion
@@ -119,13 +124,12 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Read character gibs (GORE!!!!!!! YEAH, BABY!!!! BLOOD!)
             this.numGibs = reader.ReadInt32();
-            // create gibsarray of numGibs length
+            this.gibs = new GibReference[numGibs];
             for(int i = 0; i < this.numGibs; ++i)
             {
-                string gibModel = reader.ReadString(); /* ER */
-                float gibMass = reader.ReadSingle();
-                float gibScale = reader.ReadSingle();
+                this.gibs[i] = GibReference.Read(reader, logger);
             }
+
         }
 
         public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

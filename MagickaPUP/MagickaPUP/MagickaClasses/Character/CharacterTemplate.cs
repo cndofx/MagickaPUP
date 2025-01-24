@@ -11,6 +11,8 @@ using MagickaPUP.MagickaClasses.Lightning;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
+    // TODO : Change the way we handle values that go out of range for the sounds, lights and gibs... maybe just make this throw an exception so that we can bail out while writing a malformed file? like, if we input an invalid JSON file we should notify the error somehow, so yeah...
+
     public class CharacterTemplate : XnaObject
     {
         #region Variables

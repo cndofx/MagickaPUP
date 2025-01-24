@@ -39,6 +39,13 @@ namespace MagickaPUP.MagickaClasses.Character
             this.scale = reader.ReadSingle();
         }
 
+        public static GibReference Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new GibReference();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing GibReference...");

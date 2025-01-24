@@ -35,6 +35,9 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numAttachedSounds { get; set; }
         public KeyValuePair<string, Banks>[] attachedSounds { get; set; }
 
+        // Gibs
+        public int numGibs { get; set; }
+
         #endregion
 
         #region Constructor
@@ -94,7 +97,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.canSeeInvisible = reader.ReadBoolean();
 
             // Read character sounds
-            this.numAttachedSounds = reader.ReadInt32();
+            this.numAttachedSounds = reader.ReadInt32(); // NOTE : To prevent having to store this value as a variable within this class and just working with the array input data from JSON, we could just initialize the attached sounds array to this input length here, and set the length to min(4, reader.readi32()), maybe do this in the future when we clean up all of the manually hard coded counts in the other JSON files for the level data and stuff?
             for (int i = 0; i < this.numAttachedSounds; ++i)
             {
                 #region Comment
@@ -112,6 +115,16 @@ namespace MagickaPUP.MagickaClasses.Character
                 // Within magicka's code, we compute the hash of the string and then we store wihtin the attached sounds array a pair of type KeyValuePair<int, Banks>(hash,banks)
                 // here we can just store a pair of string and banks and not give a fuck since we don't need to compute the hash for anything.
                 this.attachedSounds[i] = new KeyValuePair<string, Banks>(str, banks);
+            }
+
+            // Read character gibs (GORE!!!!!!! YEAH, BABY!!!! BLOOD!)
+            this.numGibs = reader.ReadInt32();
+            // create gibsarray of numGibs length
+            for(int i = 0; i < this.numGibs; ++i)
+            {
+                string gibModel = reader.ReadString(); /* ER */
+                float gibMass = reader.ReadSingle();
+                float gibScale = reader.ReadSingle();
             }
         }
 

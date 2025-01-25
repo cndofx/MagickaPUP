@@ -9,6 +9,7 @@ using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.MagickaClasses.Audio;
 using MagickaPUP.MagickaClasses.Lightning;
 using MagickaPUP.MagickaClasses.Generic;
+using MagickaPUP.MagickaClasses.Character.Animation;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -89,7 +90,8 @@ namespace MagickaPUP.MagickaClasses.Character
         public KeyValuePair<string, string>[] attachedEffects;
 
         // Animation Data
-        // TODO : Implement
+        public AnimationActionClip[][] animationClips { get; set; } // This "list" should ALWAYS contain 27 "lists" of 231 elements each.
+        public int[] animationClipNumbers { get; set; } // WTF does this do??? TODO : Figure it out...
 
         #endregion
 
@@ -165,6 +167,12 @@ namespace MagickaPUP.MagickaClasses.Character
             // Effects
             this.numAttachedEffects = 0;
             this.attachedEffects = new KeyValuePair<string, string>[0];
+
+            // Animations
+            this.animationClips = new AnimationActionClip[27][];
+            for (int i = 0; i < 27; ++i)
+                this.animationClips[i] = new AnimationActionClip[231]; // Ask the Magicka devs, not me!
+            this.animationClipNumbers = new int[27];
         }
 
         #endregion
@@ -303,7 +311,14 @@ namespace MagickaPUP.MagickaClasses.Character
             // NOTE : A character has a limit of 27 lists of animation clips, and each list of animation clips has a limit of 231 individual animation clips.
             // In short, we have a 2D array AnimationClipAction[27][], and 1D array within that 2D array is an AnimationClipAction[231].
             // Not sure as of now what the implications of this are, or why the Magicka devs coded it like that, but here we are...
+            for (int i = 0; i < this.animationClips.Length; ++i)
+            {
+                this.animationClipNumbers[i] = reader.ReadInt32();
+                if (this.animationClipNumbers[i] > 0)
+                {
 
+                }
+            }
 
         }
 

@@ -45,11 +45,19 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             logger?.Log(1, "Reading AnimationList...");
 
             this.numAnimationClips = reader.ReadInt32();
-            this.animationClips = new AnimationActionClip[this.numAnimationClips];
-            for (int i = 0; i < this.numAnimationClips; ++i)
+            if (this.numAnimationClips > 0) // if we have at least 1 animation registered within the input data, then we handle it and add it to the array.
             {
+                for (int i = 0; i < this.numAnimationClips; ++i)
+                {
+                    // Note that the array ALWAYS has a size of 231 animations, which is the total of animations that exist within the game.
+                    // All we're doing here is get the input animation string, and then setting the animation data of the corresponding animation index.
+                    string animationName = reader.ReadString();
 
+                    // TODO : Finish reading stuff here...
+                }
             }
+
+            throw new NotImplementedException("Read AnimationList is not implemented yet!");
         }
 
         public static AnimationList Read(MBinaryReader reader, DebugLogger logger = null)

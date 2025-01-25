@@ -15,7 +15,12 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
     {
         #region Variables
 
-
+        public string animationName { get; set; }
+        public float animationSpeed { get; set; }
+        public float blendTime { get; set; }
+        public bool loopAnimation { get; set; }
+        public int numActions { get; set; }
+        public AnimationAction[] actions { get; set; }
 
         #endregion
 

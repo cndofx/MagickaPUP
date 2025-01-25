@@ -32,5 +32,8 @@ namespace MagickaPUP.MagickaClasses.Character
         }
 
         #endregion
+
+        // NOTE : Actually, we could reimplement (again lol) this class as an XnaObject class and then make it so that on the CharacterTemplate class we call Read()
+        // and then access resistance.elements to get the index, rather than reading within the character template class itself.
     }
 }

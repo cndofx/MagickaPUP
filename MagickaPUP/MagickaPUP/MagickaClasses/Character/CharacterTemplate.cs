@@ -45,7 +45,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
         // Sounds
         public int numAttachedSounds { get; set; }
-        public KeyValuePair<string, Banks>[] attachedSounds { get; set; }
+        public SoundHolder[] attachedSounds { get; set; }
 
         // Gibs
         public int numGibs { get; set; }
@@ -124,7 +124,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Sounds initialization
             this.numAttachedSounds = 0;
-            this.attachedSounds = new KeyValuePair<string, Banks>[4]; // we hard code 4 because this is all that Magicka ever uses.
+            this.attachedSounds = new SoundHolder[4]; // we hard code 4 because this is all that Magicka ever uses.
 
             // Gibs initialization
             this.numGibs = 0;
@@ -221,12 +221,7 @@ namespace MagickaPUP.MagickaClasses.Character
                 #endregion
                 if (i >= 4)
                     break;
-
-                string str = reader.ReadString().ToLowerInvariant(); // id String
-                Banks banks = (Banks)reader.ReadInt32(); // sound banks
-                // Within magicka's code, we compute the hash of the string and then we store wihtin the attached sounds array a pair of type KeyValuePair<int, Banks>(hash,banks)
-                // here we can just store a pair of string and banks and not give a fuck since we don't need to compute the hash for anything.
-                this.attachedSounds[i] = new KeyValuePair<string, Banks>(str, banks);
+                this.attachedSounds[i] = SoundHolder.Read(reader, logger);
             }
 
             // Read character gibs (GORE!!!!!!! YEAH, BABY!!!! BLOOD!)

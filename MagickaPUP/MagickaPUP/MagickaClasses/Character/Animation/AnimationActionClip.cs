@@ -8,6 +8,22 @@ using System.Collections.Generic;
 // for XNA's Model class.
 namespace MagickaPUP.MagickaClasses.Character.Animation
 {
+
+    // NOTE : This class does NOT exist within Magicka's code, this is an abstraction made to make things easier for me to handle and to make the serialized JSON look nicer.
+    // This may be a very shitty idea tho, but whatever, fuck it.
+    public class AnimationActionClipBuffer : XnaObject // NOTE : Maybe this should be renmaed to something simpler like CharacterAnimationsList or whatever the fuck...
+    {
+        #region Variables
+        #endregion
+
+        #region Constructor
+        #endregion
+
+        #region PublicMethods
+        #endregion
+    }
+
+    // NOTE : The AnimationActionClip class corresponds to the AnimationClipAction class in Magicka's code.
     public class AnimationActionClip : XnaObject
     {
         #region Variables

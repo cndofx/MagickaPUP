@@ -99,6 +99,10 @@ namespace MagickaPUP.MagickaClasses.Character
         // Animation Data
         public AnimationList[] animationClips { get; set; } // This "list" should ALWAYS contain 27 "lists" of 231 elements each.
 
+        // Equipment Data
+        public int numEquipementAttachments { get; set; }
+        public EquipmentAttachment[] equipmentAttachments {get;set;}
+
         #endregion
 
         #region Constructor
@@ -176,6 +180,10 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Animations
             this.animationClips = new AnimationList[TOTAL_ANIMATION_SETS];
+
+            // Equipment Attachments
+            this.numEquipementAttachments = 0;
+            this.equipmentAttachments = new EquipmentAttachment[8]; // We hard code this to 8, just like Magicka does. We can have 8 attachments per character at most.
         }
 
         #endregion
@@ -316,6 +324,11 @@ namespace MagickaPUP.MagickaClasses.Character
                 this.animationClips[i] = AnimationList.Read(reader, logger);
             }
 
+            this.numEquipementAttachments = reader.ReadInt32();
+            for (int i = 0; i < this.numEquipementAttachments; ++i)
+            {
+                this.equipmentAttachments[equipementAttachmentIndex] = EquipmentAttachment.Read(reader, logger);
+            }
 
 
         }

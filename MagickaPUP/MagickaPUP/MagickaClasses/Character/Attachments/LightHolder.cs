@@ -1,14 +1,10 @@
-﻿using MagickaPUP.IO;
+﻿using System;
+using MagickaPUP.IO;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.XnaClasses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
-using System.Text;
-using System.Threading.Tasks;
+using MagickaPUP.MagickaClasses.Lightning;
 
-namespace MagickaPUP.MagickaClasses.Lightning
+namespace MagickaPUP.MagickaClasses.Character.Attachments
 {
     public class LightHolder : XnaObject
     {

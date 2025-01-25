@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.MagickaClasses.Audio;
-using MagickaPUP.MagickaClasses.Lightning;
+using MagickaPUP.MagickaClasses.Character.Attachments;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Character.Animation;
 

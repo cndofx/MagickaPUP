@@ -4,6 +4,7 @@ using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,6 +43,13 @@ namespace MagickaPUP.MagickaClasses.Character.Attachments
             this.BoneName = reader.ReadString();
             this.Rotation = Vec3.Read(reader, null);
             this.ItemName = reader.ReadString();
+        }
+
+        public static EquipmentAttachment Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new EquipmentAttachment();
+            ans.ReadInstance(reader, logger);
+            return ans;
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)

@@ -327,7 +327,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.numEquipementAttachments = reader.ReadInt32();
             for (int i = 0; i < this.numEquipementAttachments; ++i)
             {
-                this.equipmentAttachments[equipementAttachmentIndex] = EquipmentAttachment.Read(reader, logger);
+                this.equipmentAttachments[i] = EquipmentAttachment.Read(reader, logger);
             }
 
 

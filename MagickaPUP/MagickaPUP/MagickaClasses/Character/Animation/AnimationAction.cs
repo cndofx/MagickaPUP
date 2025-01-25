@@ -3,6 +3,7 @@ using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,7 +31,10 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading AnimationAction...");
-            throw new NotImplementedException("Read AnimationAction is not implemented yet!");
+
+            this.animationName = reader.ReadString();
+            this.animationStartTime = reader.ReadSingle();
+            this.animationEndTime = reader.ReadSingle();
         }
 
         public static AnimationAction Read(MBinaryReader reader, DebugLogger logger = null)
@@ -43,7 +47,10 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing AnimationAction...");
-            throw new NotImplementedException("Write AnimationAction is not implemented yet!");
+
+            writer.Write(this.animationName);
+            writer.Write(this.animationStartTime);
+            writer.Write(this.animationEndTime);
         }
 
         #endregion

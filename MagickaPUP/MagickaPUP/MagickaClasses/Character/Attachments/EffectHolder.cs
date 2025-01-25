@@ -4,6 +4,7 @@ using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -33,7 +34,9 @@ namespace MagickaPUP.MagickaClasses.Character.Attachments
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading EffectHolder...");
-            throw new NotImplementedException("Read EffectHolder is not implemented yet!");
+
+            this.BoneName = reader.ReadString();
+            this.EffectName = reader.ReadString();
         }
 
         public static EffectHolder Read(MBinaryReader reader, DebugLogger logger = null)
@@ -46,7 +49,9 @@ namespace MagickaPUP.MagickaClasses.Character.Attachments
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing EffectHolder...");
-            throw new NotImplementedException("Write EffectHolder is not implemented yet!");
+
+            writer.Write(this.BoneName);
+            writer.Write(this.EffectName);
         }
 
         #endregion

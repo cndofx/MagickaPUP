@@ -14,12 +14,17 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
     {
         #region Constants
 
-        private static readonly int MAX_ANIMATIONS = 231; // The max number of animation clips that a CharacterTemplate's AnimationList can hold.
+        // NOTE : This is the max number of animation clips that a CharacterTemplate's AnimationList can hold.
+        // Within Magicka's code, this value is hard coded as 231. This used to be the case here as well, until I noticed that 231 is actually the
+        // value of total animations that exist within the Animations enum. For correctness sake, this value is now modified to be taken
+        // from the Animations enum instead, altough the result is exactly the same one as it was before...
+        private static readonly int TOTAL_ANIMATIONS = (int)Animations.totalanimations; /* 231 */
 
         #endregion
 
         #region Variables
 
+        public int numAnimationClips { get; set; }
         public AnimationActionClip[] animationClips { get; set; }
 
         #endregion
@@ -28,7 +33,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
 
         public AnimationList()
         {
-            this.animationClips = new AnimationActionClip[MAX_ANIMATIONS];
+            this.animationClips = new AnimationActionClip[TOTAL_ANIMATIONS];
         }
 
         #endregion
@@ -38,7 +43,13 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading AnimationList...");
-            throw new NotImplementedException("Read AnimationList is not implemented yet!");
+
+            this.numAnimationClips = reader.ReadInt32();
+            this.animationClips = new AnimationActionClip[this.numAnimationClips];
+            for (int i = 0; i < this.numAnimationClips; ++i)
+            {
+
+            }
         }
 
         public static AnimationList Read(MBinaryReader reader, DebugLogger logger = null)

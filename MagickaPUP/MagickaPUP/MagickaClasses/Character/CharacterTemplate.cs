@@ -324,12 +324,14 @@ namespace MagickaPUP.MagickaClasses.Character
                 this.animationClips[i] = AnimationList.Read(reader, logger);
             }
 
+            // Read Equipment Attachments
             this.numEquipementAttachments = reader.ReadInt32();
             for (int i = 0; i < this.numEquipementAttachments; ++i)
             {
                 this.equipmentAttachments[i] = EquipmentAttachment.Read(reader, logger);
             }
 
+            // TODO : Implement condition / event system
 
         }
 

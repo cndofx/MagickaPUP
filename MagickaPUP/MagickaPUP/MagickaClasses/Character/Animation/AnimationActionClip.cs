@@ -14,6 +14,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         #region Variables
 
         public string animationName { get; set; }
+        public string animationKey { get; set; }
         public float animationSpeed { get; set; }
         public float blendTime { get; set; }
         public bool loopAnimation { get; set; }
@@ -33,6 +34,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             logger?.Log(1, "Reading AnimationActionClip...");
 
             this.animationName = reader.ReadString();
+            this.animationKey = reader.ReadString();
             this.animationSpeed = reader.ReadSingle();
             this.blendTime = reader.ReadSingle();
             this.loopAnimation = reader.ReadBoolean();

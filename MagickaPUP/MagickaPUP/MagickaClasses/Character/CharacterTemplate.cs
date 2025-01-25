@@ -94,7 +94,7 @@ namespace MagickaPUP.MagickaClasses.Character
         // Attached Effects
         // first : bone name, second : effect name
         public int numAttachedEffects { get; set; }
-        public KeyValuePair<string, string>[] attachedEffects;
+        public EffectHolder[] attachedEffects;
 
         // Animation Data
         public AnimationList[] animationClips { get; set; } // This "list" should ALWAYS contain 27 "lists" of 231 elements each.
@@ -172,7 +172,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Effects
             this.numAttachedEffects = 0;
-            this.attachedEffects = new KeyValuePair<string, string>[0];
+            this.attachedEffects = new EffectHolder[0];
 
             // Animations
             this.animationClips = new AnimationList[TOTAL_ANIMATION_SETS];
@@ -297,12 +297,10 @@ namespace MagickaPUP.MagickaClasses.Character
             // Read Attached Effects / Particles
             // NOTE : This is kinda similar to the mesh settings stuff for the level data, it comes in pairs where we assign a particle to a specific bone name. The bone acts as a socket for the particles.
             this.numAttachedEffects = reader.ReadInt32();
-            this.attachedEffects = new KeyValuePair<string, string>[this.numAttachedEffects];
+            this.attachedEffects = new EffectHolder[this.numAttachedEffects];
             for (int i = 0; i < this.numAttachedEffects; ++i)
             {
-                string boneName = reader.ReadString();
-                string effectName = reader.ReadString();
-                this.attachedEffects[i] = new KeyValuePair<string, string>(boneName, effectName);
+                this.attachedEffects[i] = EffectHolder.Read(reader, logger);
             }
 
             // Read animation data

@@ -33,31 +33,38 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
 
         public AnimationList()
         {
-            this.animationClips = new AnimationActionClip[TOTAL_ANIMATIONS];
+            this.animationClips = new AnimationActionClip[ 0 /* TOTAL_ANIMATIONS */];
         }
 
         #endregion
 
         #region PublicMethods
 
+        // TODO : Make sure that this shit is actually properly implemented and I didn't fuck up anywhere... bruh...
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading AnimationList...");
 
+            #region Comments
+
+            // NOTE : An animation list (or animation "channel") can be empty and contain no amiation clips at all.
+            // The most it can contain is all 231 base game animations.
+
+            // NOTE : The animation clips array ALWAYS has a size of 231 animations, which is the total of animations that exist within the game.
+            // All we're doing here is get the input animation string, and then setting the animation data of the corresponding animation index, if it is present.
+
+            // NOTE : We don't need to do any of that tho, since that is what Magicka does to handle the data internally in a way that the game uses it.
+            // For us, we just need to read and write this data, so we can just have arrays with a limited size rather than storing all 231 anims, since we don't need
+            // to associate each animation to its correct index within the list, we just need to iterate all entries.
+
+            #endregion
+
             this.numAnimationClips = reader.ReadInt32();
-            if (this.numAnimationClips > 0) // if we have at least 1 animation registered within the input data, then we handle it and add it to the array.
+            this.animationClips = new AnimationActionClip[this.numAnimationClips];
+            for (int i = 0; i < this.numAnimationClips; ++i)
             {
-                for (int i = 0; i < this.numAnimationClips; ++i)
-                {
-                    // Note that the array ALWAYS has a size of 231 animations, which is the total of animations that exist within the game.
-                    // All we're doing here is get the input animation string, and then setting the animation data of the corresponding animation index.
-                    string animationName = reader.ReadString();
-
-                    // TODO : Finish reading stuff here...
-                }
+                this.animationClips[i] = AnimationActionClip.Read(reader, logger);
             }
-
-            throw new NotImplementedException("Read AnimationList is not implemented yet!");
         }
 
         public static AnimationList Read(MBinaryReader reader, DebugLogger logger = null)

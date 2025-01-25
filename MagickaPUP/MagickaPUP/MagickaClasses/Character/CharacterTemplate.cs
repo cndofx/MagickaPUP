@@ -311,8 +311,12 @@ namespace MagickaPUP.MagickaClasses.Character
             // that exist in the "base" game (Magicka + DLCs, this value basically changes depending on what DLCs a given version has access to...)
             for (int i = 0; i < this.animationClips.Length; ++i)
             {
+                // TODO : Finish making sure that the implementation of the AnimationList reading process is correct...
+                // Remember that part of it comes from the loop within this class, since that is what the anim list class is abstracting away.
                 this.animationClips[i] = AnimationList.Read(reader, logger);
             }
+
+
 
         }
 

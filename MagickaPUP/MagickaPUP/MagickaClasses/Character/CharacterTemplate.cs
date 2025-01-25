@@ -88,6 +88,9 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numAttachedEffects { get; set; }
         public KeyValuePair<string, string>[] attachedEffects;
 
+        // Animation Data
+        // TODO : Implement
+
         #endregion
 
         #region Constructor
@@ -295,6 +298,11 @@ namespace MagickaPUP.MagickaClasses.Character
                 string effectName = reader.ReadString();
                 this.attachedEffects[i] = new KeyValuePair<string, string>(boneName, effectName);
             }
+
+            // Read animation data
+            // NOTE : A character has a limit of 27 lists of animation clips, and each list of animation clips has a limit of 231 individual animation clips.
+            // In short, we have a 2D array AnimationClipAction[27][], and 1D array within that 2D array is an AnimationClipAction[231].
+            // Not sure as of now what the implications of this are, or why the Magicka devs coded it like that, but here we are...
 
 
         }

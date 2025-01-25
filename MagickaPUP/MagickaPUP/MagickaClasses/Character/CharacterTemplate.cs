@@ -83,6 +83,11 @@ namespace MagickaPUP.MagickaClasses.Character
         public ModelProperties[] modelProperties { get; set; }
         public string skinnedModel { get; set; } /* ER */
 
+        // Attached Effects
+        // first : bone name, second : effect name
+        public int numAttachedEffects { get; set; }
+        public KeyValuePair<string, string>[] attachedEffects;
+
         #endregion
 
         #region Constructor
@@ -153,6 +158,10 @@ namespace MagickaPUP.MagickaClasses.Character
             this.numModelProperties = 0;
             this.modelProperties = new ModelProperties[0];
             this.skinnedModel = default;
+
+            // Effects
+            this.numAttachedEffects = 0;
+            this.attachedEffects = new KeyValuePair<string, string>[0];
         }
 
         #endregion
@@ -276,7 +285,18 @@ namespace MagickaPUP.MagickaClasses.Character
             }
             this.skinnedModel = reader.ReadString(); /* ER */
 
-            
+            // Read Attached Effects / Particles
+            // NOTE : This is kinda similar to the mesh settings stuff for the level data, it comes in pairs where we assign a particle to a specific bone name. The bone acts as a socket for the particles.
+            this.numAttachedEffects = reader.ReadInt32();
+            this.attachedEffects = new KeyValuePair<string, string>[this.numAttachedEffects];
+            for (int i = 0; i < this.numAttachedEffects; ++i)
+            {
+                string boneName = reader.ReadString();
+                string effectName = reader.ReadString();
+                this.attachedEffects[i] = new KeyValuePair<string, string>(boneName, effectName);
+            }
+
+
         }
 
         public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

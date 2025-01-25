@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 // for XNA's Model class.
 namespace MagickaPUP.MagickaClasses.Character.Animation
 {
-    public class AnimationClipAction : XnaObject
+    public class AnimationAction : XnaObject
     {
         #region Variables
 
@@ -25,14 +25,14 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
 
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
-            logger?.Log(1, "Reading AnimationClipAction...");
-            throw new NotImplementedException("Read AnimationClipAction is not implemented yet!");
+            logger?.Log(1, "Reading AnimationAction...");
+            throw new NotImplementedException("Read AnimationAction is not implemented yet!");
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
-            logger?.Log(1, "Writing AnimationClipAction...");
-            throw new NotImplementedException("Write AnimationClipAction is not implemented yet!");
+            logger?.Log(1, "Writing AnimationAction...");
+            throw new NotImplementedException("Write AnimationAction is not implemented yet!");
         }
 
         #endregion

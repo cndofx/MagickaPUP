@@ -33,7 +33,17 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading AnimationActionClip...");
-            throw new NotImplementedException("Read AnimationActionClip is not implemented yet!");
+
+            this.animationName = reader.ReadString();
+            this.animationSpeed = reader.ReadSingle();
+            this.blendTime = reader.ReadSingle();
+            this.loopAnimation = reader.ReadBoolean();
+            this.numActions = reader.ReadInt32();
+            this.actions = new AnimationAction[numActions];
+            for (int i = 0; i < this.numActions; ++i)
+            {
+                this.actions[i] = AnimationAction.Read(reader, logger);
+            }
         }
 
         public static AnimationActionClip Read(MBinaryReader reader, DebugLogger logger = null)

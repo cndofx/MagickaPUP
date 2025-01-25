@@ -17,6 +17,13 @@ namespace MagickaPUP.MagickaClasses.Character
 
     public class CharacterTemplate : XnaObject
     {
+        #region Constants
+
+        // NOTE : This is the max number of animation sets that a CharacterTemplate can hold.
+        private static readonly int TOTAL_ANIMATION_SETS = 27;
+
+        #endregion
+
         #region Variables
 
         // ID Strings
@@ -90,8 +97,7 @@ namespace MagickaPUP.MagickaClasses.Character
         public KeyValuePair<string, string>[] attachedEffects;
 
         // Animation Data
-        public AnimationActionClip[][] animationClips { get; set; } // This "list" should ALWAYS contain 27 "lists" of 231 elements each.
-        public int[] animationClipNumbers { get; set; } // WTF does this do??? TODO : Figure it out...
+        public AnimationList[] animationClips { get; set; } // This "list" should ALWAYS contain 27 "lists" of 231 elements each.
 
         #endregion
 
@@ -169,10 +175,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.attachedEffects = new KeyValuePair<string, string>[0];
 
             // Animations
-            this.animationClips = new AnimationActionClip[27][];
-            for (int i = 0; i < 27; ++i)
-                this.animationClips[i] = new AnimationActionClip[231]; // Ask the Magicka devs, not me!
-            this.animationClipNumbers = new int[27];
+            this.animationClips = new AnimationList[TOTAL_ANIMATION_SETS];
         }
 
         #endregion
@@ -311,13 +314,11 @@ namespace MagickaPUP.MagickaClasses.Character
             // NOTE : A character has a limit of 27 lists of animation clips, and each list of animation clips has a limit of 231 individual animation clips.
             // In short, we have a 2D array AnimationClipAction[27][], and 1D array within that 2D array is an AnimationClipAction[231].
             // Not sure as of now what the implications of this are, or why the Magicka devs coded it like that, but here we are...
+            // All I know is that there's a limit of 27 animation lists, and each list can hold at most 231 animations, which is the number of total animations
+            // that exist in the "base" game (Magicka + DLCs, this value basically changes depending on what DLCs a given version has access to...)
             for (int i = 0; i < this.animationClips.Length; ++i)
             {
-                this.animationClipNumbers[i] = reader.ReadInt32();
-                if (this.animationClipNumbers[i] > 0)
-                {
-
-                }
+                this.animationClips[i] = AnimationList.Read(reader, logger);
             }
 
         }

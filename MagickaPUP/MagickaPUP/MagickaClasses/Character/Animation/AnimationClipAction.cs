@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MagickaPUP.IO;
+using MagickaPUP.XnaClasses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +11,30 @@ using System.Threading.Tasks;
 // for XNA's Model class.
 namespace MagickaPUP.MagickaClasses.Character.Animation
 {
-    internal class AnimationClipAction
+    public class AnimationClipAction : XnaObject
     {
+        #region Variables
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading AnimationClipAction...");
+            throw new NotImplementedException("Read AnimationClipAction is not implemented yet!");
+        }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing AnimationClipAction...");
+            throw new NotImplementedException("Write AnimationClipAction is not implemented yet!");
+        }
+
+        #endregion
     }
 }

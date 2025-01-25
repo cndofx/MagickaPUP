@@ -36,6 +36,13 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             throw new NotImplementedException("Read AnimationActionClip is not implemented yet!");
         }
 
+        public static AnimationActionClip Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new AnimationActionClip();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing AnimationActionClip...");

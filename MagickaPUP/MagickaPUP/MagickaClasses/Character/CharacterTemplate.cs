@@ -60,7 +60,7 @@ namespace MagickaPUP.MagickaClasses.Character
         public float maxHitPoints { get; set; }
         public int numHealthBars { get; set; }
 
-        // Character Data
+        // Character NPC Data Part 1
         public bool isUndying { get; set; }
         public float undieTime { get; set; }
         public float undieHitPoints { get; set; }
@@ -106,6 +106,29 @@ namespace MagickaPUP.MagickaClasses.Character
 
         // Event Data
         public ConditionCollection conditions { get; set; }
+
+        // Character NPC Data Part 2
+        // NOTE : These look like weights and such for the utility system, maybe?
+        // TODO : Figure out what system they interact with and how it is implemented. It's not really necessary for the reader / writer impl, but it would be cool to know if this uses an US under the hood.
+        public float alertRadius { get; set; }
+        public float groupChase { get; set; }
+        public float groupSeparation { get; set; }
+        public float groupCohesion { get; set; }
+        public float groupAlignment { get; set; }
+        public float groupWander { get; set; }
+        public float friendlyAvoidance { get; set; }
+        public float enemyAvoidance { get; set; }
+        public float sightAvoidance { get; set; }
+        public float dangerAvoidance { get; set; }
+        public float angerWeight { get; set; }
+        public float distanceWeight { get; set; }
+        public float healthWeight { get; set; }
+        public bool flocking { get; set; }
+        public float breakFreeStrength { get; set; }
+
+        // NPC Abilities
+        // TODO : Implement Ability
+        // Ability[] abilities {get;set;}
 
         #endregion
 
@@ -191,7 +214,24 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Event Data
             this.conditions = new ConditionCollection();
-        }
+
+            // Character Data Initialization Part 2
+            this.alertRadius = default;
+            this.groupChase = default;
+            this.groupSeparation = default;
+            this.groupCohesion = default;
+            this.groupAlignment = default;
+            this.groupWander = default;
+            this.friendlyAvoidance = default;
+            this.enemyAvoidance = default;
+            this.sightAvoidance = default;
+            this.dangerAvoidance = default;
+            this.angerWeight = default;
+            this.distanceWeight = default;
+            this.healthWeight = default;
+            this.flocking = default;
+            this.breakFreeStrength = default;
+    }
 
         #endregion
 
@@ -340,6 +380,23 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Read Events into Condition Collection
             this.conditions = ConditionCollection.Read(reader, logger);
+
+            // Read Character Data part 2
+            this.alertRadius = reader.ReadSingle();
+            this.groupChase = reader.ReadSingle();
+            this.groupSeparation = reader.ReadSingle();
+            this.groupCohesion = reader.ReadSingle();
+            this.groupAlignment = reader.ReadSingle();
+            this.groupWander = reader.ReadSingle();
+            this.friendlyAvoidance = reader.ReadSingle();
+            this.enemyAvoidance = reader.ReadSingle();
+            this.sightAvoidance = reader.ReadSingle();
+            this.dangerAvoidance = reader.ReadSingle();
+            this.angerWeight = reader.ReadSingle();
+            this.distanceWeight = reader.ReadSingle();
+            this.healthWeight = reader.ReadSingle();
+            this.flocking = reader.ReadBoolean();
+            this.breakFreeStrength = reader.ReadSingle();
 
         }
 

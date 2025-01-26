@@ -5,11 +5,8 @@ using System.Collections.Generic;
 using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.MagickaClasses.Audio;
-using System.Runtime.Remoting.Messaging;
-using MagickaPUP.MagickaClasses.Character.Animation;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Lightning;
-using System.Net;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
@@ -949,11 +946,27 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class CallbackEvent : MagickaEvent
     {
+        // NOTE : CallbackEvents can only be hardcoded within the game's code. The game does not support loading them through XNB files or any other form of scripts.
+
+        private static readonly string EXCEPTION_MSG = "Magicka does not support using CallbackEvents through scripts";
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading CallbackEvent...");
+            throw new MagickaLoadException(EXCEPTION_MSG);
+        }
+
         public static CallbackEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new CallbackEvent();
             ans.ReadInstance(reader, logger);
             return ans;
+        }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing CallbackEvent...");
+            throw new MagickaWriteException(EXCEPTION_MSG);
         }
     }
 

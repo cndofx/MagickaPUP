@@ -673,12 +673,45 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class SpawnMagickEvent : MagickaEvent
     {
+        #region Variables
+
+        public string MagickName { get; set; } // NOTE : Just as with items, the RANDOM magick variant exists and it corresponds to the "random" string.
+
+        #endregion
+
+        #region Constructor
+
+        public SpawnMagickEvent()
+        {
+            this.MagickName = "random";
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading SpawnMagickEvent...");
+
+            this.MagickName = reader.ReadString();
+        }
+
         public static SpawnMagickEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new SpawnMagickEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing SpawnMagickEvent...");
+
+            writer.Write(this.MagickName);
+        }
+
+        #endregion
     }
 
     public class SpawnMissileEvent : MagickaEvent

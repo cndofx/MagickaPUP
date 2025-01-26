@@ -716,12 +716,53 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class SpawnMissileEvent : MagickaEvent
     {
+        #region Variables
+
+        public string MissileType { get; set; }
+        public Vec3 Velocity { get; set; }
+        public bool Facing { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public SpawnMissileEvent()
+        {
+            this.MissileType = default;
+            this.Velocity = new Vec3();
+            this.Facing = false;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading SpawnMissileEvent...");
+
+            this.MissileType = reader.ReadString();
+            this.Velocity = Vec3.Read(reader, logger);
+            this.Facing = reader.ReadBoolean();
+        }
+
         public static SpawnMissileEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new SpawnMissileEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing SpawnMissileEvent...");
+
+            writer.Write(this.MissileType);
+            this.Velocity.WriteInstance(writer, logger);
+            writer.Write(this.Facing);
+        }
+
+        #endregion
     }
 
     public class LightEvent : MagickaEvent

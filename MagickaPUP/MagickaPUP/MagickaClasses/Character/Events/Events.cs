@@ -527,12 +527,53 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class OverKillEvent : MagickaEvent
     {
+        // NOTE : This class does not hold any data, but it is not like the BlastEvent whose reading is not implemented within Magicka's code.
+        // Within Magicka's code, the case for OverKillEvents is that it has a dummy var which is set to 0, and nothing else happens on the read function.
+        // All this does is add an OverKillEvent to the list of events, which has an Execute() function which triggers over an entity. If the entity is of type
+        // character, it triggers its Overkill() method.
+        // Otherthan that, this event does not need to read any bytes, as it is not customizable.
+
+        // NOTE : It is very likely that overkills correspond to stuff like exploding enemies with beams after they die (their health reaches 0) or something like that...
+
+        #region Variables
+
+        // Literally nothing to see here lol...
+
+        #endregion
+
+        #region Constructor
+
+        public OverKillEvent()
+        {
+            // Literally does nothing...
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading OverKillEvent...");
+            // Doesn't need to read any data, just know that it exists...
+            // The existence of this event is encoded by the EventCollection class, by reading a byte where the event type is encoded.
+        }
+
         public static OverKillEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new OverKillEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing OverKillEvent...");
+            // Doesn't need to write any data, just know that it exists...
+            // The existence of this event is encoded by the EventCollection class, by writing a byte where the event type is encoded.
+        }
+
+        #endregion
     }
 
     public class SpawnGibsEvent : MagickaEvent

@@ -314,12 +314,53 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class CameraShakeEvent : MagickaEvent
     {
+        #region Variables
+
+        public float Duration { get; set; }
+        public float Magnitude { get; set; }
+        public bool FromPosition { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public CameraShakeEvent()
+        {
+            this.Duration = 1.0f;
+            this.Magnitude = 1.0f;
+            this.FromPosition = true;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading CameraShakeEvent...");
+
+            this.Duration = reader.ReadSingle();
+            this.Magnitude = reader.ReadSingle();
+            this.FromPosition = reader.ReadBoolean();
+        }
+
         public static CameraShakeEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new CameraShakeEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing CameraShakeEvent...");
+
+            writer.Write(Duration);
+            writer.Write(Magnitude);
+            writer.Write(FromPosition);
+        }
+
+        #endregion
     }
 
     public class SpawnDecalEvent : MagickaEvent

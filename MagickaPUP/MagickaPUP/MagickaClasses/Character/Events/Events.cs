@@ -365,12 +365,53 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class SpawnDecalEvent : MagickaEvent
     {
+        #region Variables
+
+        public int Num1 { get; set; }
+        public int Num2 { get; set; }
+        public int Scale { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public SpawnDecalEvent()
+        {
+            this.Num1 = 0;
+            this.Num2 = 0;
+            this.Scale = 0;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading SpawnDecalEvent...");
+
+            this.Num1 = reader.ReadInt32();
+            this.Num2 = reader.ReadInt32();
+            this.Scale = reader.ReadInt32();
+        }
+
         public static SpawnDecalEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new SpawnDecalEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing SpawnDecalEvent...");
+
+            writer.Write(this.Num1);
+            writer.Write(this.Num2);
+            writer.Write(this.Scale);
+        }
+
+        #endregion
     }
 
     public class BlastEvent : MagickaEvent

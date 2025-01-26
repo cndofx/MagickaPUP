@@ -890,12 +890,61 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class DamageOwnerEvent : MagickaEvent
     {
+        #region Variables
+
+        public AttackProperties AttackProperty { get; set; }
+        public Elements Element { get; set; }
+        public float Amount { get; set; }
+        public float Magnitude { get; set; }
+        public bool VelocityBased { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public DamageOwnerEvent()
+        {
+            this.AttackProperty = default;
+            this.Element = default;
+            this.Amount = 0;
+            this.Magnitude = 0;
+            this.VelocityBased = false;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading DamageOwnerEvent...");
+
+            this.AttackProperty = (AttackProperties)reader.ReadInt32();
+            this.Element = (Elements)reader.ReadInt32();
+            this.Amount = reader.ReadSingle();
+            this.Magnitude = reader.ReadSingle();
+            this.VelocityBased = reader.ReadBoolean();
+        }
+
         public static DamageOwnerEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new DamageOwnerEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing DamageOwnerEvent...");
+
+            writer.Write((int)this.AttackProperty);
+            writer.Write((int)this.Element);
+            writer.Write(this.Amount);
+            writer.Write(this.Magnitude);
+            writer.Write(this.VelocityBased);
+        }
+
+        #endregion
     }
 
     public class CallbackEvent : MagickaEvent

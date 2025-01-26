@@ -630,12 +630,45 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class SpawnItemEvent : MagickaEvent
     {
+        #region Variables
+
+        public string ItemName { get; set; } // NOTE : There exists a RANDOM weapon type, which corresponds to the string "random".
+
+        #endregion
+
+        #region Constructor
+
+        public SpawnItemEvent()
+        {
+            this.ItemName = "random"; // Use the weapon name "random" as default so that we can generate a valid structure in memory when JSON reading fails to find a valid item name field but can still process the data in the file.
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading SpawnItemEvent...");
+
+            this.ItemName = reader.ReadString();
+        }
+
         public static SpawnItemEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new SpawnItemEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing SpawnItemEvent...");
+
+            writer.Write(this.ItemName);
+        }
+
+        #endregion
     }
 
     public class SpawnMagickEvent : MagickaEvent

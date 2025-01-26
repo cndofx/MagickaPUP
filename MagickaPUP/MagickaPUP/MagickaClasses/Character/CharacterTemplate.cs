@@ -10,6 +10,7 @@ using MagickaPUP.MagickaClasses.Audio;
 using MagickaPUP.MagickaClasses.Character.Attachments;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Character.Animation;
+using MagickaPUP.MagickaClasses.Character.Events;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -103,6 +104,9 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numEquipementAttachments { get; set; }
         public EquipmentAttachment[] equipmentAttachments {get;set;}
 
+        // Event Data
+        public ConditionCollection conditions { get; set; }
+
         #endregion
 
         #region Constructor
@@ -184,6 +188,9 @@ namespace MagickaPUP.MagickaClasses.Character
             // Equipment Attachments
             this.numEquipementAttachments = 0;
             this.equipmentAttachments = new EquipmentAttachment[8]; // We hard code this to 8, just like Magicka does. We can have 8 attachments per character at most.
+
+            // Event Data
+            this.conditions = new ConditionCollection();
         }
 
         #endregion
@@ -331,7 +338,8 @@ namespace MagickaPUP.MagickaClasses.Character
                 this.equipmentAttachments[i] = EquipmentAttachment.Read(reader, logger);
             }
 
-            // TODO : Implement condition / event system
+            // Read Events into Condition Collection
+            this.conditions = ConditionCollection.Read(reader, logger);
 
         }
 

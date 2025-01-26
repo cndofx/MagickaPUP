@@ -8,6 +8,7 @@ using MagickaPUP.MagickaClasses.Audio;
 using System.Runtime.Remoting.Messaging;
 using MagickaPUP.MagickaClasses.Character.Animation;
 using MagickaPUP.MagickaClasses.Generic;
+using MagickaPUP.MagickaClasses.Lightning;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
@@ -767,22 +768,120 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class LightEvent : MagickaEvent
     {
+        #region Variables
+
+        public float Radius { get; set; }
+        public Vec3 ColorDiffuse { get; set; }
+        public Vec3 ColorAmbient { get; set; }
+        public float SpecularAmount { get; set; }
+        public LightVariationType VariationType { get; set; }
+        public float VariationAmount { get; set; }
+        public float VariationSpeed { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public LightEvent()
+        {
+            this.Radius = 1.0f;
+            this.ColorDiffuse = new Vec3(1.0f, 1.0f, 1.0f);
+            this.ColorAmbient = new Vec3(1.0f, 1.0f, 1.0f);
+            this.SpecularAmount = 1.0f;
+            this.VariationType = LightVariationType.None;
+            this.VariationAmount = 0.0f;
+            this.VariationSpeed = 1.0f;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading LightEvent...");
+
+            this.Radius = reader.ReadSingle();
+            this.ColorDiffuse = Vec3.Read(reader, logger);
+            this.ColorAmbient = Vec3.Read(reader, logger);
+            this.SpecularAmount = reader.ReadSingle();
+            this.VariationType = (LightVariationType)reader.ReadByte();
+            this.VariationAmount = reader.ReadSingle();
+            this.VariationSpeed = reader.ReadSingle();
+        }
+
         public static LightEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new LightEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing LightEvent...");
+
+            writer.Write(this.Radius);
+            this.ColorDiffuse.WriteInstance(writer, logger);
+            this.ColorAmbient.WriteInstance(writer, logger);
+            writer.Write(this.SpecularAmount);
+            writer.Write((byte)this.VariationType);
+            writer.Write(this.VariationAmount);
+            writer.Write(this.VariationSpeed);
+        }
+
+        #endregion
     }
 
     public class CastMagickEvent : MagickaEvent
     {
+        #region Variables
+
+        public float Radius { get; set; }
+        public Vec3 ColorDiffuse { get; set; }
+        public Vec3 ColorAmbient { get; set; }
+        public float SpecularAmount { get; set; }
+        public LightVariationType VariationType { get; set; }
+        public float VariationAmount { get; set; }
+        public float VariationSpeed { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public CastMagickEvent()
+        {
+            this.Radius = 1.0f;
+            this.ColorDiffuse = new Vec3(1.0f, 1.0f, 1.0f);
+            this.ColorAmbient = new Vec3(1.0f, 1.0f, 1.0f);
+            this.SpecularAmount = 1.0f;
+            this.VariationType = LightVariationType.None;
+            this.VariationAmount = 0.0f;
+            this.VariationSpeed = 1.0f;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading CastMagickEvent...");
+        }
+
         public static CastMagickEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new CastMagickEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            base.WriteInstance(writer, logger);
+        }
+
+        #endregion
     }
 
     public class DamageOwnerEvent : MagickaEvent

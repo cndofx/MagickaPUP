@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.Utility.Exceptions;
+using MagickaPUP.MagickaClasses.Audio;
+using System.Runtime.Remoting.Messaging;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
@@ -163,22 +165,112 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class PlaySoundEvent : MagickaEvent
     {
+        #region Variables
+
+        public Banks SoundBank { get; set; }
+        public string SoundName { get; set; }
+        public float Magnitude { get; set; }
+        public bool StopOnRemove { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public PlaySoundEvent()
+        {
+            this.SoundBank = default;
+            this.SoundName = default;
+            this.Magnitude = 1.0f;
+            this.StopOnRemove = true;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading PlaySoundEvent...");
+
+            this.SoundBank = (Banks)reader.ReadInt32();
+            this.SoundName = reader.ReadString();
+            this.Magnitude = reader.ReadSingle();
+            this.StopOnRemove = reader.ReadBoolean();
+        }
+
         public static PlaySoundEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new PlaySoundEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing PlaySoundEvent...");
+
+            writer.Write((int)this.SoundBank);
+            writer.Write(this.SoundName);
+            writer.Write(this.Magnitude);
+            writer.Write(this.StopOnRemove);
+        }
+
+        #endregion
     }
 
     public class PlayEffectEvent : MagickaEvent
     {
+        #region Variables
+
+        public Banks SoundBank { get; set; }
+        public string SoundName { get; set; }
+        public float Magnitude { get; set; }
+        public bool StopOnRemove { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public PlayEffectEvent()
+        {
+            this.SoundBank = default;
+            this.SoundName = default;
+            this.Magnitude = 1.0f;
+            this.StopOnRemove = true;
+        }
+        
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading PlayEffectEvent...");
+
+            this.SoundBank = (Banks)reader.ReadInt32();
+            this.SoundName = reader.ReadString();
+            this.Magnitude = reader.ReadSingle();
+            this.StopOnRemove = reader.ReadBoolean();
+        }
+
         public static PlayEffectEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new PlayEffectEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing PlayEffectEvent...");
+
+            writer.Write((int)this.SoundBank);
+            writer.Write(this.SoundName);
+            writer.Write(this.Magnitude);
+            writer.Write(this.StopOnRemove);
+        }
+
+        #endregion
     }
 
     public class RemoveEvent : MagickaEvent

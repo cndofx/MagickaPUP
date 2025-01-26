@@ -161,5 +161,8 @@
   <ItemGroup>
     <Folder Include="Backups\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="_TODO\TODO.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

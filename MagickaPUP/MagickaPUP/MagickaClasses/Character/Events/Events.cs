@@ -416,12 +416,44 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class BlastEvent : MagickaEvent
     {
+        // NOTE : The code for BlastEvent exists, but Magicka's BlastEvent constructor for a ContentReader throws a NotImplementedException, which means that
+        // we cannot have blast events loaded from XNB files.
+
+        #region Constants
+
+        public static readonly string EXCEPTION_MSG = "Magicka does not implement BlastEvent reading through XNB";
+
+        #endregion
+
+        #region Constructor
+
+        public BlastEvent()
+        { }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading BlastEvent...");
+            throw new MagickaLoadException(EXCEPTION_MSG);
+        }
+
         public static BlastEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new BlastEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing BlastEvent...");
+            throw new MagickaWriteException(EXCEPTION_MSG);
+        }
+
+        #endregion
     }
 
     public class SpawnEvent : MagickaEvent

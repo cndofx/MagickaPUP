@@ -74,11 +74,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Backups\Backup1.cs" />
-    <Compile Include="Backups\Backup2.cs" />
-    <Compile Include="Backups\Backup3.cs" />
-    <Compile Include="Backups\Backup4.cs" />
-    <Compile Include="Backups\Backup5.cs" />
     <Compile Include="DebugLogger.cs" />
     <Compile Include="GenericPUP.cs" />
     <Compile Include="IO\IMReader.cs" />
@@ -155,7 +150,6 @@
     <Compile Include="XnaClasses\Texture2D.cs" />
     <Compile Include="XnaClasses\VertexBuffer.cs" />
     <Compile Include="XnaClasses\VertexDeclaration.cs" />
-    <Compile Include="Backups\XnaData.cs" />
     <Compile Include="XnaClasses\XnaData.cs" />
     <Compile Include="XnaClasses\XnaObject.cs" />
     <Compile Include="XnaClasses\XnbFileObject.cs" />
@@ -164,6 +158,8 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Backups\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

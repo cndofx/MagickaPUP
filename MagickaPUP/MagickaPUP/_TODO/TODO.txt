@@ -2,3 +2,4 @@
 - Modificar el sistema de lectura y escritura para que pueda suceder enteramente a través de las clases MBinaryReader y MBinaryWriter
 - Mover la lógica de XnaObject para ReadObject y WriteObject dentro de MBinaryReader y MBinaryWriter, además de añadir métodos Read() y Write() genéricos para XnaObjects
 - Modificar el sistema de logging para que tenga indentación y el modo debug sea 0 (off) o 1 (on) en vez de tener niveles, porque no tenemos ni warnings ni errors ni ostias. Como ejemplo, añadir métodos logger?.ScopeStart() y logger?.ScopeEnd() o algo parecido.
+- Standardise the read / write logging, would need to offer some kind of overload to deal with variables of any type, overload / shadow with new keyword on methods by shadowing the Read, ReadByte, ReadInt32, etc... methods. Or add new ones that take a logger as a parameter and a string field for the name to display for each variable? idk...

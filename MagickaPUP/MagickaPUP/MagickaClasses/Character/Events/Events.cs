@@ -578,12 +578,49 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class SpawnGibsEvent : MagickaEvent
     {
+        #region Variables
+
+        public int StartIndex { get; set; }
+        public int EndIndex { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public SpawnGibsEvent()
+        {
+            this.StartIndex = 0;
+            this.EndIndex = 0;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading SpawnGibsEvent...");
+
+            this.StartIndex = reader.ReadInt32();
+            this.EndIndex = reader.ReadInt32();
+        }
+
         public static SpawnGibsEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new SpawnGibsEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing SpawnGibsEvent...");
+
+            writer.Write(this.StartIndex);
+            writer.Write(this.EndIndex);
+        }
+
+        #endregion
     }
 
     public class SpawnItemEvent : MagickaEvent

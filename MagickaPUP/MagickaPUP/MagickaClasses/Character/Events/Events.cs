@@ -222,10 +222,9 @@ namespace MagickaPUP.MagickaClasses.Character.Events
     {
         #region Variables
 
-        public Banks SoundBank { get; set; }
-        public string SoundName { get; set; }
-        public float Magnitude { get; set; }
-        public bool StopOnRemove { get; set; }
+        public bool FollowTarget { get; set; }
+        public bool AlignWithWorld { get; set; }
+        public string EffectName { get; set; }
 
         #endregion
 
@@ -233,10 +232,9 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
         public PlayEffectEvent()
         {
-            this.SoundBank = default;
-            this.SoundName = default;
-            this.Magnitude = 1.0f;
-            this.StopOnRemove = true;
+            this.FollowTarget = false;
+            this.AlignWithWorld = false;
+            this.EffectName = default;
         }
         
         #endregion
@@ -247,10 +245,9 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         {
             logger?.Log(1, "Reading PlayEffectEvent...");
 
-            this.SoundBank = (Banks)reader.ReadInt32();
-            this.SoundName = reader.ReadString();
-            this.Magnitude = reader.ReadSingle();
-            this.StopOnRemove = reader.ReadBoolean();
+            this.FollowTarget = reader.ReadBoolean();
+            this.AlignWithWorld = reader.ReadBoolean();
+            this.EffectName = reader.ReadString();
         }
 
         public static PlayEffectEvent Read(MBinaryReader reader, DebugLogger logger = null)
@@ -264,10 +261,9 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         {
             logger?.Log(1, "Writing PlayEffectEvent...");
 
-            writer.Write((int)this.SoundBank);
-            writer.Write(this.SoundName);
-            writer.Write(this.Magnitude);
-            writer.Write(this.StopOnRemove);
+            writer.Write(this.FollowTarget);
+            writer.Write(this.AlignWithWorld);
+            writer.Write(this.EffectName);
         }
 
         #endregion

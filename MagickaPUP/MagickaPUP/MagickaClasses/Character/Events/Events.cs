@@ -6,6 +6,8 @@ using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.MagickaClasses.Audio;
 using System.Runtime.Remoting.Messaging;
+using MagickaPUP.MagickaClasses.Character.Animation;
+using MagickaPUP.MagickaClasses.Generic;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
@@ -458,12 +460,69 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class SpawnEvent : MagickaEvent
     {
+        // NOTE : Maybe we should use Enum.Parse to make sure that the input string for animations are valid strings that exist within the animations enum? idk...
+        // This is ok for now. In any case, when the GUI program is made, it should limit the inputs to a list of all valid inputs, and also allow the user to type it
+        // in manually to make a sort of search, otherwise, manually sorting / looking through over 200 animations is going to be a fucking pain in the ass for the
+        // users...
+
+        #region Variables
+
+        public string CharacterType { get; set; } // The CharacterTemplate to be spawned.
+        public string AnimationIdle { get; set; }
+        public string AnimationSpawn { get; set; }
+        public float Health { get; set; }
+        public Order SpawnOrder { get; set; }
+        public ReactTo ReactTo { get; set; }
+        public Order ReactionOrder { get; set; }
+        public float Rotation { get; set; }
+        public Vec3 Offset { get; set; } // Relative position for spawn.
+
+        #endregion
+
+        #region Constructor
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading SpawnEvent...");
+
+            this.CharacterType = reader.ReadString();
+            this.AnimationIdle = reader.ReadString();
+            this.AnimationSpawn = reader.ReadString();
+            this.Health = reader.ReadSingle();
+            this.SpawnOrder = (Order)reader.ReadByte();
+            this.ReactTo = (ReactTo)reader.ReadByte();
+            this.ReactionOrder = (Order)reader.ReadByte();
+            this.Rotation = reader.ReadSingle();
+            this.Offset = Vec3.Read(reader, logger);
+        }
+
         public static SpawnEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new SpawnEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing SpawnEvent...");
+
+            writer.Write(this.CharacterType);
+            writer.Write(this.AnimationIdle);
+            writer.Write(this.AnimationSpawn);
+            writer.Write(this.Health);
+            writer.Write((byte)this.SpawnOrder);
+            writer.Write((byte)this.ReactTo);
+            writer.Write((byte)this.ReactionOrder);
+            writer.Write(this.Rotation);
+            this.Offset.WriteInstance(writer, logger);
+        }
+
+        #endregion
     }
 
     public class OverKillEvent : MagickaEvent

@@ -27,7 +27,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
     //  - Implement reading
     //  - Implement writing
 
-    public class DamageEvent : XnaObject
+    public class DamageEvent : MagickaEvent
     {
         #region Variables
 
@@ -86,55 +86,55 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         #endregion
     }
 
-    public class SplashEvent : XnaObject
+    public class SplashEvent : MagickaEvent
     { }
 
-    public class PlaySoundEvent : XnaObject
+    public class PlaySoundEvent : MagickaEvent
     { }
 
-    public class PlayEffectEvent : XnaObject
+    public class PlayEffectEvent : MagickaEvent
     { }
 
-    public class RemoveEvent : XnaObject
+    public class RemoveEvent : MagickaEvent
     { }
 
-    public class CameraShakeEvent : XnaObject
+    public class CameraShakeEvent : MagickaEvent
     { }
 
-    public class SpawnDecalEvent : XnaObject
+    public class SpawnDecalEvent : MagickaEvent
     { }
 
-    public class BlastEvent : XnaObject
+    public class BlastEvent : MagickaEvent
     { }
 
-    public class SpawnEvent : XnaObject
+    public class SpawnEvent : MagickaEvent
     { }
 
-    public class OverKillEvent : XnaObject
+    public class OverKillEvent : MagickaEvent
     { }
 
-    public class SpawnGibsEvent : XnaObject
+    public class SpawnGibsEvent : MagickaEvent
     { }
 
-    public class SpawnItemEvent : XnaObject
+    public class SpawnItemEvent : MagickaEvent
     { }
 
-    public class SpawnMagickEvent : XnaObject
+    public class SpawnMagickEvent : MagickaEvent
     { }
 
-    public class SpawnMissileEvent : XnaObject
+    public class SpawnMissileEvent : MagickaEvent
     { }
 
-    public class LightEvent : XnaObject
+    public class LightEvent : MagickaEvent
     { }
 
-    public class CastMagickEvent : XnaObject
+    public class CastMagickEvent : MagickaEvent
     { }
 
-    public class DamageOwnerEvent : XnaObject
+    public class DamageOwnerEvent : MagickaEvent
     { }
 
-    public class CallbackEvent : XnaObject
+    public class CallbackEvent : MagickaEvent
     { }
 
 }

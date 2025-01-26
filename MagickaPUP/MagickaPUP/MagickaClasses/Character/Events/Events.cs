@@ -31,6 +31,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
     //  - Implement reading
     //  - Implement writing
 
+    // NOTE : Within Magicka's code, all Events have a constructor that takes a ContentReader, which corresponds to my ReadInstance method.
+    // They all also have an Execute(Entity item, Entity target) method, which executes the logic of the event. This part of the code should be
+    // studied to understand the effects of each event, but it does not have to be implemented within the code of MagickaPUP since this is just an
+    // XNB <-> JSON reader / writer for asset creation and extraction.
+
     public class DamageEvent : MagickaEvent
     {
         #region Variables

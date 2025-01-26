@@ -87,54 +87,173 @@ namespace MagickaPUP.MagickaClasses.Character.Events
     }
 
     public class SplashEvent : MagickaEvent
-    { }
+    {
+        public static SplashEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new SplashEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class PlaySoundEvent : MagickaEvent
-    { }
+    {
+        public static PlaySoundEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new PlaySoundEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class PlayEffectEvent : MagickaEvent
-    { }
+    {
+        public static PlayEffectEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new PlayEffectEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class RemoveEvent : MagickaEvent
-    { }
+    {
+        public static RemoveEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new RemoveEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class CameraShakeEvent : MagickaEvent
-    { }
+    {
+        public static CameraShakeEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new CameraShakeEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class SpawnDecalEvent : MagickaEvent
-    { }
+    {
+        public static SpawnDecalEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new SpawnDecalEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class BlastEvent : MagickaEvent
-    { }
+    {
+        public static BlastEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new BlastEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class SpawnEvent : MagickaEvent
-    { }
+    {
+        public static SpawnEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new SpawnEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class OverKillEvent : MagickaEvent
-    { }
+    {
+        public static OverKillEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new OverKillEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class SpawnGibsEvent : MagickaEvent
-    { }
+    {
+        public static SpawnGibsEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new SpawnGibsEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class SpawnItemEvent : MagickaEvent
-    { }
+    {
+        public static SpawnItemEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new SpawnItemEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class SpawnMagickEvent : MagickaEvent
-    { }
+    {
+        public static SpawnMagickEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new SpawnMagickEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class SpawnMissileEvent : MagickaEvent
-    { }
+    {
+        public static SpawnMissileEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new SpawnMissileEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class LightEvent : MagickaEvent
-    { }
+    {
+        public static LightEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new LightEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class CastMagickEvent : MagickaEvent
-    { }
+    {
+        public static CastMagickEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new CastMagickEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class DamageOwnerEvent : MagickaEvent
-    { }
+    {
+        public static DamageOwnerEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new DamageOwnerEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
     public class CallbackEvent : MagickaEvent
-    { }
+    {
+        public static CallbackEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new CallbackEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+    }
 
 }

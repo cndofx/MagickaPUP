@@ -1,9 +1,9 @@
-﻿using MagickaPUP.XnaClasses;
+﻿using MagickaPUP.IO;
+using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MagickaPUP.MagickaClasses.Data;
+using System.Runtime.Remoting.Messaging;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
@@ -28,7 +28,63 @@ namespace MagickaPUP.MagickaClasses.Character.Events
     //  - Implement writing
 
     public class DamageEvent : XnaObject
-    { }
+    {
+        #region Variables
+
+        public AttackProperties AttackProperties { get; set; }
+        public Elements Element { get; set; }
+        public float Amount { get; set; }
+        public float Magnitude { get; set; }
+        public bool IsVelocityBased { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public DamageEvent()
+        {
+            this.AttackProperties = default;
+            this.Element = default;
+            this.Amount = 0.0f;
+            this.Magnitude = 0.0f;
+            this.IsVelocityBased = false;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading DamageEvent...");
+
+            this.AttackProperties = (AttackProperties)reader.ReadInt32();
+            this.Element = (Elements)reader.ReadInt32();
+            this.Amount = reader.ReadSingle();
+            this.Magnitude = reader.ReadSingle();
+            this.IsVelocityBased = reader.ReadBoolean();
+        }
+
+        public static DamageEvent Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new DamageEvent();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing DamageEvent...");
+
+            writer.Write((int)this.AttackProperties);
+            writer.Write((int)this.Element);
+            writer.Write(this.Amount);
+            writer.Write(this.Magnitude);
+            writer.Write(this.IsVelocityBased);
+        }
+
+        #endregion
+    }
 
     public class SplashEvent : XnaObject
     { }

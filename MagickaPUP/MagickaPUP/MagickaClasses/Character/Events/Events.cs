@@ -9,6 +9,7 @@ using System.Runtime.Remoting.Messaging;
 using MagickaPUP.MagickaClasses.Character.Animation;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Lightning;
+using System.Net;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
@@ -837,13 +838,9 @@ namespace MagickaPUP.MagickaClasses.Character.Events
     {
         #region Variables
 
-        public float Radius { get; set; }
-        public Vec3 ColorDiffuse { get; set; }
-        public Vec3 ColorAmbient { get; set; }
-        public float SpecularAmount { get; set; }
-        public LightVariationType VariationType { get; set; }
-        public float VariationAmount { get; set; }
-        public float VariationSpeed { get; set; }
+        public string MagickType { get; set; }
+        public int NumElements { get; set; }
+        public Elements[] Elements { get; set; }
 
         #endregion
 
@@ -851,13 +848,9 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
         public CastMagickEvent()
         {
-            this.Radius = 1.0f;
-            this.ColorDiffuse = new Vec3(1.0f, 1.0f, 1.0f);
-            this.ColorAmbient = new Vec3(1.0f, 1.0f, 1.0f);
-            this.SpecularAmount = 1.0f;
-            this.VariationType = LightVariationType.None;
-            this.VariationAmount = 0.0f;
-            this.VariationSpeed = 1.0f;
+            this.MagickType = default;
+            this.NumElements = 0;
+            this.Elements = new Elements[0];
         }
 
         #endregion
@@ -867,6 +860,12 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading CastMagickEvent...");
+
+            this.MagickType = reader.ReadString();
+            this.NumElements = reader.ReadInt32();
+            this.Elements = new Elements[this.NumElements];
+            for (int i = 0; i < this.NumElements; ++i)
+                this.Elements[i] = (Elements)reader.ReadInt32();
         }
 
         public static CastMagickEvent Read(MBinaryReader reader, DebugLogger logger = null)
@@ -878,7 +877,12 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
-            base.WriteInstance(writer, logger);
+            logger?.Log(1, "Writing CastMagickEvent...");
+
+            writer.Write(this.MagickType);
+            writer.Write(this.NumElements);
+            for (int i = 0; i < this.NumElements; ++i)
+                writer.Write((int)this.Elements[i]);
         }
 
         #endregion

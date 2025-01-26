@@ -271,12 +271,45 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
     public class RemoveEvent : MagickaEvent
     {
+        #region Variables
+
+        public int Bounce { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        public RemoveEvent()
+        {
+            this.Bounce = 1;
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading RemoveEvent...");
+
+            this.Bounce = reader.ReadInt32();
+        }
+
         public static RemoveEvent Read(MBinaryReader reader, DebugLogger logger = null)
         {
             var ans = new RemoveEvent();
             ans.ReadInstance(reader, logger);
             return ans;
         }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing RemoveEvent...");
+
+            writer.Write(this.Bounce);
+        }
+
+        #endregion
     }
 
     public class CameraShakeEvent : MagickaEvent

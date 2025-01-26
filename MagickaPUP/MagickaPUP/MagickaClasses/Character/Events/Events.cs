@@ -145,14 +145,17 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         {
             logger?.Log(1, "Writing SplashEvent...");
 
+            // Rather than throwing an exception, we can make sure to always correct the Radius by setting it to a valid value before writing it.
+            // Maybe it's not the best way of doing things and we should just error out, but I feel like compilation should work as long as no
+            // critical failure takes place, so we can take a few liberties here and there and correct the user's invalid input just a tiny bit...
+            if (this.Radius <= float.Epsilon)
+                this.Radius = 0.01f;
+
             writer.Write((int)this.AttackProperty);
             writer.Write((int)this.Element);
             writer.Write(this.Amount);
             writer.Write(this.Magnitude);
             writer.Write(this.Radius);
-
-            if (this.Radius <= float.Epsilon)
-                throw new MagickaWriteException(EXCEPTION_MSG);
         }
 
         #endregion

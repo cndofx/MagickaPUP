@@ -11,6 +11,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 {
     // This class is a major pain in the fucking asshole and I will not miss having had to work on it.
     // Whoever programmed Magicka's event system should be in jail. That is all I can say.
+    // Ok, maybe it wasn't THAT bad... lol...
     public class EventStorage : XnaObject
     {
         #region Variables

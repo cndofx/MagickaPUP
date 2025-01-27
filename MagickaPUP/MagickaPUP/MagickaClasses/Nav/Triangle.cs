@@ -5,20 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using MagickaPUP.IO;
 using MagickaPUP.XnaClasses;
+using MagickaPUP.MagickaClasses.Data;
 
 namespace MagickaPUP.MagickaClasses.Nav
 {
-    public enum MovementProperties
-    {
-        Default = 0,
-        Water = 1,
-        Jump = 2,
-        Fly = 4,
-        Dynamic = 128,
-        All = 255
-    }
-
-
     // This triangle class refers to a nav mesh triangle, which means that it contains weights on each edge.
     // Basically, this nav mesh is a way to represent a graph with nodes (vertices) and weights on the connections between nodes (edges).
     // The name of this class is absurdly generic, but it is what the Magicka code uses,

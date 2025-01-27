@@ -128,6 +128,10 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numAbilities { get; set; }
         public Ability[] abilities {get;set;}
 
+        // Movement Properties
+        public int numMovementData { get; set; }
+        public MovementData[] movementData { get; set; }
+
         #endregion
 
         #region Constructor
@@ -233,6 +237,10 @@ namespace MagickaPUP.MagickaClasses.Character
             // Abilities
             this.numAbilities = 0;
             this.abilities = new Ability[0];
+
+            // Movement Data
+            this.numMovementData = 0;
+            this.movementData = new MovementData[0];
         }
 
         #endregion
@@ -408,7 +416,11 @@ namespace MagickaPUP.MagickaClasses.Character
                 this.abilities[i] = Ability.Read(reader, logger);
             }
 
-
+            // Movement Data
+            this.numMovementData = reader.ReadInt32();
+            this.movementData = new MovementData[this.numMovementData];
+            for (int i = 0; i < this.numMovementData; ++i)
+                movementData[i] = new MovementData(reader, logger);
 
         }
 

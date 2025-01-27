@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 namespace MagickaPUP.MagickaClasses.Effects
 {
     // TODO : Find a map with lava to get the text of the type reader that corresponds to lava
+    // TODO : Remove outdated TODOs!!! lmao...
     [JsonDerivedType(typeof(Effect), typeDiscriminator: "effect_base")]
     [JsonDerivedType(typeof(EffectDeferred), typeDiscriminator: "effect_deferred")]
     [JsonDerivedType(typeof(EffectDeferredLiquid), typeDiscriminator: "effect_deferred_liquid")]

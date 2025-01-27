@@ -2,15 +2,13 @@
 using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.MagickaClasses.Audio;
 using MagickaPUP.MagickaClasses.Character.Attachments;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Character.Animation;
 using MagickaPUP.MagickaClasses.Character.Events;
+using MagickaPUP.MagickaClasses.Character.Abilities;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -126,9 +124,9 @@ namespace MagickaPUP.MagickaClasses.Character
         public bool flocking { get; set; }
         public float breakFreeStrength { get; set; }
 
-        // NPC Abilities
-        // TODO : Implement Ability
-        // Ability[] abilities {get;set;}
+        // Abilities
+        public int numAbilities { get; set; }
+        public Ability[] abilities {get;set;}
 
         #endregion
 
@@ -231,7 +229,11 @@ namespace MagickaPUP.MagickaClasses.Character
             this.healthWeight = default;
             this.flocking = default;
             this.breakFreeStrength = default;
-    }
+
+            // Abilities
+            this.numAbilities = 0;
+            this.abilities = new Ability[0];
+        }
 
         #endregion
 
@@ -397,6 +399,16 @@ namespace MagickaPUP.MagickaClasses.Character
             this.healthWeight = reader.ReadSingle();
             this.flocking = reader.ReadBoolean();
             this.breakFreeStrength = reader.ReadSingle();
+
+            // Abilities
+            this.numAbilities = reader.ReadInt32();
+            this.abilities = new Ability[numAbilities];
+            for (int i = 0; i < this.numAbilities; ++i)
+            {
+                this.abilities[i] = Ability.Read(reader, logger);
+            }
+
+
 
         }
 

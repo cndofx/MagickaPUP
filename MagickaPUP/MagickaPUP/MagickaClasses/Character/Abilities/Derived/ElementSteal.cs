@@ -1,0 +1,35 @@
+﻿using MagickaPUP.IO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
+{
+    public class ElementSteal : Ability
+    {
+        public float Range { get; set; }
+        public float Angle { get; set; }
+
+        public ElementSteal()
+        {
+            this.Range = 0.0f;
+            this.Angle = 0.0f;
+        }
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading ElementSteal Ability...");
+
+            this.Range = reader.ReadSingle();
+            this.Angle = reader.ReadSingle();
+        }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing ElementSteal Ability...");
+        }
+    }
+}

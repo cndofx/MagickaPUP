@@ -12,52 +12,8 @@ using System.Threading.Tasks;
 // for XNA's Model class.
 namespace MagickaPUP.MagickaClasses.Character.Animation
 {
-    public class AnimationAction : XnaObject
+    public abstract class AnimationAction
     {
-        #region Variables
-
-        public string animationName { get; set; }
-        public float animationStartTime { get; set; }
-        public float animationEndTime { get; set; }
-
-        #endregion
-
-        #region Constructor
-
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Reading AnimationAction...");
-
-            this.animationName = reader.ReadString();
-            this.animationStartTime = reader.ReadSingle();
-            this.animationEndTime = reader.ReadSingle();
-
-
-            logger?.Log(2, $" - AnimationName : {this.animationName}");
-            logger?.Log(2, $" - StartTime     : {this.animationStartTime}");
-            logger?.Log(2, $" - EndTime       : {this.animationEndTime}");
-        }
-
-        public static AnimationAction Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new AnimationAction();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
-
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Writing AnimationAction...");
-
-            writer.Write(this.animationName);
-            writer.Write(this.animationStartTime);
-            writer.Write(this.animationEndTime);
-        }
-
-        #endregion
+        
     }
 }

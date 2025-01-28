@@ -10,6 +10,7 @@ using MagickaPUP.MagickaClasses.Character.Animation;
 using MagickaPUP.MagickaClasses.Character.Events;
 using MagickaPUP.MagickaClasses.Character.Abilities;
 using MagickaPUP.MagickaClasses.Character.Buffs;
+using MagickaPUP.MagickaClasses.Character.Aura;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -137,6 +138,10 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numBuffs { get; set; }
         public BuffStorage[] Buffs { get; set; } // Buff as in buffing a character's stats, not buffer...
 
+        // Aura Data
+        public int numAuras { get; set; }
+        public AuraStorage[] Auras { get; set; }
+
         #endregion
 
         #region Constructor
@@ -250,6 +255,10 @@ namespace MagickaPUP.MagickaClasses.Character
             // Buff Data
             this.numBuffs = 0;
             this.Buffs = new BuffStorage[0];
+
+            // Aura Data
+            this.numAuras = 0;
+            this.Auras = new AuraStorage[0];
         }
 
         #endregion
@@ -436,6 +445,12 @@ namespace MagickaPUP.MagickaClasses.Character
             this.Buffs = new BuffStorage[this.numBuffs];
             for(int i = 0; i < this.numBuffs; ++i)
                 this.Buffs[i] = new BuffStorage(reader, logger);
+
+            // Aura Data
+            this.numAuras = reader.ReadInt32();
+            this.Auras = new AuraStorage[this.numAuras];
+            for (int i = 0; i < this.numAuras; ++i)
+                this.Auras[i] = new AuraStorage(reader, logger);
         }
 
         public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

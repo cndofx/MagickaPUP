@@ -465,6 +465,11 @@ namespace MagickaPUP.MagickaClasses.Character
             throw new NotImplementedException("Write Character Template not implemented yet!");
         }
 
+        public override string GetReaderName()
+        {
+            return "Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral";
+        }
+
         #endregion
     }
 }

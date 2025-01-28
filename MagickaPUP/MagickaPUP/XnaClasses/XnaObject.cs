@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel;
+using MagickaPUP.MagickaClasses.Character;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -152,6 +153,9 @@ namespace MagickaPUP.XnaClasses
                     break;
                 case "Microsoft.Xna.Framework.Content.Texture2DReader":
                     obj = Texture2D.Read(reader, logger);
+                    break;
+                case "Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral":
+                    obj = CharacterTemplate.Read(reader, logger);
                     break;
                 default:
                     obj = null;

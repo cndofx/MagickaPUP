@@ -273,8 +273,10 @@ namespace MagickaPUP.MagickaClasses.Character
             logger?.Log(1, "Reading CharacterTemplate...");
 
             // Internally, Magicka computes a hash for both of these ID strings after reading them, but we don't need it here.
-            this.characterID = reader.ReadString().ToLowerInvariant();
-            this.characterDisplayID = reader.ReadString().ToLowerInvariant();
+            // Magicka also passes the strings to lower invariant, but we don't need to do that. We can work with whatever we want considering
+            // how internally the game just "normalizes" the strings by passing them all to lowercase invariant to be able to compute consistent hashes.
+            this.characterID = reader.ReadString();
+            this.characterDisplayID = reader.ReadString();
 
             // Read enum data
             this.faction = (Factions)reader.ReadInt32();

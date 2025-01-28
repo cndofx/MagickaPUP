@@ -15,5 +15,10 @@ namespace MagickaPUP.MagickaClasses.Character.Aura.Derived
 
         public AuraDeflect(MBinaryReader reader, DebugLogger logger = null)
         { }
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
+        {
+
+        }
     }
 }

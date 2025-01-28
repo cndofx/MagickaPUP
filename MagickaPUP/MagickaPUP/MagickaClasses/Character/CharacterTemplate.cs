@@ -415,7 +415,7 @@ namespace MagickaPUP.MagickaClasses.Character
             {
                 // TODO : Finish making sure that the implementation of the AnimationList reading process is correct...
                 // Remember that part of it comes from the loop within this class, since that is what the anim list class is abstracting away.
-                this.animationClips[i] = AnimationList.Read(reader, logger);
+                this.animationClips[i] = new AnimationList(reader, logger);
             }
 
             // Read Equipment Attachments

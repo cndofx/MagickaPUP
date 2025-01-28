@@ -39,7 +39,8 @@ namespace MagickaPUP.XnaClasses
             new ContentTypeReader("Microsoft.Xna.Framework.Content.Vector3Reader", 0),
             new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredLiquidEffectReader, PolygonHead", 0),
             new ContentTypeReader("PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0),
-            new ContentTypeReader("Microsoft.Xna.Framework.Content.Texture2DReader", 0)
+            new ContentTypeReader("Microsoft.Xna.Framework.Content.Texture2DReader", 0),
+            new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0),
         };
 
         public static ContentTypeReader GetContentTypeReader(ContentTypeReaderIndex idx)

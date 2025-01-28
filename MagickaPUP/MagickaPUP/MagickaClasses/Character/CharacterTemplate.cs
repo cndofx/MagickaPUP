@@ -280,10 +280,16 @@ namespace MagickaPUP.MagickaClasses.Character
             this.characterID = reader.ReadString();
             this.characterDisplayID = reader.ReadString();
 
+            logger?.Log(2, $" - CharacterID        : {this.characterID}");
+            logger?.Log(2, $" - CharacterDisplayID : {this.characterID}");
+
             // Read enum data
             this.faction = (Factions)reader.ReadInt32();
             this.bloodType = (BloodType)reader.ReadInt32();
-            
+
+            logger?.Log(2, $" - Faction   : {this.faction}");
+            logger?.Log(2, $" - BloodType : {this.bloodType}");
+
             // Read flags
             this.isEthereal = reader.ReadBoolean();
             this.looksEthereal = reader.ReadBoolean();
@@ -293,8 +299,17 @@ namespace MagickaPUP.MagickaClasses.Character
             this.hasFairy = reader.ReadBoolean();
             this.canSeeInvisible = reader.ReadBoolean();
 
+            logger?.Log(2, $" - IsEthereal      : {this.isEthereal}");
+            logger?.Log(2, $" - LooskEthereal   : {this.looksEthereal}");
+            logger?.Log(2, $" - IsFearless      : {this.isFearless}");
+            logger?.Log(2, $" - IsUncharmable   : {this.isUncharmable}");
+            logger?.Log(2, $" - IsNonSlippery   : {this.isNonSlippery}");
+            logger?.Log(2, $" - HasFairy        : {this.hasFairy}");
+            logger?.Log(2, $" - CanSeeInvisible : {this.canSeeInvisible}");
+
             // Read character sounds
             this.numAttachedSounds = reader.ReadInt32(); // NOTE : To prevent having to store this value as a variable within this class and just working with the array input data from JSON, we could just initialize the attached sounds array to this input length here, and set the length to min(4, reader.readi32()), maybe do this in the future when we clean up all of the manually hard coded counts in the other JSON files for the level data and stuff?
+            logger?.Log(2, $" - NumAttachedSounds : {this.numAttachedSounds}");
             for (int i = 0; i < this.numAttachedSounds; ++i)
             {
                 #region Comment
@@ -311,7 +326,8 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Read character gibs (GORE!!!!!!! YEAH, BABY!!!! BLOOD!)
             this.numGibs = reader.ReadInt32();
-            this.gibs = new GibReference[numGibs];
+            logger?.Log(2, $" - NumGibs : {this.numGibs}");
+            this.gibs = new GibReference[this.numGibs];
             for(int i = 0; i < this.numGibs; ++i)
             {
                 this.gibs[i] = GibReference.Read(reader, logger);
@@ -319,6 +335,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Read character lights
             this.numLights = reader.ReadInt32();
+            logger?.Log(2, $" - NumLights : {this.numLights}");
             this.lights = new LightHolder[this.numLights];
             for (int i = 0; i < this.numLights; ++i)
             {

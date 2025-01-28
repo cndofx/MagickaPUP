@@ -1,4 +1,7 @@
 ﻿using MagickaPUP.IO;
+using MagickaPUP.MagickaClasses.Data;
+using MagickaPUP.MagickaClasses.Data.Aura;
+using MagickaPUP.MagickaClasses.Generic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +13,17 @@ namespace MagickaPUP.MagickaClasses.Character.Aura
     // TODO : Implement
     public class AuraStorage
     {
+        public AuraTarget AuraTarget { get; set; }
+        public AuraType AuraType { get; set; }
+        public VisualCategory VisualCategory { get; set; }
+        public Vec3 Color { get; set; }
+        public string Effect { get; set; }
+        public float Time { get; set; }
+        public float Radius { get; set; }
+        public string[] TargetTypes { get; set; } // NOTE : This is a single string within XNB files. It contains a comma separated list of elements. For easier JSON editting, I'm splitting them into an array, but you MUST REMEMBER this detail when implementing both the read and write logic for this class!!! otherwise, everything goes to SHIT!
+        public Factions TargetFaction { get; set; }
+        public Aura Aura { get; set; }
+
         public AuraStorage()
         { }
 

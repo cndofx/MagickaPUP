@@ -29,5 +29,7 @@ namespace MagickaPUP.MagickaClasses.Character
                 this.Animations[i] = reader.ReadString();
         }
 
+        // TODO : Implement writing logic...
+
     }
 }

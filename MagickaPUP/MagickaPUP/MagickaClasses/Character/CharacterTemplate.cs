@@ -275,6 +275,8 @@ namespace MagickaPUP.MagickaClasses.Character
             // Internally, Magicka computes a hash for both of these ID strings after reading them, but we don't need it here.
             // Magicka also passes the strings to lower invariant, but we don't need to do that. We can work with whatever we want considering
             // how internally the game just "normalizes" the strings by passing them all to lowercase invariant to be able to compute consistent hashes.
+            // We also don't do it because we don't really want to mutate the data. The idea is that if we decompile an XNB file and then recompile the JSON, we should
+            // get the exact same file back (or maybe slightly different because now it has extra readers attached lol...)
             this.characterID = reader.ReadString();
             this.characterDisplayID = reader.ReadString();
 

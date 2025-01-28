@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MagickaPUP.MagickaClasses.Character.Animation
+namespace MagickaPUP.MagickaClasses.Data
 {
     // Yes, they indeed hardcoded all of the fucking animation slots within the code... yes, this probably means that to extend animations we may have to find
     // hacky workarounds, like making a duplicate mesh, swapping it out, and then using that mesh with replaced animations on certain slots...

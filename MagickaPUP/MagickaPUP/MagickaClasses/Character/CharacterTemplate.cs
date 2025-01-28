@@ -272,8 +272,6 @@ namespace MagickaPUP.MagickaClasses.Character
         {
             logger?.Log(1, "Reading CharacterTemplate...");
 
-            throw new NotImplementedException("Read Character Template not implemented yet!");
-
             // Internally, Magicka computes a hash for both of these ID strings after reading them, but we don't need it here.
             this.characterID = reader.ReadString().ToLowerInvariant();
             this.characterDisplayID = reader.ReadString().ToLowerInvariant();

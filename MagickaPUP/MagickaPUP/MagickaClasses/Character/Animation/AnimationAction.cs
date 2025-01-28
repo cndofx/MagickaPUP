@@ -35,6 +35,11 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             this.animationName = reader.ReadString();
             this.animationStartTime = reader.ReadSingle();
             this.animationEndTime = reader.ReadSingle();
+
+
+            logger?.Log(2, $" - AnimationName : {this.animationName}");
+            logger?.Log(2, $" - StartTime     : {this.animationStartTime}");
+            logger?.Log(2, $" - EndTime       : {this.animationEndTime}");
         }
 
         public static AnimationAction Read(MBinaryReader reader, DebugLogger logger = null)

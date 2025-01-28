@@ -60,6 +60,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             #endregion
 
             this.numAnimationClips = reader.ReadInt32();
+            logger?.Log(2, $" - NumAnimationClips : {this.numAnimationClips}");
             this.animationClips = new AnimationActionClip[this.numAnimationClips];
             for (int i = 0; i < this.numAnimationClips; ++i)
             {

@@ -39,6 +39,13 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             this.blendTime = reader.ReadSingle();
             this.loopAnimation = reader.ReadBoolean();
             this.numActions = reader.ReadInt32();
+            logger?.Log(2, $" - AnimationName  : {this.animationName}");
+            logger?.Log(2, $" - AnimationKey   : {this.animationKey}");
+            logger?.Log(2, $" - AnimationSpeed : {this.animationSpeed}");
+            logger?.Log(2, $" - BlendTime      : {this.blendTime}");
+            logger?.Log(2, $" - LoopAnimation  : {this.loopAnimation}");
+            logger?.Log(1, $" - NumActions     : {this.numActions}");
+            
             this.actions = new AnimationAction[numActions];
             for (int i = 0; i < this.numActions; ++i)
             {

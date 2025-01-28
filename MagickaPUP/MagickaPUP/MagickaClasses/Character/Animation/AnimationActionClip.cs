@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace MagickaPUP.MagickaClasses.Character.Animation
 {
     // NOTE : The AnimationActionClip class corresponds to the AnimationClipAction class in Magicka's code.
-    public class AnimationActionClip : XnaObject
+    public class AnimationActionClip
     {
         #region Variables
 
@@ -19,17 +19,13 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         public float blendTime { get; set; }
         public bool loopAnimation { get; set; }
         public int numActions { get; set; }
-        public AnimationAction[] actions { get; set; }
+        public AnimationActionStorage[] actions { get; set; }
 
         #endregion
 
         #region Constructor
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public AnimationActionClip(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading AnimationActionClip...");
 
@@ -45,22 +41,19 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             logger?.Log(2, $" - BlendTime      : {this.blendTime}");
             logger?.Log(2, $" - LoopAnimation  : {this.loopAnimation}");
             logger?.Log(1, $" - NumActions     : {this.numActions}");
-            
-            this.actions = new AnimationAction[numActions];
+
+            this.actions = new AnimationActionStorage[numActions];
             for (int i = 0; i < this.numActions; ++i)
             {
-                this.actions[i] = AnimationAction.Read(reader, logger);
+                this.actions[i] = new AnimationActionStorage(reader, logger);
             }
         }
 
-        public static AnimationActionClip Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new AnimationActionClip();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing AnimationActionClip...");
             
@@ -71,7 +64,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             writer.Write(this.numActions);
             for (int i = 0; i < this.numActions; ++i)
             {
-                this.actions[i].WriteInstance(writer, logger);
+                this.actions[i].Write(writer, logger);
             }
         }
 

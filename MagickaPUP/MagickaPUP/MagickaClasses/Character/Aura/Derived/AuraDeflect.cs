@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.Character.Aura.Derived
 {
-    // TODO : Implement
     public class AuraDeflect : Aura
     {
         public float Strength { get; set; }

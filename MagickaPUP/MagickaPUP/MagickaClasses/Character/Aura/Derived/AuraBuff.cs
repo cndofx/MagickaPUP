@@ -8,7 +8,6 @@ using MagickaPUP.MagickaClasses.Character.Buffs;
 
 namespace MagickaPUP.MagickaClasses.Character.Aura.Derived
 {
-    // TODO : Implement
     public class AuraBuff : Aura
     {
         public BuffStorage Buff { get; set; }

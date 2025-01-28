@@ -101,8 +101,9 @@
     <Compile Include="MagickaClasses\Character\Abilities\Derived\ZombieGrip.cs" />
     <Compile Include="MagickaClasses\Character\Animation\AnimationAction.cs" />
     <Compile Include="MagickaClasses\Character\Animation\AnimationActionClip.cs" />
+    <Compile Include="MagickaClasses\Character\Animation\AnimationActionStorage.cs" />
     <Compile Include="MagickaClasses\Character\Animation\AnimationList.cs" />
-    <Compile Include="MagickaClasses\Character\Animation\Animations.cs" />
+    <Compile Include="MagickaClasses\Data\Animations.cs" />
     <Compile Include="MagickaClasses\Character\Attachments\EffectHolder.cs" />
     <Compile Include="MagickaClasses\Character\Attachments\EquipmentAttachment.cs" />
     <Compile Include="MagickaClasses\Character\Attachments\SoundHolder.cs" />

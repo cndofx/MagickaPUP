@@ -9,6 +9,7 @@ using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Character.Animation;
 using MagickaPUP.MagickaClasses.Character.Events;
 using MagickaPUP.MagickaClasses.Character.Abilities;
+using MagickaPUP.MagickaClasses.Character.Buffs;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -132,6 +133,10 @@ namespace MagickaPUP.MagickaClasses.Character
         public int numMovementData { get; set; }
         public MovementData[] movementData { get; set; }
 
+        // Buff Data
+        public int numBuffs { get; set; }
+        public BuffStorage[] Buffs { get; set; } // Buff as in buffing a character's stats, not buffer...
+
         #endregion
 
         #region Constructor
@@ -241,6 +246,10 @@ namespace MagickaPUP.MagickaClasses.Character
             // Movement Data
             this.numMovementData = 0;
             this.movementData = new MovementData[0];
+
+            // Buff Data
+            this.numBuffs = 0;
+            this.Buffs = new BuffStorage[0];
         }
 
         #endregion
@@ -422,6 +431,11 @@ namespace MagickaPUP.MagickaClasses.Character
             for (int i = 0; i < this.numMovementData; ++i)
                 movementData[i] = new MovementData(reader, logger);
 
+            // Buff Data
+            this.numBuffs = reader.ReadInt32();
+            this.Buffs = new BuffStorage[this.numBuffs];
+            for(int i = 0; i < this.numBuffs; ++i)
+                this.Buffs[i] = new BuffStorage(reader, logger);
         }
 
         public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

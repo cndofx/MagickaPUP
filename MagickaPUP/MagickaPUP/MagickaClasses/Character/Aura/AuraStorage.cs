@@ -9,7 +9,7 @@ using MagickaPUP.MagickaClasses.Character.Aura.Derived;
 
 namespace MagickaPUP.MagickaClasses.Character.Aura
 {
-    // TODO : Implement
+    // TODO : Implement Writing
     public class AuraStorage
     {
         public AuraTarget AuraTarget { get; set; }
@@ -66,6 +66,9 @@ namespace MagickaPUP.MagickaClasses.Character.Aura
         }
 
         public void Write(MBinaryWriter writer, DebugLogger logger = null)
-        { }
+        {
+            logger?.Log(1, "Writing AuraStorage...");
+            throw new NotImplementedException("Write AuraStorage is not implemented yet!");
+        }
     }
 }

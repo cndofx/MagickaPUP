@@ -9,6 +9,13 @@ namespace MagickaPUP
 {
     public class PupProgram
     {
+        #region Constants
+
+        // Aids in thinking about important stuff!
+        private static readonly string STRING_THINK = "     \\ /     \n  O   X   O  \n__|__/ \\__|__\n  | /   \\ |  \n / \\     / \\ \n/   \\    \\  \\\nCompiling!";
+
+        #endregion
+
         #region Structs and Classes
 
         public struct CmdEntry
@@ -48,6 +55,8 @@ namespace MagickaPUP
         // This flag also prevents flooding the console with multiple calls to --help.
         private bool displayHelp;
 
+        private bool displayThink;
+
         private List<string> pathsToCreate;
 
         #endregion
@@ -63,12 +72,14 @@ namespace MagickaPUP
             this.debugLevel = 2; // lvl 2 by default.
 
             this.displayHelp = false;
+            this.displayThink = false;
 
             this.commands = new CmdEntry[] {
                 new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp),
                 new CmdEntry("-d", "--debug", "<lvl>", "Set the debug logging level for all commands specified after this one (default = 2)", 1, CmdDebug),
                 new CmdEntry("-p", "--pack", "<input> <output>", "Pack JSON files into XNB files", 2, CmdPack),
-                new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack)
+                new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack),
+                new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink),
             };
 
             // NOTE : The pack and unpack cmd functions internally check if the input strings correspond to a file or to a directory.
@@ -95,6 +106,11 @@ namespace MagickaPUP
                 // For example, no directories or files will be created if the help command is invoked, preventing accidentally modifying the files and directory structure when an user who is experimenting with the tool enters a partially valid command.
                 ExecHelp();
                 return;
+            }
+
+            if (this.displayThink)
+            {
+                ExecThink();
             }
 
             // First create the required directories, if there are any that need to be created.
@@ -172,6 +188,11 @@ namespace MagickaPUP
         #endregion
 
         #region PrivateMethods - Cmd Registering
+
+        private void CmdThink(string[] args, int current)
+        {
+            this.displayThink = true;
+        }
 
         private void CmdHelp(string[] args, int current)
         {
@@ -300,6 +321,16 @@ namespace MagickaPUP
             foreach (var dir in this.pathsToCreate)
                 if(!Directory.Exists(dir))
                     Directory.CreateDirectory(dir);
+        }
+
+        private void ExecThink()
+        {
+            // Gotta think about important stuff!!!
+            Console.WriteLine(STRING_THINK);
+            while (true)
+            {
+                // Thinking...
+            }
         }
 
         #endregion

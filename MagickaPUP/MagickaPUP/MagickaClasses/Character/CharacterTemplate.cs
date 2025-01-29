@@ -552,7 +552,65 @@ namespace MagickaPUP.MagickaClasses.Character
             foreach (var resistance in this.Resistances)
                 resistance.Write(writer, logger);
 
-            throw new NotImplementedException("Write Character Template not implemented yet!");
+            // Model
+            writer.Write(this.NumModelProperties);
+            foreach (var modelProperty in this.ModelProperties)
+                modelProperty.WriteInstance(writer, logger);
+            writer.Write(this.SkinnedModel);
+
+            // Effects
+            writer.Write(this.NumAttachedEffects);
+            foreach(var effect in this.AttachedEffects)
+                effect.WriteInstance(writer, logger);
+
+            // Animation
+            foreach (var animation in this.AnimationClips)
+                animation.Write(writer, logger);
+
+            // Equipment
+            writer.Write(this.NumEquipementAttachments);
+            foreach(var equipment in this.EquipmentAttachments)
+                equipment.WriteInstance(writer, logger);
+
+            // Conditions
+            this.Conditions.WriteInstance(writer, logger);
+
+            // Character properties (3)
+            writer.Write(this.AlertRadius);
+            writer.Write(this.GroupChase);
+            writer.Write(this.GroupSeparation);
+            writer.Write(this.GroupCohesion);
+            writer.Write(this.GroupAlignment);
+            writer.Write(this.GroupWander);
+            writer.Write(this.FriendlyAvoidance);
+            writer.Write(this.EnemyAvoidance);
+            writer.Write(this.SightAvoidance);
+            writer.Write(this.DangerAvoidance);
+            writer.Write(this.AngerWeight);
+            writer.Write(this.DistanceWeight);
+            writer.Write(this.HealthWeight);
+            writer.Write(this.Flocking);
+            writer.Write(this.BreakFreeStrength);
+
+            // Abilities
+            writer.Write(this.NumAbilities);
+            foreach (var ability in this.Abilities)
+                ability.WriteInstance(writer, logger);
+
+            // Movement
+            writer.Write(this.NumMovementData);
+            foreach (var movement in this.MovementData)
+                movement.Write(writer, logger);
+
+            // Buffs
+            writer.Write(this.NumBuffs);
+            foreach (var buff in this.Buffs)
+                buff.Write(writer, logger);
+
+            // Auras
+            writer.Write(this.NumAuras);
+            foreach (var aura in this.Auras)
+                aura.Write(writer, logger);
         }
 
         public override string GetReaderName()

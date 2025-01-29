@@ -225,7 +225,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Equipment Attachments
             this.NumEquipementAttachments = 0;
-            this.EquipmentAttachments = new EquipmentAttachment[8]; // We hard code this to 8, just like Magicka does. We can have 8 attachments per character at most.
+            this.EquipmentAttachments = new EquipmentAttachment[0]; // NOTE : We used to hard code this to 8, just like Magicka does. We can have 8 attachments per character at most. The thing is that the read side actually is allowed to input as many attachments as it wants, it's just that each entry has to identfy which attachment slot it affects. This means that we could have 10000 entries, but each would only be capable of pointing to one of the 8 valid slots, so they overwrite eachother actually...
 
             // Event Data
             this.Conditions = new ConditionCollection();
@@ -421,6 +421,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Read Equipment Attachments
             this.NumEquipementAttachments = reader.ReadInt32();
+            this.EquipmentAttachments = new EquipmentAttachment[this.NumEquipementAttachments];
             for (int i = 0; i < this.NumEquipementAttachments; ++i)
             {
                 this.EquipmentAttachments[i] = EquipmentAttachment.Read(reader, logger);

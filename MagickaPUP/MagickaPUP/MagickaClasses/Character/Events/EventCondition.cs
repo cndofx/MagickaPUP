@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
-    public class EventCondition : XnaObject
+    public class EventCondition
     {
         #region Variables
 
@@ -34,11 +34,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Repeat = false;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public EventCondition(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading EventCondition...");
 
@@ -51,14 +47,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Repeat = reader.ReadBoolean(); // NOTE : Within Magicka's code, this value is read outside of this read method, right after calling the read method, so it's literally the exact same thing tbh... I just put it in here because it makes things easier for me lol.
         }
 
-        public static EventCondition Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new EventCondition();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing EventCondition...");
             throw new NotImplementedException("Write EventCondition not implemented yet!");

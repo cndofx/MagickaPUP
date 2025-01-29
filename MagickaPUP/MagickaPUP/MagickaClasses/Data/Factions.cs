@@ -51,4 +51,12 @@ namespace MagickaPUP.MagickaClasses.Data
         Players  = 0b00000000000000000011111100000000, // 16128 // another bitmask, which marks all of the player related factions as true, including team red and team blue
         COUNT    = 0b00000000000000000000000000001111, // 15 // This should not have any relevance as it is just the total number of factions that exist in the game within this enum, excluding the "unknwon" faction and the "none" faction, but it's still kinda funny that it coincidentally sets all of the values to 1 lol
     */
+
+    // Example:
+    /*
+        Human      = 32 = 0b00000000000000000000000000100000
+        Friendly   =  4 = 0b00000000000000000000000000000100
+        NpcFaction = 36 = 0b00000000000000000000000000100100 = Friendly | Human
+        This example is the faction used by villager NPCs in Magicka, and it is the value that can be found within the XNB files, as they are friendly humans.
+    */
 }

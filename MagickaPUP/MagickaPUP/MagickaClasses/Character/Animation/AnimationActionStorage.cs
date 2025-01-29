@@ -1,9 +1,8 @@
 ﻿using MagickaPUP.IO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MagickaPUP.Utility.Exceptions;
+using MagickaPUP.MagickaClasses.Data;
 
 namespace MagickaPUP.MagickaClasses.Character.Animation
 {
@@ -28,7 +27,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         {
             logger?.Log(1, "Reading AnimationActionStorage...");
 
-            this.AnimationActionType = reader.ReadString();
+            this.AnimationActionType = reader.ReadString(); // TODO : Move this string out of this class or mark it as a non JSON serializable field, since it will be added again on the child AnimationAction's JSON object.
             this.StartTime = reader.ReadSingle();
             this.EndTime = reader.ReadSingle();
 
@@ -36,8 +35,15 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             logger?.Log(2, $" - StartTime           : {this.StartTime}");
             logger?.Log(2, $" - EndTime             : {this.EndTime}");
 
-            // TODO : Implement AnimationAction reading
-            // this.AnimationAction
+            AnimationActionType type;
+            bool success = Enum.TryParse<AnimationActionType>(this.AnimationActionType, true, out type);
+            if (!success)
+                throw new MagickaLoadException($"Could not load the specified AnimationAction type. The type \"{this.AnimationActionType}\" is not a valid AnimationAction for Magicka.");
+
+            switch (type)
+            {
+                // TODO : Implement...
+            }
         }
 
         #endregion

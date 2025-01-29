@@ -12,6 +12,7 @@ using MagickaPUP.MagickaClasses.Character.Abilities;
 using MagickaPUP.MagickaClasses.Character.Buffs;
 using MagickaPUP.MagickaClasses.Character.Aura;
 using System.Text.Json.Serialization;
+using MagickaPUP.Utility.Exceptions;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -311,6 +312,9 @@ namespace MagickaPUP.MagickaClasses.Character
             // Read character sounds
             this.NumAttachedSounds = reader.ReadInt32(); // NOTE : To prevent having to store this value as a variable within this class and just working with the array input data from JSON, we could just initialize the attached sounds array to this input length here, and set the length to min(4, reader.readi32()), maybe do this in the future when we clean up all of the manually hard coded counts in the other JSON files for the level data and stuff?
             logger?.Log(2, $" - NumAttachedSounds : {this.NumAttachedSounds}");
+            if (this.NumAttachedSounds > 4)
+                throw new MagickaLoadException($"CharacterTemplate cannot contain more than 4 attached sounds, but {this.NumAttachedSounds} were found!");
+            
             for (int i = 0; i < this.NumAttachedSounds; ++i)
             {
                 #region Comment
@@ -320,8 +324,8 @@ namespace MagickaPUP.MagickaClasses.Character
                 // the bytes, which will break things and just crash on load, and also wastes runtime in case of a miswritten byte making this loop iterate for more than it should, when we can just break out and call it a day...
                 // In the future, when the engine rewrite comes around, we could actually modify this to support more than 4 sounds per character template...
                 #endregion
-                if (i >= 4)
-                    break;
+                // if (i >= 4)
+                //     break;
                 this.AttachedSounds[i] = SoundHolder.Read(reader, logger);
             }
 

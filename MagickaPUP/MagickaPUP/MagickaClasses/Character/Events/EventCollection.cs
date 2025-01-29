@@ -31,10 +31,10 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         {
             logger?.Log(1, "Reading EventCollection...");
 
-            this.EventCondition = EventCondition.Read(reader, logger);
+            this.EventCondition = new EventCondition(reader, logger);
             this.NumEvents = reader.ReadInt32();
             for (int i = 0; i < this.NumEvents; ++i)
-                this.Events[i] = EventStorage.Read(reader, logger);
+                this.Events[i] = new EventStorage(reader, logger);
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
     {
         #region Variables
 
-        public string AnimationName { get; set; }
+        public string AnimationActionType { get; set; }
         public float StartTime { get; set; }
         public float EndTime { get; set; }
 
@@ -28,13 +28,13 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         {
             logger?.Log(1, "Reading AnimationActionStorage...");
 
-            this.AnimationName = reader.ReadString();
+            this.AnimationActionType = reader.ReadString();
             this.StartTime = reader.ReadSingle();
             this.EndTime = reader.ReadSingle();
 
-            logger?.Log(2, $" - AnimationName : {this.AnimationName}");
-            logger?.Log(2, $" - StartTime     : {this.StartTime}");
-            logger?.Log(2, $" - EndTime       : {this.EndTime}");
+            logger?.Log(2, $" - AnimationActionType : {this.AnimationActionType}");
+            logger?.Log(2, $" - StartTime           : {this.StartTime}");
+            logger?.Log(2, $" - EndTime             : {this.EndTime}");
 
             // TODO : Implement AnimationAction reading
             // this.AnimationAction

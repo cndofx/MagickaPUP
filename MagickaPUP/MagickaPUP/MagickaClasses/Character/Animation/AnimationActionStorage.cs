@@ -139,7 +139,10 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         {
             logger?.Log(1, "Writing AnimationActionStorage...");
 
-            throw new NotImplementedException("Write AnimationActionStorage is not implemented yet!");
+            writer.Write(this.ActionType);
+            writer.Write(this.StartTime);
+            writer.Write(this.EndTime);
+            this.AnimationAction.Write(writer, logger);
         }
 
         #endregion

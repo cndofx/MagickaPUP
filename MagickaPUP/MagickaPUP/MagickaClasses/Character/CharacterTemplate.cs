@@ -428,7 +428,7 @@ namespace MagickaPUP.MagickaClasses.Character
             }
 
             // Read Events into Condition Collection
-            this.Conditions = ConditionCollection.Read(reader, logger);
+            this.Conditions = new ConditionCollection(reader, logger);
 
             // Read Character Data part 2
             this.AlertRadius = reader.ReadSingle();
@@ -574,7 +574,7 @@ namespace MagickaPUP.MagickaClasses.Character
                 equipment.WriteInstance(writer, logger);
 
             // Conditions
-            this.Conditions.WriteInstance(writer, logger);
+            this.Conditions.Write(writer, logger);
 
             // Character properties (3)
             writer.Write(this.AlertRadius);

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
-    public class ConditionCollection : XnaObject
+    public class ConditionCollection
     {
         #region Variables
 
@@ -25,11 +25,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.eventCollection = new EventCollection[0];
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public ConditionCollection(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading ConditionCollection...");
 
@@ -39,14 +35,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
                 this.eventCollection[i] = EventCollection.Read(reader, logger);
         }
 
-        public static ConditionCollection Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new ConditionCollection();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ConditionCollection...");
             throw new NotImplementedException("Write ConditionCollection not implemented yet!");

@@ -32,7 +32,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.numEvents = reader.ReadInt32();
             this.eventCollection = new EventCollection[this.numEvents];
             for (int i = 0; i < this.numEvents; ++i)
-                this.eventCollection[i] = EventCollection.Read(reader, logger);
+                this.eventCollection[i] = new EventCollection(reader, logger);
         }
 
         #endregion
@@ -42,7 +42,10 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ConditionCollection...");
-            throw new NotImplementedException("Write ConditionCollection not implemented yet!");
+
+            writer.Write(this.numEvents);
+            foreach (var eventCollection in this.eventCollection)
+                eventCollection.Write(writer, logger);
         }
 
         #endregion

@@ -152,6 +152,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities
             if (this.HasFuzzyExpression)
                 this.FuzzyExpression = reader.ReadString();
             this.NumAnimations = reader.ReadInt32();
+            this.AnimationKeys = new string[this.NumAnimations];
             for (int i = 0; i < this.NumAnimations; ++i)
                 this.AnimationKeys[i] = reader.ReadString();
         }

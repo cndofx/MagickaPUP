@@ -1,11 +1,7 @@
 ﻿using MagickaPUP.IO;
 using MagickaPUP.MagickaClasses.Data;
-using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -14,10 +10,10 @@ namespace MagickaPUP.MagickaClasses.Character
     {
         #region Variables
 
-        public Elements elements { get; set; } // The element which this resistance is resistant against. Originally named "ResistanceAgainst".
-        public float multiplier { get; set; }
-        public float modifier { get; set; }
-        public bool statusResistance { get; set; } // TODO : Figure out what this does. Probably determines whether you get a resistance against burning / cold / poisoned status effects (or any other status effect given by an element).
+        public Elements Elements { get; set; } // The element which this resistance is resistant against. Originally named "ResistanceAgainst".
+        public float Multiplier { get; set; }
+        public float Modifier { get; set; }
+        public bool StatusResistance { get; set; } // TODO : Figure out what this does. Probably determines whether you get a resistance against burning / cold / poisoned status effects (or any other status effect given by an element).
 
         #endregion
 
@@ -25,10 +21,34 @@ namespace MagickaPUP.MagickaClasses.Character
 
         public Resistance()
         {
-            this.elements = Elements.None;
-            this.multiplier = 1.0f;
-            this.modifier = 0.0f;
-            this.statusResistance = false;
+            this.Elements = Elements.None;
+            this.Multiplier = 1.0f;
+            this.Modifier = 0.0f;
+            this.StatusResistance = false;
+        }
+
+        public Resistance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading Resistance...");
+
+            this.Elements = (Elements)reader.ReadInt32();
+            this.Multiplier = reader.ReadSingle();
+            this.Modifier = reader.ReadSingle();
+            this.StatusResistance = reader.ReadBoolean();
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing Resistance...");
+
+            writer.Write((int)this.Elements);
+            writer.Write(this.Multiplier);
+            writer.Write(this.Modifier);
+            writer.Write(this.StatusResistance);
         }
 
         #endregion

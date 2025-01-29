@@ -70,6 +70,7 @@ namespace MagickaPUP.XnaClasses
     [JsonDerivedType(typeof(VertexDeclaration), typeDiscriminator: "xna_vertex_declaration")]
     [JsonDerivedType(typeof(Texture2D), typeDiscriminator: "xna_texture_2d")]
     [JsonDerivedType(typeof(Texture2DData), typeDiscriminator: "xna_texture_2d_data")]
+    [JsonDerivedType(typeof(CharacterTemplate), typeDiscriminator: "Character")]
     public class XnaObject
     {
         public virtual void ReadInstance(MBinaryReader reader, DebugLogger logger = null)

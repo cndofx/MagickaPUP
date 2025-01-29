@@ -23,13 +23,23 @@ namespace MagickaPUP.MagickaClasses.Character
 
         public MovementData(MBinaryReader reader, DebugLogger logger = null)
         {
+            logger?.Log(1, "Reading MovementData...");
+
             this.MovementProperties = (MovementProperties)reader.ReadByte();
             this.Animations = new string[reader.ReadInt32()];
             for (int i = 0; i < this.Animations.Length; ++i)
                 this.Animations[i] = reader.ReadString();
         }
 
-        // TODO : Implement writing logic...
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing MovementData...");
+
+            writer.Write((byte)this.MovementProperties);
+            writer.Write(this.Animations.Length);
+            foreach (var animation in this.Animations)
+                writer.Write(animation);
+        }
 
     }
 }

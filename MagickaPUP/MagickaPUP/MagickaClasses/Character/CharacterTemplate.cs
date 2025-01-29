@@ -29,118 +29,118 @@ namespace MagickaPUP.MagickaClasses.Character
         #region Variables
 
         // ID Strings
-        public string characterID { get; set; }
-        public string characterDisplayID { get; set; }
+        public string CharacterID { get; set; }
+        public string CharacterDisplayID { get; set; }
 
         // Enum data
-        [JsonConverter(typeof(JsonStringEnumConverter<Factions>))] public Factions faction { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter<Factions>))] public BloodType bloodType { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter<Factions>))] public Factions Faction { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter<Factions>))] public BloodType BloodType { get; set; }
 
         // Flags
-        public bool isEthereal { get; set; }
-        public bool looksEthereal { get; set; }
-        public bool isFearless { get; set; }
-        public bool isUncharmable { get; set; }
-        public bool isNonSlippery { get; set; }
-        public bool hasFairy { get; set; }
-        public bool canSeeInvisible { get; set; }
+        public bool IsEthereal { get; set; }
+        public bool LooksEthereal { get; set; }
+        public bool IsFearless { get; set; }
+        public bool IsUncharmable { get; set; }
+        public bool IsNonSlippery { get; set; }
+        public bool HasFairy { get; set; }
+        public bool CanSeeInvisible { get; set; }
 
         // Sounds
-        public int numAttachedSounds { get; set; }
-        public SoundHolder[] attachedSounds { get; set; }
+        public int NumAttachedSounds { get; set; }
+        public SoundHolder[] AttachedSounds { get; set; }
 
         // Gibs
-        public int numGibs { get; set; }
-        public GibReference[] gibs { get; set; }
+        public int NumGibs { get; set; }
+        public GibReference[] Gibs { get; set; }
 
         // Lights
-        public int numLights { get; set; }
-        public LightHolder[] lights { get; set; }
+        public int NumLights { get; set; }
+        public LightHolder[] Lights { get; set; }
 
         // Character Health Data
-        public float maxHitPoints { get; set; }
-        public int numHealthBars { get; set; }
+        public float MaxHitPoints { get; set; }
+        public int NumHealthBars { get; set; }
 
         // Character NPC Data Part 1
-        public bool isUndying { get; set; }
-        public float undieTime { get; set; }
-        public float undieHitPoints { get; set; }
-        public int hitTolerance { get; set; }
-        public float knockdownTolerance { get; set; }
-        public int scoreValue { get; set; }
-        public int experienceValue { get; set; }
-        public bool rewardOnKill { get; set; }
-        public bool rewardOnOverkill { get; set; }
-        public int regeneration { get; set; }
-        public float maxPanic { get; set; }
-        public float zapModifier { get; set; }
-        public float length { get; set; }
-        public float radius { get; set; }
-        public float mass { get; set; }
-        public float speed { get; set; }
-        public float turnSpeed { get; set; }
-        public float bleedRate { get; set; }
-        public float stunTime { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter<Banks>))] public Banks summonElementBank { get; set; }
-        public string summonElementCueString { get; set; }
+        public bool IsUndying { get; set; }
+        public float UndieTime { get; set; }
+        public float UndieHitPoints { get; set; }
+        public int HitTolerance { get; set; }
+        public float KnockdownTolerance { get; set; }
+        public int ScoreValue { get; set; }
+        public int ExperienceValue { get; set; }
+        public bool RewardOnKill { get; set; }
+        public bool RewardOnOverkill { get; set; }
+        public int Regeneration { get; set; }
+        public float MaxPanic { get; set; }
+        public float ZapModifier { get; set; }
+        public float Length { get; set; }
+        public float Radius { get; set; }
+        public float Mass { get; set; }
+        public float Speed { get; set; }
+        public float TurnSpeed { get; set; }
+        public float BleedRate { get; set; }
+        public float StunTime { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter<Banks>))] public Banks SummonElementBank { get; set; }
+        public string SummonElementCueString { get; set; }
 
         // Resistances
-        public int numResistances { get; set; }
-        public Resistance[] resistances { get; set; }
+        public int NumResistances { get; set; }
+        public Resistance[] Resistances { get; set; }
 
         // Model
-        public int numModelProperties { get; set; }
-        public ModelProperties[] modelProperties { get; set; }
-        public string skinnedModel { get; set; } /* ER */
+        public int NumModelProperties { get; set; }
+        public ModelProperties[] ModelProperties { get; set; }
+        public string SkinnedModel { get; set; } /* ER */
 
         // Attached Effects
         // first : bone name, second : effect name
-        public int numAttachedEffects { get; set; }
-        public EffectHolder[] attachedEffects;
+        public int NumAttachedEffects { get; set; }
+        public EffectHolder[] AttachedEffects;
 
         // Animation Data
-        public AnimationList[] animationClips { get; set; } // This "list" should ALWAYS contain 27 "lists" of 231 elements each.
+        public AnimationList[] AnimationClips { get; set; } // This "list" should ALWAYS contain 27 "lists" of 231 elements each.
 
         // Equipment Data
-        public int numEquipementAttachments { get; set; }
-        public EquipmentAttachment[] equipmentAttachments {get;set;}
+        public int NumEquipementAttachments { get; set; }
+        public EquipmentAttachment[] EquipmentAttachments {get;set;}
 
         // Event Data
-        public ConditionCollection conditions { get; set; }
+        public ConditionCollection Conditions { get; set; }
 
         // Character NPC Data Part 2
         // NOTE : These look like weights and such for the utility system, maybe?
         // TODO : Figure out what system they interact with and how it is implemented. It's not really necessary for the reader / writer impl, but it would be cool to know if this uses an US under the hood.
-        public float alertRadius { get; set; }
-        public float groupChase { get; set; }
-        public float groupSeparation { get; set; }
-        public float groupCohesion { get; set; }
-        public float groupAlignment { get; set; }
-        public float groupWander { get; set; }
-        public float friendlyAvoidance { get; set; }
-        public float enemyAvoidance { get; set; }
-        public float sightAvoidance { get; set; }
-        public float dangerAvoidance { get; set; }
-        public float angerWeight { get; set; }
-        public float distanceWeight { get; set; }
-        public float healthWeight { get; set; }
-        public bool flocking { get; set; }
-        public float breakFreeStrength { get; set; }
+        public float AlertRadius { get; set; }
+        public float GroupChase { get; set; }
+        public float GroupSeparation { get; set; }
+        public float GroupCohesion { get; set; }
+        public float GroupAlignment { get; set; }
+        public float GroupWander { get; set; }
+        public float FriendlyAvoidance { get; set; }
+        public float EnemyAvoidance { get; set; }
+        public float SightAvoidance { get; set; }
+        public float DangerAvoidance { get; set; }
+        public float AngerWeight { get; set; }
+        public float DistanceWeight { get; set; }
+        public float HealthWeight { get; set; }
+        public bool Flocking { get; set; }
+        public float BreakFreeStrength { get; set; }
 
         // Abilities
-        public int numAbilities { get; set; }
-        public Ability[] abilities {get;set;}
+        public int NumAbilities { get; set; }
+        public Ability[] Abilities {get;set;}
 
         // Movement Properties
-        public int numMovementData { get; set; }
-        public MovementData[] movementData { get; set; }
+        public int NumMovementData { get; set; }
+        public MovementData[] MovementData { get; set; }
 
         // Buff Data
-        public int numBuffs { get; set; }
+        public int NumBuffs { get; set; }
         public BuffStorage[] Buffs { get; set; } // Buff as in buffing a character's stats, not buffer...
 
         // Aura Data
-        public int numAuras { get; set; }
+        public int NumAuras { get; set; }
         public AuraStorage[] Auras { get; set; }
 
         #endregion
@@ -150,115 +150,115 @@ namespace MagickaPUP.MagickaClasses.Character
         public CharacterTemplate()
         {
             // ID Strings Initialization
-            this.characterID = default;
-            this.characterDisplayID = default;
+            this.CharacterID = default;
+            this.CharacterDisplayID = default;
             
             // Enum data initialization
-            this.faction = default;
-            this.bloodType = default;
+            this.Faction = default;
+            this.BloodType = default;
 
             // Flags initialization
-            this.isEthereal = false;
-            this.looksEthereal = false;
-            this.isFearless = false;
-            this.isUncharmable = false;
-            this.isNonSlippery = false;
-            this.hasFairy = false;
-            this.canSeeInvisible = false;
+            this.IsEthereal = false;
+            this.LooksEthereal = false;
+            this.IsFearless = false;
+            this.IsUncharmable = false;
+            this.IsNonSlippery = false;
+            this.HasFairy = false;
+            this.CanSeeInvisible = false;
 
             // Sounds initialization
-            this.numAttachedSounds = 0;
-            this.attachedSounds = new SoundHolder[4]; // we hard code 4 because this is all that Magicka ever uses.
+            this.NumAttachedSounds = 0;
+            this.AttachedSounds = new SoundHolder[4]; // we hard code 4 because this is all that Magicka ever uses.
 
             // Gibs initialization
-            this.numGibs = 0;
-            this.gibs = new GibReference[0];
+            this.NumGibs = 0;
+            this.Gibs = new GibReference[0];
 
             // Light initialization
-            this.numLights = 0;
-            this.lights = new LightHolder[0]; // a character in Magicka can only hold up to 4 light holders.
+            this.NumLights = 0;
+            this.Lights = new LightHolder[0]; // a character in Magicka can only hold up to 4 light holders.
 
             // Health initialization
-            this.maxHitPoints = 100.0f; // Maybe this value is not a good one for Magicka, but this is the default I'm going with for now lol...
-            this.numHealthBars = 1; // We should have at least 1 health bar, but even if we set it to 0 it does not matter, the reader code clamps it.
+            this.MaxHitPoints = 100.0f; // Maybe this value is not a good one for Magicka, but this is the default I'm going with for now lol...
+            this.NumHealthBars = 1; // We should have at least 1 health bar, but even if we set it to 0 it does not matter, the reader code clamps it.
 
             // Character Data initialization
-            this.isUndying = false;
-            this.undieTime = 0.0f;
-            this.undieHitPoints = 100.0f;
-            this.hitTolerance = 0;
-            this.knockdownTolerance = 0.0f;
-            this.scoreValue = 100;
-            this.experienceValue = 100;
-            this.rewardOnKill = true;
-            this.rewardOnOverkill = true;
-            this.regeneration = 10;
-            this.maxPanic = 1.0f;
-            this.zapModifier = 0.0f;
-            this.length = 1.0f;
-            this.radius = 1.0f;
-            this.mass = 1.0f;
-            this.speed = 100.0f;
-            this.turnSpeed = 10.0f;
-            this.bleedRate = 10.0f;
-            this.stunTime = 10.0f;
-            this.summonElementBank = default;
-            this.summonElementCueString = default;
+            this.IsUndying = false;
+            this.UndieTime = 0.0f;
+            this.UndieHitPoints = 100.0f;
+            this.HitTolerance = 0;
+            this.KnockdownTolerance = 0.0f;
+            this.ScoreValue = 100;
+            this.ExperienceValue = 100;
+            this.RewardOnKill = true;
+            this.RewardOnOverkill = true;
+            this.Regeneration = 10;
+            this.MaxPanic = 1.0f;
+            this.ZapModifier = 0.0f;
+            this.Length = 1.0f;
+            this.Radius = 1.0f;
+            this.Mass = 1.0f;
+            this.Speed = 100.0f;
+            this.TurnSpeed = 10.0f;
+            this.BleedRate = 10.0f;
+            this.StunTime = 10.0f;
+            this.SummonElementBank = default;
+            this.SummonElementCueString = default;
 
             // Resistances
-            this.numResistances = 0;
-            this.resistances = new Resistance[11]; // We hard code this to 11, just like Magicka does. Because there are only 11 elements that we should be capable of adding resistances for, with indices 0 to 10 (read the notes within Elements.cs for further context and information)
+            this.NumResistances = 0;
+            this.Resistances = new Resistance[11]; // We hard code this to 11, just like Magicka does. Because there are only 11 elements that we should be capable of adding resistances for, with indices 0 to 10 (read the notes within Elements.cs for further context and information)
 
             // Model
-            this.numModelProperties = 0;
-            this.modelProperties = new ModelProperties[0];
-            this.skinnedModel = default;
+            this.NumModelProperties = 0;
+            this.ModelProperties = new ModelProperties[0];
+            this.SkinnedModel = default;
 
             // Effects
-            this.numAttachedEffects = 0;
-            this.attachedEffects = new EffectHolder[0];
+            this.NumAttachedEffects = 0;
+            this.AttachedEffects = new EffectHolder[0];
 
             // Animations
-            this.animationClips = new AnimationList[TOTAL_ANIMATION_SETS];
+            this.AnimationClips = new AnimationList[TOTAL_ANIMATION_SETS];
 
             // Equipment Attachments
-            this.numEquipementAttachments = 0;
-            this.equipmentAttachments = new EquipmentAttachment[8]; // We hard code this to 8, just like Magicka does. We can have 8 attachments per character at most.
+            this.NumEquipementAttachments = 0;
+            this.EquipmentAttachments = new EquipmentAttachment[8]; // We hard code this to 8, just like Magicka does. We can have 8 attachments per character at most.
 
             // Event Data
-            this.conditions = new ConditionCollection();
+            this.Conditions = new ConditionCollection();
 
             // Character Data Initialization Part 2
-            this.alertRadius = default;
-            this.groupChase = default;
-            this.groupSeparation = default;
-            this.groupCohesion = default;
-            this.groupAlignment = default;
-            this.groupWander = default;
-            this.friendlyAvoidance = default;
-            this.enemyAvoidance = default;
-            this.sightAvoidance = default;
-            this.dangerAvoidance = default;
-            this.angerWeight = default;
-            this.distanceWeight = default;
-            this.healthWeight = default;
-            this.flocking = default;
-            this.breakFreeStrength = default;
+            this.AlertRadius = default;
+            this.GroupChase = default;
+            this.GroupSeparation = default;
+            this.GroupCohesion = default;
+            this.GroupAlignment = default;
+            this.GroupWander = default;
+            this.FriendlyAvoidance = default;
+            this.EnemyAvoidance = default;
+            this.SightAvoidance = default;
+            this.DangerAvoidance = default;
+            this.AngerWeight = default;
+            this.DistanceWeight = default;
+            this.HealthWeight = default;
+            this.Flocking = default;
+            this.BreakFreeStrength = default;
 
             // Abilities
-            this.numAbilities = 0;
-            this.abilities = new Ability[0];
+            this.NumAbilities = 0;
+            this.Abilities = new Ability[0];
 
             // Movement Data
-            this.numMovementData = 0;
-            this.movementData = new MovementData[0];
+            this.NumMovementData = 0;
+            this.MovementData = new MovementData[0];
 
             // Buff Data
-            this.numBuffs = 0;
+            this.NumBuffs = 0;
             this.Buffs = new BuffStorage[0];
 
             // Aura Data
-            this.numAuras = 0;
+            this.NumAuras = 0;
             this.Auras = new AuraStorage[0];
         }
 
@@ -278,40 +278,40 @@ namespace MagickaPUP.MagickaClasses.Character
             // how internally the game just "normalizes" the strings by passing them all to lowercase invariant to be able to compute consistent hashes.
             // We also don't do it because we don't really want to mutate the data. The idea is that if we decompile an XNB file and then recompile the JSON, we should
             // get the exact same file back (or maybe slightly different because now it has extra readers attached lol...)
-            this.characterID = reader.ReadString();
-            this.characterDisplayID = reader.ReadString();
+            this.CharacterID = reader.ReadString();
+            this.CharacterDisplayID = reader.ReadString();
 
-            logger?.Log(2, $" - CharacterID        : {this.characterID}");
-            logger?.Log(2, $" - CharacterDisplayID : {this.characterID}");
+            logger?.Log(2, $" - CharacterID        : {this.CharacterID}");
+            logger?.Log(2, $" - CharacterDisplayID : {this.CharacterID}");
 
             // Read enum data
-            this.faction = (Factions)reader.ReadInt32();
-            this.bloodType = (BloodType)reader.ReadInt32();
+            this.Faction = (Factions)reader.ReadInt32();
+            this.BloodType = (BloodType)reader.ReadInt32();
 
-            logger?.Log(2, $" - Faction   : {this.faction}");
-            logger?.Log(2, $" - BloodType : {this.bloodType}");
+            logger?.Log(2, $" - Faction   : {this.Faction}");
+            logger?.Log(2, $" - BloodType : {this.BloodType}");
 
             // Read flags
-            this.isEthereal = reader.ReadBoolean();
-            this.looksEthereal = reader.ReadBoolean();
-            this.isFearless = reader.ReadBoolean();
-            this.isUncharmable = reader.ReadBoolean();
-            this.isNonSlippery = reader.ReadBoolean();
-            this.hasFairy = reader.ReadBoolean();
-            this.canSeeInvisible = reader.ReadBoolean();
+            this.IsEthereal = reader.ReadBoolean();
+            this.LooksEthereal = reader.ReadBoolean();
+            this.IsFearless = reader.ReadBoolean();
+            this.IsUncharmable = reader.ReadBoolean();
+            this.IsNonSlippery = reader.ReadBoolean();
+            this.HasFairy = reader.ReadBoolean();
+            this.CanSeeInvisible = reader.ReadBoolean();
 
-            logger?.Log(2, $" - IsEthereal      : {this.isEthereal}");
-            logger?.Log(2, $" - LooskEthereal   : {this.looksEthereal}");
-            logger?.Log(2, $" - IsFearless      : {this.isFearless}");
-            logger?.Log(2, $" - IsUncharmable   : {this.isUncharmable}");
-            logger?.Log(2, $" - IsNonSlippery   : {this.isNonSlippery}");
-            logger?.Log(2, $" - HasFairy        : {this.hasFairy}");
-            logger?.Log(2, $" - CanSeeInvisible : {this.canSeeInvisible}");
+            logger?.Log(2, $" - IsEthereal      : {this.IsEthereal}");
+            logger?.Log(2, $" - LooskEthereal   : {this.LooksEthereal}");
+            logger?.Log(2, $" - IsFearless      : {this.IsFearless}");
+            logger?.Log(2, $" - IsUncharmable   : {this.IsUncharmable}");
+            logger?.Log(2, $" - IsNonSlippery   : {this.IsNonSlippery}");
+            logger?.Log(2, $" - HasFairy        : {this.HasFairy}");
+            logger?.Log(2, $" - CanSeeInvisible : {this.CanSeeInvisible}");
 
             // Read character sounds
-            this.numAttachedSounds = reader.ReadInt32(); // NOTE : To prevent having to store this value as a variable within this class and just working with the array input data from JSON, we could just initialize the attached sounds array to this input length here, and set the length to min(4, reader.readi32()), maybe do this in the future when we clean up all of the manually hard coded counts in the other JSON files for the level data and stuff?
-            logger?.Log(2, $" - NumAttachedSounds : {this.numAttachedSounds}");
-            for (int i = 0; i < this.numAttachedSounds; ++i)
+            this.NumAttachedSounds = reader.ReadInt32(); // NOTE : To prevent having to store this value as a variable within this class and just working with the array input data from JSON, we could just initialize the attached sounds array to this input length here, and set the length to min(4, reader.readi32()), maybe do this in the future when we clean up all of the manually hard coded counts in the other JSON files for the level data and stuff?
+            logger?.Log(2, $" - NumAttachedSounds : {this.NumAttachedSounds}");
+            for (int i = 0; i < this.NumAttachedSounds; ++i)
             {
                 #region Comment
                 // Can't read more than 4 sounds, since that is the max amount of sounds reserved by magicka for each CharacterTemplate, so we break out.
@@ -322,88 +322,88 @@ namespace MagickaPUP.MagickaClasses.Character
                 #endregion
                 if (i >= 4)
                     break;
-                this.attachedSounds[i] = SoundHolder.Read(reader, logger);
+                this.AttachedSounds[i] = SoundHolder.Read(reader, logger);
             }
 
             // Read character gibs (GORE!!!!!!! YEAH, BABY!!!! BLOOD!)
-            this.numGibs = reader.ReadInt32();
-            logger?.Log(2, $" - NumGibs : {this.numGibs}");
-            this.gibs = new GibReference[this.numGibs];
-            for(int i = 0; i < this.numGibs; ++i)
+            this.NumGibs = reader.ReadInt32();
+            logger?.Log(2, $" - NumGibs : {this.NumGibs}");
+            this.Gibs = new GibReference[this.NumGibs];
+            for(int i = 0; i < this.NumGibs; ++i)
             {
-                this.gibs[i] = GibReference.Read(reader, logger);
+                this.Gibs[i] = GibReference.Read(reader, logger);
             }
 
             // Read character lights
-            this.numLights = reader.ReadInt32();
-            logger?.Log(2, $" - NumLights : {this.numLights}");
-            this.lights = new LightHolder[this.numLights];
-            for (int i = 0; i < this.numLights; ++i)
+            this.NumLights = reader.ReadInt32();
+            logger?.Log(2, $" - NumLights : {this.NumLights}");
+            this.Lights = new LightHolder[this.NumLights];
+            for (int i = 0; i < this.NumLights; ++i)
             {
                 // Once again, there's a limit of 4 for these. In this case tho, Magicka does throw an exception if the found character has more than 4 point light holders!
                 if (i >= 4)
                     break;
-                this.lights[i] = LightHolder.Read(reader, logger);
+                this.Lights[i] = LightHolder.Read(reader, logger);
             }
 
             // Read character health data (HP and num health bars)
             // NOTE : The number of health bars should be at least 1 (duh). If the input is N <= 0, we set it to 1, just as Magicka does internally.
-            this.maxHitPoints = reader.ReadSingle();
-            this.numHealthBars = reader.ReadInt32();
-            if (this.numHealthBars <= 0)
-                this.numHealthBars = 1;
+            this.MaxHitPoints = reader.ReadSingle();
+            this.NumHealthBars = reader.ReadInt32();
+            if (this.NumHealthBars <= 0)
+                this.NumHealthBars = 1;
 
             // Read character data
-            this.isUndying = reader.ReadBoolean();
-            this.undieTime = reader.ReadSingle();
-            this.undieHitPoints = reader.ReadSingle();
-            this.hitTolerance = reader.ReadInt32();
-            this.knockdownTolerance = reader.ReadSingle();
-            this.scoreValue = reader.ReadInt32();
-            this.experienceValue = reader.ReadInt32();
-            this.rewardOnKill = reader.ReadBoolean();
-            this.rewardOnOverkill = reader.ReadBoolean();
-            this.regeneration = reader.ReadInt32();
-            this.maxPanic = reader.ReadSingle();
-            this.zapModifier = reader.ReadSingle();
-            this.length = reader.ReadSingle(); /* Math.Max(reader.ReadSingle(), 0.01f); */ // NOTE : this is limited with Math.Max(readValue, 0.01f) within Magicka's code, but we don't care about that here tbh
-            this.radius = reader.ReadSingle();
-            this.mass = reader.ReadSingle();
-            this.speed = reader.ReadSingle();
-            this.turnSpeed = reader.ReadSingle();
-            this.bleedRate = reader.ReadSingle();
-            this.stunTime = reader.ReadSingle();
-            this.summonElementBank = (Banks)reader.ReadInt32();
-            this.summonElementCueString = reader.ReadString();
+            this.IsUndying = reader.ReadBoolean();
+            this.UndieTime = reader.ReadSingle();
+            this.UndieHitPoints = reader.ReadSingle();
+            this.HitTolerance = reader.ReadInt32();
+            this.KnockdownTolerance = reader.ReadSingle();
+            this.ScoreValue = reader.ReadInt32();
+            this.ExperienceValue = reader.ReadInt32();
+            this.RewardOnKill = reader.ReadBoolean();
+            this.RewardOnOverkill = reader.ReadBoolean();
+            this.Regeneration = reader.ReadInt32();
+            this.MaxPanic = reader.ReadSingle();
+            this.ZapModifier = reader.ReadSingle();
+            this.Length = reader.ReadSingle(); /* Math.Max(reader.ReadSingle(), 0.01f); */ // NOTE : this is limited with Math.Max(readValue, 0.01f) within Magicka's code, but we don't care about that here tbh
+            this.Radius = reader.ReadSingle();
+            this.Mass = reader.ReadSingle();
+            this.Speed = reader.ReadSingle();
+            this.TurnSpeed = reader.ReadSingle();
+            this.BleedRate = reader.ReadSingle();
+            this.StunTime = reader.ReadSingle();
+            this.SummonElementBank = (Banks)reader.ReadInt32();
+            this.SummonElementCueString = reader.ReadString();
 
             // Read resistances (elemental resistances)
-            this.numResistances = reader.ReadInt32();
-            for (int i = 0; i < this.numResistances; ++i)
+            this.NumResistances = reader.ReadInt32();
+            for (int i = 0; i < this.NumResistances; ++i)
             {
                 Elements elements = (Elements)reader.ReadInt32();
                 int elementIdx = MagickaDefines.ElementIndex(elements);
-                this.resistances[elementIdx].elements = elements;
-                this.resistances[elementIdx].multiplier = reader.ReadSingle();
-                this.resistances[elementIdx].modifier = reader.ReadSingle();
-                this.resistances[elementIdx].statusResistance = reader.ReadBoolean();
+                this.Resistances[elementIdx].elements = elements;
+                this.Resistances[elementIdx].multiplier = reader.ReadSingle();
+                this.Resistances[elementIdx].modifier = reader.ReadSingle();
+                this.Resistances[elementIdx].statusResistance = reader.ReadBoolean();
             }
 
             // Read Model
-            this.numModelProperties = reader.ReadInt32();
-            this.modelProperties = new ModelProperties[this.numModelProperties];
-            for (int i = 0; i < this.numModelProperties; ++i)
+            this.NumModelProperties = reader.ReadInt32();
+            this.ModelProperties = new ModelProperties[this.NumModelProperties];
+            for (int i = 0; i < this.NumModelProperties; ++i)
             {
-                this.modelProperties[i] = ModelProperties.Read(reader, logger);
+                this.ModelProperties[i] = Character.ModelProperties.Read(reader, logger);
             }
-            this.skinnedModel = reader.ReadString(); /* ER */
+            this.SkinnedModel = reader.ReadString(); /* ER */
 
             // Read Attached Effects / Particles
             // NOTE : This is kinda similar to the mesh settings stuff for the level data, it comes in pairs where we assign a particle to a specific bone name. The bone acts as a socket for the particles.
-            this.numAttachedEffects = reader.ReadInt32();
-            this.attachedEffects = new EffectHolder[this.numAttachedEffects];
-            for (int i = 0; i < this.numAttachedEffects; ++i)
+            this.NumAttachedEffects = reader.ReadInt32();
+            this.AttachedEffects = new EffectHolder[this.NumAttachedEffects];
+            for (int i = 0; i < this.NumAttachedEffects; ++i)
             {
-                this.attachedEffects[i] = EffectHolder.Read(reader, logger);
+                this.AttachedEffects[i] = EffectHolder.Read(reader, logger);
             }
 
             // Read animation data
@@ -412,64 +412,64 @@ namespace MagickaPUP.MagickaClasses.Character
             // Not sure as of now what the implications of this are, or why the Magicka devs coded it like that, but here we are...
             // All I know is that there's a limit of 27 animation lists, and each list can hold at most 231 animations, which is the number of total animations
             // that exist in the "base" game (Magicka + DLCs, this value basically changes depending on what DLCs a given version has access to...)
-            for (int i = 0; i < this.animationClips.Length; ++i)
+            for (int i = 0; i < this.AnimationClips.Length; ++i)
             {
                 // TODO : Finish making sure that the implementation of the AnimationList reading process is correct...
                 // Remember that part of it comes from the loop within this class, since that is what the anim list class is abstracting away.
-                this.animationClips[i] = new AnimationList(reader, logger);
+                this.AnimationClips[i] = new AnimationList(reader, logger);
             }
 
             // Read Equipment Attachments
-            this.numEquipementAttachments = reader.ReadInt32();
-            for (int i = 0; i < this.numEquipementAttachments; ++i)
+            this.NumEquipementAttachments = reader.ReadInt32();
+            for (int i = 0; i < this.NumEquipementAttachments; ++i)
             {
-                this.equipmentAttachments[i] = EquipmentAttachment.Read(reader, logger);
+                this.EquipmentAttachments[i] = EquipmentAttachment.Read(reader, logger);
             }
 
             // Read Events into Condition Collection
-            this.conditions = ConditionCollection.Read(reader, logger);
+            this.Conditions = ConditionCollection.Read(reader, logger);
 
             // Read Character Data part 2
-            this.alertRadius = reader.ReadSingle();
-            this.groupChase = reader.ReadSingle();
-            this.groupSeparation = reader.ReadSingle();
-            this.groupCohesion = reader.ReadSingle();
-            this.groupAlignment = reader.ReadSingle();
-            this.groupWander = reader.ReadSingle();
-            this.friendlyAvoidance = reader.ReadSingle();
-            this.enemyAvoidance = reader.ReadSingle();
-            this.sightAvoidance = reader.ReadSingle();
-            this.dangerAvoidance = reader.ReadSingle();
-            this.angerWeight = reader.ReadSingle();
-            this.distanceWeight = reader.ReadSingle();
-            this.healthWeight = reader.ReadSingle();
-            this.flocking = reader.ReadBoolean();
-            this.breakFreeStrength = reader.ReadSingle();
+            this.AlertRadius = reader.ReadSingle();
+            this.GroupChase = reader.ReadSingle();
+            this.GroupSeparation = reader.ReadSingle();
+            this.GroupCohesion = reader.ReadSingle();
+            this.GroupAlignment = reader.ReadSingle();
+            this.GroupWander = reader.ReadSingle();
+            this.FriendlyAvoidance = reader.ReadSingle();
+            this.EnemyAvoidance = reader.ReadSingle();
+            this.SightAvoidance = reader.ReadSingle();
+            this.DangerAvoidance = reader.ReadSingle();
+            this.AngerWeight = reader.ReadSingle();
+            this.DistanceWeight = reader.ReadSingle();
+            this.HealthWeight = reader.ReadSingle();
+            this.Flocking = reader.ReadBoolean();
+            this.BreakFreeStrength = reader.ReadSingle();
 
             // Abilities
-            this.numAbilities = reader.ReadInt32();
-            this.abilities = new Ability[numAbilities];
-            for (int i = 0; i < this.numAbilities; ++i)
+            this.NumAbilities = reader.ReadInt32();
+            this.Abilities = new Ability[NumAbilities];
+            for (int i = 0; i < this.NumAbilities; ++i)
             {
-                this.abilities[i] = Ability.Read(reader, logger);
+                this.Abilities[i] = Ability.Read(reader, logger);
             }
 
             // Movement Data
-            this.numMovementData = reader.ReadInt32();
-            this.movementData = new MovementData[this.numMovementData];
-            for (int i = 0; i < this.numMovementData; ++i)
-                movementData[i] = new MovementData(reader, logger);
+            this.NumMovementData = reader.ReadInt32();
+            this.MovementData = new MovementData[this.NumMovementData];
+            for (int i = 0; i < this.NumMovementData; ++i)
+                MovementData[i] = new MovementData(reader, logger);
 
             // Buff Data
-            this.numBuffs = reader.ReadInt32();
-            this.Buffs = new BuffStorage[this.numBuffs];
-            for(int i = 0; i < this.numBuffs; ++i)
+            this.NumBuffs = reader.ReadInt32();
+            this.Buffs = new BuffStorage[this.NumBuffs];
+            for(int i = 0; i < this.NumBuffs; ++i)
                 this.Buffs[i] = new BuffStorage(reader, logger);
 
             // Aura Data
-            this.numAuras = reader.ReadInt32();
-            this.Auras = new AuraStorage[this.numAuras];
-            for (int i = 0; i < this.numAuras; ++i)
+            this.NumAuras = reader.ReadInt32();
+            this.Auras = new AuraStorage[this.NumAuras];
+            for (int i = 0; i < this.NumAuras; ++i)
                 this.Auras[i] = new AuraStorage(reader, logger);
         }
 

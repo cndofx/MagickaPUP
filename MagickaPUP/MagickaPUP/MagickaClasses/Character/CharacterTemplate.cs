@@ -13,6 +13,7 @@ using MagickaPUP.MagickaClasses.Character.Buffs;
 using MagickaPUP.MagickaClasses.Character.Aura;
 using System.Text.Json.Serialization;
 using MagickaPUP.Utility.Exceptions;
+using System.Runtime.Remoting.Messaging;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -310,7 +311,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.NumAttachedSounds = reader.ReadInt32(); // NOTE : To prevent having to store this value as a variable within this class and just working with the array input data from JSON, we could just initialize the attached sounds array to this input length here, and set the length to min(4, reader.readi32()), maybe do this in the future when we clean up all of the manually hard coded counts in the other JSON files for the level data and stuff?
             logger?.Log(2, $" - NumAttachedSounds : {this.NumAttachedSounds}");
             if (this.NumAttachedSounds > 4)
-                throw new MagickaLoadException($"CharacterTemplate cannot contain more than 4 attached sounds, but {this.NumAttachedSounds} were found!");
+                throw new MagickaLoadException(GetExceptionNumAttachedSounds());
             
             for (int i = 0; i < this.NumAttachedSounds; ++i)
             {
@@ -338,12 +339,14 @@ namespace MagickaPUP.MagickaClasses.Character
             // Read character lights
             this.NumLights = reader.ReadInt32();
             logger?.Log(2, $" - NumLights : {this.NumLights}");
+            if (this.NumLights > 4)
+                throw new MagickaLoadException(GetExceptionNumLights());
             this.Lights = new LightHolder[this.NumLights];
             for (int i = 0; i < this.NumLights; ++i)
             {
                 // Once again, there's a limit of 4 for these. In this case tho, Magicka does throw an exception if the found character has more than 4 point light holders!
-                if (i >= 4)
-                    break;
+                // if (i >= 4)
+                //     break;
                 this.Lights[i] = LightHolder.Read(reader, logger);
             }
 
@@ -485,6 +488,76 @@ namespace MagickaPUP.MagickaClasses.Character
         {
             logger?.Log(1, "Writing CharacterTemplate...");
 
+            // Character ID Strings
+            writer.Write(this.CharacterID);
+            writer.Write(this.CharacterDisplayID);
+
+            // Faction and blood enums
+            writer.Write((int)this.Faction);
+            writer.Write((int)this.BloodType);
+
+            // Character properties (1)
+            writer.Write(this.IsEthereal);
+            writer.Write(this.LooksEthereal);
+            writer.Write(this.IsFearless);
+            writer.Write(this.IsUncharmable);
+            writer.Write(this.IsNonSlippery);
+            writer.Write(this.HasFairy);
+            writer.Write(this.CanSeeInvisible);
+
+            // Sounds
+            writer.Write(this.NumAttachedSounds);
+            if (this.NumAttachedSounds > 4)
+                throw new MagickaWriteException(GetExceptionNumAttachedSounds());
+            for (int i = 0; i < this.NumAttachedSounds; ++i)
+                this.AttachedSounds[i].WriteInstance(writer, logger);
+
+            // Gibs
+            writer.Write(this.NumGibs);
+            for (int i = 0; i < this.NumGibs; ++i)
+                this.Gibs[i].WriteInstance(writer, logger);
+
+            // Lights
+            writer.Write(this.NumLights);
+            if (this.NumLights > 4)
+                throw new MagickaWriteException(GetExceptionNumLights());
+            for (int i = 0; i < this.NumLights; ++i)
+                this.Lights[i].WriteInstance(writer, logger);
+
+            // Health
+            writer.Write(this.MaxHitPoints);
+            writer.Write(this.NumHealthBars);
+
+            // Character properties (2)
+            writer.Write(this.IsUndying);
+            writer.Write(this.UndieTime);
+            writer.Write(this.UndieHitPoints);
+            writer.Write(this.HitTolerance);
+            writer.Write(this.KnockdownTolerance);
+            writer.Write(this.ScoreValue);
+            writer.Write(this.ExperienceValue);
+            writer.Write(this.RewardOnKill);
+            writer.Write(this.RewardOnOverkill);
+            writer.Write(this.Regeneration);
+            writer.Write(this.MaxPanic);
+            writer.Write(this.ZapModifier);
+            writer.Write(this.Length);
+            writer.Write(this.Radius);
+            writer.Write(this.Mass);
+            writer.Write(this.Speed);
+            writer.Write(this.TurnSpeed);
+            writer.Write(this.BleedRate);
+            writer.Write(this.StunTime);
+            writer.Write((int)this.SummonElementBank);
+            writer.Write(this.SummonElementCueString);
+
+            // Resistances
+            writer.Write(this.NumResistances);
+            foreach (var resistance in this.Resistances)
+            {
+                // TODO : Finish implementing
+            }
+
             throw new NotImplementedException("Write Character Template not implemented yet!");
         }
 
@@ -496,6 +569,17 @@ namespace MagickaPUP.MagickaClasses.Character
         #endregion
 
         #region PrivateMethods
+
+        private string GetExceptionNumAttachedSounds()
+        {
+            return $"CharacterTemplate cannot contain more than 4 attached sounds, but {this.NumAttachedSounds} were found!";
+        }
+
+        private string GetExceptionNumLights()
+        {
+            return $"CharacterTemplate cannot contain more than 4 attached lights, but {this.NumLights} were found!";
+        }
+
         #endregion
     }
 }

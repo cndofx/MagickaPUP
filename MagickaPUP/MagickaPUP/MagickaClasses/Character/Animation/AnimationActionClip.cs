@@ -25,6 +25,17 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
 
         #region Constructor
 
+        public AnimationActionClip()
+        {
+            this.animationName = string.Empty;
+            this.animationKey = string.Empty;
+            this.animationSpeed = 1.0f;
+            this.blendTime = 1.0f;
+            this.loopAnimation = false;
+            this.numActions = 0;
+            this.actions = new AnimationActionStorage[0];
+        }
+
         public AnimationActionClip(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading AnimationActionClip...");

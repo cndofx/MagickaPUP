@@ -11,6 +11,7 @@ using MagickaPUP.MagickaClasses.Character.Events;
 using MagickaPUP.MagickaClasses.Character.Abilities;
 using MagickaPUP.MagickaClasses.Character.Buffs;
 using MagickaPUP.MagickaClasses.Character.Aura;
+using System.Text.Json.Serialization;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -32,8 +33,8 @@ namespace MagickaPUP.MagickaClasses.Character
         public string characterDisplayID { get; set; }
 
         // Enum data
-        public Factions faction { get; set; }
-        public BloodType bloodType { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter<Factions>))] public Factions faction { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter<Factions>))] public BloodType bloodType { get; set; }
 
         // Flags
         public bool isEthereal { get; set; }
@@ -80,7 +81,7 @@ namespace MagickaPUP.MagickaClasses.Character
         public float turnSpeed { get; set; }
         public float bleedRate { get; set; }
         public float stunTime { get; set; }
-        public Banks summonElementBank { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter<Banks>))] public Banks summonElementBank { get; set; }
         public string summonElementCueString { get; set; }
 
         // Resistances

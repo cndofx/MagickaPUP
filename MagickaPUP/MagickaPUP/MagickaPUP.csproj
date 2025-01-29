@@ -131,6 +131,7 @@
     <Compile Include="MagickaClasses\Character\Animation\Derived\ThrowGrip.cs" />
     <Compile Include="MagickaClasses\Character\Animation\Derived\Tongue.cs" />
     <Compile Include="MagickaClasses\Character\Animation\Derived\WeaponVisibility.cs" />
+    <Compile Include="MagickaClasses\Data\AnimationActionType.cs" />
     <Compile Include="MagickaClasses\Data\Animations.cs" />
     <Compile Include="MagickaClasses\Character\Attachments\EffectHolder.cs" />
     <Compile Include="MagickaClasses\Character\Attachments\EquipmentAttachment.cs" />

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
-    public class EventCollection : XnaObject
+    public class EventCollection
     {
         #region Variables
 
@@ -21,13 +21,13 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         #region Constructor
 
         public EventCollection()
-        { }
+        {
+            this.EventCondition = new EventCondition();
+            this.NumEvents = 0;
+            this.Events = new EventStorage[0];
+        }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public EventCollection(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading EventCollection...");
 
@@ -37,14 +37,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
                 this.Events[i] = EventStorage.Read(reader, logger);
         }
 
-        public static EventCollection Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new EventCollection();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing EventCollection...");
             throw new NotImplementedException("Write EventCollection not implemented yet!");

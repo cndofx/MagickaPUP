@@ -14,6 +14,9 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
 {
     public abstract class AnimationAction
     {
-        
+        public AnimationAction()
+        { }
+
+        public abstract void Write(MBinaryWriter writer, DebugLogger logger = null);
     }
 }

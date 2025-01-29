@@ -70,7 +70,10 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
         public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing AnimationList...");
-            throw new NotImplementedException("Write AnimationList is not implemented yet!");
+
+            writer.Write(this.numAnimationClips);
+            foreach (var clip in this.animationClips)
+                clip.Write(writer, logger);
         }
 
         #endregion

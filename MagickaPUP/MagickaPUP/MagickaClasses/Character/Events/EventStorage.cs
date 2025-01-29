@@ -12,7 +12,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
     // This class is a major pain in the fucking asshole and I will not miss having had to work on it.
     // Whoever programmed Magicka's event system should be in jail. That is all I can say.
     // Ok, maybe it wasn't THAT bad... lol...
-    public class EventStorage : XnaObject
+    public class EventStorage
     {
         #region Variables
 
@@ -29,11 +29,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Event = default;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public EventStorage(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading EventStorage...");
 
@@ -101,14 +97,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             }
         }
 
-        public static EventStorage Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new EventStorage();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing EventStorage...");
             throw new NotImplementedException("Write EventStorage is not implemented yet!");

@@ -209,7 +209,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Resistances
             this.NumResistances = 0;
-            this.Resistances = new Resistance[11]; // We hard code this to 11, just like Magicka does. Because there are only 11 elements that we should be capable of adding resistances for, with indices 0 to 10 (read the notes within Elements.cs for further context and information)
+            this.Resistances = new Resistance[0]; // NOTE : We used to hard code this to 11, just like Magicka does, because there are only 11 elements that we should be capable of adding resistances for, with indices 0 to 10 (read the notes within Elements.cs for further context and information), but tbh Magicka does not really impose a hard limit of how many resistances can be stored within the XNB file, so we should just uncap this.
 
             // Model
             this.NumModelProperties = 0;
@@ -382,14 +382,10 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Read resistances (elemental resistances)
             this.NumResistances = reader.ReadInt32();
+            this.Resistances = new Resistance[this.NumResistances];
             for (int i = 0; i < this.NumResistances; ++i)
             {
-                Elements elements = (Elements)reader.ReadInt32();
-                int elementIdx = MagickaDefines.ElementIndex(elements);
-                this.Resistances[elementIdx].elements = elements;
-                this.Resistances[elementIdx].multiplier = reader.ReadSingle();
-                this.Resistances[elementIdx].modifier = reader.ReadSingle();
-                this.Resistances[elementIdx].statusResistance = reader.ReadBoolean();
+                this.Resistances[i] = new Resistance(reader, logger);
             }
 
             // Read Model
@@ -554,9 +550,7 @@ namespace MagickaPUP.MagickaClasses.Character
             // Resistances
             writer.Write(this.NumResistances);
             foreach (var resistance in this.Resistances)
-            {
-                // TODO : Finish implementing
-            }
+                resistance.Write(writer, logger);
 
             throw new NotImplementedException("Write Character Template not implemented yet!");
         }

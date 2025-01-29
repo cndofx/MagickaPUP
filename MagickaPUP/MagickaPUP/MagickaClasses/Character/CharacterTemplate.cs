@@ -35,7 +35,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
         // Enum data
         [JsonConverter(typeof(JsonStringEnumConverter<Factions>))] public Factions Faction { get; set; }
-        [JsonConverter(typeof(JsonStringEnumConverter<Factions>))] public BloodType BloodType { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter<BloodType>))] public BloodType BloodType { get; set; }
 
         // Flags
         public bool IsEthereal { get; set; }
@@ -266,9 +266,6 @@ namespace MagickaPUP.MagickaClasses.Character
         #endregion
 
         #region PublicMethods
-        #endregion
-
-        #region PrivateMethods
 
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
@@ -496,6 +493,9 @@ namespace MagickaPUP.MagickaClasses.Character
             return "Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral";
         }
 
+        #endregion
+
+        #region PrivateMethods
         #endregion
     }
 }

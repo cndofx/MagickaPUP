@@ -13,7 +13,6 @@ namespace MagickaPUP.MagickaClasses.Data
         Black,
         Wood,
         Insect,
-        None,
-        COUNT // custom addition, not present in the base game's code
+        None
     }
 }

@@ -39,58 +39,6 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities
             if (!success)
                 throw new MagickaLoadException($"The specified Ability Type does not exist! (\"{this.AbilityName}\")");
 
-            switch (abilityType)
-            {
-                case AbilityType.Block:
-                    this.Ability = new Block();
-                    break;
-                case AbilityType.CastSpell:
-                    this.Ability = new CastSpell();
-                    break;
-                case AbilityType.ConfuseGrip:
-                    this.Ability = new ConfuseGrip();
-                    break;
-                case AbilityType.DamageGrip:
-                    this.Ability = new DamageGrip();
-                    break;
-                case AbilityType.Dash:
-                    this.Ability = new Dash();
-                    break;
-                case AbilityType.ElementalSteal:
-                    this.Ability = new ElementSteal();
-                    break;
-                case AbilityType.GripCharacterFromBehind:
-                    this.Ability = new GripCharacterFromBehind();
-                    break;
-                case AbilityType.Jump:
-                    this.Ability = new Jump();
-                    break;
-                case AbilityType.Melee:
-                    this.Ability = new Melee();
-                    break;
-                case AbilityType.PickUpCharacter:
-                    this.Ability = new PickUpCharacter();
-                    break;
-                case AbilityType.Ranged:
-                    this.Ability = new Ranged();
-                    break;
-                case AbilityType.RemoveStatus:
-                    this.Ability = new RemoveStatus();
-                    break;
-                case AbilityType.SpecialAbilityAbility: // can't get over the fact that this is an actual name, damn... lmao.
-                    this.Ability = new SpecialAbilityAbility();
-                    break;
-                case AbilityType.ThrowGrip:
-                    this.Ability = new ThrowGrip();
-                    break;
-                case AbilityType.ZombieGrip:
-                    this.Ability = new ZombieGrip();
-                    break;
-                default:
-                    throw new MagickaLoadException("WTF this should never happen!!! (Ability.cs)"); // lol
-                    break; // OMEGALUL
-            }
-
             this.Cooldown = reader.ReadSingle();
             this.Target = (Target)reader.ReadByte();
             this.HasFuzzyExpression = reader.ReadBoolean();
@@ -101,7 +49,57 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities
             for (int i = 0; i < this.NumAnimations; ++i)
                 this.AnimationKeys[i] = reader.ReadString();
 
-            this.Ability.ReadInstance(reader, logger);
+            switch (abilityType)
+            {
+                case AbilityType.Block:
+                    this.Ability = new Block(reader, logger);
+                    break;
+                case AbilityType.CastSpell:
+                    this.Ability = new CastSpell(reader, logger);
+                    break;
+                case AbilityType.ConfuseGrip:
+                    this.Ability = new ConfuseGrip(reader, logger);
+                    break;
+                case AbilityType.DamageGrip:
+                    this.Ability = new DamageGrip(reader, logger);
+                    break;
+                case AbilityType.Dash:
+                    this.Ability = new Dash(reader, logger);
+                    break;
+                case AbilityType.ElementalSteal:
+                    this.Ability = new ElementSteal(reader, logger);
+                    break;
+                case AbilityType.GripCharacterFromBehind:
+                    this.Ability = new GripCharacterFromBehind(reader, logger);
+                    break;
+                case AbilityType.Jump:
+                    this.Ability = new Jump(reader, logger);
+                    break;
+                case AbilityType.Melee:
+                    this.Ability = new Melee(reader, logger);
+                    break;
+                case AbilityType.PickUpCharacter:
+                    this.Ability = new PickUpCharacter(reader, logger);
+                    break;
+                case AbilityType.Ranged:
+                    this.Ability = new Ranged(reader, logger);
+                    break;
+                case AbilityType.RemoveStatus:
+                    this.Ability = new RemoveStatus(reader, logger);
+                    break;
+                case AbilityType.SpecialAbilityAbility: // can't get over the fact that this is an actual name, damn... lmao.
+                    this.Ability = new SpecialAbilityAbility(reader, logger);
+                    break;
+                case AbilityType.ThrowGrip:
+                    this.Ability = new ThrowGrip(reader, logger);
+                    break;
+                case AbilityType.ZombieGrip:
+                    this.Ability = new ZombieGrip(reader, logger);
+                    break;
+                default:
+                    throw new MagickaLoadException("WTF this should never happen!!! (Ability.cs)"); // lol...
+                    break; // OMEGALUL
+            }
         }
 
         public void Write(MBinaryWriter writer, DebugLogger logger = null)

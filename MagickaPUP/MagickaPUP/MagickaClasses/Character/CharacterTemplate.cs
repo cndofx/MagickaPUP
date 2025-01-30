@@ -131,7 +131,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
         // Abilities
         public int NumAbilities { get; set; }
-        public Ability[] Abilities {get;set;}
+        public AbilityStorage[] Abilities {get;set;}
 
         // Movement Properties
         public int NumMovementData { get; set; }
@@ -249,7 +249,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Abilities
             this.NumAbilities = 0;
-            this.Abilities = new Ability[0];
+            this.Abilities = new AbilityStorage[0];
 
             // Movement Data
             this.NumMovementData = 0;
@@ -449,10 +449,10 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Abilities
             this.NumAbilities = reader.ReadInt32();
-            this.Abilities = new Ability[NumAbilities];
+            this.Abilities = new AbilityStorage[NumAbilities];
             for (int i = 0; i < this.NumAbilities; ++i)
             {
-                this.Abilities[i] = Ability.Read(reader, logger);
+                this.Abilities[i] = new AbilityStorage(reader, logger);
             }
 
             // Movement Data
@@ -596,7 +596,7 @@ namespace MagickaPUP.MagickaClasses.Character
             // Abilities
             writer.Write(this.NumAbilities);
             foreach (var ability in this.Abilities)
-                ability.WriteInstance(writer, logger);
+                ability.Write(writer, logger);
 
             // Movement
             writer.Write(this.NumMovementData);

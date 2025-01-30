@@ -43,7 +43,6 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
 
             int numElements = reader.ReadInt32(); // NOTE : I'm experimenting with this idea of not storing the number of elements within arrays and lists manually within the JSON since this should be obtained automatically when reading and encoded within the array / list object itself...
             this.Elements = new Elements[numElements];
-
             for (int i = 0; i < numElements; ++i)
                 this.Elements[i] = (Elements)reader.ReadInt32();
         }
@@ -51,7 +50,17 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
         public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing CastSpell Ability...");
-            throw new NotImplementedException("Write CastSpell Ability is not implemented yet!");
+
+            writer.Write(this.MinRange);
+            writer.Write(this.MaxRange);
+            writer.Write(this.Arc);
+            writer.Write(this.ChantSpeed);
+            writer.Write(this.Power);
+            writer.Write((int)this.CastType);
+
+            writer.Write((int)Elements.Length);
+            foreach (var element in this.Elements)
+                writer.Write((int)element);
         }
     }
 }

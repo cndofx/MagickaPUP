@@ -24,6 +24,8 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities
     // according to the type rather than holding it through polymorphism, since we don't implement the logic in the end...
     // Also maybe C unions would have made this orders of magnitude easier and less boilerplate-y, but whatever... "high level languages" or something...
 
+    // Speaking of C! The fucking tag list ahead was generated with a simple C program. Couldn't be assed to write all that shit by hand.
+
     [JsonDerivedType(typeof(Block), typeDiscriminator: "Block")]
     [JsonDerivedType(typeof(CastSpell), typeDiscriminator: "CastSpell")]
     [JsonDerivedType(typeof(ConfuseGrip), typeDiscriminator: "ConfuseGrip")]

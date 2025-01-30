@@ -35,7 +35,11 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
         public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing SpecialAbilityAbility Ability...");
-            throw new NotImplementedException("Write SpecialAbilityAbility Ability is not implemented yet!");
+
+            writer.Write(this.MaxRange);
+            writer.Write(this.MinRange);
+            writer.Write(this.Angle);
+            writer.Write(this.Weapon);
         }
     }
 }

@@ -36,9 +36,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             int numWeapons = reader.ReadInt32();
             this.Weapons = new int[numWeapons];
             for (int i = 0; i < numWeapons; ++i)
-            {
                 this.Weapons[i] = reader.ReadInt32();
-            }
 
             this.Rotate = reader.ReadBoolean();
         }
@@ -46,7 +44,16 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
         public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Melee Ability...");
-            throw new NotImplementedException("Write Melee Ability is not implemented yet!");
+
+            writer.Write(this.MinRange);
+            writer.Write(this.MaxRange);
+            writer.Write(this.Arc);
+
+            writer.Write((int)this.Weapons.Length);
+            foreach (var weapon in this.Weapons)
+                writer.Write(weapon);
+
+            writer.Write(this.Rotate);
         }
 
     }

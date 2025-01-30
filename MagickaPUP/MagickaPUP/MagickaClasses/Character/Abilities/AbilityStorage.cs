@@ -105,7 +105,19 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities
         public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing AbilityStorage...");
-            throw new NotImplementedException("Write AbilityStorage is not implemented yet!");
+
+            writer.Write(this.AbilityName);
+
+            writer.Write(this.Cooldown);
+            writer.Write((byte)this.Target);
+            writer.Write(this.HasFuzzyExpression);
+            if (this.HasFuzzyExpression)
+                writer.Write(this.FuzzyExpression);
+            writer.Write(this.NumAnimations);
+            foreach (var key in this.AnimationKeys)
+                writer.Write(key);
+
+            this.Ability.Write(writer, logger);
         }
     }
 }

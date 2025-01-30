@@ -37,7 +37,11 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
         public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Dash Ability...");
-            throw new NotImplementedException("Write Dash Ability is not implemented yet!");
+
+            writer.Write(this.MinRange);
+            writer.Write(this.MinRange);
+            writer.Write(this.Arc);
+            this.Vector.WriteInstance(writer, logger);
         }
     }
 }

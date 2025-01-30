@@ -83,6 +83,7 @@
     <Compile Include="IO\MWriter.cs" />
     <Compile Include="MagickaClasses\Audio\Banks.cs" />
     <Compile Include="MagickaClasses\Character\Abilities\Ability.cs" />
+    <Compile Include="MagickaClasses\Character\Abilities\AbilityStorage.cs" />
     <Compile Include="MagickaClasses\Character\Abilities\AbilityType.cs" />
     <Compile Include="MagickaClasses\Character\Abilities\Derived\Block.cs" />
     <Compile Include="MagickaClasses\Character\Abilities\Derived\CastSpell.cs" />

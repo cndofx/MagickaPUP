@@ -46,7 +46,16 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
         public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Ranged Ability...");
-            throw new NotImplementedException("Write Ranged Ability is not implemented yet!");
+
+            writer.Write(this.MinRange);
+            writer.Write(this.MaxRange);
+            writer.Write(this.Elevation);
+            writer.Write(this.Arc);
+            writer.Write(this.Accuracy);
+
+            writer.Write((int)this.Weapons.Length);
+            foreach (var weapon in this.Weapons)
+                writer.Write(weapon);
         }
 
     }

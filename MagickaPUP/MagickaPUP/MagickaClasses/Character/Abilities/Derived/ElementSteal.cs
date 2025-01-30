@@ -30,6 +30,9 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
         public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ElementSteal Ability...");
+
+            writer.Write(this.Range);
+            writer.Write(this.Angle);
         }
     }
 }

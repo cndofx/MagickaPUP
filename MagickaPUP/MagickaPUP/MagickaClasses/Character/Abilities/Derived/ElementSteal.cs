@@ -19,7 +19,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Angle = 0.0f;
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public ElementSteal(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading ElementSteal Ability...");
 
@@ -27,7 +27,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Angle = reader.ReadSingle();
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ElementSteal Ability...");
         }

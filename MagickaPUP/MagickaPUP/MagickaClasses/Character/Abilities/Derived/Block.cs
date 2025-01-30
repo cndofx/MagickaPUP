@@ -18,7 +18,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Shield = 0;
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public Block(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Block Ability...");
 
@@ -26,7 +26,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Shield = reader.ReadInt32();
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Block Ability...");
 

@@ -22,9 +22,9 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Weapon = 0;
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public SpecialAbilityAbility(MBinaryReader reader, DebugLogger logger = null)
         {
-            logger?.Log(1, "Reading SpecialAbilityAbility...");
+            logger?.Log(1, "Reading SpecialAbilityAbility Ability...");
 
             this.MaxRange = reader.ReadSingle();
             this.MinRange = reader.ReadSingle();
@@ -32,10 +32,10 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Weapon = reader.ReadInt32();
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
-            logger?.Log(1, "Writing SpecialAbilityAbility...");
-            throw new NotImplementedException("Write SpecialAbilityAbility is not implemented yet!");
+            logger?.Log(1, "Writing SpecialAbilityAbility Ability...");
+            throw new NotImplementedException("Write SpecialAbilityAbility Ability is not implemented yet!");
         }
     }
 }

@@ -13,12 +13,12 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
         public ConfuseGrip()
         { }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public ConfuseGrip(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading ConfuseGrip Ability...");
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ConfuseGrip Ability...");
         }

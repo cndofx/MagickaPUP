@@ -26,7 +26,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.DropAnimation = string.Empty;
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public ZombieGrip(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading ZombieGrip Ability...");
 
@@ -37,7 +37,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.DropAnimation = reader.ReadString();
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ZombieGrip Ability...");
 

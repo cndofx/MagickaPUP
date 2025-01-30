@@ -25,7 +25,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Rotate = false;
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public Melee(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Melee Ability...");
 
@@ -43,7 +43,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Rotate = reader.ReadBoolean();
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Melee Ability...");
             throw new NotImplementedException("Write Melee Ability is not implemented yet!");

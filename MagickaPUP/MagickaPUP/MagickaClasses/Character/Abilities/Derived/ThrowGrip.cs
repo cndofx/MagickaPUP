@@ -13,7 +13,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
         public float Elevation { get; set; }
         public Damage[] Damage { get; set; } // NOTE : The max amount of damage fields allowed here is any value, but Magicka clamps this to min(count, 4), so we should have 4 fields at most for correctness...
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public ThrowGrip(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading ThrowGrip Ability...");
 
@@ -41,7 +41,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             }
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ThrowGrip Ability...");
             throw new NotImplementedException("Write ThrowGrip Ability is not implemented yet!");

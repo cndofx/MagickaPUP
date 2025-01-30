@@ -27,7 +27,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Weapons = new int[0];
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public Ranged(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Ranged Ability...");
 
@@ -43,7 +43,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
                 this.Weapons[i] = reader.ReadInt32();
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Ranged Ability...");
             throw new NotImplementedException("Write Ranged Ability is not implemented yet!");

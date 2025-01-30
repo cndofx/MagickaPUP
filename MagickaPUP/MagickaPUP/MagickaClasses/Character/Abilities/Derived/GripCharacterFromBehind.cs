@@ -22,7 +22,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.MaxWeight = 0.0f;
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public GripCharacterFromBehind(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading GripCharacterFromBehind Ability...");
 
@@ -32,7 +32,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.MaxWeight = reader.ReadSingle();
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing GripCharacterFromBehind Ability...");
             throw new NotImplementedException("Write GripCharacterFromBehind is not implemented yet!");

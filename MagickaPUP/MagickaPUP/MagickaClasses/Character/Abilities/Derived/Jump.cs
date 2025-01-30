@@ -24,7 +24,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Elevation = 1.0f;
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public Jump(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Jump Ability...");
 
@@ -34,7 +34,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Elevation = reader.ReadSingle();
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Jump Ability...");
             throw new NotImplementedException("Write Jump Ability is not implemented yet!");

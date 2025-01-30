@@ -24,7 +24,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Vector = new Vec3();
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public Dash(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Dash Ability...");
             
@@ -34,7 +34,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Vector = Vec3.Read(reader, logger);
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Dash Ability...");
             throw new NotImplementedException("Write Dash Ability is not implemented yet!");

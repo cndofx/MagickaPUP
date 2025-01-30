@@ -30,7 +30,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             this.Elements = new Elements[0];
         }
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public CastSpell(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading CastSpell Ability...");
 
@@ -48,7 +48,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
                 this.Elements[i] = (Elements)reader.ReadInt32();
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing CastSpell Ability...");
             throw new NotImplementedException("Write CastSpell Ability is not implemented yet!");

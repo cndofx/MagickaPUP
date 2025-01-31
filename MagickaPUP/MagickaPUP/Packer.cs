@@ -134,8 +134,8 @@ namespace MagickaPUP
         }
 
         // DEPRECATED
-        // TODO : Remove old unused code...
-        private void WriteContentTypeReaders_OLD()
+        // TODO : Remove old unused code... WHEN YOU FUCKING FIX THE NEW ONE...
+        private void WriteContentTypeReaders()
         {
             logger?.Log(1, "Writing Content Type Readers...");
 
@@ -158,7 +158,9 @@ namespace MagickaPUP
             }
         }
 
-        private void WriteContentTypeReaders(XnbFileObject obj)
+        // This piece of shit is wrong because of the way we encoded the automatic index finding bullshit... We'll fix this some day in the future...
+        // TODO : Fix C#'s bullshit by finding some fucking workaround. This could be done by storing the content reader index within the xnb file object thing, maybe...
+        private void WriteContentTypeReaders_NEW(XnbFileObject obj)
         {
             logger?.Log(1, "Writing Content Type Readers...");
             var readers = obj.primaryObject.GetRequiredContentReaders();

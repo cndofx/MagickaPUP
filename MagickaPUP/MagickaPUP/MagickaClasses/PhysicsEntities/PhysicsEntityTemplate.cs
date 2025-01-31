@@ -57,6 +57,10 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             writer.Write(this.MaxHitPoints);
             writer.Write(this.CanHaveStatus);
 
+            writer.Write(this.Resistances.Length);
+            foreach (var resistance in this.Resistances)
+                resistance.Write(writer, logger);
+
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }
 

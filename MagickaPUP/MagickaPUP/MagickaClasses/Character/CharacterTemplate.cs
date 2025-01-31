@@ -281,7 +281,9 @@ namespace MagickaPUP.MagickaClasses.Character
             this.CharacterDisplayID = reader.ReadString();
 
             logger?.Log(2, $" - CharacterID        : {this.CharacterID}");
-            logger?.Log(2, $" - CharacterDisplayID : {this.CharacterID}");
+            logger?.Log(2, $" - CharacterDisplayID : {this.CharacterDisplayID}");
+
+            Console.ReadLine();
 
             // Read enum data
             this.Faction = (Factions)reader.ReadInt32();
@@ -488,6 +490,11 @@ namespace MagickaPUP.MagickaClasses.Character
             // Character ID Strings
             writer.Write(this.CharacterID);
             writer.Write(this.CharacterDisplayID);
+
+            logger?.Log(1, $" - CharacterID        : {this.CharacterID}");
+            logger?.Log(1, $" - CharacterDisplayID : {this.CharacterDisplayID}");
+
+            Console.ReadLine();
 
             // Faction and blood enums
             writer.Write((int)this.Faction);

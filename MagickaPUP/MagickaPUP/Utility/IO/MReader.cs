@@ -1,6 +1,6 @@
 ﻿using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.XnaClasses;
-using MagickaPUP.IO;
+using MagickaPUP.Utility.IO;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Remoting.Messaging;
 
-namespace MagickaPUP.IO
+namespace MagickaPUP.Utility.IO
 {
     public class MBinaryReader : BinaryReader/*, IMReader*/
     {

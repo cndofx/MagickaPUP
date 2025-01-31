@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MagickaPUP.IO
+namespace MagickaPUP.Utility.IO
 {
     public class MContext
     {

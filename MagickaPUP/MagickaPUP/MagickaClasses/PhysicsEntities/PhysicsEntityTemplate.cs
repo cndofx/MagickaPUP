@@ -69,6 +69,10 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             foreach (var resistance in this.Resistances)
                 resistance.Write(writer, logger);
 
+            writer.Write(this.Gibs.Length);
+            foreach (var gib in this.Gibs)
+                gib.Write(writer, logger);
+
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }
 

@@ -267,5 +267,17 @@ namespace MagickaPUP.XnaClasses
                 obj[i].WriteInstance(writer, logger);
             }
         }
+
+        // This shit is pretty fucking dumb, should probably move it into a separate PrimaryXnaObject class that inherits from XnaObject or whatever...
+        // Because this should contain a list of ALL of the required content readers to read through this specific object, including its child objects.
+        // Yes, we could always embed some instruction within the write instance call where we tell it to add to some sort of list its content reader
+        // and then write them all in one go, but that would require reworking too much shit, so this is easier to do...
+        public virtual ContentTypeReader[] GetRequiredContentReaders()
+        {
+            ContentTypeReader[] ans = {
+                // Empty array by default, cause no readers are required by default...
+            };
+            return ans;
+        }
     }
 }

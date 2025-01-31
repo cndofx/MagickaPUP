@@ -10,9 +10,6 @@ namespace MagickaPUP.XnaClasses
     {
         #region Variables
 
-        public int numContentTypeReaders { get; set; }
-        public ContentTypeReader[] contentTypeReaders { get; set; }
-
         public XnaObject primaryObject { get; set; }
         
         public int numSharedResources { get; set; }

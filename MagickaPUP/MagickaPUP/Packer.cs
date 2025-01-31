@@ -50,7 +50,7 @@ namespace MagickaPUP
             this.reader = new StreamReader(readFile);
 
             this.WriteHeader();
-            // this.WriteContentTypeReaders_OLD();
+            this.WriteContentTypeReaders(); // TODO : FIXME (PART 1)!
 
             string contents = ReadJSONFile();
             XnbFileObject obj = DeserializeJSONFile(contents);
@@ -58,7 +58,8 @@ namespace MagickaPUP
             if (obj == null)
                 throw new Exception("The JSON file is not valid and has produced a nul object!");
 
-            this.WriteContentTypeReaders(obj);
+            // TODO : FIXME (PART 2)!
+            // this.WriteContentTypeReaders(obj);
 
             this.WriteSharedResourceCount(obj);
             this.WritePrimaryObject(obj);
@@ -160,6 +161,7 @@ namespace MagickaPUP
 
         // This piece of shit is wrong because of the way we encoded the automatic index finding bullshit... We'll fix this some day in the future...
         // TODO : Fix C#'s bullshit by finding some fucking workaround. This could be done by storing the content reader index within the xnb file object thing, maybe...
+        // NOTE : A possible fix would be to implement the context system and have it contain the list of readers and writers, and that way we don't hardcode "global"/fixed index values for all of the known content reader types.
         private void WriteContentTypeReaders_NEW(XnbFileObject obj)
         {
             logger?.Log(1, "Writing Content Type Readers...");

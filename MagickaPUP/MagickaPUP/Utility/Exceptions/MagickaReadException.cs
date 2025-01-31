@@ -10,19 +10,19 @@ namespace MagickaPUP.Utility.Exceptions
         valid only on some specific versions and on others it does not work, etc...
     */
     // Exception class used to handle errors when loading data that would not be valid within Magicka when loaded but that we cannot filter out through JSON alone.
-    public class MagickaLoadException : Exception
+    public class MagickaReadException : Exception
     {
         private static readonly string EXCEPTION_MSG_BASE = "Read Error";
 
-        public MagickaLoadException()
+        public MagickaReadException()
         :base($"{EXCEPTION_MSG_BASE} : An error occurred while reading input data")
         { }
 
-        public MagickaLoadException(string message)
+        public MagickaReadException(string message)
         :base($"{EXCEPTION_MSG_BASE} : {message}")
         { }
 
-        public MagickaLoadException(string message, Exception inner)
+        public MagickaReadException(string message, Exception inner)
         :base($"{EXCEPTION_MSG_BASE} : {message}", inner)
         { }
     }

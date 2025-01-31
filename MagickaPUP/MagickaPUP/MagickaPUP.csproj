@@ -81,7 +81,7 @@
     <Compile Include="Utility\IO\MContext.cs" />
     <Compile Include="Utility\IO\MReader.cs" />
     <Compile Include="Utility\IO\MWriter.cs" />
-    <Compile Include="MagickaClasses\Audio\Banks.cs" />
+    <Compile Include="MagickaClasses\Data\Audio\Banks.cs" />
     <Compile Include="MagickaClasses\Character\Abilities\Ability.cs" />
     <Compile Include="MagickaClasses\Character\Abilities\AbilityStorage.cs" />
     <Compile Include="MagickaClasses\Character\Abilities\AbilityType.cs" />

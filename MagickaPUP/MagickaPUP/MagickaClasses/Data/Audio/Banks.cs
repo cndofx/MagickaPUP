@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MagickaPUP.MagickaClasses.Audio
+namespace MagickaPUP.MagickaClasses.Data.Audio
 {
     // This banks enum refers to audio banks, as in the types of an audio.
     [Flags]

@@ -3,7 +3,7 @@ using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
 using MagickaPUP.MagickaClasses.Data;
-using MagickaPUP.MagickaClasses.Audio;
+using MagickaPUP.MagickaClasses.Data.Audio;
 using MagickaPUP.MagickaClasses.Character.Attachments;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Character.Animation;

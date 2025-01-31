@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.Utility.Exceptions;
-using MagickaPUP.MagickaClasses.Audio;
+using MagickaPUP.MagickaClasses.Data.Audio;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Lightning;
 

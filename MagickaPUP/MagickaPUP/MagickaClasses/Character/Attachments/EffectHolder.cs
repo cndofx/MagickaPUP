@@ -1,5 +1,5 @@
 ﻿using MagickaPUP.Utility.IO;
-using MagickaPUP.MagickaClasses.Audio;
+using MagickaPUP.MagickaClasses.Data.Audio;
 using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;

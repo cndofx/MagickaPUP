@@ -50,13 +50,15 @@ namespace MagickaPUP
             this.reader = new StreamReader(readFile);
 
             this.WriteHeader();
-            this.WriteContentTypeReaders();
+            // this.WriteContentTypeReaders_OLD();
 
             string contents = ReadJSONFile();
             XnbFileObject obj = DeserializeJSONFile(contents);
 
             if (obj == null)
                 throw new Exception("The JSON file is not valid and has produced a nul object!");
+
+            this.WriteContentTypeReaders(obj);
 
             this.WriteSharedResourceCount(obj);
             this.WritePrimaryObject(obj);
@@ -129,7 +131,9 @@ namespace MagickaPUP
             writer.Write(unpackedSize);
         }
 
-        private void WriteContentTypeReaders()
+        // DEPRECATED
+        // TODO : Remove old unused code...
+        private void WriteContentTypeReaders_OLD()
         {
             logger?.Log(1, "Writing Content Type Readers...");
 
@@ -149,6 +153,26 @@ namespace MagickaPUP
             for (int i = 0; i < numReaders; ++i)
             {
                 XnaInfo.ContentTypeReaders[i].WriteInstance(writer, logger);
+            }
+        }
+
+        private void WriteContentTypeReaders(XnaObject obj)
+        {
+            logger?.Log(1, "Writing Content Type Readers...");
+            var readers = obj.GetRequiredContentReaders();
+            if (readers.Length > 0)
+            {
+                // If the obtained object defines its own content type reader list, then we write those...
+                writer.Write7BitEncodedInt(readers.Length);
+                foreach (var reader in readers)
+                    reader.WriteInstance(writer, logger);
+            }
+            else
+            {
+                // If the obtained object does not define its own content type reader list, then we write them all just in case...
+                writer.Write7BitEncodedInt(XnaInfo.ContentTypeReaders.Length);
+                foreach (var reader in XnaInfo.ContentTypeReaders)
+                    reader.WriteInstance(writer, logger);
             }
         }
 

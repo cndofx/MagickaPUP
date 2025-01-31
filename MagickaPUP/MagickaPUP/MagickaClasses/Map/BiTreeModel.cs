@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
-using MagickaPUP.IO;
+using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 
 namespace MagickaPUP.MagickaClasses.Map

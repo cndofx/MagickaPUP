@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MagickaPUP.IO;
+using MagickaPUP.Utility.IO;
 
 namespace MagickaPUP.MagickaClasses.Character.Animation.Derived
 {

@@ -76,11 +76,11 @@
   <ItemGroup>
     <Compile Include="DebugLogger.cs" />
     <Compile Include="GenericPUP.cs" />
-    <Compile Include="IO\IMReader.cs" />
-    <Compile Include="IO\IMWriter.cs" />
-    <Compile Include="IO\MContext.cs" />
-    <Compile Include="IO\MReader.cs" />
-    <Compile Include="IO\MWriter.cs" />
+    <Compile Include="Utility\IO\IMReader.cs" />
+    <Compile Include="Utility\IO\IMWriter.cs" />
+    <Compile Include="Utility\IO\MContext.cs" />
+    <Compile Include="Utility\IO\MReader.cs" />
+    <Compile Include="Utility\IO\MWriter.cs" />
     <Compile Include="MagickaClasses\Audio\Banks.cs" />
     <Compile Include="MagickaClasses\Character\Abilities\Ability.cs" />
     <Compile Include="MagickaClasses\Character\Abilities\AbilityStorage.cs" />

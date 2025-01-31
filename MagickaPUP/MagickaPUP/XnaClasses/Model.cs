@@ -1,5 +1,5 @@
 ﻿
-using MagickaPUP.IO;
+using MagickaPUP.Utility.IO;
 using MagickaPUP.MagickaClasses.Generic;
 using System;
 using System.Collections.Generic;

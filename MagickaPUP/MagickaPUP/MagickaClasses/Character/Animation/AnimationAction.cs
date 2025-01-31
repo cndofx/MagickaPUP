@@ -1,4 +1,4 @@
-﻿using MagickaPUP.IO;
+﻿using MagickaPUP.Utility.IO;
 using MagickaPUP.MagickaClasses.Character.Animation.Derived;
 using MagickaPUP.XnaClasses;
 using System;

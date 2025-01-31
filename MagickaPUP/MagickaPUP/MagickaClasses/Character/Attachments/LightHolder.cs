@@ -1,5 +1,5 @@
 ﻿using System;
-using MagickaPUP.IO;
+using MagickaPUP.Utility.IO;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.XnaClasses;
 using MagickaPUP.MagickaClasses.Lightning;

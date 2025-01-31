@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MagickaPUP.MagickaClasses.Generic;
-using MagickaPUP.IO;
+using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 
 namespace MagickaPUP.MagickaClasses.Nav

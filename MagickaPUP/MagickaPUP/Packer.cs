@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Text.Json;
 using MagickaPUP.XnaClasses;
 using MagickaPUP.MagickaClasses.Map;
-using MagickaPUP.IO;
+using MagickaPUP.Utility.IO;
 
 namespace MagickaPUP
 {

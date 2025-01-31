@@ -1,4 +1,4 @@
-﻿using MagickaPUP.IO;
+﻿using MagickaPUP.Utility.IO;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.XnaClasses;

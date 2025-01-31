@@ -1,4 +1,4 @@
-﻿using MagickaPUP.IO;
+﻿using MagickaPUP.Utility.IO;
 using MagickaPUP.MagickaClasses.Character.Abilities.Derived;
 using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.Utility.Exceptions;

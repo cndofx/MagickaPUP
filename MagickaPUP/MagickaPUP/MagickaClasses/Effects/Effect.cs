@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using MagickaPUP.MagickaClasses.Generic;
-using MagickaPUP.IO;
+using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 using System.Runtime.Remoting.Messaging;
 using MagickaPUP.MagickaClasses.Areas;

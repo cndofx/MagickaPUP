@@ -26,6 +26,14 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading PhysicsEntityTemplate...");
+
+            this.IsMovable = reader.ReadBoolean();
+            this.IsPushable = reader.ReadBoolean();
+            this.IsSolid = reader.ReadBoolean();
+            this.Mass = reader.ReadSingle();
+            this.MaxHitPoints = reader.ReadInt32();
+            this.CanHaveStatus = reader.ReadBoolean();
+
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }
 

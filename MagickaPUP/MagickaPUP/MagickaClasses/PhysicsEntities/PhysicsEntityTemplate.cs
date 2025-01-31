@@ -41,6 +41,14 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         public List<Vec3> CollisionVertices { get; set; }
         public List<CollisionTriangle> CollisionTriangles { get; set; }
 
+        // Bounding box maybe?
+        // TODO : Figure out what the fuck this is
+        public int SomeNum { get; set; }
+        public string SomeStr { get; set; }
+        public Vec3 Position { get; set; }
+        public Vec3 Sides { get; set; }
+        public Quaternion Orientation { get; set; }
+
         #endregion
 
         #region PublicMethods

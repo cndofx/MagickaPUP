@@ -26,6 +26,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // Gibs and gib models
         public GibReference[] Gibs { get; set; }
 
+        // Effects
+        public string HitEffect { get; set; }
+
+        // Sound Banks
+        public string SoundBanks { get; set; } // TODO : In the future maybe this should be replaced with an enum flags Banks and then parsed, that way we could get some Banks input validation, as well as a more consistent writing system for enum flags through strings in JSON files...
+
         #endregion
 
         #region PublicMethods
@@ -34,6 +40,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         {
             logger?.Log(1, "Reading PhysicsEntityTemplate...");
 
+            // Physics Config
             this.IsMovable = reader.ReadBoolean();
             this.IsPushable = reader.ReadBoolean();
             this.IsSolid = reader.ReadBoolean();
@@ -41,11 +48,13 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.MaxHitPoints = reader.ReadInt32();
             this.CanHaveStatus = reader.ReadBoolean();
 
+            // Resistances
             int numResistances = reader.ReadInt32();
             this.Resistances = new Resistance[numResistances];
             for (int i = 0; i < numResistances; ++i)
                 this.Resistances[i] = new Resistance(reader, logger);
 
+            // Gibs
             int numGibs = reader.ReadInt32();
             this.Gibs = new GibReference[numGibs];
             for(int i = 0; i < numGibs; ++i)
@@ -58,6 +67,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         {
             logger?.Log(1, "Writing PhysicsEntityTemplate...");
 
+            // Physics Config
             writer.Write(this.IsMovable);
             writer.Write(this.IsPushable);
             writer.Write(this.IsSolid);
@@ -65,10 +75,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             writer.Write(this.MaxHitPoints);
             writer.Write(this.CanHaveStatus);
 
+            // Resistances
             writer.Write(this.Resistances.Length);
             foreach (var resistance in this.Resistances)
                 resistance.Write(writer, logger);
 
+            // Gibs
             writer.Write(this.Gibs.Length);
             foreach (var gib in this.Gibs)
                 gib.Write(writer, logger);

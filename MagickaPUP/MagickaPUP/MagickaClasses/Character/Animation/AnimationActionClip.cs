@@ -69,6 +69,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             logger?.Log(1, "Writing AnimationActionClip...");
             
             writer.Write(this.animationName);
+            writer.Write(this.animationKey);
             writer.Write(this.animationSpeed);
             writer.Write(this.blendTime);
             writer.Write(this.loopAnimation);

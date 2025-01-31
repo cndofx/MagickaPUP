@@ -619,6 +619,14 @@ namespace MagickaPUP.MagickaClasses.Character
             return "Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral";
         }
 
+        public override ContentTypeReader[] GetRequiredContentReaders()
+        {
+            ContentTypeReader[] ans = {
+               XnaInfo.GetContentTypeReader(XnaInfo.ContentTypeReaderIndex.CharacterTemplateReader)
+            };
+            return ans;
+        }
+
         #endregion
 
         #region PrivateMethods

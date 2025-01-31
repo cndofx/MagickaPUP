@@ -12,6 +12,13 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
     {
         #region Variables
 
+        public bool IsMovable { get; set; }
+        public bool IsPushable { get; set; }
+        public bool IsSolid { get; set; }
+        public float Mass { get; set; }
+        public int MaxHitPoints { get; set; }
+        public bool CanHaveStatus { get; set; }
+
         #endregion
 
         #region PublicMethods

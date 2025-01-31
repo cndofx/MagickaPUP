@@ -2,6 +2,7 @@
 using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 
 namespace MagickaPUP.MagickaClasses.PhysicsEntities
 {
@@ -20,14 +21,17 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // Resistances
         public Resistance[] Resistances { get; set; }
 
-        // Gibs and gib models
+        // Gibs and gib config
         public GibReference[] Gibs { get; set; }
+        public string GibTrailEffect { get; set; }
 
         // Effects
         public string HitEffect { get; set; }
 
         // Sound Banks
         public string SoundBanks { get; set; } // TODO : In the future maybe this should be replaced with an enum flags Banks and then parsed, that way we could get some Banks input validation, as well as a more consistent writing system for enum flags through strings in JSON files...
+
+        
 
         #endregion
 
@@ -63,6 +67,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // Sounds
             this.SoundBanks = reader.ReadString();
 
+            // Gib Trails
+            this.GibTrailEffect = reader.ReadString();
+
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }
 
@@ -93,6 +100,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
             // Sounds
             writer.Write(this.SoundBanks);
+
+            // Gib Trails
+            writer.Write(this.GibTrailEffect);
 
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }

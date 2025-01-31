@@ -84,16 +84,18 @@ namespace MagickaPUP
 
         #region PrivateMethodsSharedResources
 
-        // README : If the shared resource count is in the input JSON, always append a null object at the end.
+        // README : If the shared resource count 0 is in the input JSON, always append a null object at the end.
         // Otherwise, don't append anything and just write the shared resources.
         // This is done for padding reasons, because apparently Magicka requires at least 1 shared resource to exist, so many official maps just bundle
         // a null shared resource at the end of the file.
+        // NOTE : This does not happen with characters, so this is a weird exception fucky wucky solution that should not be done...
 
         private void WriteSharedResourceCount(XnbFileObject obj)
         {
             logger?.Log(1, "Writing Shared Resource Count...");
             int count = obj.numSharedResources <= 0 ? 1 : obj.numSharedResources;
             writer.Write7BitEncodedInt((int)count);
+            logger?.Log(1, $" - Shared Resource Count : {count}");
         }
 
         private void WriteSharedResources(XnbFileObject obj)

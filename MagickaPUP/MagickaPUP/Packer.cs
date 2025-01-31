@@ -156,10 +156,11 @@ namespace MagickaPUP
             }
         }
 
-        private void WriteContentTypeReaders(XnaObject obj)
+        private void WriteContentTypeReaders(XnbFileObject obj)
         {
             logger?.Log(1, "Writing Content Type Readers...");
-            var readers = obj.GetRequiredContentReaders();
+            var readers = obj.primaryObject.GetRequiredContentReaders();
+            logger?.Log(1, $"{readers.Length} Content Type Readers were found!");
             if (readers.Length > 0)
             {
                 // If the obtained object defines its own content type reader list, then we write those...
@@ -169,6 +170,7 @@ namespace MagickaPUP
             }
             else
             {
+                logger?.Log(1, "Defaulting to writing all content type readers...");
                 // If the obtained object does not define its own content type reader list, then we write them all just in case...
                 writer.Write7BitEncodedInt(XnaInfo.ContentTypeReaders.Length);
                 foreach (var reader in XnaInfo.ContentTypeReaders)

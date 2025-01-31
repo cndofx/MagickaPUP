@@ -2,9 +2,6 @@
 using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.PhysicsEntities
 {
@@ -60,6 +57,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             for(int i = 0; i < numGibs; ++i)
                 this.Gibs[i] = new GibReference(reader, logger);
 
+            // Effects
+            this.HitEffect = reader.ReadString();
+
+            // Sounds
+            this.SoundBanks = reader.ReadString();
+
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }
 
@@ -84,6 +87,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             writer.Write(this.Gibs.Length);
             foreach (var gib in this.Gibs)
                 gib.Write(writer, logger);
+
+            // Effects
+            writer.Write(this.HitEffect);
+
+            // Sounds
+            writer.Write(this.SoundBanks);
 
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }

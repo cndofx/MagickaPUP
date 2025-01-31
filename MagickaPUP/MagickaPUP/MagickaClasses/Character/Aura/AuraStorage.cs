@@ -60,7 +60,7 @@ namespace MagickaPUP.MagickaClasses.Character.Aura
                     this.Aura = new AuraLove(reader, logger);
                     break;
                 default:
-                    throw new MagickaLoadException("Unknown AuraType was read!");
+                    throw new MagickaReadException("Unknown AuraType was read!");
                     break; // lol
             }
         }

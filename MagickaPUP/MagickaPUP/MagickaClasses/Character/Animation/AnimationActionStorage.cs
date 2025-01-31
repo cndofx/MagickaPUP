@@ -39,7 +39,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation
             AnimationActionType type;
             bool success = Enum.TryParse<AnimationActionType>(this.ActionType, true, out type);
             if (!success)
-                throw new MagickaLoadException($"Could not load the specified AnimationAction type. The type \"{this.ActionType}\" is not a valid AnimationAction for Magicka.");
+                throw new MagickaReadException($"Could not load the specified AnimationAction type. The type \"{this.ActionType}\" is not a valid AnimationAction for Magicka.");
 
             // wtf... I hate these chains I swear... such a fucking pain in the ass to write in C#
             switch (type)

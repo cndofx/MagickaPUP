@@ -26,7 +26,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation.Derived
             this.DamageAffectsOwner = reader.ReadBoolean();
             this.NumDamages = reader.ReadInt32();
             if (this.NumDamages > 5)
-                throw new MagickaLoadException($"Magicka does not support more than 5 damage entries for a DamageGrip! ({this.NumDamages} were found)"); // NOTE : This exception here might be kinda weird tbh... because this is on the XNB decompression step, so that would mean that we're converting into JSON an input XNB file that could come from the base game and be malformed, so do we really need to error here? Or would it make more sense to only error when packing a JSON file into an XNB file? Idk, not sure, who knows... we'll see.
+                throw new MagickaReadException($"Magicka does not support more than 5 damage entries for a DamageGrip! ({this.NumDamages} were found)"); // NOTE : This exception here might be kinda weird tbh... because this is on the XNB decompression step, so that would mean that we're converting into JSON an input XNB file that could come from the base game and be malformed, so do we really need to error here? Or would it make more sense to only error when packing a JSON file into an XNB file? Idk, not sure, who knows... we'll see.
             this.Damages = new Damage[this.NumDamages];
             for (int i = 0; i < this.NumDamages; ++i)
             {

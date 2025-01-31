@@ -37,7 +37,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities
             bool success = Enum.TryParse<AbilityType>(this.AbilityName, true, out abilityType);
 
             if (!success)
-                throw new MagickaLoadException($"The specified Ability Type does not exist! (\"{this.AbilityName}\")");
+                throw new MagickaReadException($"The specified Ability Type does not exist! (\"{this.AbilityName}\")");
 
             this.Cooldown = reader.ReadSingle();
             this.Target = (Target)reader.ReadByte();
@@ -97,7 +97,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities
                     this.Ability = new ZombieGrip(reader, logger);
                     break;
                 default:
-                    throw new MagickaLoadException("WTF this should never happen!!! (Ability.cs)"); // lol...
+                    throw new MagickaReadException("WTF this should never happen!!! (Ability.cs)"); // lol...
                     break; // OMEGALUL
             }
         }

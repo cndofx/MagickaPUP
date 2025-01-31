@@ -22,7 +22,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation.Derived
 
             this.StatusEffect = reader.ReadString();
             if (!CheckStatusEffect(this.StatusEffect)) // NOTE : This is kinda worthless since I think it would be logical to trust that a packed XNB file should theoretically hold a valid value, so there should be no reason to check this but still... I'll leave it in for now... just in case, I suppose.
-                throw new MagickaLoadException($"The specified status effect \"{this.StatusEffect}\" does not exist!");
+                throw new MagickaReadException($"The specified status effect \"{this.StatusEffect}\" does not exist!");
         }
 
         public override void Write(MBinaryWriter writer, DebugLogger logger = null)
@@ -30,7 +30,7 @@ namespace MagickaPUP.MagickaClasses.Character.Animation.Derived
             logger?.Log(1, "Writing RemoveStatus AnimationAction...");
 
             if (!CheckStatusEffect(this.StatusEffect))
-                throw new MagickaLoadException($"The specified status effect \"{this.StatusEffect}\" does not exist!");
+                throw new MagickaReadException($"The specified status effect \"{this.StatusEffect}\" does not exist!");
             writer.Write(this.StatusEffect);
         }
 

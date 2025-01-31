@@ -139,7 +139,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Radius = reader.ReadSingle();
 
             if (this.Radius <= float.Epsilon) // NOTE : Magicka hardcodes the value as 1E-45f, but we can just use float.Epsilon here. This makes sense tho, we can't have a radius that is 0 or less than 0, and the smartest comparison is against the smallest possible valid value for a floating point number.
-                throw new MagickaLoadException(EXCEPTION_MSG);
+                throw new MagickaReadException(EXCEPTION_MSG);
         }
 
         public static SplashEvent Read(MBinaryReader reader, DebugLogger logger = null)
@@ -443,7 +443,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading BlastEvent...");
-            throw new MagickaLoadException(EXCEPTION_MSG);
+            throw new MagickaReadException(EXCEPTION_MSG);
         }
 
         public static BlastEvent Read(MBinaryReader reader, DebugLogger logger = null)
@@ -953,7 +953,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading CallbackEvent...");
-            throw new MagickaLoadException(EXCEPTION_MSG);
+            throw new MagickaReadException(EXCEPTION_MSG);
         }
 
         public static CallbackEvent Read(MBinaryReader reader, DebugLogger logger = null)

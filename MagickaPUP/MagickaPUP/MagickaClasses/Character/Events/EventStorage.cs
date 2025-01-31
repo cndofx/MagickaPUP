@@ -92,7 +92,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
                     this.Event = CallbackEvent.Read(reader, logger);
                     break;
                 default:
-                    throw new MagickaLoadException($"Event type \"{((byte)this.EventType)}\" not recognised as a valid Magicka Event!");
+                    throw new MagickaReadException($"Event type \"{((byte)this.EventType)}\" not recognised as a valid Magicka Event!");
                     break; // lol
             }
         }

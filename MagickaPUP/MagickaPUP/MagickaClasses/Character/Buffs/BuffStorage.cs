@@ -72,7 +72,7 @@ namespace MagickaPUP.MagickaClasses.Character.Buffs
                     this.Buff = new BuffModifySpellRange(reader, logger);
                     break;
                 default:
-                    throw new MagickaLoadException($"Specified BuffType \"{(int)this.BuffType}\" is unknown!");
+                    throw new MagickaReadException($"Specified BuffType \"{(int)this.BuffType}\" is unknown!");
                     break; // lol
             }
         }

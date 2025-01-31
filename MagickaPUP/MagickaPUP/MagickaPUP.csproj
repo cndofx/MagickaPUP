@@ -223,7 +223,7 @@
     <Compile Include="MagickaClasses\Nav\Triangle.cs" />
     <Compile Include="MagickaClasses\Generic\Vec3.cs" />
     <Compile Include="Unpacker.cs" />
-    <Compile Include="Utility\Exceptions\MagickaLoadException.cs" />
+    <Compile Include="Utility\Exceptions\MagickaReadException.cs" />
     <Compile Include="Utility\Exceptions\MagickaWriteException.cs" />
     <Compile Include="XnaClasses\Animation.cs" />
     <Compile Include="XnaClasses\ContentTypeReader.cs" />

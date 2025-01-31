@@ -29,7 +29,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities.Derived
             // but not on the write side, where the input came from JSON instead.
             int numDamageFields = reader.ReadInt32(); // Math.Min(4, reader.ReadInt32());
             if (numDamageFields > 4)
-                throw new MagickaLoadException(GetDamagesCountException(numDamageFields));
+                throw new MagickaReadException(GetDamagesCountException(numDamageFields));
             this.Damage = new Damage[numDamageFields];
             for (int i = 0; i < numDamageFields; ++i)
             {

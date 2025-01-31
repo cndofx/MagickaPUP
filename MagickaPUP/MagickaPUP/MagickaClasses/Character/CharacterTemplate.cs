@@ -311,7 +311,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.NumAttachedSounds = reader.ReadInt32(); // NOTE : To prevent having to store this value as a variable within this class and just working with the array input data from JSON, we could just initialize the attached sounds array to this input length here, and set the length to min(4, reader.readi32()), maybe do this in the future when we clean up all of the manually hard coded counts in the other JSON files for the level data and stuff?
             logger?.Log(2, $" - NumAttachedSounds : {this.NumAttachedSounds}");
             if (this.NumAttachedSounds > 4)
-                throw new MagickaLoadException(GetExceptionNumAttachedSounds());
+                throw new MagickaReadException(GetExceptionNumAttachedSounds());
             
             for (int i = 0; i < this.NumAttachedSounds; ++i)
             {
@@ -340,7 +340,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.NumLights = reader.ReadInt32();
             logger?.Log(2, $" - NumLights : {this.NumLights}");
             if (this.NumLights > 4)
-                throw new MagickaLoadException(GetExceptionNumLights());
+                throw new MagickaReadException(GetExceptionNumLights());
             this.Lights = new LightHolder[this.NumLights];
             for (int i = 0; i < this.NumLights; ++i)
             {

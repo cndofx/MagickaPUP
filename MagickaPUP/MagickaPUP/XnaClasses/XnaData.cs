@@ -10,18 +10,23 @@ namespace MagickaPUP.XnaClasses
     {
         public enum ContentTypeReaderIndex
         {
-            None = 0,
+            None = -1,
             LevelModelReader,
             BiTreeModelReader,
             VertexDeclarationReader,
             VertexBufferReader,
             IndexBufferReader,
             EffectDeferredReader,
+            EffectAdditiveReader,
             ModelReader,
             StringReader,
             ListVec3Reader,
             Vec3Reader,
-            EffectLiquidReader
+            EffectLiquidReader,
+            EffectLavaReader,
+            Texture2DReader,
+            CharacterTemplateReader,
+            COUNT,
         }
 
         // TODO : Change this system to maybe use named properties to get the strings rather than hard coding them everywhere?

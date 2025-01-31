@@ -40,6 +40,14 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing PhysicsEntityTemplate...");
+
+            writer.Write(this.IsMovable);
+            writer.Write(this.IsPushable);
+            writer.Write(this.IsSolid);
+            writer.Write(this.Mass);
+            writer.Write(this.MaxHitPoints);
+            writer.Write(this.CanHaveStatus);
+
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }
 

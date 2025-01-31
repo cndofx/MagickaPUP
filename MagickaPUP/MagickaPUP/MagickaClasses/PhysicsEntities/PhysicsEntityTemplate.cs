@@ -23,6 +23,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // Resistances
         public Resistance[] Resistances { get; set; }
 
+        // Gibs and gib models
+        public GibReference[] Gibs { get; set; }
+
         #endregion
 
         #region PublicMethods
@@ -42,6 +45,11 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.Resistances = new Resistance[numResistances];
             for (int i = 0; i < numResistances; ++i)
                 this.Resistances[i] = new Resistance(reader, logger);
+
+            int numGibs = reader.ReadInt32();
+            this.Gibs = new GibReference[numGibs];
+            for(int i = 0; i < numGibs; ++i)
+                this.Gibs[i] = new GibReference(reader, logger);
 
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }

@@ -12,12 +12,16 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
     {
         #region Variables
 
+        // Physics Entity Config / Properties
         public bool IsMovable { get; set; }
         public bool IsPushable { get; set; }
         public bool IsSolid { get; set; }
         public float Mass { get; set; }
         public int MaxHitPoints { get; set; }
         public bool CanHaveStatus { get; set; }
+
+        // Resistances
+        public Resistance[] Resistances { get; set; }
 
         #endregion
 
@@ -33,6 +37,11 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.Mass = reader.ReadSingle();
             this.MaxHitPoints = reader.ReadInt32();
             this.CanHaveStatus = reader.ReadBoolean();
+
+            int numResistances = reader.ReadInt32();
+            this.Resistances = new Resistance[numResistances];
+            for (int i = 0; i < numResistances; ++i)
+                this.Resistances[i] = new Resistance(reader, logger);
 
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }

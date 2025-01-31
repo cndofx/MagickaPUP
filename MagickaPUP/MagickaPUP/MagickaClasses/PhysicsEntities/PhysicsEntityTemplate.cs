@@ -31,7 +31,8 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // Sound Banks
         public string SoundBanks { get; set; } // TODO : In the future maybe this should be replaced with an enum flags Banks and then parsed, that way we could get some Banks input validation, as well as a more consistent writing system for enum flags through strings in JSON files...
 
-        
+        // Model
+        public Model Model { get; set; }
 
         #endregion
 
@@ -70,6 +71,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // Gib Trails
             this.GibTrailEffect = reader.ReadString();
 
+            // Model
+            this.Model = XnaObject.ReadObject<Model>(reader, logger);
+
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }
 
@@ -103,6 +107,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
             // Gib Trails
             writer.Write(this.GibTrailEffect);
+
+            // Model
+            XnaObject.WriteObject(this.Model, writer, logger);
 
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }

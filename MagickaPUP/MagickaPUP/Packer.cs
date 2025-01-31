@@ -56,7 +56,7 @@ namespace MagickaPUP
             XnbFileObject obj = DeserializeJSONFile(contents);
 
             if (obj == null)
-                throw new Exception("The JSON file is not valid and has produced a nul object!");
+                throw new Exception("The JSON file is not valid and has produced a NULL object!");
 
             // TODO : FIXME (PART 2)!
             // this.WriteContentTypeReaders(obj);

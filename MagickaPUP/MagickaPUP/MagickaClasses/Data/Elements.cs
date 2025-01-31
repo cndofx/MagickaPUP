@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.Data
@@ -18,6 +19,7 @@ namespace MagickaPUP.MagickaClasses.Data
     // Also the larger "out of bounds" values for the Elements array DO return a valid index value... but it is not valid on CharacterTemplate's resistances array,
     // because those correspond to out of bounds indices, because the array is limited to only 11 positions... In short, wtf? This is so weirdly coded!
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     [Flags]
     public enum Elements : int
     {

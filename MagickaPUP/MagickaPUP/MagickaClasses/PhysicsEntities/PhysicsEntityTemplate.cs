@@ -43,11 +43,11 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
         // Bounding box maybe?
         // TODO : Figure out what the fuck this is
-        public int SomeNum { get; set; }
-        public string SomeStr { get; set; }
-        public Vec3 Position { get; set; }
-        public Vec3 Sides { get; set; }
-        public Quaternion Orientation { get; set; }
+        public int NumBoundingBoxes { get; set; }
+        public string[] SomeStrings { get; set; }
+        public Vec3[] Positions { get; set; }
+        public Vec3[] Sides { get; set; }
+        public Quaternion[] Orientations { get; set; }
 
         #endregion
 
@@ -104,6 +104,20 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
                 }
             }
 
+            // What the fuck
+            this.NumBoundingBoxes = reader.ReadInt32();
+            this.SomeStrings = new string[this.NumBoundingBoxes];
+            this.Positions = new Vec3[this.NumBoundingBoxes];
+            this.Sides = new Vec3[this.NumBoundingBoxes];
+            this.Orientations = new Quaternion[this.NumBoundingBoxes];
+            for (int i = 0; i < NumBoundingBoxes; ++i) // NOTE : Most of this data goes completely fucking unused so I have no idea what the fuck its purpose is...
+            {
+                this.SomeStrings[i] = reader.ReadString();
+                this.Positions[i].ReadInstance(reader, logger);
+                this.Sides[i].ReadInstance(reader, logger);
+                this.Orientations[i].ReadInstance(reader, logger);
+            }
+
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }
 
@@ -153,6 +167,8 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
                     writer.Write(triangle.index2);
                 }
             }
+
+            // TODO : Continue implementing later on...
 
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }

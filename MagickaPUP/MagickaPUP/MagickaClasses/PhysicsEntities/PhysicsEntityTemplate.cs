@@ -1,4 +1,6 @@
-﻿using MagickaPUP.Utility.IO;
+﻿using MagickaPUP.MagickaClasses.Collision;
+using MagickaPUP.MagickaClasses.Generic;
+using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,11 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
         // Model
         public Model Model { get; set; }
+
+        // Collision
+        public bool HasCollision { get; set; }
+        public List<Vec3> CollisionVertices { get; set; }
+        public List<CollisionTriangle> CollisionTriangles { get; set; }
 
         #endregion
 
@@ -74,6 +81,21 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // Model
             this.Model = XnaObject.ReadObject<Model>(reader, logger);
 
+            // Collision mesh
+            this.HasCollision = reader.ReadBoolean();
+            if (this.HasCollision)
+            {
+                this.CollisionVertices = XnaObject.ReadObject<List<Vec3>>(reader, logger);
+                int numTriangles = reader.ReadInt32();
+                for (int i = 0; i < numTriangles; ++i)
+                {
+                    CollisionTriangle triangle = new CollisionTriangle();
+                    triangle.index0 = reader.ReadInt32();
+                    triangle.index1 = reader.ReadInt32();
+                    triangle.index2 = reader.ReadInt32();
+                }
+            }
+
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }
 
@@ -110,6 +132,19 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
             // Model
             XnaObject.WriteObject(this.Model, writer, logger);
+
+            // Collision mesh
+            writer.Write(this.HasCollision);
+            if (this.HasCollision)
+            {
+                writer.Write(this.CollisionVertices.Count);
+                foreach (var triangle in this.CollisionTriangles)
+                {
+                    writer.Write(triangle.index0);
+                    writer.Write(triangle.index1);
+                    writer.Write(triangle.index2);
+                }
+            }
 
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }

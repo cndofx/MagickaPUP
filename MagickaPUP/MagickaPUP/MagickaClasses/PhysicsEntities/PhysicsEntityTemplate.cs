@@ -1,4 +1,5 @@
-﻿using MagickaPUP.MagickaClasses.Character.Events;
+﻿using MagickaPUP.MagickaClasses.Character;
+using MagickaPUP.MagickaClasses.Character.Events;
 using MagickaPUP.MagickaClasses.Collision;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.Utility.Exceptions;
@@ -23,7 +24,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // ID Strings
         public string PhysicsEntityID { get; set; }
 
-        // Physics Entity Config / Properties
+        // Physics Entity Config (1)
         public bool IsMovable { get; set; }
         public bool IsPushable { get; set; }
         public bool IsSolid { get; set; }
@@ -78,6 +79,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // TODO : Figure out what the fuck this thing does.
         public bool Flag { get; set; } // Stupid fucking flag implementation that sucks dick
 
+        // Physics Entity Config (2)
+        public float Radius { get; set; }
+        
+        // Model Properties
+        public ModelProperties[] ModelProperties { get; set; }
+
         #endregion
 
         #region PublicMethods
@@ -86,7 +93,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         {
             logger?.Log(1, "Reading PhysicsEntityTemplate...");
 
-            // Physics Config
+            // Physics Config (1)
             this.IsMovable = reader.ReadBoolean();
             this.IsPushable = reader.ReadBoolean();
             this.IsSolid = reader.ReadBoolean();
@@ -186,6 +193,15 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
             if (!this.Flag)
                 return; // If the flag is false, just return and don't keep reading anything else, cause the file has no more contents to deal with.
+
+            // Physics Config (2)
+            this.Radius = reader.ReadSingle();
+
+            // Model Properties
+            int numModelProperties = reader.ReadInt32();
+            this.ModelProperties = new ModelProperties[numModelProperties];
+            for (int i = 0; i < numModelProperties; ++i)
+                this.ModelProperties[i] = new ModelProperties(reader, logger);
 
 
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");

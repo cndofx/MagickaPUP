@@ -75,20 +75,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // Conditions and Events
         public ConditionCollection Events { get; set; }
 
-        // Flag (1)
-        public bool HasModelProperties { get; set; } // Stupid fucking flag implementation that sucks dick
-
-        // Physics Entity Config (2)
-        public float Radius { get; set; }
-        
-        // Model Properties
-        public ModelProperties[] ModelProperties { get; set; }
-
-        // Flag (2)
-        public bool HasSkinnedMesh { get; set; }
-
-        // Skinned Mesh
-        public string SkinnedMesh { get; set; } // External Reference. Contains the skeleton / animations etc...
+        // Advanced Settings
+        public bool HasAdvancedSettings { get; set; } // Stupid fucking flag implementation that sucks dick. Implemented weirdly, but anyway, determines whether the physics entity has "advanced settings" or not (stuff like model properties, skinned model, etc...)
+        public AdvancedSettings AdvancedSettings { get; set; }
 
         #endregion
 
@@ -178,7 +167,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // ID Strings
             this.PhysicsEntityID = reader.ReadString();
 
-            // Fucking piece of shit flag (1)
+            // Advanced Settings
+            #region Comment
+            // Fucking piece of shit flag alert!!!
             // NOTE : WHO THE FUCK THOUGHT THIS WAS A GOOD IDEA? MAGICKA DEVS WERE ON CRACK OR WHAT???
             // This really kicks me in the balls, because now, any physics entity file that contains a NULL shared resource at the end will basically fail to load properly...
             // Notice how the ReadBoolean() call can only throw an exception if we're at the end of the file and we start reading out of bounds??? yeah...
@@ -187,34 +178,19 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // If the flag is not there, we catch the exception when trying to read out of bounds in the file, and set it to false and finish reading.
             // The problem is... what happens if this file contains more data after the flag? for example, shared resources with the first byte being non 0 right after the
             // primary object of the XNB file??? basically, this means that PhysicsEntityTemplate XNB files CANNOT contain shared resources at all!!!
+            #endregion
             try
             {
-                this.HasModelProperties = reader.ReadBoolean();
+                this.HasAdvancedSettings = reader.ReadBoolean();
             }
             catch
             {
-                this.HasModelProperties = false;
+                this.HasAdvancedSettings = false;
             }
 
-            if (!this.HasModelProperties)
-                return; // If the flag is false, just return and don't keep reading anything else, cause the file has no more contents to deal with.
+            if (this.HasAdvancedSettings) // If the flag is false, just return and don't keep reading anything else, cause the file has no more contents to deal with.
+                this.AdvancedSettings = new AdvancedSettings(reader, logger);
 
-            // Physics Config (2)
-            this.Radius = reader.ReadSingle();
-
-            // Model Properties
-            int numModelProperties = reader.ReadInt32();
-            this.ModelProperties = new ModelProperties[numModelProperties];
-            for (int i = 0; i < numModelProperties; ++i)
-                this.ModelProperties[i] = new ModelProperties(reader, logger);
-
-            // Flag (2)
-            this.HasSkinnedMesh = reader.ReadBoolean();
-
-            // Skinned Mesh
-            this.SkinnedMesh = reader.ReadString(); // ER
-
-            throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)

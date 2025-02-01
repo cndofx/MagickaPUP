@@ -1,5 +1,6 @@
 ﻿using MagickaPUP.MagickaClasses.Collision;
 using MagickaPUP.MagickaClasses.Generic;
+using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 using System;
@@ -10,6 +11,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 {
     public class PhysicsEntityTemplate : XnaObject
     {
+        #region Constants
+
+        public static readonly string EXCEPTION_MSG_LIGHTS = "Magicka does not support lights within Physics Entities!";
+
+        #endregion
+
         #region Variables
 
         // Physics Entity Config / Properties
@@ -49,6 +56,16 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         public Vec3[] Positions { get; set; }
         public Vec3[] Sides { get; set; }
         public Quaternion[] Orientations { get; set; }
+
+        // Lights
+        // NOTE : Magicka does not support lights for PhysicsEntities AT ALL, but they were contemplated at some point during development,
+        // so the XNB files still need to contain an i32 with value 0.
+        // Within the game's code, a NotImplementedException is thrown when the number of lights found within the XNB file is greater than 0.
+        // The read value is not used for anything else, but it still has to be there for the file to be valid.
+        // Light[] lights or whatever would be the data type of this field if it were supported... Just keep that in mind in case you extend
+        // the engine to add support in the future!
+        // TODO : Modify this with game version if you ever get around making a modified version of the engine that actually supports this... tho you would need to
+        // figure out what to even implement in the first place, cause there is literally 0 code related to lights in physics entities that we could work from...
 
         #endregion
 
@@ -111,7 +128,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.Positions = new Vec3[this.NumBoundingBoxes];
             this.Sides = new Vec3[this.NumBoundingBoxes];
             this.Orientations = new Quaternion[this.NumBoundingBoxes];
-            for (int i = 0; i < NumBoundingBoxes; ++i) // NOTE : Most of this data goes completely fucking unused so I have no idea what the fuck its purpose is...
+            for (int i = 0; i < NumBoundingBoxes; ++i)
+            // NOTE : Most of this data goes completely fucking unused so I have no idea what the fuck its purpose is...
+            // TODO : Figure out what the fuck any of this does!!!
             {
                 this.SomeStrings[i] = reader.ReadString();
                 this.Positions[i].ReadInstance(reader, logger);
@@ -124,6 +143,11 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.VisualEffects = new VisualEffectStorage[numVisualEffects];
             for (int i = 0; i < numVisualEffects; ++i)
                 this.VisualEffects[i] = new VisualEffectStorage(reader, logger);
+
+            // Lights
+            int numLights = reader.ReadInt32();
+            if (numLights > 0)
+                throw new MagickaReadException(EXCEPTION_MSG_LIGHTS); // NOTE : Maybe this could be a bad idea considering how if an XNB file ever has this value it is either malformed or we were wrong when reverse engineering the code... or maybe the rest of the XNB file is correct and we could avoid decompilation problems by just being permissive here, but whatever, just for correctness we'll throw an exception here.
 
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }

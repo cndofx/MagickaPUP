@@ -74,6 +74,10 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // Conditions and Events
         public ConditionCollection Events { get; set; }
 
+        // Flag
+        // TODO : Figure out what the fuck this thing does.
+        public bool Flag { get; set; } // Stupid fucking flag implementation that sucks dick
+
         #endregion
 
         #region PublicMethods
@@ -161,6 +165,28 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
             // ID Strings
             this.PhysicsEntityID = reader.ReadString();
+
+            // Fucking piece of shit flag
+            // NOTE : WHO THE FUCK THOUGHT THIS WAS A GOOD IDEA? MAGICKA DEVS WERE ON CRACK OR WHAT???
+            // This really kicks me in the balls, because now, any physics entity file that contains a NULL shared resource at the end will basically fail to load properly...
+            // Notice how the ReadBoolean() call can only throw an exception if we're at the end of the file and we start reading out of bounds??? yeah...
+            // The flag can either be present in the file and be false or be true, if it is there and it is true, we keep reading just fine. If it is there and it is false
+            // we just finish reading just file.
+            // If the flag is not there, we catch the exception when trying to read out of bounds in the file, and set it to false and finish reading.
+            // The problem is... what happens if this file contains more data after the flag? for example, shared resources with the first byte being non 0 right after the
+            // primary object of the XNB file??? basically, this means that PhysicsEntityTemplate XNB files CANNOT contain shared resources at all!!!
+            try
+            {
+                this.Flag = reader.ReadBoolean();
+            }
+            catch
+            {
+                this.Flag = false;
+            }
+
+            if (!this.Flag)
+                return; // If the flag is false, just return and don't keep reading anything else, cause the file has no more contents to deal with.
+
 
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }

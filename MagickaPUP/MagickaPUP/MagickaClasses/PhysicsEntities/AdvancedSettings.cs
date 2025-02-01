@@ -58,10 +58,6 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.Animations = new AnimationList[27];
             for (int i = 0; i < this.Animations.Length; ++i)
                 this.Animations[i] = new AnimationList(reader, logger);
-            
-
-
-            throw new NotImplementedException("Read Advanced Physics Entity Settings is not implemented yet!");
         }
 
         public void Write(MBinaryWriter writer, DebugLogger logger = null)

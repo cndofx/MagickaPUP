@@ -1,4 +1,5 @@
 ﻿using MagickaPUP.MagickaClasses.Character;
+using MagickaPUP.MagickaClasses.Character.Animation;
 using MagickaPUP.MagickaClasses.Character.Attachments;
 using MagickaPUP.Utility.IO;
 using System;
@@ -23,6 +24,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
         // Effects
         public EffectHolder[] Effects { get; set; }
+
+        // Animations
+        public AnimationList[] Animations { get; set; }
 
         public AdvancedSettings()
         { }
@@ -49,7 +53,13 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.Effects = new EffectHolder[numAttachedEffects];
             for (int i = 0; i < numAttachedEffects; ++i)
                 this.Effects[i] = EffectHolder.Read(reader, logger);
+
+            // Animations
+            this.Animations = new AnimationList[27];
+            for (int i = 0; i < this.Animations.Length; ++i)
+                this.Animations[i] = new AnimationList(reader, logger);
             
+
 
             throw new NotImplementedException("Read Advanced Physics Entity Settings is not implemented yet!");
         }

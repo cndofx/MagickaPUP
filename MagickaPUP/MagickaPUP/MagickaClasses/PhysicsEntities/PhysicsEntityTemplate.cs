@@ -245,6 +245,18 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }
 
+        public override string GetReaderName()
+        {
+            return "Magicka.ContentReaders.PhysicsEntityTemplateReader, Magicka";
+        }
+
+        public static PhysicsEntityTemplate Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new PhysicsEntityTemplate();
+            ans.ReadInstance(reader, logger);
+            return ans;
+        }
+
         #endregion
 
         #region PrivateMethods

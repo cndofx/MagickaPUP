@@ -30,6 +30,7 @@ namespace MagickaPUP.XnaClasses
         }
 
         // TODO : Change this system to maybe use named properties to get the strings rather than hard coding them everywhere?
+        // TODO : Change this system so that the ContentTypeReader entry also contains a reference to a function to read and write instances of whatever type of object it is meant to read so that we have way less code duplication...
         public static ContentTypeReader[] ContentTypeReaders = {
             new ContentTypeReader("Magicka.ContentReaders.LevelModelReader, Magicka", 0),
             new ContentTypeReader("PolygonHead.Pipeline.BiTreeModelReader, PolygonHead", 0),
@@ -46,6 +47,7 @@ namespace MagickaPUP.XnaClasses
             new ContentTypeReader("PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0),
             new ContentTypeReader("Microsoft.Xna.Framework.Content.Texture2DReader", 0),
             new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0),
+            new ContentTypeReader("Magicka.ContentReaders.PhysicsEntityTemplateReader, Magicka", 0),
         };
 
         public static ContentTypeReader GetContentTypeReader(ContentTypeReaderIndex idx)

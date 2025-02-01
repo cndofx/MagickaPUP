@@ -76,6 +76,11 @@
   <ItemGroup>
     <Compile Include="DebugLogger.cs" />
     <Compile Include="GenericPUP.cs" />
+    <Compile Include="MagickaClasses\PhysicsEntities\AdvancedSettings.cs" />
+    <Compile Include="MagickaClasses\PhysicsEntities\GibReference.cs" />
+    <Compile Include="MagickaClasses\PhysicsEntities\PhysicsEntityTemplate.cs" />
+    <Compile Include="MagickaClasses\PhysicsEntities\Resistance.cs" />
+    <Compile Include="MagickaClasses\PhysicsEntities\VisualEffectStorage.cs" />
     <Compile Include="Utility\IO\IMReader.cs" />
     <Compile Include="Utility\IO\IMWriter.cs" />
     <Compile Include="Utility\IO\MContext.cs" />

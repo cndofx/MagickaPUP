@@ -18,6 +18,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.ComponentModel;
 using MagickaPUP.MagickaClasses.Character;
+using MagickaPUP.MagickaClasses.PhysicsEntities;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -71,6 +72,7 @@ namespace MagickaPUP.XnaClasses
     [JsonDerivedType(typeof(Texture2D), typeDiscriminator: "xna_texture_2d")]
     [JsonDerivedType(typeof(Texture2DData), typeDiscriminator: "xna_texture_2d_data")]
     [JsonDerivedType(typeof(CharacterTemplate), typeDiscriminator: "Character")]
+    [JsonDerivedType(typeof(PhysicsEntityTemplate), typeDiscriminator: "PhysicsEntity")]
     public class XnaObject
     {
         public virtual void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
@@ -157,6 +159,9 @@ namespace MagickaPUP.XnaClasses
                     break;
                 case "Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral":
                     obj = CharacterTemplate.Read(reader, logger);
+                    break;
+                case "Magicka.ContentReaders.PhysicsEntityTemplateReader, Magicka":
+                    obj = PhysicsEntityTemplate.Read(reader, logger);
                     break;
                 default:
                     obj = null;

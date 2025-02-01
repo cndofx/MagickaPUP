@@ -1,4 +1,5 @@
-﻿using MagickaPUP.MagickaClasses.Collision;
+﻿using MagickaPUP.MagickaClasses.Character.Events;
+using MagickaPUP.MagickaClasses.Collision;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.IO;
@@ -18,6 +19,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         #endregion
 
         #region Variables
+
+        // ID Strings
+        public string PhysicsEntityID { get; set; }
 
         // Physics Entity Config / Properties
         public bool IsMovable { get; set; }
@@ -66,6 +70,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // the engine to add support in the future!
         // TODO : Modify this with game version if you ever get around making a modified version of the engine that actually supports this... tho you would need to
         // figure out what to even implement in the first place, cause there is literally 0 code related to lights in physics entities that we could work from...
+
+        // Conditions and Events
+        public ConditionCollection Events { get; set; }
 
         #endregion
 
@@ -148,6 +155,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             int numLights = reader.ReadInt32();
             if (numLights > 0)
                 throw new MagickaReadException(EXCEPTION_MSG_LIGHTS); // NOTE : Maybe this could be a bad idea considering how if an XNB file ever has this value it is either malformed or we were wrong when reverse engineering the code... or maybe the rest of the XNB file is correct and we could avoid decompilation problems by just being permissive here, but whatever, just for correctness we'll throw an exception here.
+
+            // Conditions and Events
+            this.Events = new ConditionCollection(reader, logger);
+
+            // ID Strings
+            this.PhysicsEntityID = reader.ReadString();
 
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }

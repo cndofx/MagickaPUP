@@ -29,6 +29,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
         // Effects
         public string HitEffect { get; set; }
+        public VisualEffectStorage[] VisualEffects { get; set; }
 
         // Sound Banks
         public string SoundBanks { get; set; } // TODO : In the future maybe this should be replaced with an enum flags Banks and then parsed, that way we could get some Banks input validation, as well as a more consistent writing system for enum flags through strings in JSON files...
@@ -77,7 +78,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             for(int i = 0; i < numGibs; ++i)
                 this.Gibs[i] = new GibReference(reader, logger);
 
-            // Effects
+            // Hit Effect
             this.HitEffect = reader.ReadString();
 
             // Sounds
@@ -117,6 +118,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
                 this.Sides[i].ReadInstance(reader, logger);
                 this.Orientations[i].ReadInstance(reader, logger);
             }
+
+            // Visual Effects
+            int numVisualEffects = reader.ReadInt32();
+            this.VisualEffects = new VisualEffectStorage[numVisualEffects];
+            for (int i = 0; i < numVisualEffects; ++i)
+                this.VisualEffects[i] = new VisualEffectStorage(reader, logger);
 
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }

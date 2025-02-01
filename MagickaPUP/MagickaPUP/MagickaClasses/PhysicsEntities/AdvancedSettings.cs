@@ -1,4 +1,5 @@
 ﻿using MagickaPUP.MagickaClasses.Character;
+using MagickaPUP.MagickaClasses.Character.Attachments;
 using MagickaPUP.Utility.IO;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         public bool HasSkinnedMesh { get; set; }
         public string SkinnedMesh { get; set; } // External Reference. Contains the skeleton / animations etc...
 
+        // Effects
+        public EffectHolder[] Effects { get; set; }
+
         public AdvancedSettings()
         { }
 
@@ -39,6 +43,13 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // Skinned Mesh
             this.HasSkinnedMesh = reader.ReadBoolean();
             this.SkinnedMesh = reader.ReadString(); // ER
+
+            // Attached Effects
+            int numAttachedEffects = reader.ReadInt32();
+            this.Effects = new EffectHolder[numAttachedEffects];
+            for (int i = 0; i < numAttachedEffects; ++i)
+                this.Effects[i] = EffectHolder.Read(reader, logger);
+            
 
             throw new NotImplementedException("Read Advanced Physics Entity Settings is not implemented yet!");
         }

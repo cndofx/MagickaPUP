@@ -10,3 +10,4 @@
 - Maybe go back to the "everything is an XnaObject" philosophy now that we've reworked plenty of CharacterTemplate's logic to use "proxy" Storage classes?
 - MAYBE : Modify the content type readers list getter to return a list/array of index/type enums rather than strings themselves? maybe?
 - TODO : Move all of the map related stuff into its own folder, and then rename the "PhysicsEntities" folder to just physics maybe?
+- Remove or rework the NULL object appending system when writing XNB files, because that may be needed for some maps to reliably work, but most other entities don't benefit at all from the extra NULL shared resource... for example, Physics entities simply cannot work like that because they rely on a read out of bounds exception to determine whether they have a given flag or not... wtf, why did they do it like this tho??? such an unreliable piece of shit system tbh...

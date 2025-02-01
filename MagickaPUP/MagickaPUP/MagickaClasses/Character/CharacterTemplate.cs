@@ -393,7 +393,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.ModelProperties = new ModelProperties[this.NumModelProperties];
             for (int i = 0; i < this.NumModelProperties; ++i)
             {
-                this.ModelProperties[i] = Character.ModelProperties.Read(reader, logger);
+                this.ModelProperties[i] = new ModelProperties(reader, logger);
             }
             this.SkinnedModel = reader.ReadString(); /* ER */
 
@@ -559,7 +559,7 @@ namespace MagickaPUP.MagickaClasses.Character
             // Model
             writer.Write(this.NumModelProperties);
             foreach (var modelProperty in this.ModelProperties)
-                modelProperty.WriteInstance(writer, logger);
+                modelProperty.Write(writer, logger);
             writer.Write(this.SkinnedModel);
 
             // Effects

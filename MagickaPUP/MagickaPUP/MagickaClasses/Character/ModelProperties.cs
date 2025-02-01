@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
-    public class ModelProperties : XnaObject
+    public class ModelProperties
     {
         #region Variables
 
-        public string model { get; set; }
-        public float scale { get; set; }
-        public Vec3 tint { get; set; }
+        public string Model { get; set; } // External Reference
+        public float Scale { get; set; }
+        public Vec3 Tint { get; set; }
 
         #endregion
 
@@ -24,38 +24,31 @@ namespace MagickaPUP.MagickaClasses.Character
 
         public ModelProperties()
         {
-            this.model = default;
-            this.scale = 1.0f;
-            this.tint = new Vec3(1.0f, 1.0f, 1.0f);
+            this.Model = string.Empty;
+            this.Scale = 1.0f;
+            this.Tint = new Vec3(1.0f, 1.0f, 1.0f);
+        }
+
+        public ModelProperties(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading ModelProperties...");
+
+            this.Model = reader.ReadString(); // ER
+            this.Scale = reader.ReadSingle();
+            this.Tint = Vec3.Read(reader, logger);
         }
 
         #endregion
 
         #region PublicMethods
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Reading ModelProperties...");
-
-            this.model = reader.ReadString();
-            this.scale = reader.ReadSingle();
-            this.tint = Vec3.Read(reader, logger);
-        }
-
-        public static ModelProperties Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new ModelProperties();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
-
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing ModelProperties...");
 
-            writer.Write(this.model);
-            writer.Write(this.scale);
-            this.tint.WriteInstance(writer, logger);
+            writer.Write(this.Model);
+            writer.Write(this.Scale);
+            this.Tint.WriteInstance(writer, logger);
         }
 
         #endregion

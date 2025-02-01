@@ -145,9 +145,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // TODO : Figure out what the fuck any of this does!!!
             {
                 this.SomeStrings[i] = reader.ReadString();
-                this.Positions[i].ReadInstance(reader, logger);
-                this.Sides[i].ReadInstance(reader, logger);
-                this.Orientations[i].ReadInstance(reader, logger);
+                this.Positions[i] = Vec3.Read(reader, logger);
+                this.Sides[i] = Vec3.Read(reader, logger);
+                this.Orientations[i] = Quaternion.Read(reader, logger);
             }
 
             // Visual Effects

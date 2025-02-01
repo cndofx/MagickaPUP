@@ -75,7 +75,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // Conditions and Events
         public ConditionCollection Events { get; set; }
 
-        // Flag
+        // Flag (1)
         public bool HasModelProperties { get; set; } // Stupid fucking flag implementation that sucks dick
 
         // Physics Entity Config (2)
@@ -83,6 +83,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         
         // Model Properties
         public ModelProperties[] ModelProperties { get; set; }
+
+        // Flag (2)
+        public bool HasSkinnedMesh { get; set; }
+
+        // Skinned Mesh
+        public string SkinnedMesh { get; set; } // External Reference. Contains the skeleton / animations etc...
 
         #endregion
 
@@ -172,7 +178,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // ID Strings
             this.PhysicsEntityID = reader.ReadString();
 
-            // Fucking piece of shit flag
+            // Fucking piece of shit flag (1)
             // NOTE : WHO THE FUCK THOUGHT THIS WAS A GOOD IDEA? MAGICKA DEVS WERE ON CRACK OR WHAT???
             // This really kicks me in the balls, because now, any physics entity file that contains a NULL shared resource at the end will basically fail to load properly...
             // Notice how the ReadBoolean() call can only throw an exception if we're at the end of the file and we start reading out of bounds??? yeah...
@@ -202,7 +208,11 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             for (int i = 0; i < numModelProperties; ++i)
                 this.ModelProperties[i] = new ModelProperties(reader, logger);
 
+            // Flag (2)
+            this.HasSkinnedMesh = reader.ReadBoolean();
 
+            // Skinned Mesh
+            this.SkinnedMesh = reader.ReadString(); // ER
 
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");
         }

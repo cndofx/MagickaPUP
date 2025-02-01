@@ -76,8 +76,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         public ConditionCollection Events { get; set; }
 
         // Flag
-        // TODO : Figure out what the fuck this thing does.
-        public bool Flag { get; set; } // Stupid fucking flag implementation that sucks dick
+        public bool HasModelProperties { get; set; } // Stupid fucking flag implementation that sucks dick
 
         // Physics Entity Config (2)
         public float Radius { get; set; }
@@ -184,14 +183,14 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // primary object of the XNB file??? basically, this means that PhysicsEntityTemplate XNB files CANNOT contain shared resources at all!!!
             try
             {
-                this.Flag = reader.ReadBoolean();
+                this.HasModelProperties = reader.ReadBoolean();
             }
             catch
             {
-                this.Flag = false;
+                this.HasModelProperties = false;
             }
 
-            if (!this.Flag)
+            if (!this.HasModelProperties)
                 return; // If the flag is false, just return and don't keep reading anything else, cause the file has no more contents to deal with.
 
             // Physics Config (2)
@@ -202,6 +201,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.ModelProperties = new ModelProperties[numModelProperties];
             for (int i = 0; i < numModelProperties; ++i)
                 this.ModelProperties[i] = new ModelProperties(reader, logger);
+
 
 
             throw new NotImplementedException("Read PhysicsEntityTemplate is not implemented yet!");

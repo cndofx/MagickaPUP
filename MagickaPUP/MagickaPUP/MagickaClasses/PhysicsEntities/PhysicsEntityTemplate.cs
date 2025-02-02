@@ -234,7 +234,10 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
                 }
             }
 
-            // What the fuck
+            // BoundingBoxes
+            writer.Write(this.BoundingBoxes.Length);
+            foreach (var bb in this.BoundingBoxes)
+                bb.Write(writer, logger);
 
 
             // TODO : Continue implementing later on...

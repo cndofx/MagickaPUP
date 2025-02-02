@@ -104,7 +104,9 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing EventStorage...");
-            throw new NotImplementedException("Write EventStorage is not implemented yet!");
+
+            writer.Write((byte)this.EventType);
+            this.Event.WriteInstance(writer, logger);
         }
 
         #endregion

@@ -38,58 +38,58 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             {
                 // NOTE : We could do this with an array and some function pointers, but we're going with the switch-case ladder that Magicka does for consistency.
                 case EventType.Damage:
-                    this.Event = DamageEvent.Read(reader, logger);
+                    this.Event = new DamageEvent(reader, logger);
                     break;
                 case EventType.Splash:
-                    this.Event = SplashEvent.Read(reader, logger);
+                    this.Event = new SplashEvent(reader, logger);
                     break;
                 case EventType.Sound:
-                    this.Event = PlaySoundEvent.Read(reader, logger);
+                    this.Event = new PlaySoundEvent(reader, logger);
                     break;
                 case EventType.Effect:
-                    this.Event = PlayEffectEvent.Read(reader, logger);
+                    this.Event = new PlayEffectEvent(reader, logger);
                     break;
                 case EventType.Remove:
-                    this.Event = RemoveEvent.Read(reader, logger);
+                    this.Event = new RemoveEvent(reader, logger);
                     break;
                 case EventType.CameraShake:
-                    this.Event = CameraShakeEvent.Read(reader, logger);
+                    this.Event = new CameraShakeEvent(reader, logger);
                     break;
                 case EventType.Decal:
-                    this.Event = SpawnDecalEvent.Read(reader, logger);
+                    this.Event = new SpawnDecalEvent(reader, logger);
                     break;
                 case EventType.Blast:
-                    this.Event = BlastEvent.Read(reader, logger);
+                    this.Event = new BlastEvent(reader, logger);
                     break;
                 case EventType.Spawn:
-                    this.Event = SpawnEvent.Read(reader, logger);
+                    this.Event = new SpawnEvent(reader, logger);
                     break;
                 case EventType.Overkill:
-                    this.Event = OverKillEvent.Read(reader, logger);
+                    this.Event = new OverKillEvent(reader, logger);
                     break;
                 case EventType.SpawnGibs:
-                    this.Event = SpawnGibsEvent.Read(reader, logger);
+                    this.Event = new SpawnGibsEvent(reader, logger);
                     break;
                 case EventType.SpawnItem:
-                    this.Event = SpawnItemEvent.Read(reader, logger);
+                    this.Event = new SpawnItemEvent(reader, logger);
                     break;
                 case EventType.SpawnMagick:
-                    this.Event = SpawnMagickEvent.Read(reader, logger);
+                    this.Event = new SpawnMagickEvent(reader, logger);
                     break;
                 case EventType.SpawnMissile:
-                    this.Event = SpawnMissileEvent.Read(reader, logger);
+                    this.Event = new SpawnMissileEvent(reader, logger);
                     break;
                 case EventType.Light:
-                    this.Event = LightEvent.Read(reader, logger);
+                    this.Event = new LightEvent(reader, logger);
                     break;
                 case EventType.CastMagick:
-                    this.Event = CastMagickEvent.Read(reader, logger);
+                    this.Event = new CastMagickEvent(reader, logger);
                     break;
                 case EventType.DamageOwner:
-                    this.Event = DamageOwnerEvent.Read(reader, logger);
+                    this.Event = new DamageOwnerEvent(reader, logger);
                     break;
                 case EventType.Callback:
-                    this.Event = CallbackEvent.Read(reader, logger);
+                    this.Event = new CallbackEvent(reader, logger);
                     break;
                 default:
                     throw new MagickaReadException($"Event type \"{((byte)this.EventType)}\" not recognised as a valid Magicka Event!");
@@ -106,7 +106,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             logger?.Log(1, "Writing EventStorage...");
 
             writer.Write((byte)this.EventType);
-            this.Event.WriteInstance(writer, logger);
+            this.Event.Write(writer, logger);
         }
 
         #endregion

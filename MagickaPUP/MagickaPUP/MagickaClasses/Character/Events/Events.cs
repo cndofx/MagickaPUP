@@ -20,8 +20,12 @@ namespace MagickaPUP.MagickaClasses.Character.Events
     // NOTE : A good use for this class is to act as a trap to trigger exceptions when reading invalid event types, so that's good and all I suppose.
 
     #endregion
-    public class MagickaEvent : XnaObject
+    public abstract class MagickaEvent
     {
+        public MagickaEvent()
+        { }
+
+        public abstract void Write(MBinaryWriter writer, DebugLogger logger = null);
     }
 
     // NOTE : All of the event types are implemented with their own classes here in this file.
@@ -58,11 +62,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.IsVelocityBased = false;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public DamageEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading DamageEvent...");
 
@@ -73,14 +73,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.IsVelocityBased = reader.ReadBoolean();
         }
 
-        public static DamageEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new DamageEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing DamageEvent...");
 
@@ -124,11 +121,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Radius = 1.0f;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public SplashEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading SplashEvent...");
 
@@ -142,14 +135,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
                 throw new MagickaReadException(EXCEPTION_MSG);
         }
 
-        public static SplashEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new SplashEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing SplashEvent...");
 
@@ -190,11 +180,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.StopOnRemove = true;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public PlaySoundEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading PlaySoundEvent...");
 
@@ -204,14 +190,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.StopOnRemove = reader.ReadBoolean();
         }
 
-        public static PlaySoundEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new PlaySoundEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing PlaySoundEvent...");
 
@@ -242,12 +225,8 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.AlignWithWorld = false;
             this.EffectName = default;
         }
-        
-        #endregion
 
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public PlayEffectEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading PlayEffectEvent...");
 
@@ -256,14 +235,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.EffectName = reader.ReadString();
         }
 
-        public static PlayEffectEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new PlayEffectEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing PlayEffectEvent...");
 
@@ -290,25 +266,18 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Bounce = 1;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public RemoveEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading RemoveEvent...");
 
             this.Bounce = reader.ReadInt32();
         }
 
-        public static RemoveEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new RemoveEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing RemoveEvent...");
 
@@ -337,11 +306,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.FromPosition = true;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public CameraShakeEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading CameraShakeEvent...");
 
@@ -350,14 +315,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.FromPosition = reader.ReadBoolean();
         }
 
-        public static CameraShakeEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new CameraShakeEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing CameraShakeEvent...");
 
@@ -388,11 +350,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Scale = 0;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public SpawnDecalEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading SpawnDecalEvent...");
 
@@ -401,14 +359,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Scale = reader.ReadInt32();
         }
 
-        public static SpawnDecalEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new SpawnDecalEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing SpawnDecalEvent...");
 
@@ -436,24 +391,17 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         public BlastEvent()
         { }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public BlastEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading BlastEvent...");
             throw new MagickaReadException(EXCEPTION_MSG);
         }
 
-        public static BlastEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new BlastEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing BlastEvent...");
             throw new MagickaWriteException(EXCEPTION_MSG);
@@ -485,11 +433,20 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
         #region Constructor
 
-        #endregion
+        public SpawnEvent()
+        {
+            this.CharacterType = string.Empty;
+            this.AnimationIdle = string.Empty;
+            this.AnimationSpawn = string.Empty;
+            this.Health = 1.0f;
+            this.SpawnOrder = default(Order);
+            this.ReactTo = default(ReactTo);
+            this.ReactionOrder = default(Order);
+            this.Rotation = 0.0f;
+            this.Offset = new Vec3();
+        }
 
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public SpawnEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading SpawnEvent...");
 
@@ -504,14 +461,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Offset = Vec3.Read(reader, logger);
         }
 
-        public static SpawnEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new SpawnEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing SpawnEvent...");
 
@@ -552,25 +506,18 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             // Literally does nothing...
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public OverKillEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading OverKillEvent...");
             // Doesn't need to read any data, just know that it exists...
             // The existence of this event is encoded by the EventCollection class, by reading a byte where the event type is encoded.
         }
 
-        public static OverKillEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new OverKillEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing OverKillEvent...");
             // Doesn't need to write any data, just know that it exists...
@@ -597,11 +544,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.EndIndex = 0;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public SpawnGibsEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading SpawnGibsEvent...");
 
@@ -609,14 +552,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.EndIndex = reader.ReadInt32();
         }
 
-        public static SpawnGibsEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new SpawnGibsEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing SpawnGibsEvent...");
 
@@ -642,25 +582,18 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.ItemName = "random"; // Use the weapon name "random" as default so that we can generate a valid structure in memory when JSON reading fails to find a valid item name field but can still process the data in the file.
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public SpawnItemEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading SpawnItemEvent...");
 
             this.ItemName = reader.ReadString();
         }
 
-        public static SpawnItemEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new SpawnItemEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing SpawnItemEvent...");
 
@@ -685,25 +618,18 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.MagickName = "random";
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public SpawnMagickEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading SpawnMagickEvent...");
 
             this.MagickName = reader.ReadString();
         }
 
-        public static SpawnMagickEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new SpawnMagickEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing SpawnMagickEvent...");
 
@@ -732,11 +658,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Facing = false;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public SpawnMissileEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading SpawnMissileEvent...");
 
@@ -745,14 +667,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Facing = reader.ReadBoolean();
         }
 
-        public static SpawnMissileEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new SpawnMissileEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing SpawnMissileEvent...");
 
@@ -791,11 +710,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.VariationSpeed = 1.0f;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public LightEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading LightEvent...");
 
@@ -808,14 +723,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.VariationSpeed = reader.ReadSingle();
         }
 
-        public static LightEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new LightEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing LightEvent...");
 
@@ -850,11 +762,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.Elements = new Elements[0];
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public CastMagickEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading CastMagickEvent...");
 
@@ -865,14 +773,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
                 this.Elements[i] = (Elements)reader.ReadInt32();
         }
 
-        public static CastMagickEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new CastMagickEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing CastMagickEvent...");
 
@@ -908,11 +813,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.VelocityBased = false;
         }
 
-        #endregion
-
-        #region PublicMethods
-
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public DamageOwnerEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading DamageOwnerEvent...");
 
@@ -923,14 +824,11 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             this.VelocityBased = reader.ReadBoolean();
         }
 
-        public static DamageOwnerEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new DamageOwnerEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
+        #endregion
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        #region PublicMethods
+
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing DamageOwnerEvent...");
 
@@ -950,20 +848,16 @@ namespace MagickaPUP.MagickaClasses.Character.Events
 
         private static readonly string EXCEPTION_MSG = "Magicka does not support using CallbackEvents through scripts";
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public CallbackEvent()
+        { }
+
+        public CallbackEvent(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading CallbackEvent...");
             throw new MagickaReadException(EXCEPTION_MSG);
         }
 
-        public static CallbackEvent Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new CallbackEvent();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
-
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing CallbackEvent...");
             throw new MagickaWriteException(EXCEPTION_MSG);

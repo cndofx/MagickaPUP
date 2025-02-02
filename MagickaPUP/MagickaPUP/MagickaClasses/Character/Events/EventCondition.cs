@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.Remoting.Messaging;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
@@ -54,7 +55,14 @@ namespace MagickaPUP.MagickaClasses.Character.Events
         public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing EventCondition...");
-            throw new NotImplementedException("Write EventCondition not implemented yet!");
+
+            writer.Write((byte)this.EventConditionType);
+            writer.Write(this.HitPoints);
+            writer.Write((int)this.Elements);
+            writer.Write(this.Threshold);
+            writer.Write(this.Time);
+
+            writer.Write(this.Repeat);
         }
 
         #endregion

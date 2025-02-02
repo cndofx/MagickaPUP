@@ -4,9 +4,6 @@ using MagickaPUP.MagickaClasses.Character.Attachments;
 using MagickaPUP.Utility.IO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MagickaPUP.MagickaClasses.PhysicsEntities
 {
@@ -64,7 +61,27 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         {
             logger?.Log(1, "Writing Advanced Physics Entity Settings...");
 
-            throw new NotImplementedException("Write Advanced Physics Entity Settings is not implemented yet!");
+            // Advanced Config
+            writer.Write(this.Radius);
+
+            // Model Properties
+            writer.Write(this.ModelProperties.Length);
+            foreach (var property in this.ModelProperties)
+                property.Write(writer, logger);
+
+            // Skinned Mesh
+            writer.Write(this.HasSkinnedMesh);
+            writer.Write(this.SkinnedMesh); // ER
+
+            // Attached Effects
+            writer.Write(this.Effects.Length);
+            foreach (var effect in this.Effects)
+                effect.WriteInstance(writer, logger);
+
+            // Animations
+            // TODO : This TODO applies to ALL of the places where we write the 27 animation "channels"... the input JSON could have been modified to not include all the other channels. We could also have more than 27 channels on the input JSON file!!! We should actually calculate the remaining channels if we have less than 27, write default values for the remaining values. If we have more, maybe just ignore the extra or throw an exception or whatever.
+            for (int i = 0; i < this.Animations.Length; ++i)
+                this.Animations[i].Write(writer, logger);
         }
     }
 }

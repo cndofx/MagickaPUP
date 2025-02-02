@@ -253,7 +253,10 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // ID Strings
             writer.Write(this.PhysicsEntityID);
 
-            throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
+            // Advanced Settings
+            writer.Write(this.HasAdvancedSettings);
+            if (this.HasAdvancedSettings)
+                this.AdvancedSettings.Write(writer, logger);
         }
 
         public override string GetReaderName()

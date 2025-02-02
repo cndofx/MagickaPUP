@@ -54,15 +54,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         public List<Vec3> CollisionVertices { get; set; }
         public List<CollisionTriangle> CollisionTriangles { get; set; }
 
-        // Bounding box maybe?
-        // TODO : Figure out what the fuck this is
-        public int NumBoundingBoxes { get; set; }
-        public string[] SomeStrings { get; set; }
-        public Vec3[] Positions { get; set; }
-        public Vec3[] Sides { get; set; }
-        public Quaternion[] Orientations { get; set; }
+        // Bounding Boxes
+        public BoundingBox[] BoundingBoxes { get; set; }
 
         // Lights
+        // NOTE : Unused in Magicka. Probably a left over of an unimplemented feature.
+        #region Comment
         // NOTE : Magicka does not support lights for PhysicsEntities AT ALL, but they were contemplated at some point during development,
         // so the XNB files still need to contain an i32 with value 0.
         // Within the game's code, a NotImplementedException is thrown when the number of lights found within the XNB file is greater than 0.
@@ -71,6 +68,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
         // the engine to add support in the future!
         // TODO : Modify this with game version if you ever get around making a modified version of the engine that actually supports this... tho you would need to
         // figure out what to even implement in the first place, cause there is literally 0 code related to lights in physics entities that we could work from...
+        #endregion
 
         // Conditions and Events
         public ConditionCollection Events { get; set; }
@@ -137,21 +135,14 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
                 }
             }
 
-            // What the fuck
-            this.NumBoundingBoxes = reader.ReadInt32();
-            this.SomeStrings = new string[this.NumBoundingBoxes];
-            this.Positions = new Vec3[this.NumBoundingBoxes];
-            this.Sides = new Vec3[this.NumBoundingBoxes];
-            this.Orientations = new Quaternion[this.NumBoundingBoxes];
-            for (int i = 0; i < NumBoundingBoxes; ++i)
-            // NOTE : Most of this data goes completely fucking unused so I have no idea what the fuck its purpose is...
-            // TODO : Figure out what the fuck any of this does!!!
-            {
-                this.SomeStrings[i] = reader.ReadString();
-                this.Positions[i] = Vec3.Read(reader, logger);
-                this.Sides[i] = Vec3.Read(reader, logger);
-                this.Orientations[i] = Quaternion.Read(reader, logger);
-            }
+            // Bounding Boxes
+            // NOTE : Most of this data goes completely fucking unused, as no matter how many bounding boxes there are, within Magicka's code actually
+            // only the first one is used, the rest are discarded in a loop that reads the data for the rest of the bounding boxes but doesn't store it.
+            // For now, we'll keep the multi bounding box support, but it would make sense in the future to just drop it entirely and replace this with a single read.
+            int numBoundingBoxes = reader.ReadInt32();
+            this.BoundingBoxes = new BoundingBox[numBoundingBoxes];
+            for (int i = 0; i < numBoundingBoxes; ++i)
+                this.BoundingBoxes[i] = new BoundingBox(reader, logger);
 
             // Visual Effects
             int numVisualEffects = reader.ReadInt32();

@@ -250,7 +250,8 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             // Conditions and Events
             this.Events.Write(writer, logger);
 
-            // TODO : Continue implementing later on...
+            // ID Strings
+            writer.Write(this.PhysicsEntityID);
 
             throw new NotImplementedException("Write PhysicsEntityTemplate is not implemented yet!");
         }

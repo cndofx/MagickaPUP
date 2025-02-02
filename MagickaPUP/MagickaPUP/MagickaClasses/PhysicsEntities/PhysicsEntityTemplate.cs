@@ -121,6 +121,8 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
 
             // Collision mesh
             this.HasCollision = reader.ReadBoolean();
+            this.CollisionVertices = new List<Vec3>();
+            this.CollisionTriangles = new List<CollisionTriangle>();
             if (this.HasCollision)
             {
                 this.CollisionVertices = XnaObject.ReadObject<List<Vec3>>(reader, logger);
@@ -131,6 +133,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
                     triangle.index0 = reader.ReadInt32();
                     triangle.index1 = reader.ReadInt32();
                     triangle.index2 = reader.ReadInt32();
+                    this.CollisionTriangles.Add(triangle);
                 }
             }
 
@@ -239,6 +242,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
                     writer.Write(triangle.index2);
                 }
             }
+
+            // What the fuck
+
 
             // TODO : Continue implementing later on...
 

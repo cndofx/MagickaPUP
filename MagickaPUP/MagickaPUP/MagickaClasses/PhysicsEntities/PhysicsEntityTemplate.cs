@@ -244,6 +244,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             foreach (var effect in this.VisualEffects)
                 effect.Write(writer, logger);
 
+            // Lights
+            writer.Write(0); // NOTE : We hardcode writing always 0 lights since we can't even read it from the JSON file. We literally never store it there because Magicka just doesn't support lights in Physics Entities and making this value anything higher than 0 will throw an exception in game and crash.
+
 
 
             // TODO : Continue implementing later on...

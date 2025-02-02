@@ -239,6 +239,12 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             foreach (var bb in this.BoundingBoxes)
                 bb.Write(writer, logger);
 
+            // Visual Effects
+            writer.Write(this.VisualEffects.Length);
+            foreach (var effect in this.VisualEffects)
+                effect.Write(writer, logger);
+
+
 
             // TODO : Continue implementing later on...
 

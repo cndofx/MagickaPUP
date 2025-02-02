@@ -7,6 +7,7 @@ using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.MagickaClasses.Data.Audio;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Lightning;
+using System.Text.Json.Serialization;
 
 namespace MagickaPUP.MagickaClasses.Character.Events
 {
@@ -16,10 +17,28 @@ namespace MagickaPUP.MagickaClasses.Character.Events
     // C#'s type system easier... kinda similar to how the Effects classes worked, only that those were also polymorphic through C#'s inheritance system
     // in Magicka, while this system simply has repeated structs in memory for each event type in Magicka, and I really don't wanna do it like that, cause
     // that would bloat the JSON files a fucking ton.
-    
+
     // NOTE : A good use for this class is to act as a trap to trigger exceptions when reading invalid event types, so that's good and all I suppose.
 
     #endregion
+    [JsonDerivedType(typeof(DamageEvent), typeDiscriminator:"DamageEvent")]
+    [JsonDerivedType(typeof(SplashEvent), typeDiscriminator: "SplashEvent")]
+    [JsonDerivedType(typeof(PlaySoundEvent), typeDiscriminator: "PlaySoundEvent")]
+    [JsonDerivedType(typeof(PlayEffectEvent), typeDiscriminator: "PlayEffectEvent")]
+    [JsonDerivedType(typeof(RemoveEvent), typeDiscriminator: "RemoveEvent")]
+    [JsonDerivedType(typeof(CameraShakeEvent), typeDiscriminator: "CameraShakeEvent")]
+    [JsonDerivedType(typeof(SpawnDecalEvent), typeDiscriminator: "SpawnDecalEvent")]
+    [JsonDerivedType(typeof(BlastEvent), typeDiscriminator: "BlastEvent")]
+    [JsonDerivedType(typeof(SpawnEvent), typeDiscriminator: "SpawnEvent")]
+    [JsonDerivedType(typeof(OverKillEvent), typeDiscriminator: "OverKillEvent")]
+    [JsonDerivedType(typeof(SpawnGibsEvent), typeDiscriminator: "SpawnGibsEvent")]
+    [JsonDerivedType(typeof(SpawnItemEvent), typeDiscriminator: "SpawnItemEvent")]
+    [JsonDerivedType(typeof(SpawnMagickEvent), typeDiscriminator: "SpawnMagickEvent")]
+    [JsonDerivedType(typeof(SpawnMissileEvent), typeDiscriminator: "SpawnMissileEvent")]
+    [JsonDerivedType(typeof(LightEvent), typeDiscriminator: "LightEvent")]
+    [JsonDerivedType(typeof(CastMagickEvent), typeDiscriminator: "CastMagickEvent")]
+    [JsonDerivedType(typeof(DamageOwnerEvent), typeDiscriminator: "DamageOwnerEvent")]
+    [JsonDerivedType(typeof(CallbackEvent), typeDiscriminator: "CallbackEvent")]
     public abstract class MagickaEvent
     {
         public MagickaEvent()

@@ -50,7 +50,7 @@ namespace MagickaPUP.XnaClasses
     [JsonDerivedType(typeof(Trigger), typeDiscriminator: "trigger")]
     [JsonDerivedType(typeof(Effect), typeDiscriminator: "effect")]
     [JsonDerivedType(typeof(EffectDeferred), typeDiscriminator: "effect_deferred")]
-    [JsonDerivedType(typeof(BoundingBox), typeDiscriminator: "bounding_box")]
+    [JsonDerivedType(typeof(MagickaClasses.Generic.BoundingBox), typeDiscriminator: "bounding_box")] // TODO : This BB class should not be a primary object ever, along with many other classes... we should clean this shit up to speed up serialization tbh.
     [JsonDerivedType(typeof(Matrix), typeDiscriminator: "matrix")]
     [JsonDerivedType(typeof(Quaternion), typeDiscriminator: "quaternion")]
     [JsonDerivedType(typeof(Vec3), typeDiscriminator: "vector3")]
@@ -108,7 +108,7 @@ namespace MagickaPUP.XnaClasses
             logger?.Log(1, $"Required Content Type Reader : {{ name = \"{s}\", index = {code + 1}}}");
 
             // Yes, I know I should make a hard coded list with these so that I can switch on index, and assign my indices to the readers list
-            // rather than making them store strings, but I don't have the time to refact that right now, so we'll deal with the overhead until
+            // rather than making them store strings, but I don't have the time to refactor that right now, so we'll deal with the overhead until
             // I find the time to fix that. Besides, with this current (bad) implementation, at least I don't have to touch anything to be able
             // to read out the name of readers that my code does not support yet, so eh... all in all, C# makes things a fucking headache.
             // For now, please, forgive my sins.

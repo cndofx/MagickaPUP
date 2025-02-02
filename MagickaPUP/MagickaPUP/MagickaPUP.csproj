@@ -77,6 +77,7 @@
     <Compile Include="DebugLogger.cs" />
     <Compile Include="GenericPUP.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\AdvancedSettings.cs" />
+    <Compile Include="MagickaClasses\PhysicsEntities\BoundingBox.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\GibReference.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\PhysicsEntityTemplate.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\Resistance.cs" />

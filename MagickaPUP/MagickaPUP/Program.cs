@@ -87,6 +87,10 @@ namespace MagickaPUP
             // If it corresponds to a directory, it recursively searches for all of the files and generates in the output folder the same folder structure with the processed files.
         }
 
+        // TODO : Rework the execution model of the program... to many fucking bool params.
+        // We need some kind of queue / priority queue system that pushes back the operations to be performed. Obviously, the "help" command still takes priority
+        // every everything else and will override all other actions, completely disabling them.
+
         #endregion
 
         #region PublicMethods

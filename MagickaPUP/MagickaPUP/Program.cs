@@ -80,6 +80,7 @@ namespace MagickaPUP
                 new CmdEntry("-p", "--pack", "<input> <output>", "Pack JSON files into XNB files", 2, CmdPack),
                 new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack),
                 new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink),
+                new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion),
             };
 
             // NOTE : The pack and unpack cmd functions internally check if the input strings correspond to a file or to a directory.
@@ -192,6 +193,13 @@ namespace MagickaPUP
         #endregion
 
         #region PrivateMethods - Cmd Registering
+
+        private void CmdVersion(string[] args, int current)
+        {
+            // Unlike the other commands, --version does no cmd registering, instead it immediately executes the code.
+            // TODO : Rework the idea of having to use a command queue, maybe just execute the commands as they come and make a single early scan for the help cmd?
+            Console.WriteLine("MagickaPUP version 1.0.0.0"); // Version format: (itr, major, minor, patch)
+        }
 
         private void CmdThink(string[] args, int current)
         {

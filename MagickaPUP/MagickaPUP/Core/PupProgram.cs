@@ -88,36 +88,16 @@ namespace MagickaPUP.Core
 
         public void Run(string[] args)
         {
-            bool success = TryParseCommands(args);
+            bool success;
+
+            success = TryRegisterCommands(args);
             if (!success)
-            {
-                // putln("Failed to parse program arguments.");
                 return;
-            }
-
-            // Sort commands that are queued up for execution by execution priority
-            SortCmdExec();
-
-            // Execute all of the commands
-            foreach (var cmd in this.commandsToExecute)
-            {
-                if (this.mustTerminate) // NOTE : Commands that force the program to terminate set this flag to true.
-                    break;
-                cmd.execute();
-            }
-
-            if (this.displayHelp)
-            {
-                // Early quit if help was called. The help command should always take precedence and prevent any further code execution if called to prevent the user from mistakenly executing code that they did not mean to.
-                // For example, no directories or files will be created if the help command is invoked, preventing accidentally modifying the files and directory structure when an user who is experimenting with the tool enters a partially valid command.
-                ExecHelp();
+            
+            success = TryExecuteCommands();
+            if (!success)
                 return;
-            }
 
-            if (this.displayThink)
-            {
-                ExecThink();
-            }
 
             // First create the required directories, if there are any that need to be created.
             ExecDirCreate();
@@ -165,9 +145,9 @@ namespace MagickaPUP.Core
 
         #endregion
 
-        #region PrivateMethods - Arg parsing
+        #region PrivateMethods - Arg parsing and top level Command Functions
 
-        private int TryRunCommand(string[] args, int current)
+        private int RegisterCommand(string[] args, int current)
         {
             string arg = args[current];
             foreach (var cmd in this.commands)
@@ -190,7 +170,7 @@ namespace MagickaPUP.Core
             return -1;
         }
 
-        private bool TryParseCommands(string[] args)
+        private bool TryRegisterCommands(string[] args)
         {
             if (args.Length <= 0)
             {
@@ -200,7 +180,7 @@ namespace MagickaPUP.Core
 
             for (int i = 0; i < args.Length; ++i)
             {
-                int count = TryRunCommand(args, i);
+                int count = RegisterCommand(args, i);
                 i += count;
                 if (count < 0)
                 {
@@ -214,6 +194,22 @@ namespace MagickaPUP.Core
         private bool HasEnoughArgs(int argc, int current, int requiredArgs)
         {
             return (current + 1) + requiredArgs <= argc;
+        }
+
+        private bool TryExecuteCommands()
+        {
+            // Sort commands that are queued up for execution by execution priority
+            SortCmdExec();
+
+            // Execute all of the commands
+            foreach (var cmd in this.commandsToExecute)
+            {
+                if (this.mustTerminate) // NOTE : Commands that force the program to terminate set this flag to true.
+                    break;
+                cmd.execute();
+            }
+
+            return true; // TODO : Implement error handling on each specific cmd.execute() call by adding an "if(!success) return false;" around it.
         }
 
         #endregion

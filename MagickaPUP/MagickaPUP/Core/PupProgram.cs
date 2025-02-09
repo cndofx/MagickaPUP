@@ -228,7 +228,7 @@ namespace MagickaPUP.Core
 
         private void CmdThink_Register(string[] args, int current)
         {
-            AddCmdExec(1, CmdThink_Execute);
+            AddCmdExec(2, CmdThink_Execute);
         }
 
         // The latest call to the debug command will be the one to determine the final debug level.

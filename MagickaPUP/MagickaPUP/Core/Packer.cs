@@ -22,6 +22,8 @@ namespace MagickaPUP.Core
 
         private DebugLogger logger;
 
+        private WriteContext context;
+
         #endregion
 
         #region Constructor
@@ -31,6 +33,7 @@ namespace MagickaPUP.Core
             this.readFilename = infilename;
             this.writeFilename = outfilename;
             this.logger = new DebugLogger("Packer", debuglevel);
+            this.context = new WriteContext(writer, logger);
         }
 
         #endregion

@@ -22,14 +22,7 @@ namespace MagickaPUP.Core
 
         private DebugLogger logger;
 
-        #endregion
-
-        #region Properties
-
-        public string FileNameIn { get { return readfilename; } set { readfilename = value; } }
-        public string FileNameOut { get { return writefilename; } set { writefilename = value; } }
-
-        public int DebugLevel { get { return logger.DebugLevel; } set { logger.DebugLevel = value; } }
+        private ReadContext context;
 
         #endregion
 
@@ -40,6 +33,7 @@ namespace MagickaPUP.Core
             this.readfilename = infilename;
             this.writefilename = outfilename;
             this.logger = new DebugLogger("Unpacker", debugLevel);
+            this.context = new ReadContext(reader, logger);
         }
 
         #endregion

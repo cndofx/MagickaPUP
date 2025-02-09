@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\PupProgram.cs" />
     <Compile Include="Utility\IO\DebugLogger.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\AdvancedSettings.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\BoundingBox.cs" />

@@ -26,4 +26,16 @@ namespace MagickaPUP.Utility.Args
             // this.execute = execute;
         }
     }
+
+    public struct CmdEntryExec
+    {
+        public int priority;
+        public CmdExecuteFunction execute;
+
+        public CmdEntryExec(int priority, CmdExecuteFunction fn)
+        {
+            this.priority = priority;
+            this.execute = fn;
+        }
+    }
 }

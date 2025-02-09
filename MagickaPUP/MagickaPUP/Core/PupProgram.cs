@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MagickaPUP.Utility.Args;
+using MagickaPUP.Core.Args;
 
 namespace MagickaPUP.Core
 {

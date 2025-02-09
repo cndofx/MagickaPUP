@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MagickaPUP.Utility.Args
+namespace MagickaPUP.Core.Args
 {
     public delegate void CmdRegisterFunction(string[] args, int index);
     public delegate void CmdExecuteFunction();

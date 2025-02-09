@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MagickaPUP.Utility.Args
+namespace MagickaPUP.Core.Args
 {
     public class ArgParser
     {

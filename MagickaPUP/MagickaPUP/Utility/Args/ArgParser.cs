@@ -10,14 +10,7 @@ namespace MagickaPUP.Utility.Args
     {
         #region Variables
 
-        public static CmdEntry[] commands = new CmdEntry[] {
-            new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp),
-            new CmdEntry("-d", "--debug", "<lvl>", "Set the debug logging level for all commands specified after this one (default = 2)", 1, CmdDebug),
-            new CmdEntry("-p", "--pack", "<input> <output>", "Pack JSON files into XNB files", 2, CmdPack),
-            new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack),
-            new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink),
-            new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion),
-        };
+        private CmdEntry[] commands;
 
         #endregion
 
@@ -25,7 +18,15 @@ namespace MagickaPUP.Utility.Args
 
         public ArgParser()
         {
+            this.commands = new CmdEntry[0];
+        }
 
+        public ArgParser(CmdEntry helpCommand, CmdEntry[] commandsArray)
+        {
+            this.commands = new CmdEntry[commandsArray.Length + 1];
+            this.commands[0] = helpCommand;
+            for(int i = 0; i < commandsArray.Length; ++i)
+                this.commands[i + 1] = commandsArray[i];
         }
 
         #endregion

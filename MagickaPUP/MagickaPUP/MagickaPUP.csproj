@@ -74,16 +74,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DebugLogger.cs" />
-    <Compile Include="GenericPUP.cs" />
+    <Compile Include="Utility\IO\DebugLogger.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\AdvancedSettings.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\BoundingBox.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\GibReference.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\PhysicsEntityTemplate.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\Resistance.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\VisualEffectStorage.cs" />
-    <Compile Include="Utility\IO\IMReader.cs" />
-    <Compile Include="Utility\IO\IMWriter.cs" />
     <Compile Include="Utility\IO\MContext.cs" />
     <Compile Include="Utility\IO\MReader.cs" />
     <Compile Include="Utility\IO\MWriter.cs" />
@@ -223,12 +220,12 @@
     <Compile Include="MagickaClasses\Nav\NavMesh.cs" />
     <Compile Include="MagickaClasses\Physics\ForceField.cs" />
     <Compile Include="MagickaClasses\Areas\Trigger.cs" />
-    <Compile Include="Packer.cs" />
+    <Compile Include="Core\Packer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MagickaClasses\Nav\Triangle.cs" />
     <Compile Include="MagickaClasses\Generic\Vec3.cs" />
-    <Compile Include="Unpacker.cs" />
+    <Compile Include="Core\Unpacker.cs" />
     <Compile Include="Utility\Exceptions\MagickaReadException.cs" />
     <Compile Include="Utility\Exceptions\MagickaWriteException.cs" />
     <Compile Include="XnaClasses\Animation.cs" />
@@ -246,9 +243,7 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Backups\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="_TODO\TODO.txt" />
   </ItemGroup>

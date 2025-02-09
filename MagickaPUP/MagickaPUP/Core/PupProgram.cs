@@ -61,12 +61,12 @@ namespace MagickaPUP.Core
             this.displayThink = false;
 
             this.commands = new CmdEntry[] {
-                new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp),
+                new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp_Register),
                 new CmdEntry("-d", "--debug", "<lvl>", "Set the debug logging level for all commands specified after this one (default = 2)", 1, CmdDebug),
                 new CmdEntry("-p", "--pack", "<input> <output>", "Pack JSON files into XNB files", 2, CmdPack),
                 new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack),
-                new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink),
-                new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion),
+                new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink_Register),
+                new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion_Register),
                 new CmdEntry("-r", "--read", "", "Make the program run in a continuous loop where the input data is read from stdin and interpreted as commands", 0, CmdLoop),
             };
 
@@ -113,7 +113,7 @@ namespace MagickaPUP.Core
 
         private void AddCmdExec(int priority, CmdExecuteFunction fn)
         {
-            this.commandsToExecute.Add(new CmdEntryExec(0, ExecHelp));
+            this.commandsToExecute.Add(new CmdEntryExec(0, fn));
         }
 
         private void SortCmdExec()
@@ -174,7 +174,7 @@ namespace MagickaPUP.Core
         {
             if (args.Length <= 0)
             {
-                CmdHelp(args, 0);
+                CmdHelp_Register(args, 0);
                 return true;
             }
 
@@ -216,21 +216,19 @@ namespace MagickaPUP.Core
 
         #region PrivateMethods - Cmd Registering
 
-        private void CmdVersion(string[] args, int current)
+        private void CmdHelp_Register(string[] args, int current)
         {
-            // Unlike the other commands, --version does no cmd registering, instead it immediately executes the code.
-            // TODO : Rework the idea of having to use a command queue, maybe just execute the commands as they come and make a single early scan for the help cmd?
-            Console.WriteLine("MagickaPUP version 1.0.0.0"); // Version format: (itr, major, minor, patch)
+            AddCmdExec(0, CmdHelp_Execute);
         }
 
-        private void CmdThink(string[] args, int current)
+        private void CmdVersion_Register(string[] args, int current)
         {
-            this.displayThink = true;
+            AddCmdExec(1, CmdVersion_Execute);
         }
 
-        private void CmdHelp(string[] args, int current)
+        private void CmdThink_Register(string[] args, int current)
         {
-            AddCmdExec(0, ExecHelp);
+            AddCmdExec(1, CmdThink_Execute);
         }
 
         // The latest call to the debug command will be the one to determine the final debug level.
@@ -328,7 +326,7 @@ namespace MagickaPUP.Core
 
         #region PrivateMethods - Cmd Execution
 
-        private void ExecHelp()
+        private void CmdHelp_Execute()
         {
             putln($"Usage : MagickaPup.exe --op <input file> <output file>");
             putln();
@@ -336,6 +334,24 @@ namespace MagickaPUP.Core
             foreach (var command in this.commands)
                 putln($"{command.cmd1}, {command.cmd2} {command.desc1} : {command.desc2}", 1);
             putln();
+        }
+
+        private void CmdVersion_Execute()
+        {
+            Console.WriteLine("MagickaPUP version 1.0.0.0"); // Version format: (itr, major, minor, patch)
+        }
+
+        private void CmdThink_Execute()
+        {
+            // Gotta think about important stuff!!!
+            Console.WriteLine(STRING_THINK);
+            int i = 0;
+            while (true)
+            {
+                // Thinking...
+                Console.Write($"[{STRING_THINK_CHARS[(i / 10000) % STRING_THINK_CHARS.Length]}]\b\b\b");
+                ++i;
+            }
         }
 
         private void ExecPack()
@@ -355,19 +371,6 @@ namespace MagickaPUP.Core
             foreach (var dir in this.pathsToCreate)
                 if (!Directory.Exists(dir))
                     Directory.CreateDirectory(dir);
-        }
-
-        private void ExecThink()
-        {
-            // Gotta think about important stuff!!!
-            Console.WriteLine(STRING_THINK);
-            int i = 0;
-            while (true)
-            {
-                // Thinking...
-                Console.Write($"[{STRING_THINK_CHARS[(i / 10000) % STRING_THINK_CHARS.Length]}]\b\b\b");
-                ++i;
-            }
         }
 
         private void CmdLoop(string[] args, int index)

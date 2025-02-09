@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
 using MagickaPUP.XnaClasses;
-using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.Utility.IO;
 
-namespace MagickaPUP
+namespace MagickaPUP.Core
 {
     class Packer
     {

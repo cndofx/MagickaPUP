@@ -13,9 +13,9 @@ namespace MagickaPUP.Utility.Args
         public string desc2; // description
         public int args; // num args
         public CmdRegisterFunction register; // Register Function (adds the command to the execution stack)
-        public CmdExecuteFunction execute; // Execute Function (executes the function)
+        // public CmdExecuteFunction execute; // Execute Function (executes the function)
 
-        public CmdEntry(string cmd1, string cmd2, string desc1, string desc2, int args, CmdRegisterFunction register, CmdExecuteFunction execute)
+        public CmdEntry(string cmd1, string cmd2, string desc1, string desc2, int args, CmdRegisterFunction register/*, CmdExecuteFunction execute*/)
         {
             this.cmd1 = cmd1;
             this.cmd2 = cmd2;
@@ -23,7 +23,7 @@ namespace MagickaPUP.Utility.Args
             this.desc2 = desc2;
             this.args = args;
             this.register = register;
-            this.execute = execute;
+            // this.execute = execute;
         }
     }
 }

@@ -66,7 +66,7 @@ namespace MagickaPUP.Utility.Args
         {
             if (args.Length <= 0)
             {
-                this.commands[0].execute(args, 0); // NOTE : commands[0] is the help command. We execute the help command by default when no arguments are given.
+                // this.commands[0].execute(); // NOTE : commands[0] is the help command. We execute the help command by default when no arguments are given.
                 return true;
             }
 

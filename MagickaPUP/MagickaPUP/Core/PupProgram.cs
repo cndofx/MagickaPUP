@@ -15,7 +15,6 @@ namespace MagickaPUP.Core
 
         // Aids in thinking about important stuff!
         private static readonly string STRING_THINK = "     \\ /     \n  O   X   O  \n__|__/ \\__|__\n  | /   \\ |  \n / \\     / \\ \n/   \\    \\  \\\nCompiling!";
-        private static readonly string STRING_THINK_CHARS = "\\|/-";
 
         #endregion
 
@@ -121,9 +120,9 @@ namespace MagickaPUP.Core
 
         #endregion
 
-        #region PrivateMethods - Arg Parsing and Registering
+        #region PrivateMethods - Arg parsing
 
-        private int TryRegisterCommand(string[] args, int current)
+        private int TryRunCommand(string[] args, int current)
         {
             string arg = args[current];
             foreach (var cmd in this.commands)
@@ -156,7 +155,7 @@ namespace MagickaPUP.Core
 
             for (int i = 0; i < args.Length; ++i)
             {
-                int count = TryRegisterCommand(args, i);
+                int count = TryRunCommand(args, i);
                 i += count;
                 if (count < 0)
                 {
@@ -321,15 +320,13 @@ namespace MagickaPUP.Core
         {
             // Gotta think about important stuff!!!
             Console.WriteLine(STRING_THINK);
-            int i = 0;
             while (true)
             {
                 // Thinking...
-                Console.Write($"[{STRING_THINK_CHARS[(i/10000)%STRING_THINK_CHARS.Length]}]\b\b\b");
-                ++i;
             }
         }
 
         #endregion
     }
+
 }

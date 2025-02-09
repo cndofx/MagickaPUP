@@ -21,10 +21,10 @@ namespace MagickaPUP.Core
 
         public struct CmdEntry
         {
-            public string cmd1;
-            public string cmd2;
-            public string desc1;
-            public string desc2;
+            public string cmd1; // short command name
+            public string cmd2; // long command name
+            public string desc1; // arguments
+            public string desc2; // description
             public int args;
             public Action<string[], int> fn;
 

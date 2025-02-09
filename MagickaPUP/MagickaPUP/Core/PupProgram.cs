@@ -19,28 +19,34 @@ namespace MagickaPUP.Core
 
         #endregion
 
-        #region Variables
+        #region Comments and Notes
 
-        private List<CmdEntryExec> commandsToExecute;
-
-        private List<Packer> packers;
-        private List<Unpacker> unpackers;
-        private int debugLevel;
-
-        private CmdEntry[] commands;
-
-        // The help command should ALWAYS override all other commands for safety.
-        // This flags exists to allow quitting the program without running any actions when the help command was used.
+        // NOTE : The help command should ALWAYS override all other commands for safety.
+        // The displayHelp flag exists to allow quitting the program without running any actions when the help command was used.
         // Another trick could have been to say that help as -1 args, but rather than doing any dirty tricks, we're doing it cleanly because this way, there is no early
         // quitting, thus, the rest of the args are parsed, and if any errors exist, we can warn the user and exist the program.
         // This flag also prevents flooding the console with multiple calls to --help.
-        private bool displayHelp;
 
-        private bool displayThink;
+        // NOTE : The pack and unpack cmd functions internally check if the input strings correspond to a file or to a directory.
+        // If it corresponds to a file, they process said file only.
+        // If it corresponds to a directory, it recursively searches for all of the files and generates in the output folder the same folder structure with the processed files.
 
+        #endregion
+
+        #region Variables
+
+        private CmdEntry[] commands;
+
+        private List<Packer> packers;
+        private List<Unpacker> unpackers;
         private List<string> pathsToCreate;
 
-        private bool mustTerminate; // A flag used to signal that the program must terminate / exit after executing a command.
+        private int debugLevel;
+
+        private bool displayHelp;
+        private bool displayThink;
+        private bool displayVersion;
+        private bool readMode;
 
         #endregion
 
@@ -48,9 +54,6 @@ namespace MagickaPUP.Core
 
         public PupProgram()
         {
-            this.mustTerminate = false;
-            this.commandsToExecute = new List<CmdEntryExec>();
-
             this.packers = new List<Packer>();
             this.unpackers = new List<Unpacker>();
             this.pathsToCreate = new List<string>();
@@ -59,28 +62,19 @@ namespace MagickaPUP.Core
 
             this.displayHelp = false;
             this.displayThink = false;
+            this.displayVersion = false;
+            this.readMode = false;
 
             this.commands = new CmdEntry[] {
-                new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp_Register),
+                new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp),
                 new CmdEntry("-d", "--debug", "<lvl>", "Set the debug logging level for all commands specified after this one (default = 2)", 1, CmdDebug),
                 new CmdEntry("-p", "--pack", "<input> <output>", "Pack JSON files into XNB files", 2, CmdPack),
                 new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack),
-                new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink_Register),
-                new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion_Register),
-                new CmdEntry("-r", "--read", "", "Make the program run in a continuous loop where the input data is read from stdin and interpreted as commands", 0, CmdLoop),
+                new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink),
+                new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion),
+                new CmdEntry("-r", "--read", "", "Make the program run in a continuous loop where the input data is read from stdin and interpreted as commands", 0, CmdReadMode),
             };
-
-            // NOTE : The pack and unpack cmd functions internally check if the input strings correspond to a file or to a directory.
-            // If it corresponds to a file, they process said file only.
-            // If it corresponds to a directory, it recursively searches for all of the files and generates in the output folder the same folder structure with the processed files.
         }
-
-        // TODO : Rework the execution model of the program... to many fucking bool params.
-        // We need some kind of queue / priority queue system that pushes back the operations to be performed. Obviously, the "help" command still takes priority
-        // every everything else and will override all other actions, completely disabling them.
-        // The idea should be to rework things to have:
-        // CmdRegister_Whatever() / RegisterCmdWhatever() / CmdWhateverRegister() -> Registers the Whatever command for execution.
-        // CmdExecute_Whatever() / ExecuteCmdWhatever() / CmdWhateverExecute() -> Executes the code for the command Whatever.
 
         #endregion
 
@@ -96,40 +90,9 @@ namespace MagickaPUP.Core
             
             success = TryExecuteCommands();
             if (!success)
-                return;
+                return; // Kinda pointless since we don't do anything afterwards...
 
-
-            // First create the required directories, if there are any that need to be created.
-            ExecDirCreate();
-
-            // Then, pack and unpack the files. If any of the pack operations relied on some folder being created, the prior step will have done that operation.
-            ExecPack();
-            ExecUnpack();
-        }
-
-        #endregion
-
-        #region PrivateMethods
-
-        private void AddCmdExec(int priority, CmdExecuteFunction fn)
-        {
-            this.commandsToExecute.Add(new CmdEntryExec(0, fn));
-        }
-
-        private void SortCmdExec()
-        {
-            for (int i = 0; i < this.commandsToExecute.Count; ++i)
-            {
-                for (int j = 0; j < i; ++j)
-                {
-                    if (this.commandsToExecute[i].priority > commandsToExecute[j].priority)
-                    {
-                        var temp = this.commandsToExecute[i];
-                        this.commandsToExecute[i] = this.commandsToExecute[j];
-                        this.commandsToExecute[j] = temp;
-                    }
-                }
-            }
+            Console.WriteLine("Successfully finished all operations!");
         }
 
         #endregion
@@ -156,7 +119,7 @@ namespace MagickaPUP.Core
                 {
                     if (HasEnoughArgs(args.Length, current, cmd.args))
                     {
-                        cmd.register(args, current);
+                        cmd.fn(args, current);
                         return cmd.args;
                     }
                     else
@@ -174,7 +137,7 @@ namespace MagickaPUP.Core
         {
             if (args.Length <= 0)
             {
-                CmdHelp_Register(args, 0);
+                CmdHelp(args, 0);
                 return true;
             }
 
@@ -198,43 +161,80 @@ namespace MagickaPUP.Core
 
         private bool TryExecuteCommands()
         {
-            // Sort commands that are queued up for execution by execution priority
-            SortCmdExec();
-
-            // Execute all of the commands
-            foreach (var cmd in this.commandsToExecute)
+            // Display the version
+            if (this.readMode)
             {
-                if (this.mustTerminate) // NOTE : Commands that force the program to terminate set this flag to true.
-                    break;
-                cmd.execute();
+                ExecVersion();
+                return true;
             }
 
-            return true; // TODO : Implement error handling on each specific cmd.execute() call by adding an "if(!success) return false;" around it.
+            // Display the help menu
+            if (this.displayHelp)
+            {
+                #region Comment
+                // Early quit if help was called.
+                // NOTE : The help command should always take precedence and prevent any further code execution if called to prevent the user from mistakenly
+                // executing code that they did not mean to.
+                // For example, no directories or files will be created if the help command is invoked, preventing accidentally modifying the files and directory
+                // structure when an user who is experimenting with the tool enters a partially valid command.
+                #endregion
+                ExecHelp();
+                return true;
+            }
+
+            // Think about important stuff
+            if (this.displayThink)
+            {
+                ExecThink();
+                return true;
+            }
+
+            // Enter looping mode where the input is parsed through stdin / stdout communication
+            if (this.readMode)
+            {
+                ExecReadMode();
+            }
+
+            // Create the required directories.
+            ExecDirCreate();
+
+            // Perform all Pack operations
+            ExecPack();
+
+            // Perform all Unpack operations
+            ExecUnpack();
+
+            return true; // TODO : Implement error handling on each specific cmd execute() call by adding an "if(!success) return false;" around each call...
         }
 
         #endregion
 
         #region PrivateMethods - Cmd Registering
 
-        private void CmdHelp_Register(string[] args, int current)
+        private void CmdHelp(string[] args, int current)
         {
-            AddCmdExec(0, CmdHelp_Execute);
+            this.displayHelp = true;
         }
 
-        private void CmdVersion_Register(string[] args, int current)
+        private void CmdVersion(string[] args, int current)
         {
-            AddCmdExec(1, CmdVersion_Execute);
+            this.displayVersion = true;
         }
 
-        private void CmdThink_Register(string[] args, int current)
+        private void CmdThink(string[] args, int current)
         {
-            AddCmdExec(2, CmdThink_Execute);
+            this.displayThink = true;
         }
 
-        // The latest call to the debug command will be the one to determine the final debug level.
-        // Every call to the debug command will set the debug level for all commands after it.
+        private void CmdReadMode(string[] args, int current)
+        {
+            this.readMode = true;
+        }
+
         private void CmdDebug(string[] args, int current)
         {
+            // The latest call to the debug command will be the one to determine the final debug level.
+            // Every call to the debug command will set the debug level for all commands after it.
             this.debugLevel = int.Parse(args[current + 1]);
         }
 
@@ -248,10 +248,15 @@ namespace MagickaPUP.Core
             CmdPup(CmdUnpackFile, "json", args, current);
         }
 
-        // TODO : Due to the fact that this can detect errors in the input commands before running them, it would be ideal to come back to using Func<string[], int, bool> for all of the Cmd_() functions. That way, we could do some message printing or whatever. Maybe return an error code or enum and then have a list with error messages... or just use exceptions, whatever.
-        // NOTE : The variable outputExtension is only used for automatic file creation when dealing with the directory based functions. Per file functions allow the user to use any extension they want.
         private bool CmdPup(Action<string, string, int> pupFile, string outputExtension, string[] args, int current)
         {
+            #region Comment
+
+            // TODO : Due to the fact that this can detect errors in the input commands before running them, it would be ideal to come back to using Func<string[], int, bool> for all of the Cmd_() functions. That way, we could do some message printing or whatever. Maybe return an error code or enum and then have a list with error messages... or just use exceptions, whatever.
+            // NOTE : The variable outputExtension is only used for automatic file creation when dealing with the directory based functions. Per file functions allow the user to use any extension they want.
+
+            #endregion
+
             // Get cmd input data
             string iName = args[current + 1];
             string oName = args[current + 2];
@@ -275,15 +280,18 @@ namespace MagickaPUP.Core
             return false;
         }
 
-        // The purpose of this function is to iterate over the entire folder structure and go adding files to be packed or unpacked.
-        // The input path string determines what is the directory in which to look for the input files.
-        // The output path string determines what is the directory in which the output files will be stored.
-        // The input folder's subfolder structure is copied into the output folder.
-        // On the Cmd stage, the paths are added to a string list.
-        // On the Exec stage, the paths are finally used to create the directories.
-        // This ensures that no directories will be created until we are sure that the input command is 100% correct.
         private void CmdPupPath(Action<string, string, int> pupFile, string outputExtension, string iName, string oName, int debuglvl = 2)
         {
+            #region Comment
+            // The purpose of this function is to iterate over the entire folder structure and go adding files to be packed or unpacked.
+            // The input path string determines what is the directory in which to look for the input files.
+            // The output path string determines what is the directory in which the output files will be stored.
+            // The input folder's subfolder structure is copied into the output folder.
+            // On the Cmd stage, the paths are added to a string list.
+            // On the Exec stage, the paths are finally used to create the directories.
+            // This ensures that no directories will be created until we are sure that the input command is 100% correct.
+            #endregion
+
             DirectoryInfo directoryInfo = new DirectoryInfo(iName);
 
             string iName2;
@@ -326,7 +334,7 @@ namespace MagickaPUP.Core
 
         #region PrivateMethods - Cmd Execution
 
-        private void CmdHelp_Execute()
+        private void ExecHelp()
         {
             putln($"Usage : MagickaPup.exe --op <input file> <output file>");
             putln();
@@ -336,12 +344,12 @@ namespace MagickaPUP.Core
             putln();
         }
 
-        private void CmdVersion_Execute()
+        private void ExecVersion()
         {
             Console.WriteLine("MagickaPUP version 1.0.0.0"); // Version format: (itr, major, minor, patch)
         }
 
-        private void CmdThink_Execute()
+        private void ExecThink()
         {
             // Gotta think about important stuff!!!
             Console.WriteLine(STRING_THINK);
@@ -373,9 +381,9 @@ namespace MagickaPUP.Core
                     Directory.CreateDirectory(dir);
         }
 
-        private void CmdLoop(string[] args, int index)
+        private void ExecReadMode()
         {
-            // TODO : Implement
+
         }
 
         #endregion

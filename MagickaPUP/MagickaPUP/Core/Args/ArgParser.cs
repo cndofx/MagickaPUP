@@ -48,7 +48,7 @@ namespace MagickaPUP.Core.Args
                 {
                     if (HasEnoughArgs(args.Length, current, cmd.args))
                     {
-                        cmd.register(args, current);
+                        cmd.fn(args, current);
                         return cmd.args;
                     }
                     else

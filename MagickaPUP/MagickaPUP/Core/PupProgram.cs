@@ -21,6 +21,8 @@ namespace MagickaPUP.Core
 
         #region Variables
 
+        private List<CmdEntryExec> commandsToExecute;
+
         private List<Packer> packers;
         private List<Unpacker> unpackers;
         private int debugLevel;
@@ -38,12 +40,17 @@ namespace MagickaPUP.Core
 
         private List<string> pathsToCreate;
 
+        private bool mustTerminate; // A flag used to signal that the program must terminate / exit after executing a command.
+
         #endregion
 
         #region Constructor
 
         public PupProgram()
         {
+            this.mustTerminate = false;
+            this.commandsToExecute = new List<CmdEntryExec>();
+
             this.packers = new List<Packer>();
             this.unpackers = new List<Unpacker>();
             this.pathsToCreate = new List<string>();
@@ -88,6 +95,17 @@ namespace MagickaPUP.Core
                 return;
             }
 
+            // Sort commands that are queued up for execution by execution priority
+            SortCmdExec();
+
+            // Execute all of the commands
+            foreach (var cmd in this.commandsToExecute)
+            {
+                if (this.mustTerminate) // NOTE : Commands that force the program to terminate set this flag to true.
+                    break;
+                cmd.execute();
+            }
+
             if (this.displayHelp)
             {
                 // Early quit if help was called. The help command should always take precedence and prevent any further code execution if called to prevent the user from mistakenly executing code that they did not mean to.
@@ -107,6 +125,31 @@ namespace MagickaPUP.Core
             // Then, pack and unpack the files. If any of the pack operations relied on some folder being created, the prior step will have done that operation.
             ExecPack();
             ExecUnpack();
+        }
+
+        #endregion
+
+        #region PrivateMethods
+
+        private void AddCmdExec(int priority, CmdExecuteFunction fn)
+        {
+            this.commandsToExecute.Add(new CmdEntryExec(0, ExecHelp));
+        }
+
+        private void SortCmdExec()
+        {
+            for (int i = 0; i < this.commandsToExecute.Count; ++i)
+            {
+                for (int j = 0; j < i; ++j)
+                {
+                    if (this.commandsToExecute[i].priority > commandsToExecute[j].priority)
+                    {
+                        var temp = this.commandsToExecute[i];
+                        this.commandsToExecute[i] = this.commandsToExecute[j];
+                        this.commandsToExecute[j] = temp;
+                    }
+                }
+            }
         }
 
         #endregion
@@ -191,7 +234,7 @@ namespace MagickaPUP.Core
 
         private void CmdHelp(string[] args, int current)
         {
-            this.displayHelp = true;
+            AddCmdExec(0, ExecHelp);
         }
 
         // The latest call to the debug command will be the one to determine the final debug level.

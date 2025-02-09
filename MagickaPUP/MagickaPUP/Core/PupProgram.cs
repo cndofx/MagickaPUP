@@ -84,6 +84,8 @@ namespace MagickaPUP.Core
         {
             bool success;
 
+            ClearData();
+
             success = TryRegisterCommands(args);
             if (!success)
                 return;
@@ -93,6 +95,17 @@ namespace MagickaPUP.Core
                 return; // Kinda pointless since we don't do anything afterwards...
 
             // Console.WriteLine("Successfully finished all operations!");
+        }
+
+        #endregion
+
+        #region PrivateMethods
+
+        private void ClearData()
+        {
+            this.packers.Clear();
+            this.unpackers.Clear();
+            this.pathsToCreate.Clear();
         }
 
         #endregion
@@ -378,7 +391,26 @@ namespace MagickaPUP.Core
 
         private void ExecReadMode()
         {
+            // NOTE : This is implemented in a very shitty way, but whatever... good enough for now!
+            bool shouldQuit = false;
+            Console.WriteLine("Read Mode Initialized. Write q to exit.");
+            while (!shouldQuit)
+            {
+                string input = Console.ReadLine();
+                string[] args = input.Trim().Split();
+                
+                if (args.Length == 1 && args[0] == "q")
+                {
+                    Console.WriteLine("Read Mode Terminated.");
+                    return;
+                }
 
+                if (args.Length > 0 && args[0].Length > 0)
+                {
+                    PupProgram pup = new PupProgram();
+                    pup.Run(args);
+                }
+            }
         }
 
         #endregion

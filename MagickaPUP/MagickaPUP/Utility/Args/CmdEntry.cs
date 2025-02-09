@@ -2,7 +2,8 @@
 
 namespace MagickaPUP.Utility.Args
 {
-    public delegate void CmdFunction(string[] args, int index);
+    public delegate void CmdRegisterFunction(string[] args, int index);
+    public delegate void CmdExecuteFunction();
 
     public struct CmdEntry
     {
@@ -11,10 +12,10 @@ namespace MagickaPUP.Utility.Args
         public string desc1; // arguments
         public string desc2; // description
         public int args; // num args
-        public CmdFunction register; // Register Function (adds the command to the execution stack)
-        public CmdFunction execute; // Execute Function (executes the function)
+        public CmdRegisterFunction register; // Register Function (adds the command to the execution stack)
+        public CmdExecuteFunction execute; // Execute Function (executes the function)
 
-        public CmdEntry(string cmd1, string cmd2, string desc1, string desc2, int args, CmdFunction register, CmdFunction execute)
+        public CmdEntry(string cmd1, string cmd2, string desc1, string desc2, int args, CmdRegisterFunction register, CmdExecuteFunction execute)
         {
             this.cmd1 = cmd1;
             this.cmd2 = cmd2;

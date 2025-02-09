@@ -15,6 +15,7 @@ namespace MagickaPUP.Core
 
         // Aids in thinking about important stuff!
         private static readonly string STRING_THINK = "     \\ /     \n  O   X   O  \n__|__/ \\__|__\n  | /   \\ |  \n / \\     / \\ \n/   \\    \\  \\\nCompiling!";
+        private static readonly string STRING_THINK_CHARS = "\\|/-";
 
         #endregion
 
@@ -320,9 +321,12 @@ namespace MagickaPUP.Core
         {
             // Gotta think about important stuff!!!
             Console.WriteLine(STRING_THINK);
+            int i = 0;
             while (true)
             {
                 // Thinking...
+                Console.Write($"[{STRING_THINK_CHARS[(i / 10000) % STRING_THINK_CHARS.Length]}]\b\b\b");
+                ++i;
             }
         }
 

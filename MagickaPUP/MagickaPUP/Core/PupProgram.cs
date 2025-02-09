@@ -72,7 +72,7 @@ namespace MagickaPUP.Core
                 new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack),
                 new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink),
                 new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion),
-                new CmdEntry("-r", "--read", "", "Make the program run in a continuous loop where the input data is read from stdin and interpreted as commands", 0, CmdReadMode),
+                new CmdEntry("-r", "--read", "", "Make the program run in a continuous read loop where further commands will be read from stdin", 0, CmdReadMode),
             };
         }
 
@@ -163,10 +163,7 @@ namespace MagickaPUP.Core
         {
             // Display the version
             if (this.displayVersion)
-            {
                 ExecVersion();
-                return true;
-            }
 
             // Display the help menu
             if (this.displayHelp)
@@ -177,6 +174,7 @@ namespace MagickaPUP.Core
                 // executing code that they did not mean to.
                 // For example, no directories or files will be created if the help command is invoked, preventing accidentally modifying the files and directory
                 // structure when an user who is experimenting with the tool enters a partially valid command.
+                // The only exception to this rule is the --version command, since it doesn't really matter tbh...
                 #endregion
                 ExecHelp();
                 return true;
@@ -184,10 +182,7 @@ namespace MagickaPUP.Core
 
             // Think about important stuff
             if (this.displayThink)
-            {
                 ExecThink();
-                return true;
-            }
 
             // Enter looping mode where the input is parsed through stdin / stdout communication
             if (this.readMode)

@@ -11,13 +11,13 @@ namespace MagickaPUP.Core
     {
         #region Variables
 
-        private string inFilename;
-        private string outFilename;
+        private string readFilename;
+        private string writeFilename;
 
         private FileStream writeFile;
-        private MBinaryWriter writer;
-
         private FileStream readFile;
+
+        private MBinaryWriter writer;
         private StreamReader reader;
 
         private DebugLogger logger;
@@ -28,8 +28,8 @@ namespace MagickaPUP.Core
 
         public Packer(string infilename, string outfilename, int debuglevel = 1)
         {
-            this.inFilename = infilename;
-            this.outFilename = outfilename;
+            this.readFilename = infilename;
+            this.writeFilename = outfilename;
             this.logger = new DebugLogger("Packer", debuglevel);
         }
 
@@ -39,11 +39,11 @@ namespace MagickaPUP.Core
 
         public int Pack()
         {
-            this.writeFile = new FileStream(outFilename, FileMode.Create, FileAccess.Write);
-            this.writer = new MBinaryWriter(this.writeFile);
-
-            this.readFile = new FileStream(inFilename, FileMode.Open, FileAccess.Read);
+            this.readFile = new FileStream(this.readFilename, FileMode.Open, FileAccess.Read);
             this.reader = new StreamReader(readFile);
+
+            this.writeFile = new FileStream(this.writeFilename, FileMode.Create, FileAccess.Write);
+            this.writer = new MBinaryWriter(this.writeFile);
 
             this.WriteHeader();
             this.WriteContentTypeReaders(); // TODO : FIXME (PART 1)!

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MagickaPUP.Utility.Args;
 
 namespace MagickaPUP.Core
 {
@@ -120,9 +121,9 @@ namespace MagickaPUP.Core
 
         #endregion
 
-        #region PrivateMethods - Arg parsing
+        #region PrivateMethods - Arg Parsing and Registering
 
-        private int TryRunCommand(string[] args, int current)
+        private int TryRegisterCommand(string[] args, int current)
         {
             string arg = args[current];
             foreach (var cmd in this.commands)
@@ -131,7 +132,7 @@ namespace MagickaPUP.Core
                 {
                     if (HasEnoughArgs(args.Length, current, cmd.args))
                     {
-                        cmd.fn(args, current);
+                        cmd.register(args, current);
                         return cmd.args;
                     }
                     else
@@ -155,7 +156,7 @@ namespace MagickaPUP.Core
 
             for (int i = 0; i < args.Length; ++i)
             {
-                int count = TryRunCommand(args, i);
+                int count = TryRegisterCommand(args, i);
                 i += count;
                 if (count < 0)
                 {

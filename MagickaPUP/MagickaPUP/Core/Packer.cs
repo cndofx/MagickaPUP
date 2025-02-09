@@ -17,8 +17,8 @@ namespace MagickaPUP.Core
         private FileStream writeFile;
         private FileStream readFile;
 
-        private MBinaryWriter writer;
         private StreamReader reader;
+        private MBinaryWriter writer;
 
         private DebugLogger logger;
 

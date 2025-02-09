@@ -60,6 +60,7 @@ namespace MagickaPUP.Core
                 new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack),
                 new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink),
                 new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion),
+                new CmdEntry("-r", "--read", "", "Make the program run in a continuous loop where the input data is read from stdin and interpreted as commands", 0, CmdLoop),
             };
 
             // NOTE : The pack and unpack cmd functions internally check if the input strings correspond to a file or to a directory.

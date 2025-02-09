@@ -1,34 +1,41 @@
-﻿using System;
+﻿using MagickaPUP.XnaClasses;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MagickaPUP.Utility.IO
 {
-    public class MContext
+    public class Context
     {
-        #region Variables
+        public DebugLogger Logger { get; protected set; }
+        public List<ContentTypeReader> ContentTypeReaders { get; protected set; }
 
-        private MBinaryReader reader;
-        private MBinaryWriter writer;
-        private DebugLogger logger;
+        public Context()
+        {
+            this.Logger = null;
+            this.ContentTypeReaders = new List<ContentTypeReader>();
+        }
+    }
 
-        #endregion
+    public class ReadContext : Context
+    {
+        public MBinaryReader Reader { get; private set; }
 
-        #region Properties
+        public ReadContext(MBinaryReader reader, DebugLogger logger)
+        {
+            this.Reader = reader;
+            this.Logger = logger;
+        }
 
-        public MBinaryReader Reader { get { return reader; } }
-        public MBinaryWriter Writer { get { return writer; } }
-        public DebugLogger Logger { get { return logger; } }
+    }
 
-        #endregion
+    public class WriteContext : Context
+    {
+        public MBinaryWriter Writer { get; private set; }
 
-        #region Constructor
-
-        public MContext()
-        {}
-
-        #endregion
+        public WriteContext(MBinaryWriter writer, DebugLogger logger)
+        {
+            this.Writer = writer;
+            this.Logger = logger;
+        }
     }
 }

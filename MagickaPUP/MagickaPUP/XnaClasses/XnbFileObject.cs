@@ -10,10 +10,8 @@ namespace MagickaPUP.XnaClasses
     {
         #region Variables
 
-        public XnaObject primaryObject { get; set; }
-        
-        public int numSharedResources { get; set; }
-        public List<XnaObject> sharedResources { get; set; }
+        public XnaObject PrimaryObject { get; set; }
+        public List<XnaObject> SharedResources { get; set; }
 
         #endregion
 
@@ -21,9 +19,8 @@ namespace MagickaPUP.XnaClasses
 
         public XnbFileObject()
         {
-            this.primaryObject = new XnaObject();
-            this.numSharedResources = 0;
-            this.sharedResources = new List<XnaObject>();
+            this.PrimaryObject = new XnaObject();
+            this.SharedResources = new List<XnaObject>();
         }
 
         #endregion
@@ -32,13 +29,12 @@ namespace MagickaPUP.XnaClasses
 
         public void SetPrimaryObject(XnaObject obj)
         {
-            this.primaryObject = obj;
+            this.PrimaryObject = obj;
         }
 
         public void AddSharedResource(XnaObject obj)
         {
-            this.sharedResources.Add(obj);
-            ++this.numSharedResources;
+            this.SharedResources.Add(obj);
         }
 
         // MAYBE TODO : Maybe move all of the Packer and Unpacker logic to the Read and Write functions of this object? and we could also add other data such as the xnb header stuff as private or non json serializable variables and whatnot...

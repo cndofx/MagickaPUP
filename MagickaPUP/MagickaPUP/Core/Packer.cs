@@ -90,7 +90,7 @@ namespace MagickaPUP.Core
         private void WriteSharedResourceCount(XnbFileObject obj)
         {
             logger?.Log(1, "Writing Shared Resource Count...");
-            int count = obj.numSharedResources <= 0 ? 1 : obj.numSharedResources;
+            int count = obj.SharedResources.Count <= 0 ? 1 : obj.SharedResources.Count;
             writer.Write7BitEncodedInt((int)count);
             logger?.Log(1, $" - Shared Resource Count : {count}");
         }
@@ -99,15 +99,15 @@ namespace MagickaPUP.Core
         {
             logger?.Log(1, "Writing Shared Resources...");
 
-            if (obj.numSharedResources <= 0)
+            if (obj.SharedResources.Count <= 0)
             {
                 XnaObject.WriteEmptyObject(writer, logger);
             }
             else
             {
-                for (int i = 0; i < obj.numSharedResources; ++i)
+                for (int i = 0; i < obj.SharedResources.Count; ++i)
                 {
-                    XnaObject.WriteObject(obj.sharedResources[i], writer, logger);
+                    XnaObject.WriteObject(obj.SharedResources[i], writer, logger);
                 }
             }
         }
@@ -161,7 +161,7 @@ namespace MagickaPUP.Core
         private void WriteContentTypeReaders_NEW(XnbFileObject obj)
         {
             logger?.Log(1, "Writing Content Type Readers...");
-            var readers = obj.primaryObject.GetRequiredContentReaders();
+            var readers = obj.PrimaryObject.GetRequiredContentReaders();
             logger?.Log(1, $"{readers.Length} Content Type Readers were found!");
             if (readers.Length > 0)
             {
@@ -205,7 +205,7 @@ namespace MagickaPUP.Core
             logger?.Log(1, "Writing Primary Object...");
 
             // Write the primary object's required reader 7 bit integer, then write the primary object itself
-            XnaObject.WriteObject(obj.primaryObject, writer, logger);
+            XnaObject.WriteObject(obj.PrimaryObject, writer, logger);
         }
 
         private void WritePaddingBytes(int numBytes = 64, byte value = 0)

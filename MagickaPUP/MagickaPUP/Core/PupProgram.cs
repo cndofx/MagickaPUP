@@ -92,7 +92,7 @@ namespace MagickaPUP.Core
             if (!success)
                 return; // Kinda pointless since we don't do anything afterwards...
 
-            Console.WriteLine("Successfully finished all operations!");
+            // Console.WriteLine("Successfully finished all operations!");
         }
 
         #endregion
@@ -162,7 +162,7 @@ namespace MagickaPUP.Core
         private bool TryExecuteCommands()
         {
             // Display the version
-            if (this.readMode)
+            if (this.displayVersion)
             {
                 ExecVersion();
                 return true;

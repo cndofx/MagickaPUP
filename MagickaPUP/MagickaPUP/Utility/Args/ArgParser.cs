@@ -36,5 +36,58 @@ namespace MagickaPUP.Utility.Args
 
         #region PrivateMethods
         #endregion
+
+        #region PrivateMethods - Arg parsing
+
+        private int TryRunCommand(string[] args, int current)
+        {
+            string arg = args[current];
+            foreach (var cmd in this.commands)
+            {
+                if (cmd.cmd1 == arg || cmd.cmd2 == arg)
+                {
+                    if (HasEnoughArgs(args.Length, current, cmd.args))
+                    {
+                        cmd.register(args, current);
+                        return cmd.args;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Not enough arguments for arg \"{args[current]}\", {cmd.args} {(cmd.args == 1 ? "argument was" : "arguments were")} expected.\nUsage : {args[current]} {cmd.desc1}");
+                        return -1;
+                    }
+                }
+            }
+            Console.WriteLine($"Unknown or Unexpected argument detected : \"{arg}\"");
+            return -1;
+        }
+
+        private bool TryParseCommands(string[] args)
+        {
+            if (args.Length <= 0)
+            {
+                this.commands[0].execute(args, 0); // NOTE : commands[0] is the help command. We execute the help command by default when no arguments are given.
+                return true;
+            }
+
+            for (int i = 0; i < args.Length; ++i)
+            {
+                int count = TryRunCommand(args, i);
+                i += count;
+                if (count < 0)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool HasEnoughArgs(int argc, int current, int requiredArgs)
+        {
+            return (current + 1) + requiredArgs <= argc;
+        }
+
+        #endregion
     }
 }

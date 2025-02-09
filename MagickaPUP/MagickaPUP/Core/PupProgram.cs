@@ -331,6 +331,11 @@ namespace MagickaPUP.Core
             }
         }
 
+        private void CmdLoop(string[] args, int index)
+        {
+            // TODO : Implement
+        }
+
         #endregion
     }
 

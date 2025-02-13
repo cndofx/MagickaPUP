@@ -161,7 +161,17 @@ namespace MagickaPUP.XnaClasses.Xnb
             writer.Write(bytes);
         }
 
-        
+        private void WriteFileSizes(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing XNB File Sizes...");
+
+            // These sizes are placeholders. For now, we just write the max possible size and call it a day, because they don't really matter...
+            // The game doesn't use these values for anything anyway, so they can be as large as we want. Easier to just hardcode them to be the max possible size.
+            ushort sizeCompressed = 65535;
+            ushort sizeDecompressed = 65535;
+            writer.Write(sizeCompressed);
+            writer.Write(sizeDecompressed);
+        }
 
         #endregion
     }

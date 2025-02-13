@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MagickaPUP.Utility.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,9 +25,19 @@ namespace MagickaPUP.XnaClasses.Xnb
             this.SharedResources = new List<XnaObject>();
         }
 
+        public XnbFile(MBinaryReader reader, DebugLogger logger = null)
+        {
+
+        }
+
         #endregion
 
         #region PublicMethods
+
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
+        {
+
+        }
 
         public void SetPrimaryObject(XnaObject obj)
         {

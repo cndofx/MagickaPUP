@@ -83,12 +83,12 @@ namespace MagickaPUP.XnaClasses.Xnb
             // NOTE : These values should be ushort but I'm keeping them as uint as originally, the XNB file reference I was following was for XNA 4.0 and those use u32 for the size variables. In short, I'm just keeping it like this to remember and for furutre feature support etc etc... could really just be changed to ushort without any problems tbh. Actually, the writer does use ushorts so yeah lol...
             uint sizeCompressed = reader.ReadUInt16();
             uint sizeDecompressed = reader.ReadUInt16();
-            logger.Log(1, $"File Size Compressed   : {sizeCompressed}");
-            logger.Log(1, $"File Size Decompressed : {sizeDecompressed}");
+            logger?.Log(1, $"File Size Compressed   : {sizeCompressed}");
+            logger?.Log(1, $"File Size Decompressed : {sizeDecompressed}");
 
             // Get the amount of type readers and iterate through all of them.
             int typeReaderCount = reader.Read7BitEncodedInt();
-            logger.Log(1, $"Content Type Reader Count : {typeReaderCount}");
+            logger?.Log(1, $"Content Type Reader Count : {typeReaderCount}");
             for (int i = 0; i < typeReaderCount; ++i)
             {
                 ContentTypeReader currentReader = ContentTypeReader.Read(reader, logger); // TODO : Modify this so that we add them to a context var rather than the reader...
@@ -97,22 +97,22 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             // Get number of Shared Resources.
             int sharedResourceCount = reader.Read7BitEncodedInt();
-            logger.Log(1, $"Shared Resource Count : {sharedResourceCount}");
+            logger?.Log(1, $"Shared Resource Count : {sharedResourceCount}");
 
             // Read Primary Object.
-            logger.Log(1, "Reading Primary Object...");
+            logger?.Log(1, "Reading Primary Object...");
             this.PrimaryObject = XnaObject.ReadObject<XnaObject>(reader, logger);
             logger?.Log(1, "Finished Reading Primary Object!");
 
             // Read Shared Resources.
-            logger.Log(1, "Reading Shared Resources...");
+            logger?.Log(1, "Reading Shared Resources...");
             for (int i = 0; i < sharedResourceCount; ++i)
             {
                 logger.Log(1, $"Reading Shared Resource {(i + 1)} / {sharedResourceCount}...");
                 var sharedResource = XnaObject.ReadObject<XnaObject>(reader, logger);
                 this.SharedResources.Add(sharedResource);
             }
-            logger.Log(1, "Finished reading XNB file!");
+            logger?.Log(1, "Finished reading XNB file!");
         }
 
         #endregion

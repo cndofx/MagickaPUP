@@ -14,6 +14,7 @@ using MagickaPUP.MagickaClasses.Character.Aura;
 using System.Text.Json.Serialization;
 using MagickaPUP.Utility.Exceptions;
 using System.Runtime.Remoting.Messaging;
+using MagickaPUP.XnaClasses.Xna.Data;
 
 namespace MagickaPUP.MagickaClasses.Character
 {

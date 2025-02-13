@@ -19,6 +19,7 @@ using System.Text.Json.Serialization;
 using System.ComponentModel;
 using MagickaPUP.MagickaClasses.Character;
 using MagickaPUP.MagickaClasses.PhysicsEntities;
+using MagickaPUP.XnaClasses.Xna.Data;
 
 namespace MagickaPUP.XnaClasses
 {

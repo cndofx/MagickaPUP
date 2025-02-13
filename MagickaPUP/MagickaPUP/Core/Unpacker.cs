@@ -1,5 +1,6 @@
 ﻿using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
+using MagickaPUP.XnaClasses.Xna.Data;
 using MagickaPUP.XnaClasses.Xnb;
 using System;
 using System.Collections.Generic;

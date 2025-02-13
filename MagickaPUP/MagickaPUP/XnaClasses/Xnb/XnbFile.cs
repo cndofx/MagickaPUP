@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
+    // NOTE : Does this class really need to be an XnaObject?
     public class XnbFile : XnaObject
     {
         #region Variables

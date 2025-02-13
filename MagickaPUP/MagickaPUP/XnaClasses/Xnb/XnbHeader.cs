@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace MagickaPUP.XnaClasses.Xnb
 {
     // TODO : Finish implementing (move the logic from the reader and writer classes into this one here!)
+    // NOTE : Does this class really need to be an XnaObject?
     public class XnbHeader : XnaObject
     {
         public XnbHeader()

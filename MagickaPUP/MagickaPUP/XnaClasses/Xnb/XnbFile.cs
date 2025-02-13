@@ -1,4 +1,5 @@
 ﻿using MagickaPUP.Utility.IO;
+using MagickaPUP.XnaClasses.Xna.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,15 @@ namespace MagickaPUP.XnaClasses.Xnb
             }
             logger.Log(1, $"Platform \"{platform}\" is valid (Windows)");
 
-
+            // Validate version number.
+            // Gets the version number and validates that it is an XNB file for XNA 3.1, even tho it does not matter that much in this case.
+            int xnbVersion = reader.ReadByte();
+            logger?.Log(1, $"XNA Version : {{ byte = {xnbVersion}, version = {XnaVersion.XnaVersionString(((XnaVersion.XnaVersionByte)xnbVersion))} }}");
+            if (xnbVersion != (int)XnaVersion.XnaVersionByte.Version_3_1)
+            {
+                logger?.Log(1, "The XNA version is not supported by Magicka!");
+                return;
+            }
         }
 
         #endregion

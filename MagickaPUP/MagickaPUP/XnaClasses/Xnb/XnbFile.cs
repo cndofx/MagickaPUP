@@ -27,6 +27,20 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         public XnbFile(MBinaryReader reader, DebugLogger logger = null)
         {
+            logger?.Log(1, "Reading XNB File...");
+
+            // Validate the input data to check if it is a valid XNB file
+            logger?.Log(1, "Validating XNB File...");
+            char x = reader.ReadChar();
+            char n = reader.ReadChar();
+            char b = reader.ReadChar();
+            string headerString = $"{x}{n}{b}";
+            if (!(x == 'X' && n == 'N' && b == 'B'))
+            {
+                logger.Log(1, $"Header \"{headerString}\" is not valid.");
+                return;
+            }
+
 
         }
 

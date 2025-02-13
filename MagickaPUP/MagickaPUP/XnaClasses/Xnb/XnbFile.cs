@@ -99,11 +99,20 @@ namespace MagickaPUP.XnaClasses.Xnb
             int sharedResourceCount = reader.Read7BitEncodedInt();
             logger.Log(1, $"Shared Resource Count : {sharedResourceCount}");
 
-            // Read primary objects.
+            // Read Primary Object.
             logger.Log(1, "Reading Primary Object...");
             this.PrimaryObject = XnaObject.ReadObject<XnaObject>(reader, logger);
             logger?.Log(1, "Finished Reading Primary Object!");
 
+            // Read Shared Resources.
+            logger.Log(1, "Reading Shared Resources...");
+            for (int i = 0; i < sharedResourceCount; ++i)
+            {
+                logger.Log(1, $"Reading Shared Resource {(i + 1)} / {sharedResourceCount}...");
+                var sharedResource = XnaObject.ReadObject<XnaObject>(reader, logger);
+                this.SharedResources.Add(sharedResource);
+            }
+            logger.Log(1, "Finished reading XNB file!");
         }
 
         #endregion

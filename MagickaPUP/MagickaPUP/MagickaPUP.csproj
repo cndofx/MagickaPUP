@@ -238,8 +238,10 @@
     <Compile Include="XnaClasses\Texture2D.cs" />
     <Compile Include="XnaClasses\VertexBuffer.cs" />
     <Compile Include="XnaClasses\VertexDeclaration.cs" />
-    <Compile Include="XnaClasses\XnaData.cs" />
+    <Compile Include="XnaClasses\Xna\Data\XnaData.cs" />
     <Compile Include="XnaClasses\XnaObject.cs" />
+    <Compile Include="XnaClasses\Xna\Data\XnaVersion.cs" />
+    <Compile Include="XnaClasses\Xnb\Data\XnbFlags.cs" />
     <Compile Include="XnaClasses\Xnb\XnbFile.cs" />
     <Compile Include="XnaClasses\Xnb\XnbHeader.cs" />
     <Compile Include="XnaClasses\Xnb\XnbPrimaryObject.cs" />

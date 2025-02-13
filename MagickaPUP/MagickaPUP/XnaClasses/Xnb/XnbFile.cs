@@ -132,6 +132,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             WriteFileSizes(writer, logger);
             WriteContentTypeReaders(writer, logger);
             WriteSharedResourceCount(writer, logger);
+            WritePrimaryObject(writer, logger);
         }
 
         public void SetPrimaryObject(XnaObject obj)
@@ -223,6 +224,12 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             writer.Write7BitEncodedInt(count);
             logger?.Log(1, $" - Shared Resource Count : {count}");
+        }
+
+        private void WritePrimaryObject(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing Primary Object...");
+            XnaObject.WriteObject(this.PrimaryObject, writer, logger); // First we write the 7 bit encoded integer for the content reader index, then we write the object itself.
         }
 
         #endregion

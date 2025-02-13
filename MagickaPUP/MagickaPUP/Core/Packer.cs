@@ -53,7 +53,7 @@ namespace MagickaPUP.Core
             this.WriteContentTypeReaders(); // TODO : FIXME (PART 1)!
 
             string contents = ReadJSONFile();
-            XnbFileObject obj = DeserializeJSONFile(contents);
+            XnbFile obj = DeserializeJSONFile(contents);
 
             if (obj == null)
                 throw new Exception("The JSON file is not valid and has produced a NULL object!");
@@ -91,7 +91,7 @@ namespace MagickaPUP.Core
         // a null shared resource at the end of the file.
         // NOTE : This does not happen with characters, so this is a weird exception fucky wucky solution that should not be done...
 
-        private void WriteSharedResourceCount(XnbFileObject obj)
+        private void WriteSharedResourceCount(XnbFile obj)
         {
             logger?.Log(1, "Writing Shared Resource Count...");
             int count = obj.SharedResources.Count <= 0 ? 1 : obj.SharedResources.Count;
@@ -99,7 +99,7 @@ namespace MagickaPUP.Core
             logger?.Log(1, $" - Shared Resource Count : {count}");
         }
 
-        private void WriteSharedResources(XnbFileObject obj)
+        private void WriteSharedResources(XnbFile obj)
         {
             logger?.Log(1, "Writing Shared Resources...");
 
@@ -162,7 +162,7 @@ namespace MagickaPUP.Core
         // This piece of shit is wrong because of the way we encoded the automatic index finding bullshit... We'll fix this some day in the future...
         // TODO : Fix C#'s bullshit by finding some fucking workaround. This could be done by storing the content reader index within the xnb file object thing, maybe...
         // NOTE : A possible fix would be to implement the context system and have it contain the list of readers and writers, and that way we don't hardcode "global"/fixed index values for all of the known content reader types.
-        private void WriteContentTypeReaders_NEW(XnbFileObject obj)
+        private void WriteContentTypeReaders_NEW(XnbFile obj)
         {
             logger?.Log(1, "Writing Content Type Readers...");
             var readers = obj.PrimaryObject.GetRequiredContentReaders();
@@ -194,17 +194,17 @@ namespace MagickaPUP.Core
             return contents;
         }
 
-        private XnbFileObject DeserializeJSONFile(string contents)
+        private XnbFile DeserializeJSONFile(string contents)
         {
             logger?.Log(1, "Deserializing input JSON file...");
 
             // Deserialize the JSON file into a tree-like C# class structure
-            XnbFileObject obj = JsonSerializer.Deserialize<XnbFileObject>(contents);
+            XnbFile obj = JsonSerializer.Deserialize<XnbFile>(contents);
 
             return obj;
         }
 
-        private void WritePrimaryObject(XnbFileObject obj)
+        private void WritePrimaryObject(XnbFile obj)
         {
             logger?.Log(1, "Writing Primary Object...");
 

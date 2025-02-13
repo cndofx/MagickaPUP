@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
-    public class XnbFileObject : XnaObject
+    public class XnbFile : XnaObject
     {
         #region Variables
 
@@ -17,7 +17,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         #region Constructor
 
-        public XnbFileObject()
+        public XnbFile()
         {
             this.PrimaryObject = new XnaObject();
             this.SharedResources = new List<XnaObject>();

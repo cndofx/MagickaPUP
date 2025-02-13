@@ -114,7 +114,7 @@ namespace MagickaPUP.Core
             logger.Log(1, $"Shared Resource Count : {sharedResourceCount}");
 
             // Create variable for XNB file container.
-            XnbFileObject xnbFileObject = new XnbFileObject();
+            XnbFile xnbFileObject = new XnbFile();
 
             // Read primary objects.
             logger.Log(1, "Reading Primary Object...");

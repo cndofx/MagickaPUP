@@ -47,6 +47,7 @@ namespace MagickaPUP.Core
         private bool displayThink;
         private bool displayVersion;
         private bool readMode;
+        private bool pauseOnFinish;
 
         #endregion
 
@@ -73,6 +74,7 @@ namespace MagickaPUP.Core
                 new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink),
                 new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion),
                 new CmdEntry("-r", "--read", "", "Make the program run in a continuous read loop where further commands will be read from stdin", 0, CmdReadMode),
+                new CmdEntry("-P", "--pause-on-finish", "", "Make the program pause and wait for user input when all operations are finished", 0, CmdPauseOnFinish),
             };
         }
 
@@ -212,12 +214,21 @@ namespace MagickaPUP.Core
             // Perform all Unpack operations
             ExecUnpack();
 
+            // Pause at end if required
+            if (this.pauseOnFinish)
+                ExecPauseOnFinish();
+
             return true; // TODO : Implement error handling on each specific cmd execute() call by adding an "if(!success) return false;" around each call...
         }
 
         #endregion
 
         #region PrivateMethods - Cmd Registering
+
+        private void CmdPauseOnFinish(string[] args, int current)
+        {
+            this.pauseOnFinish = true;
+        }
 
         private void CmdHelp(string[] args, int current)
         {
@@ -341,6 +352,12 @@ namespace MagickaPUP.Core
         #endregion
 
         #region PrivateMethods - Cmd Execution
+
+        private void ExecPauseOnFinish()
+        {
+            Console.WriteLine("Press <ENTER> to continue...");
+            Console.ReadLine();
+        }
 
         private void ExecHelp()
         {

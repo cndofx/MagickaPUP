@@ -112,6 +112,9 @@ namespace MagickaPUP.XnaClasses.Xnb
                 var sharedResource = XnaObject.ReadObject<XnaObject>(reader, logger);
                 this.SharedResources.Add(sharedResource);
             }
+            logger?.Log(1, "Finished reading Shared Resources!");
+
+            // Final log to notify that the XNB file has been fully read
             logger?.Log(1, "Finished reading XNB file!");
         }
 

@@ -127,7 +127,8 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Writing XNB File...");
 
-
+            WriteHeader(writer, logger);
+            WriteFileSizes(writer, logger);
         }
 
         public void SetPrimaryObject(XnaObject obj)

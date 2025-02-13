@@ -106,6 +106,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             // Read Shared Resources.
             logger?.Log(1, "Reading Shared Resources...");
+            this.SharedResources = new List<XnaObject>();
             for (int i = 0; i < sharedResourceCount; ++i)
             {
                 logger.Log(1, $"Reading Shared Resource {(i + 1)} / {sharedResourceCount}...");

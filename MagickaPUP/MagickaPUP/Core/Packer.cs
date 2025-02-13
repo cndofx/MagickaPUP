@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Json;
 using MagickaPUP.XnaClasses;
 using MagickaPUP.Utility.IO;
+using MagickaPUP.XnaClasses.Xnb;
 
 namespace MagickaPUP.Core
 {

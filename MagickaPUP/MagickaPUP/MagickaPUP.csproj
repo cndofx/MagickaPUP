@@ -240,7 +240,7 @@
     <Compile Include="XnaClasses\VertexDeclaration.cs" />
     <Compile Include="XnaClasses\XnaData.cs" />
     <Compile Include="XnaClasses\XnaObject.cs" />
-    <Compile Include="XnaClasses\XnbFileObject.cs" />
+    <Compile Include="XnaClasses\Xnb\XnbFileObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

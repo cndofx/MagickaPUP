@@ -77,6 +77,14 @@ namespace MagickaPUP.XnaClasses.Xnb
                 logger?.Log(1, "Cannot read compressed files!");
                 return;
             }
+
+            // Get file sizes for compressed and uncompressed sizes.
+            // NOTE : They can actually be whatever you want, it doesn't really matter since Magicka doesn't use these values actually...
+            // NOTE : These values should be ushort but I'm keeping them as uint as originally, the XNB file reference I was following was for XNA 4.0 and those use u32 for the size variables. In short, I'm just keeping it like this to remember and for furutre feature support etc etc... could really just be changed to ushort without any problems tbh. Actually, the writer does use ushorts so yeah lol...
+            uint sizeCompressed = reader.ReadUInt16();
+            uint sizeDecompressed = reader.ReadUInt16();
+            logger.Log(1, $"File Size Compressed   : {sizeCompressed}");
+            logger.Log(1, $"File Size Decompressed : {sizeDecompressed}");
         }
 
         #endregion

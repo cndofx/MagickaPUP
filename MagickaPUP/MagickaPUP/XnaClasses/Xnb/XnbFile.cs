@@ -2,9 +2,7 @@
 using MagickaPUP.XnaClasses.Xna.Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MagickaPUP.XnaClasses.Xnb.Data;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
@@ -45,21 +43,38 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             // Perform platform validation.
             // Check if the platform is Windows. (No other platforms are supported in Magicka, so it really can't be anything else...)
-            char platform = reader.ReadChar();
+            char platform = reader.ReadChar(); // TODO : Maybe replace this with a ReadByte() call to ensure that users with a different system encoding don't break the program?
             if (platform != 'w')
             {
                 logger.Log(1, $"Platform \"{platform}\" is not valid.");
                 return;
             }
-            logger.Log(1, $"Platform \"{platform}\" is valid (Windows)");
+            logger?.Log(1, $"Platform \"{platform}\" is valid (Windows)");
 
             // Validate version number.
             // Gets the version number and validates that it is an XNB file for XNA 3.1, even tho it does not matter that much in this case.
-            int xnbVersion = reader.ReadByte();
+            byte xnbVersion = reader.ReadByte();
             logger?.Log(1, $"XNA Version : {{ byte = {xnbVersion}, version = {XnaVersion.XnaVersionString(((XnaVersion.XnaVersionByte)xnbVersion))} }}");
-            if (xnbVersion != (int)XnaVersion.XnaVersionByte.Version_3_1)
+            if (xnbVersion != (byte)XnaVersion.XnaVersionByte.Version_3_1)
             {
                 logger?.Log(1, "The XNA version is not supported by Magicka!");
+                return;
+            }
+
+            // Get XNB Flags to check for compression.
+            // Compression type should always be uncompressed to be able to read the data within the file.
+            // Expect this vlaue to be 0x00. If it's 0x80 or anything else, bail out.
+            byte xnbFlags = reader.ReadByte();
+            bool hiDefProfile = (xnbFlags & (byte)XnbFlags.HiDefProfile) == (byte)XnbFlags.HiDefProfile;
+            bool isCompressedLz4 = (xnbFlags & (byte)XnbFlags.Lz4Compressed) == (byte)XnbFlags.Lz4Compressed;
+            bool isCompressedLzx = (xnbFlags & (byte)XnbFlags.LzxCompressed) == (byte)XnbFlags.LzxCompressed;
+            logger?.Log(1, $"XNB Flags : (byte = {xnbFlags})");
+            logger?.Log(1, $" - HD Profile          : {hiDefProfile}");
+            logger?.Log(1, $" - Compressed with Lz4 : {isCompressedLz4}");
+            logger?.Log(1, $" - Compressed with Lzx : {isCompressedLzx}");
+            if (isCompressedLz4 || isCompressedLzx) // TODO : Implement decompression support in the future!
+            {
+                logger?.Log(1, "Cannot read compressed files!");
                 return;
             }
         }

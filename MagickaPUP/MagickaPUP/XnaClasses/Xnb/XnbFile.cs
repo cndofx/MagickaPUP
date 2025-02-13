@@ -94,6 +94,10 @@ namespace MagickaPUP.XnaClasses.Xnb
                 ContentTypeReader currentReader = ContentTypeReader.Read(reader, logger); // TODO : Modify this so that we add them to a context var rather than the reader...
                 reader.ContentTypeReaders.Add(currentReader);
             }
+
+            // Get number of Shared Resources.
+            int sharedResourceCount = reader.Read7BitEncodedInt();
+            logger.Log(1, $"Shared Resource Count : {sharedResourceCount}");
         }
 
         #endregion

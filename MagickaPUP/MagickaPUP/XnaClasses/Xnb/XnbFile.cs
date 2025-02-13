@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using MagickaPUP.XnaClasses.Xnb.Data;
 using MagickaPUP.MagickaClasses.Liquids;
+using MagickaPUP.MagickaClasses.Map;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
@@ -130,6 +131,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             WriteHeader(writer, logger);
             WriteFileSizes(writer, logger);
             WriteContentTypeReaders(writer, logger);
+            WriteSharedResourceCount(writer, logger);
         }
 
         public void SetPrimaryObject(XnaObject obj)
@@ -203,6 +205,24 @@ namespace MagickaPUP.XnaClasses.Xnb
                 foreach (var reader in XnaInfo.ContentTypeReaders)
                     reader.WriteInstance(writer, logger);
             }
+        }
+
+        private void WriteSharedResourceCount(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing Shared Resource Count...");
+
+            bool hasAnyResources = this.SharedResources.Count > 0;
+            bool isLevelModel = this.PrimaryObject is LevelModel;
+
+            int count = this.SharedResources.Count;
+
+            // We always append a null object as a shared resource if the number of shared resources is 0 and the object type is a level model.
+            // This makes the game less likely to crash when dealing with a map, for some fucking reason...
+            if (!hasAnyResources && isLevelModel)
+                ++count;
+
+            writer.Write7BitEncodedInt(count);
+            logger?.Log(1, $" - Shared Resource Count : {count}");
         }
 
         #endregion

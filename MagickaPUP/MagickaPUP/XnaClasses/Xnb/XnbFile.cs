@@ -85,6 +85,15 @@ namespace MagickaPUP.XnaClasses.Xnb
             uint sizeDecompressed = reader.ReadUInt16();
             logger.Log(1, $"File Size Compressed   : {sizeCompressed}");
             logger.Log(1, $"File Size Decompressed : {sizeDecompressed}");
+
+            // Get the amount of type readers and iterate through all of them.
+            int typeReaderCount = reader.Read7BitEncodedInt();
+            logger.Log(1, $"Content Type Reader Count : {typeReaderCount}");
+            for (int i = 0; i < typeReaderCount; ++i)
+            {
+                ContentTypeReader currentReader = ContentTypeReader.Read(reader, logger); // TODO : Modify this so that we add them to a context var rather than the reader...
+                reader.ContentTypeReaders.Add(currentReader);
+            }
         }
 
         #endregion

@@ -37,9 +37,20 @@ namespace MagickaPUP.XnaClasses.Xnb
             string headerString = $"{x}{n}{b}";
             if (!(x == 'X' && n == 'N' && b == 'B'))
             {
-                logger.Log(1, $"Header \"{headerString}\" is not valid.");
+                logger.Log(1, $"Header \"{headerString}\" is not valid!");
                 return;
             }
+            logger?.Log(1, "Header \"XNB\" is valid!");
+
+            // Perform platform validation.
+            // Check if the platform is Windows. (No other platforms are supported in Magicka, so it really can't be anything else...)
+            char platform = reader.ReadChar();
+            if (platform != 'w')
+            {
+                logger.Log(1, $"Platform \"{platform}\" is not valid.");
+                return;
+            }
+            logger.Log(1, $"Platform \"{platform}\" is valid (Windows)");
 
 
         }

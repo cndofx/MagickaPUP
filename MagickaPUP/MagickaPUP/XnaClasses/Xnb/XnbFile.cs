@@ -10,6 +10,7 @@ namespace MagickaPUP.XnaClasses.Xnb
     {
         #region Variables
 
+        public XnbHeader Header { get; set; } // TODO : Implement reading and writing for the header data...
         public XnaObject PrimaryObject { get; set; }
         public List<XnaObject> SharedResources { get; set; }
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
-    internal class XnbHeader
+    public class XnbHeader
     {
     }
 }

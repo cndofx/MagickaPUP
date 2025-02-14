@@ -22,4 +22,7 @@ namespace MagickaPUP.Utility.Exceptions
         : base($"{EXCEPTION_MSG_BASE} : {message}", inner)
         { }
     }
+
+    public class MagickaWriteExceptionPermissive : MagickaWriteException
+    { }
 }

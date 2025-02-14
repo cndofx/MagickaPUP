@@ -26,4 +26,10 @@ namespace MagickaPUP.Utility.Exceptions
         :base($"{EXCEPTION_MSG_BASE} : {message}", inner)
         { }
     }
+
+    // This class simply exists so that we can catch this type of exception when we want to be permissive with errors and let the process continue by skipping
+    // a given read operation.
+    // An example of a situation where this is used is when adding multiple -u operations on a single mpup call, if one fails, we want the rest to continue working.
+    public class MagickaReadExceptionPermissive : MagickaReadException
+    { }
 }

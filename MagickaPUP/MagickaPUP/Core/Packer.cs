@@ -50,158 +50,36 @@ namespace MagickaPUP.Core
             this.writeFile = new FileStream(this.writeFilename, FileMode.Create, FileAccess.Write);
             this.writer = new MBinaryWriter(this.writeFile);
 
-            string contents = ReadJSONFile();
-            XnbFile obj = DeserializeJSONFile(contents);
-
-            if (obj == null)
-                throw new Exception("The JSON file is not valid and has produced a NULL object!");
-
-            obj.Write(writer, logger);
+            var xnbFile = ReadJsonFile();
+            WriteXnbFile(xnbFile);
 
             return 0;
         }
 
         #endregion
 
-        #region PrivateMethodsSharedResources
-
-        // README : If the shared resource count 0 is in the input JSON, always append a null object at the end.
-        // Otherwise, don't append anything and just write the shared resources.
-        // This is done for padding reasons, because apparently Magicka requires at least 1 shared resource to exist, so many official maps just bundle
-        // a null shared resource at the end of the file.
-        // NOTE : This does not happen with characters, so this is a weird exception fucky wucky solution that should not be done...
-
-        private void WriteSharedResourceCount(XnbFile obj)
-        {
-            logger?.Log(1, "Writing Shared Resource Count...");
-            int count = obj.SharedResources.Count <= 0 ? 1 : obj.SharedResources.Count;
-            writer.Write7BitEncodedInt((int)count);
-            logger?.Log(1, $" - Shared Resource Count : {count}");
-        }
-
-        private void WriteSharedResources(XnbFile obj)
-        {
-            logger?.Log(1, "Writing Shared Resources...");
-
-            if (obj.SharedResources.Count <= 0)
-            {
-                XnaObject.WriteEmptyObject(writer, logger);
-            }
-            else
-            {
-                for (int i = 0; i < obj.SharedResources.Count; ++i)
-                {
-                    XnaObject.WriteObject(obj.SharedResources[i], writer, logger);
-                }
-            }
-        }
-
-        #endregion
-
         #region PrivateMethods
 
-        private void WriteHeader()
+        private XnbFile ReadJsonFile()
         {
-            logger?.Log(1, "Writing XNB Header...");
-
-            byte[] bytes = { (byte)'X', (byte)'N', (byte)'B', (byte)'w', (byte)XnaVersion.XnaVersionByte.Version_3_1, 0 };
-            writer.Write(bytes);
-
-            // These sizes are placeholders. For now, we just write the max possible size and call it a day.
-            ushort packedSize = 65535;
-            ushort unpackedSize = 65535;
-            writer.Write(packedSize);
-            writer.Write(unpackedSize);
-        }
-
-        // DEPRECATED
-        // TODO : Remove old unused code... WHEN YOU FUCKING FIX THE NEW ONE...
-        private void WriteContentTypeReaders()
-        {
-            logger?.Log(1, "Writing Content Type Readers...");
-
-            // README : For now, we'll just add all of the type readers to the files because we can.
-            // In the future, it would be cool if we could just pick and choose those that are needed, but
-            // does it really matter that much? it barely has any overhead (as of now...), so...
-            // better to just bundle all of the known type readers just in case and call it a day.
-
-            // pass it to an int to make sure that the number is in the right type... who knows, maybe a future C#
-            // implementation of the containers library will make it so that .Count() returns an unsigned type,
-            // and maybe the unerlying implementation of the write 7 bit encoded int method could break with that.
-            // Better not risk it with future changes and enforce the correct type, I guess!
-            int numReaders = XnaInfo.ContentTypeReaders.Length;
-
-            writer.Write7BitEncodedInt(numReaders);
-
-            for (int i = 0; i < numReaders; ++i)
-            {
-                XnaInfo.ContentTypeReaders[i].WriteInstance(writer, logger);
-            }
-        }
-
-        // This piece of shit is wrong because of the way we encoded the automatic index finding bullshit... We'll fix this some day in the future...
-        // TODO : Fix C#'s bullshit by finding some fucking workaround. This could be done by storing the content reader index within the xnb file object thing, maybe...
-        // NOTE : A possible fix would be to implement the context system and have it contain the list of readers and writers, and that way we don't hardcode "global"/fixed index values for all of the known content reader types.
-        private void WriteContentTypeReaders_NEW(XnbFile obj)
-        {
-            logger?.Log(1, "Writing Content Type Readers...");
-            var readers = obj.PrimaryObject.GetRequiredContentReaders();
-            logger?.Log(1, $"{readers.Length} Content Type Readers were found!");
-            if (readers.Length > 0)
-            {
-                // If the obtained object defines its own content type reader list, then we write those...
-                writer.Write7BitEncodedInt(readers.Length);
-                foreach (var reader in readers)
-                    reader.WriteInstance(writer, logger);
-            }
-            else
-            {
-                logger?.Log(1, "Defaulting to writing all content type readers...");
-                // If the obtained object does not define its own content type reader list, then we write them all just in case...
-                writer.Write7BitEncodedInt(XnaInfo.ContentTypeReaders.Length);
-                foreach (var reader in XnaInfo.ContentTypeReaders)
-                    reader.WriteInstance(writer, logger);
-            }
-        }
-
-        private string ReadJSONFile()
-        {
-            logger?.Log(1, "Reading input JSON file...");
-
             // Read the contents of the JSON file
+            logger?.Log(1, "Reading input JSON file...");
             string contents = reader.ReadToEnd();
 
-            return contents;
-        }
-
-        private XnbFile DeserializeJSONFile(string contents)
-        {
-            logger?.Log(1, "Deserializing input JSON file...");
-
             // Deserialize the JSON file into a tree-like C# class structure
+            logger?.Log(1, "Deserializing input JSON file...");
             XnbFile obj = JsonSerializer.Deserialize<XnbFile>(contents);
+
+            // Throw an exception if the read JSON object is not valid
+            if (obj == null)
+                throw new Exception("The JSON file is not valid and has produced a NULL object!");
 
             return obj;
         }
 
-        private void WritePrimaryObject(XnbFile obj)
+        private void WriteXnbFile(XnbFile xnbFile)
         {
-            logger?.Log(1, "Writing Primary Object...");
-
-            // Write the primary object's required reader 7 bit integer, then write the primary object itself
-            XnaObject.WriteObject(obj.PrimaryObject, writer, logger);
-        }
-
-        private void WritePaddingBytes(int numBytes = 64, byte value = 0)
-        {
-            logger?.Log(1, "Writing padding bytes...");
-            logger?.Log(2, $" - Bytes : {numBytes}");
-            logger?.Log(2, $" - Value : {value}");
-
-            byte[] bytes = new byte[numBytes];
-            for (int i = 0; i < numBytes; ++i)
-                bytes[i] = value;
-            writer.Write(bytes);
+            xnbFile.Write(writer, logger);
         }
 
         #endregion

@@ -223,22 +223,6 @@ namespace MagickaPUP.XnaClasses
             writer.Write(str);
         }
 
-        // TODO : Cleanup and remove
-        // Special case for object
-        /*
-        public static void WriteObject(object obj, MBinaryWriter writer, DebugLogger logger = null)
-        {
-            // etc...
-        }
-        */
-
-        // As ugly as this is, this is actually very similar to what the real XNA framework does when an user implements their own Content Type Readers and Writers...
-        // README : Should try to find a way to get rid of the large switch and just try to make use of a similar system to this one...? maybe?
-        public virtual string GetReaderName()
-        {
-            return "__none__";
-        }
-
         // Internal implementation to read any list type. Requires knowing the reader's string beforehand, so the public interface will have a function for every possible case,
         // such as List<Vec3>.
         // This could probably be "simplied" further if appart from GetReaderName(), we added a GetListReaderName() method or whatever... that way, we could get rid of the specialized static methods.
@@ -272,6 +256,13 @@ namespace MagickaPUP.XnaClasses
                 // writer.Write7BitEncodedInt(itrCode);
                 obj[i].WriteInstance(writer, logger);
             }
+        }
+
+        // As ugly as this is, this is actually very similar to what the real XNA framework does when an user implements their own Content Type Readers and Writers...
+        // README : Should try to find a way to get rid of the large switch and just try to make use of a similar system to this one...? maybe?
+        public virtual string GetReaderName()
+        {
+            return "__none__";
         }
 
         // This shit is pretty fucking dumb, should probably move it into a separate PrimaryXnaObject class that inherits from XnaObject or whatever...

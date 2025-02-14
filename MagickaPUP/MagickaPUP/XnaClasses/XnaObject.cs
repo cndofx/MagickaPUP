@@ -132,12 +132,11 @@ namespace MagickaPUP.XnaClasses
         public static T ReadObject<T>(MBinaryReader reader, DebugLogger logger = null)
         {
             // Read a 7 bit encoded int to obtain the index (starting at 1) of the required content type reader.
-            int indexContentTypeReaderXnb = reader.Read7BitEncodedInt() - 1;
+            int indexContentTypeReaderXnb = reader.Read7BitEncodedInt();
 
             // Subtract 1 because the indices start at 1 on the XNB file but they start at 0 in C#.
             int indexContentTypeReaderReal = indexContentTypeReaderXnb - 1;
             
-            string s = "__none__";
             object obj = null;
 
             // Handle reading object with reader index 0 (NULL object)
@@ -154,11 +153,11 @@ namespace MagickaPUP.XnaClasses
             }
 
             // Get the content type reader
-            ContentTypeReader contentTypeReader = reader.ContentTypeReaders[indexContentTypeReaderReal]; // TODO : Change this to get the readers from a CTX var in the future.
+            ContentTypeReader contentTypeReader = reader.ContentTypeReaders.ContentTypeReaders[indexContentTypeReaderReal]; // TODO : Change this to get the readers from a CTX var in the future.
             logger?.Log(1, $"Required Content Type Reader : {{ name = \"{contentTypeReader.Name}\", index = {indexContentTypeReaderXnb}}}");
 
             // Read the data and return the constructed object
-            switch (s)
+            switch (contentTypeReader.Name)
             {
                 case "Magicka.ContentReaders.LevelModelReader, Magicka":
                     obj = LevelModel.Read(reader, logger);
@@ -210,7 +209,7 @@ namespace MagickaPUP.XnaClasses
                     break;
                 default:
                     obj = null;
-                    throw new Exception($"Content Reader Type \"{s}\" is not supported yet!");
+                    throw new Exception($"Content Reader Type \"{contentTypeReader.Name}\" is not supported yet!");
             }
 
             // This kind of gives me cancer, but I guess you could always do an "obj.GetType()" or "obj is" or whatever to
@@ -229,7 +228,7 @@ namespace MagickaPUP.XnaClasses
             }    
 
             string name = obj.GetReaderName();
-            int index = XnaInfo.GetContentTypeReaderIndex(name);
+            int index = writer.ContentTypeReaders.GetReaderIndex(name);
 
             logger?.Log(1, $"Requesting ContentTypeReader \"{name}\" to read type \"{obj.GetType().Name}\"");
 

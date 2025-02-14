@@ -76,6 +76,10 @@ namespace MagickaPUP.XnaClasses
     [JsonDerivedType(typeof(PhysicsEntityTemplate), typeDiscriminator: "PhysicsEntity")]
     public class XnaObject
     {
+        #region Instance Methods
+
+        // NOTE : These are methods that correspond to an individual instance of an object that inherits from XnaObject
+
         public virtual void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             throw new Exception("Base Object type XnaObject cannot be read! It contains no data to be read!");
@@ -85,6 +89,8 @@ namespace MagickaPUP.XnaClasses
         {
             throw new Exception("Base Object type XnaObject cannot be written! It contains no data to be written!");
         }
+
+        #endregion
 
         public static T ReadObject<T>(MBinaryReader reader, DebugLogger logger = null)
         {
@@ -258,6 +264,10 @@ namespace MagickaPUP.XnaClasses
             }
         }
 
+        #region Config Methods
+
+        // NOTE : These are methods that correspond to config specific to each type of object. Stuff like the reader names and all that...
+
         // As ugly as this is, this is actually very similar to what the real XNA framework does when an user implements their own Content Type Readers and Writers...
         // README : Should try to find a way to get rid of the large switch and just try to make use of a similar system to this one...? maybe?
         public virtual string GetReaderName()
@@ -281,5 +291,7 @@ namespace MagickaPUP.XnaClasses
         {
             return false;
         }
+
+        #endregion
     }
 }

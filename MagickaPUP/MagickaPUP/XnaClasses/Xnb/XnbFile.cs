@@ -31,29 +31,10 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             ReadHeader(reader, logger);
             ReadContentTypeReaders(reader, logger);
-            
+            ReadSharedResourceCount(reader, logger);
+            ReadPrimaryObject(reader, logger);
+            ReadSharedResources(reader, logger);
 
-            // Get number of Shared Resources.
-            int sharedResourceCount = reader.Read7BitEncodedInt();
-            logger?.Log(1, $"Shared Resource Count : {sharedResourceCount}");
-
-            // Read Primary Object.
-            logger?.Log(1, "Reading Primary Object...");
-            this.PrimaryObject = XnaObject.ReadObject<XnaObject>(reader, logger);
-            logger?.Log(1, "Finished Reading Primary Object!");
-
-            // Read Shared Resources.
-            logger?.Log(1, "Reading Shared Resources...");
-            this.SharedResources = new List<XnaObject>();
-            for (int i = 0; i < sharedResourceCount; ++i)
-            {
-                logger.Log(1, $"Reading Shared Resource {(i + 1)} / {sharedResourceCount}...");
-                var sharedResource = XnaObject.ReadObject<XnaObject>(reader, logger);
-                this.SharedResources.Add(sharedResource);
-            }
-            logger?.Log(1, "Finished reading Shared Resources!");
-
-            // Final log to notify that the XNB file has been fully read
             logger?.Log(1, "Finished reading XNB file!");
         }
 
@@ -70,6 +51,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             WriteSharedResourceCount(writer, logger);
             WritePrimaryObject(writer, logger);
             WriteSharedResources(writer, logger);
+            
             WritePaddingBytes(writer, logger);
 
             logger?.Log(1, "Finished writing XNB file!");
@@ -78,8 +60,6 @@ namespace MagickaPUP.XnaClasses.Xnb
         #endregion
 
         #region PrivateMethods - Read
-
-        // TODO : Refactor reading process into individual methods for ease of reading and maintainability...
 
         private void ReadHeader(MBinaryReader reader, DebugLogger logger = null)
         {
@@ -143,6 +123,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, $"File Size Compressed   : {sizeCompressed}");
             logger?.Log(1, $"File Size Decompressed : {sizeDecompressed}");
         }
+        
         private void ReadContentTypeReaders(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Content Type Readers...");
@@ -155,6 +136,38 @@ namespace MagickaPUP.XnaClasses.Xnb
                 ContentTypeReader currentReader = ContentTypeReader.Read(reader, logger); // TODO : Modify this so that we add them to a context var rather than the reader...
                 reader.ContentTypeReaders.Add(currentReader);
             }
+        }
+        
+        private void ReadSharedResourceCount(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading Shared Resource Count...");
+
+            // Get number of Shared Resources.
+            int sharedResourceCount = reader.Read7BitEncodedInt();
+            this.SharedResources = new List<XnaObject>();
+
+            logger?.Log(1, $"Shared Resource Count : {sharedResourceCount}");
+        }
+
+        private void ReadPrimaryObject(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading Primary Object...");
+            this.PrimaryObject = XnaObject.ReadObject<XnaObject>(reader, logger);
+            logger?.Log(1, "Finished Reading Primary Object!");
+        }
+
+        private void ReadSharedResources(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading Shared Resources...");
+            
+            for (int i = 0; i < sharedResourceCount; ++i)
+            {
+                logger.Log(1, $"Reading Shared Resource {(i + 1)} / {sharedResourceCount}...");
+                var sharedResource = XnaObject.ReadObject<XnaObject>(reader, logger);
+                this.SharedResources.Add(sharedResource);
+            }
+            
+            logger?.Log(1, "Finished reading Shared Resources!");
         }
 
         #endregion

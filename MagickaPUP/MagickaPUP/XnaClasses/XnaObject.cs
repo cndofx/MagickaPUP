@@ -95,31 +95,30 @@ namespace MagickaPUP.XnaClasses
         public static T ReadObject<T>(MBinaryReader reader, DebugLogger logger = null)
         {
             // Read a 7 bit encoded int to obtain the index (starting at 1) of the required content type reader.
+            int indexContentTypeReaderXnb = reader.Read7BitEncodedInt() - 1;
+
             // Subtract 1 because the indices start at 1 on the XNB file but they start at 0 in C#.
-            int code = reader.Read7BitEncodedInt() - 1;
+            int indexContentTypeReaderReal = indexContentTypeReaderXnb - 1;
+            
             string s = "__none__";
             object obj = null;
 
-            if (code + 1 == 0)
+            if (indexContentTypeReaderXnb == 0)
             {
                 logger?.Log(1, "Object is NULL.");
                 return (T)obj;
             }
 
-            if (code < 0 || code >= reader.ContentTypeReaders.Count)
+            if (indexContentTypeReaderReal < 0 || indexContentTypeReaderReal >= reader.ContentTypeReaders.Count)
             {
-                throw new Exception($"Requested Content Type Reader does not exist! (Index = {code + 1})");
+                throw new Exception($"Requested Content Type Reader does not exist! (Index = {indexContentTypeReaderXnb})");
             }
 
-            s = reader.ContentTypeReaders[code].Name;
-            logger?.Log(1, $"Required Content Type Reader : {{ name = \"{s}\", index = {code + 1}}}");
+            // Get the content type reader
+            ContentTypeReader contentTypeReader = reader.ContentTypeReaders[indexContentTypeReaderReal]; // TODO : Change this to get the readers from a CTX var in the future.
+            logger?.Log(1, $"Required Content Type Reader : {{ name = \"{contentTypeReader.Name}\", index = {indexContentTypeReaderXnb}}}");
 
-            // Yes, I know I should make a hard coded list with these so that I can switch on index, and assign my indices to the readers list
-            // rather than making them store strings, but I don't have the time to refactor that right now, so we'll deal with the overhead until
-            // I find the time to fix that. Besides, with this current (bad) implementation, at least I don't have to touch anything to be able
-            // to read out the name of readers that my code does not support yet, so eh... all in all, C# makes things a fucking headache.
-            // For now, please, forgive my sins.
-            // This could be a job better suited to a Dictionary tho, but it does not matter much because as of now, it does not need to support that many type readers...
+            // Read the data and return the constructed object
             switch (s)
             {
                 case "Magicka.ContentReaders.LevelModelReader, Magicka":
@@ -173,7 +172,6 @@ namespace MagickaPUP.XnaClasses
                 default:
                     obj = null;
                     throw new Exception($"Content Reader Type \"{s}\" is not supported yet!");
-                    break;
             }
 
             // This kind of gives me cancer, but I guess you could always do an "obj.GetType()" or "obj is" or whatever to
@@ -206,22 +204,16 @@ namespace MagickaPUP.XnaClasses
             obj.WriteInstance(writer, logger);
         }
 
-        public static void WriteEmptyObject(MBinaryWriter writer, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Writing NULL object to XNB file...");
-            writer.Write7BitEncodedInt(0);
-        }
-
-        // Special case for List<Vec3>, if you can figure out a better way of doing this, give me a call lmao.
         public static void WriteObject(List<Vec3> obj, MBinaryWriter writer, DebugLogger logger = null)
         {
+            // Special case for List<Vec3>, if you can figure out a better way of doing this, give me a call lmao.
             string name = "Microsoft.Xna.Framework.Content.ListReader`1[[Microsoft.Xna.Framework.Vector3, Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d]]";
             WriteObjectList(obj, name, writer, logger);
         }
 
-        // Special case for string
         public static void WriteObject(string str, MBinaryWriter writer, DebugLogger logger = null)
         {
+            // Special case for string
             string name = "Microsoft.Xna.Framework.Content.StringReader";
             int idx = XnaInfo.GetContentTypeReaderIndex(name);
             logger?.Log(1, $"Requesting ContentTypeReader \"{name}\" to read type \"{str.GetType().Name}\"");
@@ -229,13 +221,24 @@ namespace MagickaPUP.XnaClasses
             writer.Write(str);
         }
 
-        // Internal implementation to read any list type. Requires knowing the reader's string beforehand, so the public interface will have a function for every possible case,
-        // such as List<Vec3>.
-        // This could probably be "simplied" further if appart from GetReaderName(), we added a GetListReaderName() method or whatever... that way, we could get rid of the specialized static methods.
-        // TODO : It no longer requires public specific implementations, so we can just make this the catch all public impl, but I would need to clean up some shit like the other public List<Vec3> implementation and remove it, etc...
-        // TODO : Maybe we can use the GetReaderName() method to skip the name param, since all XnaObjects have that method, which would technically allow making any object be readable as a primary object or as a list of objects... or make a GetListReaderName() method which returns the name for the list version, which tbh I'm not sure it would be needed considering how so far only stuff like Vec3 seems to be required, so it's kinda like a special case, yk? Or maybe we could replace this with some custom struct that contains a single object reader and a list reader, so we could have something like GetContentTypeReader().SingleObject and GetContentTypeReader().List or whatever. Or make it a property, etc... it would be a good idea to move away from this monolithic class into a more interface based system tbh cause we could then make it into a property instead.
+        public static void WriteEmptyObject(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing NULL object to XNB file...");
+            writer.Write7BitEncodedInt(0);
+        }
+
         private static void WriteObjectList<T>(List<T> obj, string name, MBinaryWriter writer, DebugLogger logger = null) where T : XnaObject
         {
+            #region Comment
+
+            // Internal implementation to read any list type. Requires knowing the reader's string beforehand, so the public interface will have a function for every possible case,
+            // such as List<Vec3>.
+            // This could probably be "simplied" further if appart from GetReaderName(), we added a GetListReaderName() method or whatever... that way, we could get rid of the specialized static methods.
+            // TODO : It no longer requires public specific implementations, so we can just make this the catch all public impl, but I would need to clean up some shit like the other public List<Vec3> implementation and remove it, etc...
+            // TODO : Maybe we can use the GetReaderName() method to skip the name param, since all XnaObjects have that method, which would technically allow making any object be readable as a primary object or as a list of objects... or make a GetListReaderName() method which returns the name for the list version, which tbh I'm not sure it would be needed considering how so far only stuff like Vec3 seems to be required, so it's kinda like a special case, yk? Or maybe we could replace this with some custom struct that contains a single object reader and a list reader, so we could have something like GetContentTypeReader().SingleObject and GetContentTypeReader().List or whatever. Or make it a property, etc... it would be a good idea to move away from this monolithic class into a more interface based system tbh cause we could then make it into a property instead.
+
+            #endregion
+
             int index = XnaInfo.GetContentTypeReaderIndex(name);
 
             logger?.Log(1, $"Requesting ContentTypeReader \"{name}\" to read type \"{obj.GetType().Name}\"");

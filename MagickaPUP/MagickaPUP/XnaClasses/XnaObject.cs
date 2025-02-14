@@ -135,6 +135,8 @@ namespace MagickaPUP.XnaClasses
             string s = "__none__";
             object obj = null;
 
+            // Handle reading object with reader index 0 (NULL object)
+            // NOTE : This could be understood as thinking of XNB content readers actually starting at index 0 and always containing an implicit NULL object reader.
             if (indexContentTypeReaderXnb == 0)
             {
                 logger?.Log(1, "Object is NULL.");

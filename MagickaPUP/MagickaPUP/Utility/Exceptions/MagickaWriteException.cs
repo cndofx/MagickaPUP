@@ -6,21 +6,10 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.Utility.Exceptions
 {
-    public class MagickaWriteException : Exception
+    public class MagickaWriteException : MagickaException
     {
-        private static readonly string EXCEPTION_MSG_BASE = "Write Error";
-
-        public MagickaWriteException()
-        : base($"{EXCEPTION_MSG_BASE} : An error occurred while reading input data")
-        { }
-
-        public MagickaWriteException(string message)
-        : base($"{EXCEPTION_MSG_BASE} : {message}")
-        { }
-
-        public MagickaWriteException(string message, Exception inner)
-        : base($"{EXCEPTION_MSG_BASE} : {message}", inner)
-        { }
+        protected static readonly new string EXCEPTION_MSG_BASE = "Write Error";
+        protected static readonly new string EXCEPTION_MSG_BODY = "An error occurred while writing output data";
     }
 
     public class MagickaWriteExceptionPermissive : MagickaWriteException

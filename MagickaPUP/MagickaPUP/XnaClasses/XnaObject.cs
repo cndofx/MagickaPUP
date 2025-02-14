@@ -220,7 +220,8 @@ namespace MagickaPUP.XnaClasses
 
         public static void WriteObject(XnaObject obj, MBinaryWriter writer, DebugLogger logger = null)
         {
-            // README : This is a new addition, added for the Model class when writing objects that are null... this may fuck other shit up. Or not. Be on the lookout.
+            // NOTE : If the input object is null, then call the internal write empty object method.
+            // This was added mainly for the Model class when writing objects that are null for the bone tags.
             if (obj == null)
             {
                 WriteEmptyObject(writer, logger);

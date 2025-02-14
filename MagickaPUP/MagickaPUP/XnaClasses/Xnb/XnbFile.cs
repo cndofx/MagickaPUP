@@ -13,6 +13,7 @@ namespace MagickaPUP.XnaClasses.Xnb
     {
         #region Variables
 
+        public ContentTypeReader[] ContentTypeReaders { get; set; }
         public XnaObject PrimaryObject { get; set; }
         public XnaObject[] SharedResources { get; set; }
 
@@ -132,11 +133,12 @@ namespace MagickaPUP.XnaClasses.Xnb
             // Get the amount of type readers and iterate through all of them.
             int typeReaderCount = reader.Read7BitEncodedInt();
             logger?.Log(1, $"Content Type Reader Count : {typeReaderCount}");
+            this.ContentTypeReaders = new ContentTypeReader[typeReaderCount];
             for (int i = 0; i < typeReaderCount; ++i)
-            {
-                ContentTypeReader currentReader = ContentTypeReader.Read(reader, logger); // TODO : Modify this so that we add them to a context var rather than the reader...
-                reader.ContentTypeReaders.Add(currentReader);
-            }
+                this.ContentTypeReaders[i] = ContentTypeReader.Read(reader, logger);
+
+            // Add the readers to the current context reader too so that we can use them later on with the correct indices.
+            reader.ContentTypeReaders.AddReaders(this.ContentTypeReaders);
         }
         
         private void ReadSharedResourceCount(MBinaryReader reader, DebugLogger logger = null)
@@ -204,16 +206,17 @@ namespace MagickaPUP.XnaClasses.Xnb
         private void WriteContentTypeReaders(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Fetching Content Type Readers...");
-            var readers = this.PrimaryObject.GetRequiredContentReaders();
+            // Add the content type readers to the context writer's list of readers so that they can be used later on.
+            writer.ContentTypeReaders.AddReaders(this.ContentTypeReaders);
             
-            logger?.Log(1, $"Content Type Readers found : {readers.Length}");
-            if (readers.Length > 0)
+            logger?.Log(1, $"Content Type Readers found : {writer.ContentTypeReaders.Count}");
+            if (writer.ContentTypeReaders.Count > 0)
             {
                 logger?.Log(1, "Writing Content Type Readers...");
 
                 // If the obtained object defines its own content type reader list, then we write those...
-                writer.Write7BitEncodedInt(readers.Length);
-                foreach (var reader in readers)
+                writer.Write7BitEncodedInt(writer.ContentTypeReaders.Count);
+                foreach (var reader in writer.ContentTypeReaders.ContentTypeReaders)
                     reader.WriteInstance(writer, logger);
             }
             else

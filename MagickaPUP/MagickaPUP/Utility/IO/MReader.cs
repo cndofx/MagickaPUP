@@ -15,7 +15,7 @@ namespace MagickaPUP.Utility.IO
     {
         #region Variables
 
-        public List<ContentTypeReader> ContentTypeReaders { get; private set; }
+        public ContentTypeReaderList ContentTypeReaders { get; private set; }
 
         #endregion
 
@@ -23,7 +23,7 @@ namespace MagickaPUP.Utility.IO
 
         public MBinaryReader(Stream stream) : base(stream)
         {
-            this.ContentTypeReaders = new List<ContentTypeReader>();
+            this.ContentTypeReaders = new ContentTypeReaderList();
         }
 
         #endregion

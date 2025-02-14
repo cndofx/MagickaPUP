@@ -90,6 +90,10 @@ namespace MagickaPUP.XnaClasses
             throw new Exception("Base Object type XnaObject cannot be written! It contains no data to be written!");
         }
 
+        #endregion
+
+        #region Experimental
+
         // NOTE : Pretty good functions but temporarily disabled because I am not sure how I could rework support for non XnaObject object types
         // with something like this. For example, what happens with reading raw objects, reading strings, reading List<XnaObject>, etc...?
         // We could maybe make a wrapper class for those, but I am not sure how to feel about that...
@@ -124,6 +128,7 @@ namespace MagickaPUP.XnaClasses
             throw new Exception("Could not find content type reader!");
         }
         */
+
 
         #endregion
 

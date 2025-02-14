@@ -13,7 +13,7 @@ namespace MagickaPUP.XnaClasses.Xnb
         #region Variables
 
         public XnaObject PrimaryObject { get; set; }
-        public List<XnaObject> SharedResources { get; set; }
+        public XnaObject[] SharedResources { get; set; }
 
         #endregion
 
@@ -22,7 +22,7 @@ namespace MagickaPUP.XnaClasses.Xnb
         public XnbFile()
         {
             this.PrimaryObject = new XnaObject();
-            this.SharedResources = new List<XnaObject>();
+            this.SharedResources = new XnaObject[0];
         }
 
         public XnbFile(MBinaryReader reader, DebugLogger logger = null)
@@ -144,7 +144,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             // Get number of Shared Resources.
             int sharedResourceCount = reader.Read7BitEncodedInt();
-            this.SharedResources = new List<XnaObject>();
+            this.SharedResources = new XnaObject[sharedResourceCount];
 
             logger?.Log(1, $"Shared Resource Count : {sharedResourceCount}");
         }
@@ -160,11 +160,11 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Reading Shared Resources...");
             
-            for (int i = 0; i < sharedResourceCount; ++i)
+            for (int i = 0; i < this.SharedResources.Length; ++i)
             {
-                logger.Log(1, $"Reading Shared Resource {(i + 1)} / {sharedResourceCount}...");
+                logger.Log(1, $"Reading Shared Resource {(i + 1)} / {this.SharedResources.Length}...");
                 var sharedResource = XnaObject.ReadObject<XnaObject>(reader, logger);
-                this.SharedResources.Add(sharedResource);
+                this.SharedResources[i] = sharedResource;
             }
             
             logger?.Log(1, "Finished reading Shared Resources!");
@@ -230,7 +230,7 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Writing Shared Resource Count...");
 
-            int count = this.SharedResources.Count;
+            int count = this.SharedResources.Length;
 
             // We always append a null object as a shared resource if the number of shared resources is 0 and the object type is a level model.
             // This makes the game less likely to crash when dealing with a map, for some fucking reason...
@@ -257,7 +257,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             }
             else
             {
-                for (int i = 0; i < this.SharedResources.Count; ++i)
+                for (int i = 0; i < this.SharedResources.Length; ++i)
                 {
                     XnaObject.WriteObject(this.SharedResources[i], writer, logger);
                 }
@@ -290,7 +290,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         private bool ShouldAppendNullObject()
         {
-            bool hasAnyResources = this.SharedResources.Count > 0;
+            bool hasAnyResources = this.SharedResources.Length > 0;
             bool shouldAppendNullObject = this.PrimaryObject.ShouldAppendNullObject();
             return !hasAnyResources && shouldAppendNullObject;
         }

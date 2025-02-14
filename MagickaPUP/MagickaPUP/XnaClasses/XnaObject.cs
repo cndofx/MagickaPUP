@@ -89,6 +89,38 @@ namespace MagickaPUP.XnaClasses
         {
             throw new Exception("Base Object type XnaObject cannot be written! It contains no data to be written!");
         }
+        
+        /*
+        public virtual void ReadObject(MBinaryReader reader, DebugLogger logger = null)
+        {
+            string readerName = this.GetReaderName();
+            for (int i = 0; i < reader.ContentTypeReaders.Count; ++i)
+            {
+                if (reader.ContentTypeReaders[i].Name == readerName)
+                {
+                    reader.Read7BitEncodedInt(); // read the idx value and discard it
+                    ReadInstance(reader, logger);
+                    return;
+                }
+            }
+            throw new Exception("Could not find content type reader!");
+        }
+
+        public virtual void WriteObject(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            string readerName = this.GetReaderName();
+            for (int i = 0; i < writer.ContentTypeReaders.Count; ++i)
+            {
+                if (writer.ContentTypeReaders[i].Name == readerName)
+                {
+                    writer.Write7BitEncodedInt(i); // read the idx value and discard it
+                    WriteInstance(writer, logger);
+                    return;
+                }
+            }
+            throw new Exception("Could not find content type reader!");
+        }
+        */
 
         #endregion
 

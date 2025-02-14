@@ -51,6 +51,11 @@ namespace MagickaPUP.Utility.IO
             Println(debugLevelRequired, $"[{this.name}] : {msgFn.Invoke()}");
         }
 
+        public bool CanLog(int debugLevelRequired)
+        {
+            return this.debugLevel >= debugLevelRequired;
+        }
+
         #endregion
 
         #region PrivateMethods

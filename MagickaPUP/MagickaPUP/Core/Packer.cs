@@ -50,31 +50,13 @@ namespace MagickaPUP.Core
             this.writeFile = new FileStream(this.writeFilename, FileMode.Create, FileAccess.Write);
             this.writer = new MBinaryWriter(this.writeFile);
 
-            this.WriteHeader();
-            this.WriteContentTypeReaders(); // TODO : FIXME (PART 1)!
-
             string contents = ReadJSONFile();
             XnbFile obj = DeserializeJSONFile(contents);
 
             if (obj == null)
                 throw new Exception("The JSON file is not valid and has produced a NULL object!");
 
-            // TODO : FIXME (PART 2)!
-            // this.WriteContentTypeReaders(obj);
-
-            this.WriteSharedResourceCount(obj);
-            this.WritePrimaryObject(obj);
-            this.WriteSharedResources(obj);
-
-
-            // Pad with NUL bytes the end of the file. This is not mandated by the XNA spec, but it is here to save slightly malformed files from crashing.
-            // This should only happen if someone writing the input files accidentally write some information that is not correct, but correct
-            // enough to work if we prevent the game from throwing an exception by reading out of bounds in the file stream by adding this
-            // extra bit of padding... depending on how big the fuck up is, the padding needed to save the file could potentially be massive,
-            // so by default we're writing 64 bytes with the value 0 (NUL).
-            this.WritePaddingBytes();
-
-            logger?.Log(1, "Finished writing XNB file!");
+            obj.Write(writer, logger);
 
             return 0;
         }

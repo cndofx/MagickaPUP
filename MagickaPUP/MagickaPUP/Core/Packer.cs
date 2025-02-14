@@ -63,9 +63,6 @@ namespace MagickaPUP.Core
 
         #endregion
 
-        // README : A lot of this functionality could be moved into the XnbFileObject class if we did what the TODO in that class said,
-        // which is implementing the packer and unpacker logic within the read and write functions.
-
         #region PrivateMethodsSharedResources
 
         // README : If the shared resource count 0 is in the input JSON, always append a null object at the end.

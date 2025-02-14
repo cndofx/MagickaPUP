@@ -25,5 +25,17 @@ namespace MagickaPUP.Utility.Exceptions
     // a given read operation.
     // An example of a situation where this is used is when adding multiple -u operations on a single mpup call, if one fails, we want the rest to continue working.
     public class MagickaReadExceptionPermissive : MagickaReadException
-    { }
+    {
+        public MagickaReadExceptionPermissive()
+        : base($"{EXCEPTION_MSG_BASE} : {EXCEPTION_MSG_BODY}")
+        { }
+
+        public MagickaReadExceptionPermissive(string message)
+        : base($"{EXCEPTION_MSG_BASE} : {message}")
+        { }
+
+        public MagickaReadExceptionPermissive(string message, Exception inner)
+        : base($"{EXCEPTION_MSG_BASE} : {message}", inner)
+        { }
+    }
 }

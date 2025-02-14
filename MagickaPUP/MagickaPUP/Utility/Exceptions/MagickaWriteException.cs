@@ -25,5 +25,17 @@ namespace MagickaPUP.Utility.Exceptions
     }
 
     public class MagickaWriteExceptionPermissive : MagickaWriteException
-    { }
+    {
+        public MagickaWriteExceptionPermissive()
+        : base($"{EXCEPTION_MSG_BASE} : {EXCEPTION_MSG_BODY}")
+        { }
+
+        public MagickaWriteExceptionPermissive(string message)
+        : base($"{EXCEPTION_MSG_BASE} : {message}")
+        { }
+
+        public MagickaWriteExceptionPermissive(string message, Exception inner)
+        : base($"{EXCEPTION_MSG_BASE} : {message}", inner)
+        { }
+    }
 }

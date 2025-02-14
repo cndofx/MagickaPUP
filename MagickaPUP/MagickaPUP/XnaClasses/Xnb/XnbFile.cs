@@ -141,6 +141,12 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         #endregion
 
+        #region PrivateMethods - Read
+
+        // TODO : Refactor reading process into individual methods for ease of reading and maintainability...
+
+        #endregion
+
         #region PrivateMethods - Write
 
         private void WriteHeader(MBinaryWriter writer, DebugLogger logger = null)

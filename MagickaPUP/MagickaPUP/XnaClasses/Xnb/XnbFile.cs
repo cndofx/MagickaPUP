@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using MagickaPUP.XnaClasses.Xnb.Data;
 using MagickaPUP.MagickaClasses.Liquids;
 using MagickaPUP.MagickaClasses.Map;
+using MagickaPUP.Utility.Exceptions;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
@@ -73,8 +74,8 @@ namespace MagickaPUP.XnaClasses.Xnb
             string headerString = $"{x}{n}{b}";
             if (!(x == 'X' && n == 'N' && b == 'B'))
             {
-                logger.Log(1, $"Header \"{headerString}\" is not valid!");
-                return;
+                logger?.Log(1, $"Header \"{headerString}\" is not valid!");
+                throw new MagickaReadExceptionPermissive();
             }
             logger?.Log(1, "Header \"XNB\" is valid!");
 
@@ -83,8 +84,8 @@ namespace MagickaPUP.XnaClasses.Xnb
             char platform = reader.ReadChar(); // TODO : Maybe replace this with a ReadByte() call to ensure that users with a different system encoding don't break the program?
             if (platform != 'w')
             {
-                logger.Log(1, $"Platform \"{platform}\" is not valid.");
-                return;
+                logger?.Log(1, $"Platform \"{platform}\" is not valid.");
+                throw new MagickaReadExceptionPermissive();
             }
             logger?.Log(1, $"Platform \"{platform}\" is valid (Windows)");
 
@@ -95,7 +96,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             if (xnbVersion != (byte)XnaVersion.XnaVersionByte.Version_3_1)
             {
                 logger?.Log(1, "The XNA version is not supported by Magicka!");
-                return;
+                throw new MagickaReadExceptionPermissive();
             }
 
             // Get XNB Flags to check for compression.
@@ -112,7 +113,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             if (isCompressedLz4 || isCompressedLzx) // TODO : Implement decompression support in the future!
             {
                 logger?.Log(1, "Cannot read compressed files!");
-                return;
+                throw new MagickaReadExceptionPermissive();
             }
 
             // Get file sizes for compressed and uncompressed sizes.

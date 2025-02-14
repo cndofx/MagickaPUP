@@ -50,16 +50,30 @@ namespace MagickaPUP.Core
             this.writeFile = new FileStream(this.writefilename, FileMode.Create, FileAccess.Write);
             this.writer = new StreamWriter(this.writeFile);
 
-            // Read the XNB file
-            XnbFile xnbFile = new XnbFile(this.reader, this.logger);
+            var xnbFile = ReadXnbFile();
+            WriteJsonFile(xnbFile);
 
-            // Write the JSON file
+            return 0;
+        }
+
+        #endregion
+
+        #region PrivateMethods
+
+        private XnbFile ReadXnbFile()
+        {
+            // Read the input XNB file
+            XnbFile xnbFile = new XnbFile(this.reader, this.logger);
+            return xnbFile;
+        }
+
+        private void WriteJsonFile(XnbFile xnbFile)
+        {
+            // Write the output JSON file
             logger?.Log(1, "Writing JSON file...");
             writer.Write(JsonSerializer.Serialize(xnbFile, new JsonSerializerOptions() { WriteIndented = true }));
             writer.Flush();
             logger?.Log(1, "Finished writing JSON file!");
-
-            return 0;
         }
 
         #endregion

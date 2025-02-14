@@ -235,6 +235,7 @@
     <Compile Include="Utility\Exceptions\MagickaWriteException.cs" />
     <Compile Include="XnaClasses\Animation.cs" />
     <Compile Include="XnaClasses\ContentTypeReader.cs" />
+    <Compile Include="XnaClasses\ContentTypeReaderList.cs" />
     <Compile Include="XnaClasses\IndexBuffer.cs" />
     <Compile Include="XnaClasses\Model.cs" />
     <Compile Include="XnaClasses\Texture2D.cs" />

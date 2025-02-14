@@ -90,7 +90,7 @@ namespace MagickaPUP.XnaClasses
             throw new Exception("Base Object type XnaObject cannot be written! It contains no data to be written!");
         }
         
-        public virtual void ReadObject(MBinaryReader reader, DebugLogger logger = null)
+        public void ReadObject(MBinaryReader reader, DebugLogger logger = null)
         {
             string readerName = this.GetReaderName();
             for (int i = 0; i < reader.ContentTypeReaders.Count; ++i)
@@ -105,7 +105,7 @@ namespace MagickaPUP.XnaClasses
             throw new Exception("Could not find content type reader!");
         }
 
-        public virtual void WriteObject(MBinaryWriter writer, DebugLogger logger = null)
+        public void WriteObject(MBinaryWriter writer, DebugLogger logger = null)
         {
             string readerName = this.GetReaderName();
             for (int i = 0; i < writer.ContentTypeReaders.Count; ++i)

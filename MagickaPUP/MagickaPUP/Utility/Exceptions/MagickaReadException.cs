@@ -14,6 +14,18 @@ namespace MagickaPUP.Utility.Exceptions
     {
         protected static readonly new string EXCEPTION_MSG_BASE = "Read Error";
         protected static readonly new string EXCEPTION_MSG_BODY = "An error occurred while reading input data";
+
+        public MagickaReadException()
+        : base($"{EXCEPTION_MSG_BASE} : {EXCEPTION_MSG_BODY}")
+        { }
+
+        public MagickaReadException(string message)
+        : base($"{EXCEPTION_MSG_BASE} : {message}")
+        { }
+
+        public MagickaReadException(string message, Exception inner)
+        : base($"{EXCEPTION_MSG_BASE} : {message}", inner)
+        { }
     }
 
     // This class simply exists so that we can catch this type of exception when we want to be permissive with errors and let the process continue by skipping

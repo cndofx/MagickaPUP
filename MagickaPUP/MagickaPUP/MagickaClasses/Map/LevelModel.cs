@@ -294,6 +294,11 @@ namespace MagickaPUP.MagickaClasses.Map
             return "Magicka.ContentReaders.LevelModelReader, Magicka";
         }
 
+        public override bool ShouldAppendNullObject()
+        {
+            return true;
+        }
+
         #endregion
     }
 }

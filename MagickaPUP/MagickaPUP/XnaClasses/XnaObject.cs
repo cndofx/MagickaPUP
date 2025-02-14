@@ -285,5 +285,10 @@ namespace MagickaPUP.XnaClasses
             };
             return ans;
         }
+
+        public virtual bool ShouldAppendNullObject()
+        {
+            return false;
+        }
     }
 }

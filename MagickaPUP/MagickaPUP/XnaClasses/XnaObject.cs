@@ -92,6 +92,8 @@ namespace MagickaPUP.XnaClasses
 
         #endregion
 
+        #region Static Methods
+
         public static T ReadObject<T>(MBinaryReader reader, DebugLogger logger = null)
         {
             // Read a 7 bit encoded int to obtain the index (starting at 1) of the required content type reader.
@@ -266,6 +268,8 @@ namespace MagickaPUP.XnaClasses
                 obj[i].WriteInstance(writer, logger);
             }
         }
+
+        #endregion
 
         #region Config Methods
 

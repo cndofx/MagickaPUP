@@ -6,6 +6,7 @@ using MagickaPUP.XnaClasses;
 using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses.Xnb;
 using MagickaPUP.XnaClasses.Xna.Data;
+using MagickaPUP.Utility.Exceptions;
 
 namespace MagickaPUP.Core
 {
@@ -50,10 +51,17 @@ namespace MagickaPUP.Core
             this.writeFile = new FileStream(this.writeFilename, FileMode.Create, FileAccess.Write);
             this.writer = new MBinaryWriter(this.writeFile);
 
-            var xnbFile = ReadJsonFile();
-            WriteXnbFile(xnbFile);
+            try
+            {
+                var xnbFile = ReadJsonFile();
+                WriteXnbFile(xnbFile);
+            }
+            catch (MagickaWriteExceptionPermissive)
+            {
+                logger?.Log(1, "Cancelling Pack Operation...");
+            }
 
-            return 0;
+            return 0; // TODO : Implement success counting on the top level program so that we can print how many operations succeeded after we finished
         }
 
         #endregion

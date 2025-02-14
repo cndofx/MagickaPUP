@@ -213,14 +213,11 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Writing Shared Resource Count...");
 
-            bool hasAnyResources = this.SharedResources.Count > 0;
-            bool isLevelModel = this.PrimaryObject is LevelModel;
-
             int count = this.SharedResources.Count;
 
             // We always append a null object as a shared resource if the number of shared resources is 0 and the object type is a level model.
             // This makes the game less likely to crash when dealing with a map, for some fucking reason...
-            if (!hasAnyResources && isLevelModel)
+            if (ShouldAppendNullObject())
                 ++count;
 
             writer.Write7BitEncodedInt(count);
@@ -237,7 +234,7 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Writing Shared Resources...");
 
-            if (this.SharedResources.Count <= 0)
+            if (ShouldAppendNullObject())
             {
                 XnaObject.WriteEmptyObject(writer, logger);
             }
@@ -248,6 +245,13 @@ namespace MagickaPUP.XnaClasses.Xnb
                     XnaObject.WriteObject(this.SharedResources[i], writer, logger);
                 }
             }
+        }
+
+        private bool ShouldAppendNullObject()
+        {
+            bool hasAnyResources = this.SharedResources.Count > 0;
+            bool shouldAppendNullObject = this.PrimaryObject.ShouldAppendNullObject();
+            return !hasAnyResources && shouldAppendNullObject;
         }
 
         #endregion

@@ -77,6 +77,7 @@
     <Compile Include="Core\PupProgram.cs" />
     <Compile Include="Core\Args\ArgParser.cs" />
     <Compile Include="Core\Args\CmdEntry.cs" />
+    <Compile Include="Utility\Exceptions\MagickaException.cs" />
     <Compile Include="Utility\IO\DebugLogger.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\AdvancedSettings.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\BoundingBox.cs" />

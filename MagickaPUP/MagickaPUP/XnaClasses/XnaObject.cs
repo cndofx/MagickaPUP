@@ -90,7 +90,6 @@ namespace MagickaPUP.XnaClasses
             throw new Exception("Base Object type XnaObject cannot be written! It contains no data to be written!");
         }
         
-        /*
         public virtual void ReadObject(MBinaryReader reader, DebugLogger logger = null)
         {
             string readerName = this.GetReaderName();
@@ -98,7 +97,7 @@ namespace MagickaPUP.XnaClasses
             {
                 if (reader.ContentTypeReaders[i].Name == readerName)
                 {
-                    reader.Read7BitEncodedInt(); // read the idx value and discard it
+                    reader.Read7BitEncodedInt(); // Read the idx value and discard it because we'll reorganize things by adding our own readers when we write the binary data.
                     ReadInstance(reader, logger);
                     return;
                 }
@@ -113,14 +112,13 @@ namespace MagickaPUP.XnaClasses
             {
                 if (writer.ContentTypeReaders[i].Name == readerName)
                 {
-                    writer.Write7BitEncodedInt(i); // read the idx value and discard it
+                    writer.Write7BitEncodedInt(i + 1); // Write the idx value for this content type reader (in XNB files, the indices start at 1 so we add 1).
                     WriteInstance(writer, logger);
                     return;
                 }
             }
             throw new Exception("Could not find content type reader!");
         }
-        */
 
         #endregion
 

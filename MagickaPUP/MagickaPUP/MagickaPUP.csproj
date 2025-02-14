@@ -77,6 +77,7 @@
     <Compile Include="Core\PupProgram.cs" />
     <Compile Include="Core\Args\ArgParser.cs" />
     <Compile Include="Core\Args\CmdEntry.cs" />
+    <Compile Include="MagickaClasses\Data\MagickaContentTypeReaders.cs" />
     <Compile Include="Utility\Exceptions\MagickaException.cs" />
     <Compile Include="Utility\IO\DebugLogger.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\AdvancedSettings.cs" />
@@ -239,6 +240,7 @@
     <Compile Include="XnaClasses\Texture2D.cs" />
     <Compile Include="XnaClasses\VertexBuffer.cs" />
     <Compile Include="XnaClasses\VertexDeclaration.cs" />
+    <Compile Include="XnaClasses\Xna\Data\XnaContentTypeReaders.cs" />
     <Compile Include="XnaClasses\Xna\Data\XnaData.cs" />
     <Compile Include="XnaClasses\XnaObject.cs" />
     <Compile Include="XnaClasses\Xna\Data\XnaVersion.cs" />

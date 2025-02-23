@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.Utility.Compression
 {
+    // TODO : Implement
     public class LzxCompressor
     {
     }

@@ -32,6 +32,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, "Reading XNB File...");
 
             ReadHeader(reader, logger);
+            ReadFileSizes(reader, logger);
             ReadContentTypeReaders(reader, logger);
             ReadSharedResourceCount(reader, logger);
             ReadPrimaryObject(reader, logger);
@@ -49,6 +50,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, "Writing XNB File...");
 
             WriteHeader(writer, logger);
+            WriteFileSizes(writer, logger);
             WriteContentTypeReaders(writer, logger);
             WriteSharedResourceCount(writer, logger);
             WritePrimaryObject(writer, logger);
@@ -117,6 +119,17 @@ namespace MagickaPUP.XnaClasses.Xnb
                 logger?.Log(1, "Cannot read compressed files!");
                 throw new MagickaReadExceptionPermissive();
             }
+
+            // TODO : Implement decompression step here, at least for the LZX compression algorithm.
+
+            // NOTE : Any data that is located AFTER the decompression flag is susceptible to being compressed. Only the initial part of the header is always the same
+            // size in bytes both in compressed and non compressed files.
+            // That is why we perform the decompression step (for the implemented compression algorithms that we support...) before continuing with the rest of the reading.
+        }
+
+        private void ReadFileSizes(MBinaryReader reader, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Reading File Sizes...");
 
             // Get file sizes for compressed and uncompressed sizes.
             // NOTE : They can actually be whatever you want, it doesn't really matter since Magicka doesn't use these values actually...
@@ -190,6 +203,11 @@ namespace MagickaPUP.XnaClasses.Xnb
                 (byte)XnbFlags.None // No compression
             };
             writer.Write(bytes);
+        }
+
+        private void WriteFileSizes(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing File Sizes...");
 
             // Write the File Sizes for compressed and uncompressed XNB file states.
             // These sizes are placeholders. For now, we just write the max possible size and call it a day, because they don't really matter...
@@ -198,6 +216,8 @@ namespace MagickaPUP.XnaClasses.Xnb
             ushort sizeDecompressed = 65535;
             writer.Write(sizeCompressed);
             writer.Write(sizeDecompressed);
+
+            // TODO : In the future, if the file sizes are properly implemented rather than always going with the max value of an u16, we should probably print them to the console with debug logs.
         }
 
         // TODO : Modify this code to get the content type readers from the context var instead. We'll add them somewhere when reading the object.

@@ -42,6 +42,7 @@ namespace MagickaPUP.Core
         private List<string> pathsToCreate;
 
         private int debugLevel;
+        private bool indentAllowed;
 
         private bool displayHelp;
         private bool displayThink;
@@ -60,6 +61,7 @@ namespace MagickaPUP.Core
             this.pathsToCreate = new List<string>();
 
             this.debugLevel = 2; // lvl 2 by default.
+            this.indentAllowed = false; // false by default.
 
             this.displayHelp = false;
             this.displayThink = false;
@@ -69,6 +71,7 @@ namespace MagickaPUP.Core
             this.commands = new CmdEntry[] {
                 new CmdEntry("-h", "--help", "", "Display the help message", 0, CmdHelp),
                 new CmdEntry("-d", "--debug", "<lvl>", "Set the debug logging level for all commands specified after this one (default = 2)", 1, CmdDebug),
+                new CmdEntry("-i", "--indent", "<indent>", "Set the indentation level for all commands specified after this one (default = false)", 1, CmdIndent), // TODO : Modify to use custom indentation amounts such as 4 spaces, 1 tab, whatever, etc...
                 new CmdEntry("-p", "--pack", "<input> <output>", "Pack JSON files into XNB files", 2, CmdPack),
                 new CmdEntry("-u", "--unpack", "<input> <output>", "Unpack XNB files into JSON files", 2, CmdUnpack),
                 new CmdEntry("-t", "--think", "", "Aids in thinking about important stuff", 0, CmdThink),
@@ -257,6 +260,14 @@ namespace MagickaPUP.Core
             this.debugLevel = int.Parse(args[current + 1]);
         }
 
+        private void CmdIndent(string[] args, int current)
+        {
+            // Same as CmdDebug, the latest call to this command will be applied to all subsequent cmd for unpacking or packing that is called afterward.
+            // Also note that as of writing this comment, this command only affects unpacking, not packing, since the JSON input files for packing can have any indent depth.
+            // In short, this only affects when unpacking and writing output JSON files.
+            this.indentAllowed = bool.Parse(args[current + 1]);
+        }
+
         private void CmdPack(string[] args, int current)
         {
             CmdPup(CmdPackFile, "xnb", args, current);
@@ -267,7 +278,7 @@ namespace MagickaPUP.Core
             CmdPup(CmdUnpackFile, "json", args, current);
         }
 
-        private bool CmdPup(Action<string, string, int> pupFile, string outputExtension, string[] args, int current)
+        private bool CmdPup(Action<string, string, int, bool> pupFile, string outputExtension, string[] args, int current)
         {
             #region Comment
 
@@ -280,18 +291,19 @@ namespace MagickaPUP.Core
             string iName = args[current + 1];
             string oName = args[current + 2];
             int lvl = this.debugLevel; // The pup functions take the debug level as arg to allow setting different debug levels for each commands issued on the same program execution.
+            bool shouldIndent = this.indentAllowed;
 
             // If the specified path is a folder, then process the entire folder structure within it and add all of the files for packing / unpacking
             if (Directory.Exists(iName))
             {
-                CmdPupPath(pupFile, outputExtension, iName, oName, lvl);
+                CmdPupPath(pupFile, outputExtension, iName, oName, lvl, shouldIndent);
                 return true;
             }
 
             // If the specified path is a file, then process the single specified file
             if (File.Exists(iName))
             {
-                pupFile(iName, oName, this.debugLevel);
+                pupFile(iName, oName, lvl, shouldIndent);
                 return true;
             }
 
@@ -299,7 +311,7 @@ namespace MagickaPUP.Core
             return false;
         }
 
-        private void CmdPupPath(Action<string, string, int> pupFile, string outputExtension, string iName, string oName, int debuglvl = 2)
+        private void CmdPupPath(Action<string, string, int, bool> pupFile, string outputExtension, string iName, string oName, int debuglvl = 2, bool shouldIndent = false)
         {
             #region Comment
             // The purpose of this function is to iterate over the entire folder structure and go adding files to be packed or unpacked.
@@ -321,7 +333,7 @@ namespace MagickaPUP.Core
             {
                 iName2 = Path.Combine(iName, file.Name);
                 oName2 = Path.Combine(oName, file.Name) + "." + outputExtension;
-                pupFile(iName2, oName2, debuglvl);
+                pupFile(iName2, oName2, debuglvl, shouldIndent);
             }
 
 
@@ -335,17 +347,17 @@ namespace MagickaPUP.Core
             }
         }
 
-        private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2)
+        private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2, bool shouldIndent = false)
         {
             putln($"Registered Packer : (\"{iFilename}\", \"{oFilename}\")");
             Packer p = new Packer(iFilename, oFilename, debuglvl);
             this.packers.Add(p);
         }
 
-        private void CmdUnpackFile(string iFilename, string oFilename, int debuglvl = 2)
+        private void CmdUnpackFile(string iFilename, string oFilename, int debuglvl = 2, bool shouldIndent = false)
         {
             putln($"Registered Unpacker : (\"{iFilename}\", \"{oFilename}\")");
-            Unpacker u = new Unpacker(iFilename, oFilename, debuglvl);
+            Unpacker u = new Unpacker(iFilename, oFilename, debuglvl, shouldIndent);
             this.unpackers.Add(u);
         }
 

@@ -16,6 +16,7 @@ namespace MagickaPUP.Core
 
         private string readfilename;
         private string writefilename;
+        private bool shouldIndent;
 
         private MBinaryReader reader;
         private DebugLogger logger;
@@ -25,12 +26,13 @@ namespace MagickaPUP.Core
 
         #region Constructors
 
-        public Unpacker(string infilename, string outfilename, int debugLevel = 1)
+        public Unpacker(string infilename, string outfilename, int debugLevel = 1, bool shouldIndent = false)
         {
             this.readfilename = infilename;
             this.writefilename = outfilename;
             this.logger = new DebugLogger("Unpacker", debugLevel);
             this.context = new ReadContext(reader, logger);
+            this.shouldIndent = shouldIndent;
         }
 
         #endregion
@@ -70,7 +72,7 @@ namespace MagickaPUP.Core
         {
             // Write the output JSON file
             logger?.Log(1, "Writing JSON file...");
-            File.WriteAllText(this.writefilename, JsonSerializer.Serialize(xnbFile, new JsonSerializerOptions() { WriteIndented = true }));
+            File.WriteAllText(this.writefilename, JsonSerializer.Serialize(xnbFile, new JsonSerializerOptions() { WriteIndented = this.shouldIndent }));
             logger?.Log(1, "Finished writing JSON file!");
         }
 

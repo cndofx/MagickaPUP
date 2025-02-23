@@ -17,14 +17,8 @@ namespace MagickaPUP.Core
         private string readfilename;
         private string writefilename;
 
-        private FileStream readFile;
-        private FileStream writeFile;
-
         private MBinaryReader reader;
-        private StreamWriter writer;
-
         private DebugLogger logger;
-
         private ReadContext context;
 
         #endregion
@@ -45,11 +39,8 @@ namespace MagickaPUP.Core
 
         public int Unpack()
         {
-            this.readFile = new FileStream(this.readfilename, FileMode.Open, FileAccess.Read);
-            this.reader = new MBinaryReader(this.readFile);
-
-            this.writeFile = new FileStream(this.writefilename, FileMode.Create, FileAccess.Write);
-            this.writer = new StreamWriter(this.writeFile);
+            byte[] data = File.ReadAllBytes(this.readfilename);
+            this.reader = new MBinaryReader(new MemoryStream(data));
 
             try
             {
@@ -79,8 +70,7 @@ namespace MagickaPUP.Core
         {
             // Write the output JSON file
             logger?.Log(1, "Writing JSON file...");
-            writer.Write(JsonSerializer.Serialize(xnbFile, new JsonSerializerOptions() { WriteIndented = true }));
-            writer.Flush();
+            File.WriteAllText(this.writefilename, JsonSerializer.Serialize(xnbFile, new JsonSerializerOptions() { WriteIndented = true }));
             logger?.Log(1, "Finished writing JSON file!");
         }
 

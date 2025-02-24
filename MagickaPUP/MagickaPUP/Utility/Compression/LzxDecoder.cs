@@ -1,19 +1,19 @@
-﻿using System;
+﻿using MagickaPUP.Utility.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MagickaPUP.Utility.Exceptions;
 
 namespace MagickaPUP.Utility.Compression
 {
     // TODO : Implement
-    public class LzxCompressor
+    public class LzxDecoder
     {
         public uint[] positionBase = null;
         public byte[] extraBits = null;
 
-        public LzxCompressor(int windowSize)
+        public LzxDecoder(int windowSize)
         {
             uint windowSizeShifted = (uint)(1 << windowSize);
             int posSlots;

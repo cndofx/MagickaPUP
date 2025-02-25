@@ -71,7 +71,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             // Validate the input data to check if it is a valid XNB file
             logger?.Log(1, "Validating XNB File...");
-            char x = reader.ReadChar();
+            char x = reader.ReadChar(); // TODO : Maybe replace this with a ReadByte() call to ensure that no issues can take place due to encoding?
             char n = reader.ReadChar();
             char b = reader.ReadChar();
             string headerString = $"{x}{n}{b}";
@@ -92,6 +92,19 @@ namespace MagickaPUP.XnaClasses.Xnb
             }
             logger?.Log(1, $"Platform \"{platform}\" is valid (Windows)");
             // TODO : Maybe modify this code to be flexible and allow the platform byte to be anything when reading?
+
+            #region Comment
+            
+            // NOTE : Within Magicka's compiled code, the compiled XNA assembly was actually optimized to disregard a lot of information from the 2 following bytes.
+            // They are just read as a single u16, and if it's equal to 4, then the version is XNA 3.1 (which is the correct one for Magicka) and flags is set to false (all 0s).
+            // If the u16 has the value 32772, then the byte that corresponds to the version has value 4 (so again, correct XNA version) and the XNB flags byte is set to 0x80, which is LZX compression.
+            // Within Magicka's code, flags is just a single bool which determines whether the file is compressed or not.
+            // In short, the code is weirdly optimized and discards a lot of information that would lead to a potentially valid XNB file, but in the case of MagickaPUP's
+            // implementation, I want it to be as correct as possible and as transparent as possible, which is why I derived a working XNB 3.1 working reader implementation
+            // from both reverse engineering Magicka's code, seeing the optimized and decompiled assemblies of XNA 3.1, and by guessing a lot of changes from what little I could find of the XNA 4.0 official spec.
+            // If only the official XNA 3.1 spec was still available somewhere, none of this would be an issue...
+            
+            #endregion
 
             // Validate version number.
             // Gets the version number and validates that it is an XNB file for XNA 3.1, even tho it does not matter that much in this case.

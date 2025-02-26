@@ -149,15 +149,27 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, $" - Compressed with Lz4 : {isCompressedLz4}");
             logger?.Log(1, $" - Compressed with Lzx : {isCompressedLzx}");
 
+            // Read file size
+            int fileSize = reader.ReadInt32();
+
+            if (isCompressedLzx && isCompressedLz4)
+            {
+                logger?.Log(1, "An XNB file cannot have multiple compression types!");
+                throw new MagickaReadExceptionPermissive(); // TODO : Change these with BAD XNB exceptions or something like that? That way we can have a "malformed xnb file: whatever message warning here!!!" kind of logging made by the exceptions rather than logs internal to the XnbFile class...
+            }
+
             // Handle file compression
             if (isCompressedLz4)
             {
+                logger?.Log(1, "File is Compressed with LZ4 compression.");
                 logger?.Log(1, "Cannot read XNB files compressed with LZ4 compression!");
-                throw new MagickaReadExceptionPermissive();
+                throw new MagickaReadExceptionPermissive(); // TODO : Same as the TODO above, and that way we could move the "cannot read etc..." message as an exception parameter.
             }
 
+            // Decompress if required
             if (isCompressedLzx)
             {
+                logger?.Log(1, "File is Compressed with LZX compression.");
                 logger?.Log(1, "Cannot read XNB files compressed with LZX compression!");
                 throw new MagickaReadExceptionPermissive();
             }

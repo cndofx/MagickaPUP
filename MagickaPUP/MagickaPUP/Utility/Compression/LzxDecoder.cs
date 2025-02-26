@@ -13,7 +13,7 @@ namespace MagickaPUP.Utility.Compression
         public uint[] positionBase = null;
         public byte[] extraBits = null;
 
-        public LzxDecoder(int windowSize)
+        public LzxDecoder(int windowSize = 16)
         {
             uint windowSizeShifted = (uint)(1 << windowSize);
             int posSlots;

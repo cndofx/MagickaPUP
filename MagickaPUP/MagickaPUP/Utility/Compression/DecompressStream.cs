@@ -6,6 +6,17 @@ namespace MagickaPUP.Utility.Compression
 {
     public class DecompressStream : Stream
     {
+        private Stream baseStream;
+        private int compressedTodo;
+        private int decompressedTodo;
+        private byte[] compressedBuffer;
+        private byte[] decompressedBuffer;
+
+        public DecompressStream(Stream baseStream, int compressedTodo, int decompressedTodo)
+        {
+
+        }
+
         public override bool CanRead => throw new NotImplementedException();
 
         public override bool CanSeek => throw new NotImplementedException();

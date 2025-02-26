@@ -11,7 +11,15 @@ namespace MagickaPUP.XnaClasses.Xnb
 {
     public class XnbFile
     {
-        #region Variables
+        #region Variables - Private
+
+        private byte[] xnbMagic; // The "XNB Magic" are the initial bytes used at the start of the file that help identify it as a valid XNB file. All XNB files must start with the bytes corresponding to the ASCII encoded chars "XNB"
+        private byte platform;
+        private bool isCompressed;
+
+        #endregion
+
+        #region Variables - Public
 
         public ContentTypeReader[] ContentTypeReaders { get; set; }
         public XnaObject PrimaryObject { get; set; }
@@ -67,24 +75,36 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         private void ReadHeader(MBinaryReader reader, DebugLogger logger = null)
         {
+            #region Comment - Char vs Byte
+
+            // NOTE : All char reads ('X', 'N', 'B', and 'w') are performed with ReadByte() rather than ReadChar() since I want to ensure that future text encodings cannot fuck shit up for whatever reason.
+            // The future is most likely UTF8 which is ASCII compatbile, so ReadChar() for those bytes should theoretically work just fine, but in C# guaranteed to maintain char as a single byte for future versions?
+            // This isn't C, so I'd rather not risk it!
+            
+            // As a side note, as of today, the C# standard seems to say that char is 2 bytes in memory, but ReadChar() will read 1 single byte if the detected char corresponds to an ASCII compatible byte in the system encoding...
+            // So yeah, all the more reason to NOT use char type in this case in C#...
+
+            // In short: replaced all ReadChar() calls with ReadByte() calls to ensure that users with a different system encoding don't break the program.
+
+            #endregion
+
             logger?.Log(1, "Reading XNB Header...");
 
             // Validate the input data to check if it is a valid XNB file
             logger?.Log(1, "Validating XNB File...");
-            char x = reader.ReadChar(); // TODO : Maybe replace this with a ReadByte() call to ensure that no issues can take place due to encoding?
-            char n = reader.ReadChar();
-            char b = reader.ReadChar();
-            string headerString = $"{x}{n}{b}";
-            if (!(x == 'X' && n == 'N' && b == 'B'))
+            this.xnbMagic[0] = reader.ReadByte();
+            this.xnbMagic[1] = reader.ReadByte();
+            this.xnbMagic[2] = reader.ReadByte();
+            if (!(this.xnbMagic[0] == (byte)'X' && this.xnbMagic[1] == (byte)'N' && this.xnbMagic[2] == (byte)'B'))
             {
-                logger?.Log(1, $"Header \"{headerString}\" is not valid!");
+                logger?.Log(1, $"Header \"{(char)this.xnbMagic[0]}{(char)this.xnbMagic[1]}{(char)this.xnbMagic[2]}\" is not valid!");
                 throw new MagickaReadExceptionPermissive();
             }
             logger?.Log(1, "Header \"XNB\" is valid!");
 
             // Perform platform validation.
             // Check if the platform is Windows. (No other platforms are supported in Magicka, so it really can't be anything else...)
-            char platform = reader.ReadChar(); // TODO : Maybe replace this with a ReadByte() call to ensure that users with a different system encoding don't break the program?
+            char platform = reader.ReadChar();
             if (platform != 'w')
             {
                 logger?.Log(1, $"Platform \"{platform}\" is not valid.");
@@ -93,7 +113,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, $"Platform \"{platform}\" is valid (Windows)");
             // TODO : Maybe modify this code to be flexible and allow the platform byte to be anything when reading?
 
-            #region Comment
+            #region Comment - Flags
             
             // NOTE : Within Magicka's compiled code, the compiled XNA assembly was actually optimized to disregard a lot of information from the 2 following bytes.
             // They are just read as a single u16, and if it's equal to 4, then the version is XNA 3.1 (which is the correct one for Magicka) and flags is set to false (all 0s).

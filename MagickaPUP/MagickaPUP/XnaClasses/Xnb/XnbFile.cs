@@ -40,7 +40,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, "Reading XNB File...");
 
             ReadHeader(reader, logger);
-            ReadFileSizes(reader, logger);
+            // ReadFileSizes(reader, logger); // NOTE : This is wrong and should be fixed...
             ReadContentTypeReaders(reader, logger);
             ReadSharedResourceCount(reader, logger);
             ReadPrimaryObject(reader, logger);

@@ -148,11 +148,21 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, $" - HD Profile          : {hiDefProfile}");
             logger?.Log(1, $" - Compressed with Lz4 : {isCompressedLz4}");
             logger?.Log(1, $" - Compressed with Lzx : {isCompressedLzx}");
-            if (isCompressedLz4 || isCompressedLzx) // TODO : Implement decompression support in the future!
+
+            // Handle file compression
+            if (isCompressedLz4)
             {
-                logger?.Log(1, "Cannot read compressed files!");
+                logger?.Log(1, "Cannot read XNB files compressed with LZ4 compression!");
                 throw new MagickaReadExceptionPermissive();
             }
+
+            if (isCompressedLzx)
+            {
+                logger?.Log(1, "Cannot read XNB files compressed with LZX compression!");
+                throw new MagickaReadExceptionPermissive();
+            }
+
+            // TODO : Implement decompression support in the future!
 
             // TODO : Implement decompression step here, at least for the LZX compression algorithm.
 

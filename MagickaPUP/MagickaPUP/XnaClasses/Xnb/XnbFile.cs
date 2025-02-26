@@ -163,6 +163,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         private void ReadFileSizes(MBinaryReader reader, DebugLogger logger = null)
         {
+            // TODO : Maybe move the size reading code to the header reading since the amount of size vars read depends on the compression?
             logger?.Log(1, "Reading File Sizes...");
 
             // TODO : Fix this, the size reading is actually wrong. When uncompressed, the file stores a single i32 which stores the whole file length, which usually is the same as an u16 and the other 2 bytes entirely zeroed out because the max file size seems to be the u16 limit.
@@ -242,6 +243,8 @@ namespace MagickaPUP.XnaClasses.Xnb
                 (byte)XnbFlags.None // No compression
             };
             writer.Write(bytes);
+
+            // TODO : Maybe implement in the future a compression system so that we can export compressed files if the user wants to do so?
         }
 
         private void WriteFileSizes(MBinaryWriter writer, DebugLogger logger = null)

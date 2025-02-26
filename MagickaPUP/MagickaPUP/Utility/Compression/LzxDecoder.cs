@@ -30,6 +30,14 @@ namespace MagickaPUP.Utility.Compression
 
             // Initialize LZX Static Tables if they have not been initialized yet
             Lzx_InitializeStaticTables();
+
+            // Calculate required position slots
+            int posn_slots;
+            if (window == 20) posn_slots = 42;
+            else if (window == 21) posn_slots = 50;
+            else posn_slots = window << 1;
+
+
         }
 
         private void Lzx_InitializeState()

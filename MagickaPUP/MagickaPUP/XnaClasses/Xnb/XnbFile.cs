@@ -105,14 +105,14 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             // Perform platform validation.
             // Check if the platform is Windows. (No other platforms are supported in Magicka, so it really can't be anything else...)
-            char platform = reader.ReadChar();
-            if (platform != 'w')
+            // TODO : Maybe modify this code to be flexible and allow the platform byte to be anything when reading?
+            this.platform = reader.ReadByte();
+            if (platform != (byte)'w')
             {
                 logger?.Log(1, $"Platform \"{platform}\" is not valid.");
                 throw new MagickaReadExceptionPermissive();
             }
             logger?.Log(1, $"Platform \"{platform}\" is valid (Windows)");
-            // TODO : Maybe modify this code to be flexible and allow the platform byte to be anything when reading?
 
             #region Comment - Flags
             

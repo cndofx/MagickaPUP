@@ -150,7 +150,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, $" - Compressed with Lzx : {isCompressedLzx}");
 
             // Read file size
-            int fileSize = reader.ReadInt32();
+            int fileSize = reader.ReadInt32(); // XNB files contain an i32 here that contains the size of the file itself as it is.
 
             if (isCompressedLzx && isCompressedLz4)
             {
@@ -170,8 +170,13 @@ namespace MagickaPUP.XnaClasses.Xnb
             if (isCompressedLzx)
             {
                 logger?.Log(1, "File is Compressed with LZX compression.");
-                logger?.Log(1, "Cannot read XNB files compressed with LZX compression!");
-                throw new MagickaReadExceptionPermissive();
+                // logger?.Log(1, "Cannot read XNB files compressed with LZX compression!");
+                // throw new MagickaReadExceptionPermissive();
+
+                int decompressedTodo = reader.ReadInt32(); // Compressed XNB files contain an extra i32 that contains the expected size of the decompressed data.
+                int compressedTodo = fileSize - 14; // The compressed file size is obtained removing 14 bytes worth of size from the total file size. Those 14 bytes belong to the length of the XNB header and 2 size variables that compressed XNB files have.
+
+                // TODO : Decompression code goes here...
             }
 
             // TODO : Implement decompression support in the future!

@@ -95,12 +95,13 @@ namespace MagickaPUP.XnaClasses.Xnb
             this.xnbMagic[0] = reader.ReadByte();
             this.xnbMagic[1] = reader.ReadByte();
             this.xnbMagic[2] = reader.ReadByte();
+            string headerString = $"{(char)this.xnbMagic[0]}{(char)this.xnbMagic[1]}{(char)this.xnbMagic[2]}";
             if (!(this.xnbMagic[0] == (byte)'X' && this.xnbMagic[1] == (byte)'N' && this.xnbMagic[2] == (byte)'B'))
             {
-                logger?.Log(1, $"Header \"{(char)this.xnbMagic[0]}{(char)this.xnbMagic[1]}{(char)this.xnbMagic[2]}\" is not valid!");
+                logger?.Log(1, $"Header \"{headerString}\" is not valid!");
                 throw new MagickaReadExceptionPermissive();
             }
-            logger?.Log(1, "Header \"XNB\" is valid!");
+            logger?.Log(1, $"Header \"{headerString}\" is valid!");
 
             // Perform platform validation.
             // Check if the platform is Windows. (No other platforms are supported in Magicka, so it really can't be anything else...)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace MagickaPUP.Utility.Compression
 {
     // NOTE : Constants and values translated from the XNA LzxDecoder implementation.
-    public static class LzxData
+    public static class LzxConstants
     {
         #region Constants
 
@@ -20,13 +20,13 @@ namespace MagickaPUP.Utility.Compression
         public static readonly ushort NUM_PRIMARY_LENGTHS = 7;
         public static readonly ushort NUM_SECONDARY_LENGTHS = 249;
 
-        public static readonly ushort PRETREE_MAXSYMBOLS = (ushort)(LzxData.PRETREE_NUM_ELEMENTS);
+        public static readonly ushort PRETREE_MAXSYMBOLS = (ushort)(LzxConstants.PRETREE_NUM_ELEMENTS);
         public static readonly ushort PRETREE_TABLEBITS = 6;
-        public static readonly ushort MAINTREE_MAXSYMBOLS = (ushort)(LzxData.NUM_CHARS + (50 * 8));
+        public static readonly ushort MAINTREE_MAXSYMBOLS = (ushort)(LzxConstants.NUM_CHARS + (50 * 8));
         public static readonly ushort MAINTREE_TABLEBITS = 12;
-        public static readonly ushort LENGTH_MAXSYMBOLS = (ushort)(LzxData.NUM_SECONDARY_LENGTHS + 1);
+        public static readonly ushort LENGTH_MAXSYMBOLS = (ushort)(LzxConstants.NUM_SECONDARY_LENGTHS + 1);
         public static readonly ushort LENGTH_TABLEBITS = 12;
-        public static readonly ushort ALIGNED_MAXSYMBOLS = (ushort)(LzxData.ALIGNED_NUM_ELEMENTS);
+        public static readonly ushort ALIGNED_MAXSYMBOLS = (ushort)(LzxConstants.ALIGNED_NUM_ELEMENTS);
         public static readonly ushort ALIGNED_TABLEBITS = 7;
 
         public static readonly ushort LENTABLE_SAFETY = 64;
@@ -35,12 +35,12 @@ namespace MagickaPUP.Utility.Compression
 
         #region Enums
 
-        public enum BlockType
+        public enum BLOCKTYPE
         {
-            Invalid = 0,
-            Verbatim = 1,
-            Aligned = 2,
-            Uncompressed = 3,
+            INVALID = 0,
+            VERBATIM = 1,
+            ALIGNED = 2,
+            UNCOMPRESSED = 3,
         }
 
         #endregion

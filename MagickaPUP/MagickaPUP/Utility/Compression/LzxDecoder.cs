@@ -10,16 +10,18 @@ namespace MagickaPUP.Utility.Compression
     // TODO : Implement
     public class LzxDecoder
     {
-        public uint[] positionBase = null;
-        public byte[] extraBits = null;
+        private uint[] position_base = null;
+        private byte[] extra_bits = null;
 
-        public LzxDecoder(int windowSize = 16)
+        private LzxState m_state;
+
+        public LzxDecoder(int window = 16)
         {
-            uint windowSizeShifted = (uint)(1 << windowSize);
-            int posSlots;
+            uint wndsize = (uint)(1 << window);
+            int posn_slots;
 
-            if (windowSize < 15 || windowSize > 21)
-                throw new LzxException($"Unsupported Window Size! Window Size is {windowSize}, but must be in range [15, 21]");
+            if (window < 15 || window > 21)
+                throw new LzxException($"Unsupported Window Size! Window Size is {window}, but must be in range [15, 21]");
 
 
         }

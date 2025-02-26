@@ -29,6 +29,7 @@ namespace MagickaPUP.XnaClasses.Xnb
     {
         #region Variables - Private
 
+        // TODO : Get rid of this shit. Local storage doesn't even make sense tbh...
         private byte[] xnbMagic; // The "XNB Magic" are the initial bytes used at the start of the file that help identify it as a valid XNB file. All XNB files must start with the bytes corresponding to the ASCII encoded chars "XNB"
         private byte platform;
         private bool isCompressed;

@@ -6,6 +6,7 @@ using MagickaPUP.XnaClasses.Xnb.Data;
 using MagickaPUP.MagickaClasses.Liquids;
 using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.Utility.Exceptions;
+using MagickaPUP.Utility.Compression;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
@@ -158,15 +159,14 @@ namespace MagickaPUP.XnaClasses.Xnb
                 throw new MagickaReadExceptionPermissive(); // TODO : Change these with BAD XNB exceptions or something like that? That way we can have a "malformed xnb file: whatever message warning here!!!" kind of logging made by the exceptions rather than logs internal to the XnbFile class...
             }
 
-            // Handle file compression
+            // Handle file decompression if required
             if (isCompressedLz4)
             {
                 logger?.Log(1, "File is Compressed with LZ4 compression.");
                 logger?.Log(1, "Cannot read XNB files compressed with LZ4 compression!");
                 throw new MagickaReadExceptionPermissive(); // TODO : Same as the TODO above, and that way we could move the "cannot read etc..." message as an exception parameter.
             }
-
-            // Decompress if required
+            else
             if (isCompressedLzx)
             {
                 logger?.Log(1, "File is Compressed with LZX compression.");
@@ -175,6 +175,8 @@ namespace MagickaPUP.XnaClasses.Xnb
 
                 int decompressedTodo = reader.ReadInt32(); // Compressed XNB files contain an extra i32 that contains the expected size of the decompressed data.
                 int compressedTodo = fileSize - 14; // The compressed file size is obtained removing 14 bytes worth of size from the total file size. Those 14 bytes belong to the length of the XNB header and 2 size variables that compressed XNB files have.
+
+                LzxDecoder dec = new LzxDecoder(16);
 
                 // TODO : Decompression code goes here...
             }
@@ -186,6 +188,16 @@ namespace MagickaPUP.XnaClasses.Xnb
             // NOTE : Any data that is located AFTER the decompression flag is susceptible to being compressed. Only the initial part of the header is always the same
             // size in bytes both in compressed and non compressed files.
             // That is why we perform the decompression step (for the implemented compression algorithms that we support...) before continuing with the rest of the reading.
+        }
+
+        private void DecompressLzx(MBinaryReader reader, DebugLogger logger)
+        {
+            // TODO : Implement
+        }
+
+        private void DecompressLz4(MBinaryReader reader, DebugLogger logger)
+        {
+            // TODO : Implement
         }
 
         private void ReadFileSizes(MBinaryReader reader, DebugLogger logger = null)

@@ -21,6 +21,9 @@ namespace MagickaPUP.Utility.Compression
             if (window < 15 || window > 21)
                 throw new LzxException($"Unsupported Window Size! Window Size is {window}, but must be in range [15, 21]");
 
+            // Initialize LZX Static Tables if they have not been initialized yet
+            InitializeStaticTables();
+
             // Initialize LZX State
             uint wndsize = (uint)(1 << window);
             this.m_state = new LzxState();
@@ -31,9 +34,6 @@ namespace MagickaPUP.Utility.Compression
             this.m_state.actual_size = wndsize;
             this.m_state.window_size = wndsize;
             this.m_state.window_posn = 0;
-
-            // Initialize LZX Static Tables if they have not been initialized yet
-            Lzx_InitializeStaticTables();
 
             // Calculate required position slots
             int posn_slots;
@@ -66,7 +66,7 @@ namespace MagickaPUP.Utility.Compression
             for (int i = 0; i < LzxConstants.LENGTH_MAXSYMBOLS; i++) m_state.LENGTH_len[i] = 0;
         }
 
-        private void Lzx_InitializeStaticTables()
+        private void InitializeStaticTables()
         {
             // If any of the static tables has not been initialized yet, we inititalize it now.
             // This call should always be performed on LzxDecoder() construction, so that means that this acts sort of like a singleton-like initialization of sorts.

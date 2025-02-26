@@ -14,19 +14,23 @@ namespace MagickaPUP.Utility.Compression
         public static byte[] extra_bits = null;
 
         private LzxState m_state;
-        private int window;
 
         public LzxDecoder(int window = 16)
         {
-            // Assign window value to local LZX decoder
-            this.window = window;
-
             // Handle invalid window sizes
             if (window < 15 || window > 21)
                 throw new LzxException($"Unsupported Window Size! Window Size is {window}, but must be in range [15, 21]");
 
             // Initialize LZX State
-            Lzx_InitializeState();
+            uint wndsize = (uint)(1 << window);
+            this.m_state = new LzxState();
+            this.m_state.actual_size = 0;
+            this.m_state.window = new byte[wndsize];
+            for (int i = 0; i < wndsize; ++i)
+                this.m_state.window[i] = 0xDC;
+            this.m_state.actual_size = wndsize;
+            this.m_state.window_size = wndsize;
+            this.m_state.window_posn = 0;
 
             // Initialize LZX Static Tables if they have not been initialized yet
             Lzx_InitializeStaticTables();
@@ -60,19 +64,6 @@ namespace MagickaPUP.Utility.Compression
             // Initialize tables to 0. Deltas will be applied later.
             for (int i = 0; i < LzxConstants.MAINTREE_MAXSYMBOLS; i++) m_state.MAINTREE_len[i] = 0;
             for (int i = 0; i < LzxConstants.LENGTH_MAXSYMBOLS; i++) m_state.LENGTH_len[i] = 0;
-        }
-
-        private void Lzx_InitializeState()
-        {
-            uint wndsize = (uint)(1 << this.window);
-            this.m_state = new LzxState();
-            this.m_state.actual_size = 0;
-            this.m_state.window = new byte[wndsize];
-            for (int i = 0; i < wndsize; ++i)
-                this.m_state.window[i] = 0xDC;
-            this.m_state.actual_size = wndsize;
-            this.m_state.window_size = wndsize;
-            this.m_state.window_posn = 0;
         }
 
         private void Lzx_InitializeStaticTables()

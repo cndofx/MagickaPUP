@@ -25,7 +25,7 @@ namespace MagickaPUP.Utility.Compression
             if (window < 15 || window > 21)
                 throw new LzxException($"Unsupported Window Size! Window Size is {window}, but must be in range [15, 21]");
 
-            // Initialize LZX state
+            // Initialize LZX State
             Lzx_InitializeState();
 
             // Initialize LZX Static Tables if they have not been initialized yet
@@ -37,7 +37,29 @@ namespace MagickaPUP.Utility.Compression
             else if (window == 21) posn_slots = 50;
             else posn_slots = window << 1;
 
+            // Modify LZX State according to number of required position slots
+            m_state.R0 = m_state.R1 = m_state.R2 = 1;
+            m_state.main_elements = (ushort)(LzxConstants.NUM_CHARS + (posn_slots << 3));
+            m_state.header_read = 0;
+            m_state.frames_read = 0;
+            m_state.block_remaining = 0;
+            m_state.block_type = LzxConstants.BLOCKTYPE.INVALID;
+            m_state.intel_curpos = 0;
+            m_state.intel_started = 0;
 
+            // Initialize LZX State Arrays
+            m_state.PRETREE_table = new ushort[(1 << LzxConstants.PRETREE_TABLEBITS) + (LzxConstants.PRETREE_MAXSYMBOLS << 1)];
+            m_state.PRETREE_len = new byte[LzxConstants.PRETREE_MAXSYMBOLS + LzxConstants.LENTABLE_SAFETY];
+            m_state.MAINTREE_table = new ushort[(1 << LzxConstants.MAINTREE_TABLEBITS) + (LzxConstants.MAINTREE_MAXSYMBOLS << 1)];
+            m_state.MAINTREE_len = new byte[LzxConstants.MAINTREE_MAXSYMBOLS + LzxConstants.LENTABLE_SAFETY];
+            m_state.LENGTH_table = new ushort[(1 << LzxConstants.LENGTH_TABLEBITS) + (LzxConstants.LENGTH_MAXSYMBOLS << 1)];
+            m_state.LENGTH_len = new byte[LzxConstants.LENGTH_MAXSYMBOLS + LzxConstants.LENTABLE_SAFETY];
+            m_state.ALIGNED_table = new ushort[(1 << LzxConstants.ALIGNED_TABLEBITS) + (LzxConstants.ALIGNED_MAXSYMBOLS << 1)];
+            m_state.ALIGNED_len = new byte[LzxConstants.ALIGNED_MAXSYMBOLS + LzxConstants.LENTABLE_SAFETY];
+
+            // Initialize tables to 0. Deltas will be applied later.
+            for (int i = 0; i < LzxConstants.MAINTREE_MAXSYMBOLS; i++) m_state.MAINTREE_len[i] = 0;
+            for (int i = 0; i < LzxConstants.LENGTH_MAXSYMBOLS; i++) m_state.LENGTH_len[i] = 0;
         }
 
         private void Lzx_InitializeState()

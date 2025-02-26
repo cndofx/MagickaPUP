@@ -1,6 +1,7 @@
 ﻿using MagickaPUP.Utility.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -96,6 +97,11 @@ namespace MagickaPUP.Utility.Compression
                     j += 1 << extra_bits[i];
                 }
             }
+        }
+
+        public void Decompress(Stream inData, int inLen, Stream outData, int outLen)
+        {
+            // TODO : Implement
         }
     }
 }

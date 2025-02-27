@@ -54,7 +54,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         public XnbFileData(MBinaryReader reader, DebugLogger logger = null)
         {
-            logger?.Log(1, "Reading XNB File...");
+            logger?.Log(1, "Reading XNB Data...");
 
             // ReadHeader(reader, logger);
             // ReadFileSizes(reader, logger); // NOTE : This is wrong and should be fixed...
@@ -63,7 +63,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             ReadPrimaryObject(reader, logger);
             ReadSharedResources(reader, logger);
 
-            logger?.Log(1, "Finished reading XNB file!");
+            logger?.Log(1, "Finished Reading XNB Data!");
         }
 
         #endregion
@@ -72,7 +72,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
-            logger?.Log(1, "Writing XNB File...");
+            logger?.Log(1, "Writing XNB Data...");
 
             // WriteHeader(writer, logger);
             // WriteFileSizes(writer, logger);
@@ -83,7 +83,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             
             WritePaddingBytes(writer, logger);
 
-            logger?.Log(1, "Finished writing XNB file!");
+            logger?.Log(1, "Finished Writing XNB Data!");
         }
 
         #endregion

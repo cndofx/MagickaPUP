@@ -26,7 +26,7 @@ namespace MagickaPUP.XnaClasses.Xnb
     // TODO : Maybe should rename this class to something else so that there is no confusion regarding where the XNB header bytes are read / written
     // and how the compression / decompression is performed (as well as where is it that it takes place within the code).
     // All of these are concerns for future readers who might want to understand the code tho.
-    public class XnbFileData
+    public class XnbFileData // Maybe we should rename this class to just XnbData and that's it? and the other XnaData static class should maybe just be XnaConstants or whatever so as to prevent confusion? Altough XnbFileData is pretty self explanatory and makes sense, so it's not necessarily a bad name...
     {
         #region Variables - Public
 

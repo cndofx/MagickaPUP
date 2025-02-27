@@ -80,7 +80,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             // Validate the input data to check if it is a valid XNB file
             logger?.Log(1, "Validating XNB File...");
-            byte x = reader.ReadByte();
+            byte x = reader.ReadByte(); // These 3 variables are the first 3 bytes of the program. These are known as the "XNB Magic", which are the "magic" or "special" words usually at the begining of a file, used to quickly identify them as a valid file of whatever type. In this case, XNB files identify themselves with the byte sequence 'X', 'N' and 'B'. Obviously, for this to be a valid XNB file, the rest of the bytes must also be valid, but you get what I mean...
             byte n = reader.ReadByte();
             byte b = reader.ReadByte();
             string headerString = $"{(char)x}{(char)n}{(char)b}";

@@ -56,7 +56,7 @@ namespace MagickaPUP.Core
                 var xnbFile = ReadJsonFile();
                 WriteXnbFile(xnbFile);
             }
-            catch (MagickaWriteExceptionPermissive) // NOTE : If you think about it, all magicka exceptions are isolated to their specific file, so we don't really need a "permissive" one, just catch the base MagickaException class and call it a day!
+            catch (MagickaWriteExceptionPermissive) // NOTE : If you think about it, all magicka exceptions are isolated to their specific file, so we don't really need a "permissive" one, just catch the base MagickaException class and call it a day! Altough that would remove support of knowing where an specific exception took place, we can always know where the error comes from by reading the exception message.
             {
                 logger?.Log(1, "Cancelling Pack Operation...");
             }

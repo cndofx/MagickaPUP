@@ -74,14 +74,10 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Writing XNB Data...");
 
-            // WriteHeader(writer, logger);
-            // WriteFileSizes(writer, logger);
             WriteContentTypeReaders(writer, logger);
             WriteSharedResourceCount(writer, logger);
             WritePrimaryObject(writer, logger);
             WriteSharedResources(writer, logger);
-            
-            WritePaddingBytes(writer, logger);
 
             logger?.Log(1, "Finished Writing XNB Data!");
         }
@@ -357,30 +353,6 @@ namespace MagickaPUP.XnaClasses.Xnb
                     XnaObject.WriteObject(this.SharedResources[i], writer, logger);
                 }
             }
-        }
-
-        private void WritePaddingBytes(MBinaryWriter writer, DebugLogger logger = null, int numBytes = 64, byte value = 0)
-        {
-            #region Comment
-
-            // Pad with NULL bytes the end of the file.
-            // This is not mandated by the XNA spec, but it is here to save slightly malformed files from crashing.
-            // This should only happen if someone writing the input files accidentally write some information that is not correct, but correct
-            // enough to work if we prevent the game from throwing an exception by reading out of bounds in the file stream by adding these
-            // padding bytes...
-            // Depending on how big the fuck up is, the padding needed to save the file could potentially be massive,
-            // so by default we're writing 64 bytes with the value 0 and calling it a day.
-            
-            #endregion
-
-            logger?.Log(1, "Writing padding bytes...");
-            logger?.Log(2, $" - Bytes : {numBytes}");
-            logger?.Log(2, $" - Value : {value}");
-
-            byte[] bytes = new byte[numBytes];
-            for (int i = 0; i < numBytes; ++i) // Kind of an slow initialization... with C we could do this out of the box, and maybe even use memset if we wanted... in C# (afaik) we have to manually iterate due to object construction and shit...
-                bytes[i] = value;
-            writer.Write(bytes);
         }
 
         private bool ShouldAppendNullObject()

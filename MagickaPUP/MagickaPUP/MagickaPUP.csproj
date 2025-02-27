@@ -79,6 +79,7 @@
     <Compile Include="Core\Args\CmdEntry.cs" />
     <Compile Include="MagickaClasses\Data\MagickaContentTypeReaders.cs" />
     <Compile Include="Utility\Compression\BitBuffer.cs" />
+    <Compile Include="Utility\Compression\DecompressStream.cs" />
     <Compile Include="Utility\Compression\LzxEncoder.cs" />
     <Compile Include="Utility\Compression\LzxData.cs" />
     <Compile Include="Utility\Compression\LzxDecoder.cs" />

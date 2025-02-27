@@ -28,15 +28,6 @@ namespace MagickaPUP.XnaClasses.Xnb
     // All of these are concerns for future readers who might want to understand the code tho.
     public class XnbFileData
     {
-        #region Variables - Private
-
-        // TODO : Get rid of this shit. Local storage doesn't even make sense tbh...
-        private byte[] xnbMagic; // The "XNB Magic" are the initial bytes used at the start of the file that help identify it as a valid XNB file. All XNB files must start with the bytes corresponding to the ASCII encoded chars "XNB"
-        private byte platform;
-        private bool isCompressed;
-
-        #endregion
-
         #region Variables - Public
 
         public ContentTypeReader[] ContentTypeReaders { get; set; }

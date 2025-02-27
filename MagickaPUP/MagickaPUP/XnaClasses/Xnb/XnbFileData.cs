@@ -290,37 +290,6 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         #region PrivateMethods - Write
 
-        private void WriteHeader(MBinaryWriter writer, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Writing XNB Header...");
-
-            // Write the XNB file header
-            byte[] bytes = {
-                (byte)'X', (byte)'N', (byte)'B', // XNB identifier
-                (byte)'w', // Platform Windows
-                (byte)XnaVersion.XnaVersionByte.Version_3_1, // XNA Version 3.1
-                (byte)XnbFlags.None // No compression
-            };
-            writer.Write(bytes);
-
-            // TODO : Maybe implement in the future a compression system so that we can export compressed files if the user wants to do so?
-        }
-
-        private void WriteFileSizes(MBinaryWriter writer, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Writing File Sizes...");
-
-            // Write the File Sizes for compressed and uncompressed XNB file states.
-            // These sizes are placeholders. For now, we just write the max possible size and call it a day, because they don't really matter...
-            // The game doesn't use these values for anything anyway, so they can be as large as we want. Easier to just hardcode them to be the max possible size.
-            ushort sizeCompressed = 65535;
-            ushort sizeDecompressed = 65535;
-            writer.Write(sizeCompressed);
-            writer.Write(sizeDecompressed);
-
-            // TODO : In the future, if the file sizes are properly implemented rather than always going with the max value of an u16, we should probably print them to the console with debug logs.
-        }
-
         // TODO : Modify this code to get the content type readers from the context var instead. We'll add them somewhere when reading the object.
         // We can still use the required content readers getter method, the point is that I want to be a bit more consistent with the idea of what I want to end up doing in the future when I modify the read side of the code...
         // The point of these modifications is that we will eventually be capable of writing the correct writer indices without hardcoding a list of all of the known readers... but only once I finally get around finishing the implementation of the rest of this fucking code!!!

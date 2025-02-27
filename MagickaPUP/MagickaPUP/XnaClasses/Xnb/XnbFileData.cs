@@ -10,12 +10,22 @@ using MagickaPUP.Utility.Compression;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
-    // NOTE : This is the "top-level" XNB File class.
-    // This class handles the creation of its readers and writers, context creation takes place here, and stream management is peformed here as well.
-    // This class is the one in charge of handling decompression stream handling.
-    // This class manages the reading and writing of the XNB header data and file size encoding, as well as compression and decompression.
-    // For handling of the contents stored within the XNB file itself, see the XnbFileData class
-    public class XnbFile
+    // TODO : Implement the following proposal and clean up the fucking comments and move all of the logic to the PUP classes, etc etc...
+
+    // NOTE : After implementing the XNB file decompression support, the XNB file class itself simply contains the reading and writing for the contents of the data
+    // stored within the XNB file itself.
+    // This means that the XNB header, platform and flag bytes are all written and handled entirely externally in the PUP classes.
+    // This has been done like this so as to make it easier to pass around the stream to read the binary data from, which also made it far easier to encapsulate
+    // the process of selecting the final memory stream and freeing the compressed one when performing in memory decompression.
+    // This process partially mimicks the way Monogame's ContentManager abstracted away the ContentReader stream selection for ContentReader construction when opening
+    // an XNB file.
+
+    // In short: The XnbFile class contains the decompressed and relevant data of the XNB file.
+    
+    // TODO : Maybe should rename this class to something else so that there is no confusion regarding where the XNB header bytes are read / written
+    // and how the compression / decompression is performed (as well as where is it that it takes place within the code).
+    // All of these are concerns for future readers who might want to understand the code tho.
+    public class XnbFileData
     {
         #region Variables - Private
 
@@ -36,13 +46,13 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         #region Constructor
 
-        public XnbFile()
+        public XnbFileData()
         {
             this.PrimaryObject = new XnaObject();
             this.SharedResources = new XnaObject[0];
         }
 
-        public XnbFile(MBinaryReader reader, DebugLogger logger = null)
+        public XnbFileData(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading XNB File...");
 

@@ -10,6 +10,7 @@ using MagickaPUP.Utility.Compression;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
+    // TODO : Fix up this large as fuck wall of text of a comment...
     // TODO : Implement the following proposal and clean up the fucking comments and move all of the logic to the PUP classes, etc etc...
 
     // NOTE : After implementing the XNB file decompression support, the XNB file class itself simply contains the reading and writing for the contents of the data
@@ -56,8 +57,6 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Reading XNB Data...");
 
-            // ReadHeader(reader, logger);
-            // ReadFileSizes(reader, logger); // NOTE : This is wrong and should be fixed...
             ReadContentTypeReaders(reader, logger);
             ReadSharedResourceCount(reader, logger);
             ReadPrimaryObject(reader, logger);
@@ -86,155 +85,6 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         #region PrivateMethods - Read
 
-        private void ReadHeader(MBinaryReader reader, DebugLogger logger = null)
-        {
-            #region Comment - Char vs Byte
-
-            // NOTE : All char reads ('X', 'N', 'B', and 'w') are performed with ReadByte() rather than ReadChar() since I want to ensure that future text encodings cannot fuck shit up for whatever reason.
-            // The future is most likely UTF8 which is ASCII compatbile, so ReadChar() for those bytes should theoretically work just fine, but in C# guaranteed to maintain char as a single byte for future versions?
-            // This isn't C, so I'd rather not risk it!
-            
-            // As a side note, as of today, the C# standard seems to say that char is 2 bytes in memory, but ReadChar() will read 1 single byte if the detected char corresponds to an ASCII compatible byte in the system encoding...
-            // So yeah, all the more reason to NOT use char type in this case in C#...
-
-            // In short: replaced all ReadChar() calls with ReadByte() calls to ensure that users with a different system encoding don't break the program.
-
-            #endregion
-
-            logger?.Log(1, "Reading XNB Header...");
-
-            // Validate the input data to check if it is a valid XNB file
-            logger?.Log(1, "Validating XNB File...");
-            this.xnbMagic[0] = reader.ReadByte();
-            this.xnbMagic[1] = reader.ReadByte();
-            this.xnbMagic[2] = reader.ReadByte();
-            string headerString = $"{(char)this.xnbMagic[0]}{(char)this.xnbMagic[1]}{(char)this.xnbMagic[2]}";
-            if (!(this.xnbMagic[0] == (byte)'X' && this.xnbMagic[1] == (byte)'N' && this.xnbMagic[2] == (byte)'B'))
-            {
-                logger?.Log(1, $"Header \"{headerString}\" is not valid!");
-                throw new MagickaReadExceptionPermissive();
-            }
-            logger?.Log(1, $"Header \"{headerString}\" is valid!");
-
-            // Perform platform validation.
-            // Check if the platform is Windows. (No other platforms are supported in Magicka, so it really can't be anything else...)
-            // TODO : Maybe modify this code to be flexible and allow the platform byte to be anything when reading?
-            this.platform = reader.ReadByte();
-            if (platform != (byte)'w')
-            {
-                logger?.Log(1, $"Platform \"{platform}\" is not valid.");
-                throw new MagickaReadExceptionPermissive();
-            }
-            logger?.Log(1, $"Platform \"{platform}\" is valid (Windows)");
-
-            #region Comment - Flags
-            
-            // NOTE : Within Magicka's compiled code, the compiled XNA assembly was actually optimized to disregard a lot of information from the 2 following bytes.
-            // They are just read as a single u16, and if it's equal to 4, then the version is XNA 3.1 (which is the correct one for Magicka) and flags is set to false (all 0s).
-            // If the u16 has the value 32772, then the byte that corresponds to the version has value 4 (so again, correct XNA version) and the XNB flags byte is set to 0x80, which is LZX compression.
-            // Within Magicka's code, flags is just a single bool which determines whether the file is compressed or not.
-            // In short, the code is weirdly optimized and discards a lot of information that would lead to a potentially valid XNB file, but in the case of MagickaPUP's
-            // implementation, I want it to be as correct as possible and as transparent as possible, which is why I derived a working XNB 3.1 working reader implementation
-            // from both reverse engineering Magicka's code, seeing the optimized and decompiled assemblies of XNA 3.1, and by guessing a lot of changes from what little I could find of the XNA 4.0 official spec.
-            // If only the official XNA 3.1 spec was still available somewhere, none of this would be an issue...
-            
-            #endregion
-
-            // Validate version number.
-            // Gets the version number and validates that it is an XNB file for XNA 3.1, even tho it does not matter that much in this case.
-            byte xnbVersion = reader.ReadByte();
-            logger?.Log(1, $"XNA Version : {{ byte = {xnbVersion}, version = {XnaVersion.XnaVersionString(((XnaVersion.XnaVersionByte)xnbVersion))} }}");
-            if (xnbVersion != (byte)XnaVersion.XnaVersionByte.Version_3_1)
-            {
-                logger?.Log(1, "The XNA version is not supported by Magicka!");
-                throw new MagickaReadExceptionPermissive();
-            }
-
-            // Get XNB Flags to check for compression.
-            // Compression type should always be uncompressed to be able to read the data within the file.
-            // Expect this vlaue to be 0x00. If it's 0x80 or anything else, bail out.
-            byte xnbFlags = reader.ReadByte();
-            bool hiDefProfile = (xnbFlags & (byte)XnbFlags.HiDefProfile) == (byte)XnbFlags.HiDefProfile;
-            bool isCompressedLz4 = (xnbFlags & (byte)XnbFlags.Lz4Compressed) == (byte)XnbFlags.Lz4Compressed;
-            bool isCompressedLzx = (xnbFlags & (byte)XnbFlags.LzxCompressed) == (byte)XnbFlags.LzxCompressed;
-            logger?.Log(1, $"XNB Flags : (byte = {xnbFlags})");
-            logger?.Log(1, $" - HD Profile          : {hiDefProfile}");
-            logger?.Log(1, $" - Compressed with Lz4 : {isCompressedLz4}");
-            logger?.Log(1, $" - Compressed with Lzx : {isCompressedLzx}");
-
-            // Read file size
-            int xnbFileSize = reader.ReadInt32(); // XNB files contain an i32 here that contains the size of the file itself as it is.
-
-            // Handle XNB compression and decompress file if required
-            bool isCompressed = isCompressedLz4 || isCompressedLzx;
-            if (isCompressed)
-            {
-                int xnbFileSizeCompressed = xnbFileSize - 14; // The Compressed file size is obtained removing 14 bytes worth of size from the total file size. Those 14 bytes belong to the length of the XNB header and 2 size variables that compressed XNB files have.
-                int xnbFileSizeDecompressed = reader.ReadInt32(); // Compressed XNB files contain an extra i32 that contains the expected size of the decompressed data.
-
-                if (isCompressedLzx && isCompressedLz4)
-                {
-                    logger?.Log(1, "An XNB file cannot have multiple compression types!");
-                    throw new MagickaReadExceptionPermissive(); // TODO : Change these with BAD XNB exceptions or something like that? That way we can have a "malformed xnb file: whatever message warning here!!!" kind of logging made by the exceptions rather than logs internal to the XnbFile class...
-                }
-                else
-                if (isCompressedLz4)
-                {
-                    logger?.Log(1, "File is Compressed with LZ4 compression.");
-                    logger?.Log(1, "Cannot read XNB files compressed with LZ4 compression!");
-                    throw new MagickaReadExceptionPermissive(); // TODO : Same as the TODO above, and that way we could move the "cannot read etc..." message as an exception parameter.
-                }
-                else
-                if (isCompressedLzx)
-                {
-                    logger?.Log(1, "File is Compressed with LZX compression.");
-                    // logger?.Log(1, "Cannot read XNB files compressed with LZX compression!");
-                    // throw new MagickaReadExceptionPermissive();
-
-                    LzxDecoder dec = new LzxDecoder(16);
-
-                    // TODO : Decompression code goes here...
-                }
-            }
-
-            // TODO : Implement decompression support in the future!
-
-            // TODO : Implement decompression step here, at least for the LZX compression algorithm.
-
-            // NOTE : Any data that is located AFTER the decompression flag is susceptible to being compressed. Only the initial part of the header is always the same
-            // size in bytes both in compressed and non compressed files.
-            // That is why we perform the decompression step (for the implemented compression algorithms that we support...) before continuing with the rest of the reading.
-        }
-
-        private void DecompressLzx(MBinaryReader reader, DebugLogger logger)
-        {
-            // TODO : Implement
-        }
-
-        private void DecompressLz4(MBinaryReader reader, DebugLogger logger)
-        {
-            // TODO : Implement
-        }
-
-        private void ReadFileSizes(MBinaryReader reader, DebugLogger logger = null)
-        {
-            // TODO : Maybe move the size reading code to the header reading since the amount of size vars read depends on the compression?
-            logger?.Log(1, "Reading File Sizes...");
-
-            // TODO : Fix this, the size reading is actually wrong. When uncompressed, the file stores a single i32 which stores the whole file length, which usually is the same as an u16 and the other 2 bytes entirely zeroed out because the max file size seems to be the u16 limit.
-            // When compressed, the file contains first an i32 with the decompressed size, and then an i32 with the compressed size.
-            // The 4.0 spec is different, which is why this worked when downsizing the var size from 2 i32s to 2 u16s, but the logic is actually not correct and it doesn't do what the code says it does...
-            // in short: FIXME!!!
-
-            // Get file sizes for compressed and uncompressed sizes.
-            // NOTE : They can actually be whatever you want, it doesn't really matter since Magicka doesn't use these values actually...
-            // NOTE : These values should be ushort but I'm keeping them as uint as originally, the XNB file reference I was following was for XNA 4.0 and those use u32 for the size variables. In short, I'm just keeping it like this to remember and for furutre feature support etc etc... could really just be changed to ushort without any problems tbh. Actually, the writer does use ushorts so yeah lol...
-            uint sizeCompressed = reader.ReadUInt16(); // Compressed size of the data
-            uint sizeDecompressed = reader.ReadUInt16(); // Decompressed / Uncompressed size of the data
-            logger?.Log(1, $"File Size Compressed   : {sizeCompressed}");
-            logger?.Log(1, $"File Size Decompressed : {sizeDecompressed}");
-        }
-        
         private void ReadContentTypeReaders(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Content Type Readers...");

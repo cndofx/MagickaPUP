@@ -56,7 +56,7 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Reading XNB File...");
 
-            ReadHeader(reader, logger);
+            // ReadHeader(reader, logger);
             // ReadFileSizes(reader, logger); // NOTE : This is wrong and should be fixed...
             ReadContentTypeReaders(reader, logger);
             ReadSharedResourceCount(reader, logger);
@@ -74,8 +74,8 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Writing XNB File...");
 
-            WriteHeader(writer, logger);
-            WriteFileSizes(writer, logger);
+            // WriteHeader(writer, logger);
+            // WriteFileSizes(writer, logger);
             WriteContentTypeReaders(writer, logger);
             WriteSharedResourceCount(writer, logger);
             WritePrimaryObject(writer, logger);

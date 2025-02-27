@@ -17,20 +17,9 @@ namespace MagickaPUP.XnaClasses.Xnb
     // For handling of the contents stored within the XNB file itself, see the XnbFileData class
     public class XnbFile
     {
-        #region Variables - Private
-
-        // TODO : Get rid of this shit. Local storage doesn't even make sense tbh...
-        private byte[] xnbMagic; // The "XNB Magic" are the initial bytes used at the start of the file that help identify it as a valid XNB file. All XNB files must start with the bytes corresponding to the ASCII encoded chars "XNB"
-        private byte platform;
-        private bool isCompressed;
-
-        #endregion
-
         #region Variables - Public
 
-        public ContentTypeReader[] ContentTypeReaders { get; set; }
-        public XnaObject PrimaryObject { get; set; }
-        public XnaObject[] SharedResources { get; set; }
+        public XnbFileData XnbFileData { get; set; }
 
         #endregion
 
@@ -38,22 +27,17 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         public XnbFile()
         {
-            this.PrimaryObject = new XnaObject();
-            this.SharedResources = new XnaObject[0];
+            this.XnbFileData = new XnbFileData();
         }
 
+        // TODO : Modify the read and write methods to take strings for input and output files as parameters, all file related operations should begin HERE in this class for further encapsulation.
         public XnbFile(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading XNB File...");
 
-            // ReadHeader(reader, logger);
-            // ReadFileSizes(reader, logger); // NOTE : This is wrong and should be fixed...
-            ReadContentTypeReaders(reader, logger);
-            ReadSharedResourceCount(reader, logger);
-            ReadPrimaryObject(reader, logger);
-            ReadSharedResources(reader, logger);
+            // TODO : Implement
 
-            logger?.Log(1, "Finished reading XNB file!");
+            logger?.Log(1, "Finished Reading XNB File!");
         }
 
         #endregion
@@ -64,16 +48,13 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Writing XNB File...");
 
-            // WriteHeader(writer, logger);
-            // WriteFileSizes(writer, logger);
-            WriteContentTypeReaders(writer, logger);
-            WriteSharedResourceCount(writer, logger);
-            WritePrimaryObject(writer, logger);
-            WriteSharedResources(writer, logger);
-            
-            WritePaddingBytes(writer, logger);
+            WriteXnbFileHeader(writer, logger);
+            WriteXnbFileSizes(writer, logger);
+            WriteXnbFileContents(writer, logger);
+            WriteXnbFilePaddingBytes(writer, logger);
+            // TODO : In the future, we should handle compression related stuff here.
 
-            logger?.Log(1, "Finished writing XNB file!");
+            logger?.Log(1, "Finished Writing XNB File!");
         }
 
         #endregion
@@ -95,15 +76,15 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             #endregion
 
-            logger?.Log(1, "Reading XNB Header...");
+            logger?.Log(1, "Reading XNB Header..."); // Maybe this should say "validating XNB header"? Since that is what we're doing... we're both reading it AND validating it...
 
             // Validate the input data to check if it is a valid XNB file
             logger?.Log(1, "Validating XNB File...");
-            this.xnbMagic[0] = reader.ReadByte();
-            this.xnbMagic[1] = reader.ReadByte();
-            this.xnbMagic[2] = reader.ReadByte();
-            string headerString = $"{(char)this.xnbMagic[0]}{(char)this.xnbMagic[1]}{(char)this.xnbMagic[2]}";
-            if (!(this.xnbMagic[0] == (byte)'X' && this.xnbMagic[1] == (byte)'N' && this.xnbMagic[2] == (byte)'B'))
+            byte x = reader.ReadByte();
+            byte n = reader.ReadByte();
+            byte b = reader.ReadByte();
+            string headerString = $"{(char)x}{(char)n}{(char)b}";
+            if (!(x == (byte)'X' && n == (byte)'N' && b == (byte)'B'))
             {
                 logger?.Log(1, $"Header \"{headerString}\" is not valid!");
                 throw new MagickaReadExceptionPermissive();
@@ -113,7 +94,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             // Perform platform validation.
             // Check if the platform is Windows. (No other platforms are supported in Magicka, so it really can't be anything else...)
             // TODO : Maybe modify this code to be flexible and allow the platform byte to be anything when reading?
-            this.platform = reader.ReadByte();
+            byte platform = reader.ReadByte(); // Should hold value 'w' since Magicka was designed for the Windows OS as primary platform.
             if (platform != (byte)'w')
             {
                 logger?.Log(1, $"Platform \"{platform}\" is not valid.");
@@ -229,58 +210,11 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, $"File Size Decompressed : {sizeDecompressed}");
         }
         
-        private void ReadContentTypeReaders(MBinaryReader reader, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Reading Content Type Readers...");
-
-            // Get the amount of type readers and iterate through all of them.
-            int typeReaderCount = reader.Read7BitEncodedInt();
-            logger?.Log(1, $"Content Type Reader Count : {typeReaderCount}");
-            this.ContentTypeReaders = new ContentTypeReader[typeReaderCount];
-            for (int i = 0; i < typeReaderCount; ++i)
-                this.ContentTypeReaders[i] = ContentTypeReader.Read(reader, logger);
-
-            // Add the readers to the current context reader too so that we can use them later on with the correct indices.
-            reader.ContentTypeReaders.AddReaders(this.ContentTypeReaders);
-        }
-        
-        private void ReadSharedResourceCount(MBinaryReader reader, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Reading Shared Resource Count...");
-
-            // Get number of Shared Resources.
-            int sharedResourceCount = reader.Read7BitEncodedInt();
-            this.SharedResources = new XnaObject[sharedResourceCount];
-
-            logger?.Log(1, $"Shared Resource Count : {sharedResourceCount}");
-        }
-
-        private void ReadPrimaryObject(MBinaryReader reader, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Reading Primary Object...");
-            this.PrimaryObject = XnaObject.ReadObject<XnaObject>(reader, logger);
-            logger?.Log(1, "Finished Reading Primary Object!");
-        }
-
-        private void ReadSharedResources(MBinaryReader reader, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Reading Shared Resources...");
-            
-            for (int i = 0; i < this.SharedResources.Length; ++i)
-            {
-                logger.Log(1, $"Reading Shared Resource {(i + 1)} / {this.SharedResources.Length}...");
-                var sharedResource = XnaObject.ReadObject<XnaObject>(reader, logger);
-                this.SharedResources[i] = sharedResource;
-            }
-            
-            logger?.Log(1, "Finished reading Shared Resources!");
-        }
-
         #endregion
 
         #region PrivateMethods - Write
 
-        private void WriteHeader(MBinaryWriter writer, DebugLogger logger = null)
+        private void WriteXnbFileHeader(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing XNB Header...");
 
@@ -296,7 +230,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             // TODO : Maybe implement in the future a compression system so that we can export compressed files if the user wants to do so?
         }
 
-        private void WriteFileSizes(MBinaryWriter writer, DebugLogger logger = null)
+        private void WriteXnbFileSizes(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing File Sizes...");
 
@@ -311,76 +245,12 @@ namespace MagickaPUP.XnaClasses.Xnb
             // TODO : In the future, if the file sizes are properly implemented rather than always going with the max value of an u16, we should probably print them to the console with debug logs.
         }
 
-        // TODO : Modify this code to get the content type readers from the context var instead. We'll add them somewhere when reading the object.
-        // We can still use the required content readers getter method, the point is that I want to be a bit more consistent with the idea of what I want to end up doing in the future when I modify the read side of the code...
-        // The point of these modifications is that we will eventually be capable of writing the correct writer indices without hardcoding a list of all of the known readers... but only once I finally get around finishing the implementation of the rest of this fucking code!!!
-        // In short, this impl breaks everything and I must rewrite a ton of shit to get back to a working product...
-        private void WriteContentTypeReaders(MBinaryWriter writer, DebugLogger logger = null)
+        private void WriteXnbFileContents(MBinaryWriter writer, DebugLogger logger = null)
         {
-            logger?.Log(1, "Fetching Content Type Readers...");
-            // Add the content type readers to the context writer's list of readers so that they can be used later on.
-            writer.ContentTypeReaders.AddReaders(this.ContentTypeReaders);
-            
-            logger?.Log(1, $"Content Type Readers found : {writer.ContentTypeReaders.Count}");
-            if (writer.ContentTypeReaders.Count > 0)
-            {
-                logger?.Log(1, "Writing Content Type Readers...");
-
-                // If the obtained object defines its own content type reader list, then we write those...
-                writer.Write7BitEncodedInt(writer.ContentTypeReaders.Count);
-                foreach (var reader in writer.ContentTypeReaders.ContentTypeReaders)
-                    reader.WriteInstance(writer, logger);
-            }
-            else
-            {
-                logger?.Log(1, "Defaulting to writing all known content type readers...");
-                
-                // If the obtained object does not define its own content type reader list, then we write them all just in case...
-                writer.Write7BitEncodedInt(XnaInfo.ContentTypeReaders.Length);
-                foreach (var reader in XnaInfo.ContentTypeReaders)
-                    reader.WriteInstance(writer, logger);
-            }
+            this.XnbFileData.Write(writer);
         }
 
-        private void WriteSharedResourceCount(MBinaryWriter writer, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Writing Shared Resource Count...");
-
-            int count = this.SharedResources.Length;
-
-            // We always append a null object as a shared resource if the number of shared resources is 0 and the object type is a level model.
-            // This makes the game less likely to crash when dealing with a map, for some fucking reason...
-            if (ShouldAppendNullObject())
-                ++count;
-
-            writer.Write7BitEncodedInt(count);
-            logger?.Log(1, $" - Shared Resource Count : {count}");
-        }
-
-        private void WritePrimaryObject(MBinaryWriter writer, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Writing Primary Object...");
-            XnaObject.WriteObject(this.PrimaryObject, writer, logger); // First we write the 7 bit encoded integer for the content reader index, then we write the object itself.
-        }
-
-        private void WriteSharedResources(MBinaryWriter writer, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Writing Shared Resources...");
-
-            if (ShouldAppendNullObject())
-            {
-                XnaObject.WriteEmptyObject(writer, logger);
-            }
-            else
-            {
-                for (int i = 0; i < this.SharedResources.Length; ++i)
-                {
-                    XnaObject.WriteObject(this.SharedResources[i], writer, logger);
-                }
-            }
-        }
-
-        private void WritePaddingBytes(MBinaryWriter writer, DebugLogger logger = null, int numBytes = 64, byte value = 0)
+        private void WriteXnbFilePaddingBytes(MBinaryWriter writer, DebugLogger logger = null, int numBytes = 64, byte value = 0)
         {
             #region Comment
 
@@ -402,13 +272,6 @@ namespace MagickaPUP.XnaClasses.Xnb
             for (int i = 0; i < numBytes; ++i) // Kind of an slow initialization... with C we could do this out of the box, and maybe even use memset if we wanted... in C# (afaik) we have to manually iterate due to object construction and shit...
                 bytes[i] = value;
             writer.Write(bytes);
-        }
-
-        private bool ShouldAppendNullObject()
-        {
-            bool hasAnyResources = this.SharedResources.Length > 0;
-            bool shouldAppendNullObject = this.PrimaryObject.ShouldAppendNullObject();
-            return !hasAnyResources && shouldAppendNullObject;
         }
 
         #endregion

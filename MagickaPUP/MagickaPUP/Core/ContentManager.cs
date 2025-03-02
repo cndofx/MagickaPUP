@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.Core
 {
-    public static class ContentManager
+    public class ContentManager
     {
         public struct PackSettings
         {
@@ -24,10 +24,10 @@ namespace MagickaPUP.Core
             public bool ShouldIndent;
         }
 
-        public static void PackContent(PackSettings settings)
+        public void PackContent(PackSettings settings)
         { }
 
-        public static void UnpackContent(UnpackSettings settings)
+        public void UnpackContent(UnpackSettings settings)
         { }
 
         #region PrivateMethods - Packer (JSON to XNB)

@@ -17,6 +17,11 @@ namespace MagickaPUP.Core
 
     // TODO : Maybe add some try-catch blocks for permissive exceptions with the old "Cancelling Pack / Unpack Operation..." message logged.
     
+    // TODO : Implement a method to actuall decompress from some user provided buffer / string / stream, so that we can use this outside of the CLI and
+    // without actually having to rely entirely on loading and writing data to files (maybe the user wants to use this like a library for their own code, maybe
+    // some larger Game editor or whatever, and it would be extremely useful to have access to all of this functionality with in-memory data without having to make
+    // temporary files to work with in between)
+
     public class ContentManager
     {
         #region Structs

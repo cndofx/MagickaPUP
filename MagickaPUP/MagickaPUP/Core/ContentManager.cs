@@ -1,8 +1,9 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MagickaPUP.XnaClasses.Xnb;
+using System.Text.Json;
+using MagickaPUP.Utility.IO;
 
 namespace MagickaPUP.Core
 {
@@ -31,7 +32,23 @@ namespace MagickaPUP.Core
         #region PublicMethods
 
         public void PackContent(PackSettings settings)
-        { }
+        {
+            DebugLogger logger = new DebugLogger("Packer", settings.DebugLevel);
+
+            using (var stream = new FileStream(settings.OutputFileName, FileMode.Create, FileAccess.Write))
+            using (var writer = new MBinaryWriter(stream))
+            {
+
+                logger?.Log(1, $"Reading contents from input JSON file {settings.InputFileName}");
+                string jsonText = File.ReadAllText(settings.InputFileName);
+
+                logger?.Log(1, "Deserializing JSON file...");
+                XnbFile xnbFile = JsonSerializer.Deserialize<XnbFile>(jsonText);
+
+                logger?.Log(1, $"Writing data to output XNB file {settings.OutputFileName}");
+                xnbFile.Write(writer, logger);
+            }
+        }
 
         public void UnpackContent(UnpackSettings settings)
         { }

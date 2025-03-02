@@ -12,6 +12,11 @@ namespace MagickaPUP.Core
     // It also allowed to clean up the code and improve code correctness, as well as preventing having to store in memory temporary copies of Packers and Unpackers
     // with locally stored configuration on construction (yes, they used to store this data on construction and sit around idly waiting for the Pack() and Unpack()
     // methods to be called...). Now, this data is held only temporarily on PackContent() and UnpackContent() calls rather than associating it as data local to the class.
+    
+    // TODO : Get rid of the old Packer and Unpacker classes to clean up the code.
+
+    // TODO : Maybe add some try-catch blocks for permissive exceptions with the old "Cancelling Pack / Unpack Operation..." message logged.
+    
     public class ContentManager
     {
         #region Structs

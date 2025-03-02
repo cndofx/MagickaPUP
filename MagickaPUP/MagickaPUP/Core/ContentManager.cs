@@ -7,6 +7,11 @@ using MagickaPUP.Utility.IO;
 
 namespace MagickaPUP.Core
 {
+    // NOTE : In the past, this used to be separated into 2 different classes: "Packer" and "Unpacker". Merging their logic here made it easier to
+    // make the write / read system consistent across the codebase (a read and write method for each type of object).
+    // It also allowed to clean up the code and improve code correctness, as well as preventing having to store in memory temporary copies of Packers and Unpackers
+    // with locally stored configuration on construction (yes, they used to store this data on construction and sit around idly waiting for the Pack() and Unpack()
+    // methods to be called...). Now, this data is held only temporarily on PackContent() and UnpackContent() calls rather than associating it as data local to the class.
     public class ContentManager
     {
         #region Structs

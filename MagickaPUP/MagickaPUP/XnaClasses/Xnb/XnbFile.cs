@@ -292,6 +292,9 @@ namespace MagickaPUP.XnaClasses.Xnb
             writer.Write(sizeDecompressed);
 
             // TODO : In the future, if the file sizes are properly implemented rather than always going with the max value of an u16, we should probably print them to the console with debug logs.
+            
+            // NOTE : File size is ignored by XNA if the input file is decompressed already, as it doesn't need it.
+            // The 2 input file sizes variables stored within compressed XNB files are actually used when the file is compressed, so we should figure out how to properly write the correct sizes in the future.
         }
 
         private void WriteXnbFileContents(MBinaryWriter writer, DebugLogger logger = null)

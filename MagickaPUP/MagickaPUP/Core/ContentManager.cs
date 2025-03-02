@@ -8,6 +8,8 @@ namespace MagickaPUP.Core
 {
     public class ContentManager
     {
+        #region Structs
+
         public struct PackSettings
         {
             public string InputFileName;
@@ -24,11 +26,17 @@ namespace MagickaPUP.Core
             public bool ShouldIndent;
         }
 
+        #endregion
+
+        #region PublicMethods
+
         public void PackContent(PackSettings settings)
         { }
 
         public void UnpackContent(UnpackSettings settings)
         { }
+
+        #endregion
 
         #region PrivateMethods - Packer (JSON to XNB)
 

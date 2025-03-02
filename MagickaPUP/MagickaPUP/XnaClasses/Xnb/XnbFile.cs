@@ -35,40 +35,12 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Reading XNB File...");
 
-            // TODO : Implement
-
-            logger?.Log(1, "Finished Reading XNB File!");
-        }
-
-        #endregion
-
-        #region PublicMethods
-
-        public void Write(MBinaryWriter writer, DebugLogger logger = null)
-        {
-            logger?.Log(1, "Writing XNB File...");
-
-            WriteXnbFileHeader(writer, logger);
-            WriteXnbFileSizes(writer, logger);
-            WriteXnbFileContents(writer, logger);
-            WriteXnbFilePaddingBytes(writer, logger);
-            // TODO : In the future, we should handle compression related stuff here.
-
-            logger?.Log(1, "Finished Writing XNB File!");
-        }
-
-        #endregion
-
-        #region PrivateMethods - Read
-
-        private void ReadHeader(MBinaryReader reader, DebugLogger logger = null)
-        {
             #region Comment - Char vs Byte
 
             // NOTE : All char reads ('X', 'N', 'B', and 'w') are performed with ReadByte() rather than ReadChar() since I want to ensure that future text encodings cannot fuck shit up for whatever reason.
             // The future is most likely UTF8 which is ASCII compatbile, so ReadChar() for those bytes should theoretically work just fine, but in C# guaranteed to maintain char as a single byte for future versions?
             // This isn't C, so I'd rather not risk it!
-            
+
             // As a side note, as of today, the C# standard seems to say that char is 2 bytes in memory, but ReadChar() will read 1 single byte if the detected char corresponds to an ASCII compatible byte in the system encoding...
             // So yeah, all the more reason to NOT use char type in this case in C#...
 
@@ -76,10 +48,8 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             #endregion
 
-            logger?.Log(1, "Reading XNB Header..."); // Maybe this should say "validating XNB header"? Since that is what we're doing... we're both reading it AND validating it...
-
             // Validate the input data to check if it is a valid XNB file
-            logger?.Log(1, "Validating XNB File...");
+            logger?.Log(1, "Validating XNB File Header...");
             byte x = reader.ReadByte(); // These 3 variables are the first 3 bytes of the program. These are known as the "XNB Magic", which are the "magic" or "special" words usually at the begining of a file, used to quickly identify them as a valid file of whatever type. In this case, XNB files identify themselves with the byte sequence 'X', 'N' and 'B'. Obviously, for this to be a valid XNB file, the rest of the bytes must also be valid, but you get what I mean...
             byte n = reader.ReadByte();
             byte b = reader.ReadByte();
@@ -103,7 +73,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, $"Platform \"{platform}\" is valid (Windows)");
 
             #region Comment - Flags
-            
+
             // NOTE : Within Magicka's compiled code, the compiled XNA assembly was actually optimized to disregard a lot of information from the 2 following bytes.
             // They are just read as a single u16, and if it's equal to 4, then the version is XNA 3.1 (which is the correct one for Magicka) and flags is set to false (all 0s).
             // If the u16 has the value 32772, then the byte that corresponds to the version has value 4 (so again, correct XNA version) and the XNB flags byte is set to 0x80, which is LZX compression.
@@ -112,7 +82,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             // implementation, I want it to be as correct as possible and as transparent as possible, which is why I derived a working XNB 3.1 working reader implementation
             // from both reverse engineering Magicka's code, seeing the optimized and decompiled assemblies of XNA 3.1, and by guessing a lot of changes from what little I could find of the XNA 4.0 official spec.
             // If only the official XNA 3.1 spec was still available somewhere, none of this would be an issue...
-            
+
             #endregion
 
             // Validate version number.
@@ -179,6 +149,34 @@ namespace MagickaPUP.XnaClasses.Xnb
             // NOTE : Any data that is located AFTER the decompression flag is susceptible to being compressed. Only the initial part of the header is always the same
             // size in bytes both in compressed and non compressed files.
             // That is why we perform the decompression step (for the implemented compression algorithms that we support...) before continuing with the rest of the reading.
+
+            logger?.Log(1, "Finished Reading XNB File!");
+        }
+
+        #endregion
+
+        #region PublicMethods
+
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing XNB File...");
+
+            WriteXnbFileHeader(writer, logger);
+            WriteXnbFileSizes(writer, logger);
+            WriteXnbFileContents(writer, logger);
+            WriteXnbFilePaddingBytes(writer, logger);
+            // TODO : In the future, we should handle compression related stuff here.
+
+            logger?.Log(1, "Finished Writing XNB File!");
+        }
+
+        #endregion
+
+        #region PrivateMethods - Read
+
+        private void ReadHeader(MBinaryReader reader, DebugLogger logger = null)
+        {
+            
         }
 
         private void DecompressLzx(MBinaryReader reader, DebugLogger logger)

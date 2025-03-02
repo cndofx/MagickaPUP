@@ -176,6 +176,7 @@ namespace MagickaPUP.XnaClasses.Xnb
                     using (var decompressedStream = new MemoryStream(xnbFileSizeDecompressed)) // NOTE : the buffer created is of a flexible size, so even if the input size is wrong, we can still expand if needed.
                     using (var decompressedReader = new MBinaryReader(decompressedStream))
                     {
+                        // TODO : Maybe clean up some of the leftover shit here that is commented out and stuff... some day in the future...
                         while (reader.BaseStream.Position < reader.BaseStream.Length)
                         {
                             // the compressed stream is seperated into blocks that will decompress

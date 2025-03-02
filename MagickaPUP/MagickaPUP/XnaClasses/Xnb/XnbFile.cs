@@ -176,8 +176,11 @@ namespace MagickaPUP.XnaClasses.Xnb
                     using (var decompressedStream = new MemoryStream(xnbFileSizeDecompressed)) // NOTE : the buffer created is of a flexible size, so even if the input size is wrong, we can still expand if needed.
                     using (var decompressedReader = new MBinaryReader(decompressedStream))
                     {
-                        // TODO : Maybe clean up some of the leftover shit here that is commented out and stuff... some day in the future...
-                        while (reader.BaseStream.Position < reader.BaseStream.Length)
+                        long startPos = reader.BaseStream.Position;
+                        long pos = startPos;
+
+                        // TODO : Modify this class to take a stream as input rather than the MBinary reader, so that we can creater the reader here out of the final stream that we will use, maybe?
+                        while (pos - startPos < xnbFileSizeCompressed)
                         {
                             // the compressed stream is seperated into blocks that will decompress
                             // into 32Kb or some other size if specified.
@@ -187,8 +190,8 @@ namespace MagickaPUP.XnaClasses.Xnb
                             // 0xFF (255), then a short indicating the output size and another
                             // for the block size
                             // all shorts for these cases are encoded in big endian order
-                            int hi = reader.ReadByte();
-                            int lo = reader.ReadByte();
+                            int hi = reader.BaseStream.ReadByte();
+                            int lo = reader.BaseStream.ReadByte();
                             int block_size = (hi << 8) | lo;
                             int frame_size = 0x8000; // frame size is 32Kb by default
                                                      // does this block define a frame size?
@@ -200,21 +203,23 @@ namespace MagickaPUP.XnaClasses.Xnb
                                 hi = (byte)reader.ReadByte();
                                 lo = (byte)reader.ReadByte();
                                 block_size = (hi << 8) | lo;
-                                // pos += 5;
+                                pos += 5;
                             }
-                            // else
-                                // pos += 2;
+                            else
+                            {
+                                pos += 2;
+                            }
 
                             // either says there is nothing to decode
                             if (block_size == 0 || frame_size == 0)
                                 break;
 
                             dec.Decompress(reader.BaseStream, block_size, decompressedStream, frame_size);
-                            //pos += block_size;
+                            pos += block_size;
 
                             // reset the position of the input just incase the bit buffer
                             // read in some unused bytes
-                            // stream.Seek(pos, SeekOrigin.Begin);
+                            reader.BaseStream.Seek(pos, SeekOrigin.Begin);
                         }
 
                         if (decompressedStream.Position != xnbFileSizeDecompressed)

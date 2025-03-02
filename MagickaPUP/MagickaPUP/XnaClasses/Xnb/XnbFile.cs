@@ -142,13 +142,18 @@ namespace MagickaPUP.XnaClasses.Xnb
                 }
             }
 
-            // TODO : Implement decompression support in the future!
+            #region Comment - XNB Data and Compression
 
-            // TODO : Implement decompression step here, at least for the LZX compression algorithm.
+            // NOTE : Any data that is located AFTER the decompression flag is susceptible to being compressed.
+            // Only the initial part of the header is always the same size in bytes both in compressed and non compressed files.
+            // That is why we perform the decompression step (for the implemented compression algorithms that we support...) before continuing with
+            // the rest of the reading.
+            // After decompression takes place, we can perform the data reading as if nothing had happened. The rest of the process does not need to be
+            // aware of whether decompression took place or not.
 
-            // NOTE : Any data that is located AFTER the decompression flag is susceptible to being compressed. Only the initial part of the header is always the same
-            // size in bytes both in compressed and non compressed files.
-            // That is why we perform the decompression step (for the implemented compression algorithms that we support...) before continuing with the rest of the reading.
+            #endregion
+
+            this.XnbFileData = new XnbFileData(reader, logger); // TODO : Pick a different reader based on whether we have decompressed or not!
 
             logger?.Log(1, "Finished Reading XNB File!");
         }

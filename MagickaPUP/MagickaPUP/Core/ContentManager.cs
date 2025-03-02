@@ -43,20 +43,35 @@ namespace MagickaPUP.Core
             using (var stream = new FileStream(settings.OutputFileName, FileMode.Create, FileAccess.Write))
             using (var writer = new MBinaryWriter(stream))
             {
-
-                logger?.Log(1, $"Reading contents from input JSON file {settings.InputFileName}");
+                logger?.Log(1, $"Reading contents from input JSON file \"{settings.InputFileName}\"");
                 string jsonText = File.ReadAllText(settings.InputFileName);
 
-                logger?.Log(1, "Deserializing JSON file...");
+                logger?.Log(1, "Deserializing JSON string to XNB data...");
                 XnbFile xnbFile = JsonSerializer.Deserialize<XnbFile>(jsonText);
 
-                logger?.Log(1, $"Writing data to output XNB file {settings.OutputFileName}");
+                logger?.Log(1, $"Writing data to output XNB file \"{settings.OutputFileName}\"");
                 xnbFile.Write(writer, logger);
             }
         }
 
         public void UnpackContent(UnpackSettings settings)
-        { }
+        {
+            DebugLogger logger = new DebugLogger("Unpacker", settings.DebugLevel);
+
+            // using (var stream = new MemoryStream(File.ReadAllBytes(settings.InputFileName))) // NOTE : This other implementation loads the entire file into memory. If the file is compressed, we still need to load all of the decompressed data into memory after decompression, so this would double the amount of memory consumed, but it could speed up reading of non compressed XNB files. In the futture, maybe add a flag to mpup that allows determining whether you want to load all of the data into memory or not?
+            using (var stream = new FileStream(settings.InputFileName, FileMode.Open, FileAccess.Read))
+            using (var reader = new MBinaryReader(stream))
+            {
+                logger?.Log(1, $"Reading contents from input XNB file \"{settings.InputFileName}\"");
+                XnbFile xnbFile = new XnbFile(reader, logger);
+
+                logger?.Log(1, "Serializing XNB data to JSON string...");
+                string jsonText = JsonSerializer.Serialize(xnbFile);
+
+                logger?.Log(1, $"Writing data to output JSON file \"{settings.OutputFileName}\"");
+                File.WriteAllText(settings.OutputFileName, jsonText);
+            }
+        }
 
         #endregion
 

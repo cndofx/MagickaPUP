@@ -179,39 +179,6 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         #region PrivateMethods - Read
 
-        private void ReadHeader(MBinaryReader reader, DebugLogger logger = null)
-        {
-            
-        }
-
-        private void DecompressLzx(MBinaryReader reader, DebugLogger logger)
-        {
-            // TODO : Implement
-        }
-
-        private void DecompressLz4(MBinaryReader reader, DebugLogger logger)
-        {
-            // TODO : Implement
-        }
-
-        private void ReadFileSizes(MBinaryReader reader, DebugLogger logger = null)
-        {
-            // TODO : Maybe move the size reading code to the header reading since the amount of size vars read depends on the compression?
-            logger?.Log(1, "Reading File Sizes...");
-
-            // TODO : Fix this, the size reading is actually wrong. When uncompressed, the file stores a single i32 which stores the whole file length, which usually is the same as an u16 and the other 2 bytes entirely zeroed out because the max file size seems to be the u16 limit.
-            // When compressed, the file contains first an i32 with the decompressed size, and then an i32 with the compressed size.
-            // The 4.0 spec is different, which is why this worked when downsizing the var size from 2 i32s to 2 u16s, but the logic is actually not correct and it doesn't do what the code says it does...
-            // in short: FIXME!!!
-
-            // Get file sizes for compressed and uncompressed sizes.
-            // NOTE : They can actually be whatever you want, it doesn't really matter since Magicka doesn't use these values actually...
-            // NOTE : These values should be ushort but I'm keeping them as uint as originally, the XNB file reference I was following was for XNA 4.0 and those use u32 for the size variables. In short, I'm just keeping it like this to remember and for furutre feature support etc etc... could really just be changed to ushort without any problems tbh. Actually, the writer does use ushorts so yeah lol...
-            uint sizeCompressed = reader.ReadUInt16(); // Compressed size of the data
-            uint sizeDecompressed = reader.ReadUInt16(); // Decompressed / Uncompressed size of the data
-            logger?.Log(1, $"File Size Compressed   : {sizeCompressed}");
-            logger?.Log(1, $"File Size Decompressed : {sizeDecompressed}");
-        }
         
         #endregion
 

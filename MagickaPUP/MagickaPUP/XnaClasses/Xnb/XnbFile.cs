@@ -33,11 +33,13 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         public XnbFile(MBinaryReader reader, DebugLogger logger = null)
         {
+            #region Comment - using statements
+
             // Create a local variable to hold the final reader that will be used when reading the contents of the XNB file.
             // This can either be our local binary reader or a new one created after decompression takes place.
             // This way, the rest of the reading process can live completely unaware of the fact that decompression took place.
-            MBinaryReader binaryReader;
-            MemoryStream memoryStream = null;
+
+            #endregion
 
             logger?.Log(1, "Reading XNB File...");
 
@@ -54,30 +56,6 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             #endregion
 
-            // Validate the input data to check if it is a valid XNB file
-            logger?.Log(1, "Validating XNB File Header...");
-            byte x = reader.ReadByte(); // These 3 variables are the first 3 bytes of the program. These are known as the "XNB Magic", which are the "magic" or "special" words usually at the begining of a file, used to quickly identify them as a valid file of whatever type. In this case, XNB files identify themselves with the byte sequence 'X', 'N' and 'B'. Obviously, for this to be a valid XNB file, the rest of the bytes must also be valid, but you get what I mean...
-            byte n = reader.ReadByte();
-            byte b = reader.ReadByte();
-            string headerString = $"{(char)x}{(char)n}{(char)b}";
-            if (!(x == (byte)'X' && n == (byte)'N' && b == (byte)'B'))
-            {
-                logger?.Log(1, $"Header \"{headerString}\" is not valid!");
-                throw new MagickaReadExceptionPermissive();
-            }
-            logger?.Log(1, $"Header \"{headerString}\" is valid!");
-
-            // Perform platform validation.
-            // Check if the platform is Windows. (No other platforms are supported in Magicka, so it really can't be anything else...)
-            // TODO : Maybe modify this code to be flexible and allow the platform byte to be anything when reading?
-            byte platform = reader.ReadByte(); // Should hold value 'w' since Magicka was designed for the Windows OS as primary platform.
-            if (platform != (byte)'w')
-            {
-                logger?.Log(1, $"Platform \"{platform}\" is not valid.");
-                throw new MagickaReadExceptionPermissive();
-            }
-            logger?.Log(1, $"Platform \"{platform}\" is valid (Windows)");
-
             #region Comment - Flags
 
             // NOTE : Within Magicka's compiled code, the compiled XNA assembly was actually optimized to disregard a lot of information from the 2 following bytes.
@@ -91,6 +69,51 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             #endregion
 
+            #region Comment - XNB Data and Compression
+
+            // NOTE : Any data that is located AFTER the decompression flag is susceptible to being compressed.
+            // Only the initial part of the header is always the same size in bytes both in compressed and non compressed files.
+            // That is why we perform the decompression step (for the implemented compression algorithms that we support...) before continuing with
+            // the rest of the reading.
+            // After decompression takes place, we can perform the data reading as if nothing had happened. The rest of the process does not need to be
+            // aware of whether decompression took place or not.
+
+            #endregion
+
+            #region XNB Magic
+
+            // Validate the input data to check if it is a valid XNB file
+            logger?.Log(1, "Validating XNB File Header...");
+            byte x = reader.ReadByte(); // These 3 variables are the first 3 bytes of the program. These are known as the "XNB Magic", which are the "magic" or "special" words usually at the begining of a file, used to quickly identify them as a valid file of whatever type. In this case, XNB files identify themselves with the byte sequence 'X', 'N' and 'B'. Obviously, for this to be a valid XNB file, the rest of the bytes must also be valid, but you get what I mean...
+            byte n = reader.ReadByte();
+            byte b = reader.ReadByte();
+            string headerString = $"{(char)x}{(char)n}{(char)b}";
+            if (!(x == (byte)'X' && n == (byte)'N' && b == (byte)'B'))
+            {
+                logger?.Log(1, $"Header \"{headerString}\" is not valid!");
+                throw new MagickaReadExceptionPermissive();
+            }
+            logger?.Log(1, $"Header \"{headerString}\" is valid!");
+
+            #endregion
+
+            #region XNB Platform
+
+            // Perform platform validation.
+            // Check if the platform is Windows. (No other platforms are supported in Magicka, so it really can't be anything else...)
+            // TODO : Maybe modify this code to be flexible and allow the platform byte to be anything when reading?
+            byte platform = reader.ReadByte(); // Should hold value 'w' since Magicka was designed for the Windows OS as primary platform.
+            if (platform != (byte)'w')
+            {
+                logger?.Log(1, $"Platform \"{platform}\" is not valid.");
+                throw new MagickaReadExceptionPermissive();
+            }
+            logger?.Log(1, $"Platform \"{platform}\" is valid (Windows)");
+
+            #endregion
+
+            #region XNB Version
+
             // Validate version number.
             // Gets the version number and validates that it is an XNB file for XNA 3.1, even tho it does not matter that much in this case.
             byte xnbVersion = reader.ReadByte();
@@ -100,6 +123,10 @@ namespace MagickaPUP.XnaClasses.Xnb
                 logger?.Log(1, "The XNA version is not supported by Magicka!");
                 throw new MagickaReadExceptionPermissive();
             }
+
+            #endregion
+
+            #region XNB Flags
 
             // Get XNB Flags to check for compression.
             // Compression type should always be uncompressed to be able to read the data within the file.
@@ -112,6 +139,8 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, $" - HD Profile          : {hiDefProfile}");
             logger?.Log(1, $" - Compressed with Lz4 : {isCompressedLz4}");
             logger?.Log(1, $" - Compressed with Lzx : {isCompressedLzx}");
+
+            #endregion
 
             // Read file size
             int xnbFileSize = reader.ReadInt32(); // XNB files contain an i32 here that contains the size of the file itself as it is.
@@ -139,31 +168,22 @@ namespace MagickaPUP.XnaClasses.Xnb
                 if (isCompressedLzx)
                 {
                     logger?.Log(1, "File is Compressed with LZX compression.");
-                    // logger?.Log(1, "Cannot read XNB files compressed with LZX compression!");
-                    // throw new MagickaReadExceptionPermissive();
-
+                    
                     LzxDecoder dec = new LzxDecoder(16);
 
-                    // TODO : Decompression code goes here...
+                    using (var decompressedStream = new MemoryStream(xnbFileSizeDecompressed)) // NOTE : the buffer created is of a flexible size, so even if the input size is wrong, we can still expand if needed.
+                    using (var decompressedReader = new MBinaryReader(decompressedStream))
+                    {
+                        // TODO : Implement decompression logic here
+
+                        this.XnbFileData = new XnbFileData(decompressedReader, logger);
+                    }
                 }
             }
             else
             {
-                binaryReader = reader;
+                this.XnbFileData = new XnbFileData(reader, logger);
             }
-
-            #region Comment - XNB Data and Compression
-
-            // NOTE : Any data that is located AFTER the decompression flag is susceptible to being compressed.
-            // Only the initial part of the header is always the same size in bytes both in compressed and non compressed files.
-            // That is why we perform the decompression step (for the implemented compression algorithms that we support...) before continuing with
-            // the rest of the reading.
-            // After decompression takes place, we can perform the data reading as if nothing had happened. The rest of the process does not need to be
-            // aware of whether decompression took place or not.
-
-            #endregion
-
-            this.XnbFileData = new XnbFileData(reader, logger); // TODO : Pick a different reader based on whether we have decompressed or not!
 
             logger?.Log(1, "Finished Reading XNB File!");
         }

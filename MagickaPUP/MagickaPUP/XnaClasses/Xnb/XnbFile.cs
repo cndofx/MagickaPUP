@@ -8,6 +8,7 @@ using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.Compression;
 using System.IO;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
@@ -168,13 +169,60 @@ namespace MagickaPUP.XnaClasses.Xnb
                 if (isCompressedLzx)
                 {
                     logger?.Log(1, "File is Compressed with LZX compression.");
-                    
+                    logger?.Log(1, "Decompressing XNB file...");
+
                     LzxDecoder dec = new LzxDecoder(16);
 
                     using (var decompressedStream = new MemoryStream(xnbFileSizeDecompressed)) // NOTE : the buffer created is of a flexible size, so even if the input size is wrong, we can still expand if needed.
                     using (var decompressedReader = new MBinaryReader(decompressedStream))
                     {
-                        // TODO : Implement decompression logic here
+                        while (reader.BaseStream.Position < reader.BaseStream.Length)
+                        {
+                            // the compressed stream is seperated into blocks that will decompress
+                            // into 32Kb or some other size if specified.
+                            // normal, 32Kb output blocks will have a short indicating the size
+                            // of the block before the block starts
+                            // blocks that have a defined output will be preceded by a byte of value
+                            // 0xFF (255), then a short indicating the output size and another
+                            // for the block size
+                            // all shorts for these cases are encoded in big endian order
+                            int hi = reader.ReadByte();
+                            int lo = reader.ReadByte();
+                            int block_size = (hi << 8) | lo;
+                            int frame_size = 0x8000; // frame size is 32Kb by default
+                                                     // does this block define a frame size?
+                            if (hi == 0xFF)
+                            {
+                                hi = lo;
+                                lo = (byte)reader.ReadByte();
+                                frame_size = (hi << 8) | lo;
+                                hi = (byte)reader.ReadByte();
+                                lo = (byte)reader.ReadByte();
+                                block_size = (hi << 8) | lo;
+                                // pos += 5;
+                            }
+                            // else
+                                // pos += 2;
+
+                            // either says there is nothing to decode
+                            if (block_size == 0 || frame_size == 0)
+                                break;
+
+                            dec.Decompress(reader.BaseStream, block_size, decompressedStream, frame_size);
+                            //pos += block_size;
+
+                            // reset the position of the input just incase the bit buffer
+                            // read in some unused bytes
+                            // stream.Seek(pos, SeekOrigin.Begin);
+                        }
+
+                        if (decompressedStream.Position != xnbFileSizeDecompressed)
+                        {
+                            logger?.Log(1, $"LZX Decompression failed! Expected output size was {xnbFileSizeDecompressed} but the decompressed size is {decompressedStream.Position}.");
+                            throw new MagickaReadExceptionPermissive();
+                        }
+
+                        decompressedStream.Seek(0, SeekOrigin.Begin);
 
                         this.XnbFileData = new XnbFileData(decompressedReader, logger);
                     }

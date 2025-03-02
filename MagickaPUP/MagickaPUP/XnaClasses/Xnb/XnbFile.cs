@@ -31,7 +31,6 @@ namespace MagickaPUP.XnaClasses.Xnb
             this.XnbFileData = new XnbFileData();
         }
 
-        // TODO : Modify the read and write methods to take strings for input and output files as parameters, all file related operations should begin HERE in this class for further encapsulation.
         public XnbFile(MBinaryReader reader, DebugLogger logger = null)
         {
             // Create a local variable to hold the final reader that will be used when reading the contents of the XNB file.

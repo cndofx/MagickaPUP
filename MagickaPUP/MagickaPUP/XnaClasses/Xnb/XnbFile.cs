@@ -182,7 +182,7 @@ namespace MagickaPUP.XnaClasses.Xnb
                         // TODO : Modify this class to take a stream as input rather than the MBinary reader, so that we can creater the reader here out of the final stream that we will use, maybe?
                         while (pos - startPos < xnbFileSizeCompressed)
                         {
-                            // the compressed stream is seperated into blocks that will decompress
+                            // The compressed stream is seperated into blocks that will decompress
                             // into 32Kb or some other size if specified.
                             // normal, 32Kb output blocks will have a short indicating the size
                             // of the block before the block starts
@@ -210,15 +210,14 @@ namespace MagickaPUP.XnaClasses.Xnb
                                 pos += 2;
                             }
 
-                            // either says there is nothing to decode
+                            // If the block size is 0 or the frame size is 0, it signals that there is nothing left to decode.
                             if (block_size == 0 || frame_size == 0)
                                 break;
 
                             dec.Decompress(reader.BaseStream, block_size, decompressedStream, frame_size);
                             pos += block_size;
 
-                            // reset the position of the input just incase the bit buffer
-                            // read in some unused bytes
+                            // Reset the position of the input just in case the bit buffer has read some unused bytes
                             reader.BaseStream.Seek(pos, SeekOrigin.Begin);
                         }
 

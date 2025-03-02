@@ -29,5 +29,13 @@ namespace MagickaPUP.Core
 
         public static void UnpackContent(UnpackSettings settings)
         { }
+
+        #region PrivateMethods - Packer (JSON to XNB)
+
+        #endregion
+
+        #region PrivateMethods - Unpacker (XNB to JSON)
+
+        #endregion
     }
 }

@@ -8,16 +8,16 @@ namespace MagickaPUP.Utility.Compression
 {
     public struct LzxState
     {
-        public uint R0, R1, R2;                   /* for the LRU offset system */
-        public ushort main_elements;              /* number of main tree elements */
-        public int header_read;                   /* have we started decoding at all yet? */
+        public uint R0, R1, R2;                        /* for the LRU offset system */
+        public ushort main_elements;                   /* number of main tree elements */
+        public int header_read;                        /* have we started decoding at all yet? */
         public LzxConstants.BLOCKTYPE block_type;      /* type of this block */
-        public uint block_length;                 /* uncompressed length of this block */
-        public uint block_remaining;              /* uncompressed bytes still left to decode */
-        public uint frames_read;                  /* the number of CFDATA blocks processed */
-        public int intel_filesize;                /* magic header value used for transform */
-        public int intel_curpos;                  /* current offset in transform space */
-        public int intel_started;                 /* have we seen any translateable data yet? */
+        public uint block_length;                      /* uncompressed length of this block */
+        public uint block_remaining;                   /* uncompressed bytes still left to decode */
+        public uint frames_read;                       /* the number of CFDATA blocks processed */
+        public int intel_filesize;                     /* magic header value used for transform */
+        public int intel_curpos;                       /* current offset in transform space */
+        public int intel_started;                      /* have we seen any translateable data yet? */
 
         public ushort[] PRETREE_table;
         public byte[] PRETREE_len;

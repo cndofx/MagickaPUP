@@ -11,7 +11,7 @@ namespace MagickaPUP.Utility.Compression
         public uint R0, R1, R2;                   /* for the LRU offset system */
         public ushort main_elements;              /* number of main tree elements */
         public int header_read;                   /* have we started decoding at all yet? */
-        public LzxData.BlockType block_type;      /* type of this block */
+        public LzxConstants.BLOCKTYPE block_type;      /* type of this block */
         public uint block_length;                 /* uncompressed length of this block */
         public uint block_remaining;              /* uncompressed bytes still left to decode */
         public uint frames_read;                  /* the number of CFDATA blocks processed */

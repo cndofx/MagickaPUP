@@ -7,6 +7,7 @@ using MagickaPUP.MagickaClasses.Liquids;
 using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.Compression;
+using System.IO;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
@@ -33,6 +34,12 @@ namespace MagickaPUP.XnaClasses.Xnb
         // TODO : Modify the read and write methods to take strings for input and output files as parameters, all file related operations should begin HERE in this class for further encapsulation.
         public XnbFile(MBinaryReader reader, DebugLogger logger = null)
         {
+            // Create a local variable to hold the final reader that will be used when reading the contents of the XNB file.
+            // This can either be our local binary reader or a new one created after decompression takes place.
+            // This way, the rest of the reading process can live completely unaware of the fact that decompression took place.
+            MBinaryReader binaryReader;
+            MemoryStream memoryStream = null;
+
             logger?.Log(1, "Reading XNB File...");
 
             #region Comment - Char vs Byte
@@ -140,6 +147,10 @@ namespace MagickaPUP.XnaClasses.Xnb
 
                     // TODO : Decompression code goes here...
                 }
+            }
+            else
+            {
+                binaryReader = reader;
             }
 
             #region Comment - XNB Data and Compression

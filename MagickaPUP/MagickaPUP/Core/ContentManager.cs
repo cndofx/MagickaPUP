@@ -74,13 +74,5 @@ namespace MagickaPUP.Core
         }
 
         #endregion
-
-        #region PrivateMethods - Packer (JSON to XNB)
-
-        #endregion
-
-        #region PrivateMethods - Unpacker (XNB to JSON)
-
-        #endregion
     }
 }

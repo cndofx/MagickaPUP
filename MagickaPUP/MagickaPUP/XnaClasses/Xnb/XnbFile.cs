@@ -303,7 +303,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         private void WriteXnbFileContents(MBinaryWriter writer, DebugLogger logger = null)
         {
-            this.XnbFileData.Write(writer);
+            this.XnbFileData.Write(writer, logger);
         }
 
         private void WriteXnbFilePaddingBytes(MBinaryWriter writer, DebugLogger logger = null, int numBytes = 64, byte value = 0)

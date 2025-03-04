@@ -252,7 +252,7 @@ namespace MagickaPUP.XnaClasses
         {
             // Special case for string
             string name = "Microsoft.Xna.Framework.Content.StringReader";
-            int idx = XnaInfo.GetContentTypeReaderIndex(name);
+            int idx = writer.ContentTypeReaders.GetReaderIndex(name);
             logger?.Log(1, $"Requesting ContentTypeReader \"{name}\" to read type \"{str.GetType().Name}\"");
             writer.Write7BitEncodedInt(idx + 1);
             writer.Write(str);
@@ -276,7 +276,7 @@ namespace MagickaPUP.XnaClasses
 
             #endregion
 
-            int index = XnaInfo.GetContentTypeReaderIndex(name);
+            int index = writer.ContentTypeReaders.GetReaderIndex(name);
 
             logger?.Log(1, $"Requesting ContentTypeReader \"{name}\" to read type \"{obj.GetType().Name}\"");
 

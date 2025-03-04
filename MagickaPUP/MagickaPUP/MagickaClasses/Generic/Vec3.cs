@@ -67,6 +67,9 @@ namespace MagickaPUP.MagickaClasses.Generic
             List<Vec3> ans = new List<Vec3>();
 
             num = reader.ReadInt32();
+
+            logger?.Log(1, $" - Num Entries : {num}");
+
             while (num-- > 0)
             {
                 // README : This is a BIG mistake!!! (the line where we read the 7 bit encoded integer that is now commented out)
@@ -81,7 +84,7 @@ namespace MagickaPUP.MagickaClasses.Generic
                 
                 Vec3 v = Vec3.Read(reader, null);
                 ans.Add(v);
-                logger?.Log(2, $" - Vec3 : < x = {v.x}, y = {v.y}, z = {v.z} >");
+                logger?.Log(2, $"  - Vec3 : < x = {v.x}, y = {v.y}, z = {v.z} >");
             }
 
             return ans;

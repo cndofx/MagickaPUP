@@ -7,6 +7,7 @@ using MagickaPUP.MagickaClasses.Liquids;
 using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.Compression;
+using System.IO;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
@@ -64,10 +65,16 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Writing XNB Data...");
 
-            WriteContentTypeReaders(writer, logger);
-            WriteSharedResourceCount(writer, logger);
-            WritePrimaryObject(writer, logger);
-            WriteSharedResources(writer, logger);
+            using (var memoryStream = new MemoryStream())
+            using (var writerStream = new MBinaryWriter(memoryStream))
+            {
+                WritePrimaryObject(writerStream, logger);
+                WriteSharedResources(writerStream, logger);
+
+                WriteContentTypeReaders(writer, writerStream, logger);
+                WriteSharedResourceCount(writer, logger);
+                writer.Write(memoryStream.ToArray());
+            }
 
             logger?.Log(1, "Finished Writing XNB Data!");
         }
@@ -127,11 +134,12 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         #region PrivateMethods - Write
 
-        private void WriteContentTypeReaders(MBinaryWriter writer, DebugLogger logger = null)
+        private void WriteContentTypeReaders(MBinaryWriter writer, MBinaryWriter writer2, DebugLogger logger = null)
         {
             logger?.Log(1, "Fetching Content Type Readers...");
             // Add the content type readers to the context writer's list of readers so that they can be used later on.
             writer.ContentTypeReaders.AddReaders(this.ContentTypeReaders);
+            writer.ContentTypeReaders.AddReaders(writer2.ContentTypeReaders.ContentTypeReaders);
             
             logger?.Log(1, $"Content Type Readers found : {writer.ContentTypeReaders.Count}");
 

@@ -215,6 +215,7 @@ namespace MagickaPUP.XnaClasses
             return (T)obj;
         }
 
+        // Generic function to read XnaObjects
         public static void WriteObject(XnaObject obj, MBinaryWriter writer, DebugLogger logger = null)
         {
             // NOTE : If the input object is null, then call the internal write empty object method.
@@ -225,46 +226,47 @@ namespace MagickaPUP.XnaClasses
                 return;
             }    
 
-            string name = obj.GetReaderName();
-            int index = writer.ContentTypeReaders.GetReaderIndex(name);
+            ContentTypeReader contentTypeReader = obj.GetObjectContentTypeReader();
+            int index;
+            int realIndex;
 
-            logger?.Log(1, $"Requesting ContentTypeReader \"{name}\" to read type \"{obj.GetType().Name}\"");
-
+            logger?.Log(1, $"Requesting ContentTypeReader \"{contentTypeReader.Name}\" to read type \"{obj.GetType().Name}\"");
+            index = writer.ContentTypeReaders.GetReaderIndex(contentTypeReader.Name);
             if (index < 0)
-            {
-                throw new Exception($"No Content Type Writer exists for specified object! (\"{name}\")");
-            }
+                index = writer.ContentTypeReaders.AddReader(contentTypeReader);
+            realIndex = index + 1;
 
-            logger?.Log(1, $"Writing XNA Object with required ContentTypeReader \"{name}\", index {index + 1}...");
-
-            writer.Write7BitEncodedInt(index + 1);
+            logger?.Log(1, $"Writing XNA Object with required ContentTypeReader \"{contentTypeReader.Name}\", index {realIndex}...");
+            writer.Write7BitEncodedInt(realIndex);
             obj.WriteInstance(writer, logger);
         }
 
-        public static void WriteObject(List<Vec3> obj, MBinaryWriter writer, DebugLogger logger = null)
-        {
-            // Special case for List<Vec3>, if you can figure out a better way of doing this, give me a call lmao.
-            string name = "Microsoft.Xna.Framework.Content.ListReader`1[[Microsoft.Xna.Framework.Vector3, Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d]]";
-            WriteObjectList(obj, name, writer, logger);
-        }
-
+        // Special case for strings
         public static void WriteObject(string str, MBinaryWriter writer, DebugLogger logger = null)
         {
-            // Special case for string
-            string name = "Microsoft.Xna.Framework.Content.StringReader";
-            int idx = writer.ContentTypeReaders.GetReaderIndex(name);
-            logger?.Log(1, $"Requesting ContentTypeReader \"{name}\" to read type \"{str.GetType().Name}\"");
-            writer.Write7BitEncodedInt(idx + 1);
+            ContentTypeReader contentTypeReader = new ContentTypeReader("Microsoft.Xna.Framework.Content.StringReader", 0);
+            int index;
+            int realIndex;
+
+            logger?.Log(1, $"Requesting ContentTypeReader \"{contentTypeReader.Name}\" to read type \"{str.GetType().Name}\"");
+            index = writer.ContentTypeReaders.GetReaderIndex(contentTypeReader.Name);
+            if(index < 0)
+                index = writer.ContentTypeReaders.AddReader(contentTypeReader);
+            realIndex = index + 1;
+
+            logger?.Log(1, $"Writing String with required ContentTypeReader \"{contentTypeReader.Name}\", index {realIndex}...");
+            writer.Write7BitEncodedInt(realIndex);
             writer.Write(str);
         }
 
+        // Special case for empty objects
         public static void WriteEmptyObject(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing NULL object to XNB file...");
             writer.Write7BitEncodedInt(0);
         }
 
-        private static void WriteObjectList<T>(List<T> obj, string name, MBinaryWriter writer, DebugLogger logger = null) where T : XnaObject
+        public static void WriteObject<T>(List<T> objList, MBinaryWriter writer, DebugLogger logger = null) where T : XnaObject
         {
             #region Comment
 
@@ -276,32 +278,23 @@ namespace MagickaPUP.XnaClasses
 
             #endregion
 
-            int index = writer.ContentTypeReaders.GetReaderIndex(name);
+            ContentTypeReader contentTypeReader = default(T).GetListContentTypeReader();
+            int index;
+            int realIndex;
 
-            logger?.Log(1, $"Requesting ContentTypeReader \"{name}\" to read type \"{obj.GetType().Name}\"");
-
+            logger?.Log(1, $"Requesting ContentTypeReader \"{contentTypeReader.Name}\" to read type \"{objList.GetType().Name}\"");
+            index = writer.ContentTypeReaders.GetReaderIndex(contentTypeReader.Name);
             if (index < 0)
-            {
-                throw new Exception($"No Content Type Writer exists for specified object! (\"{name}\")");
-            }
+                index = writer.ContentTypeReaders.AddReader(contentTypeReader);
+            realIndex = index + 1;
 
-            logger?.Log(1, $"Writing List of XNA Objects with required ContentTypeReader \"{name}\", index {index + 1}...");
-
-            writer.Write7BitEncodedInt(index + 1);
-
-            writer.Write((int)obj.Count);
-
-            if (obj.Count <= 0)
+            logger?.Log(1, $"Writing List of XNA Objects with required ContentTypeReader \"{contentTypeReader.Name}\", index {realIndex}...");
+            writer.Write7BitEncodedInt(realIndex);
+            writer.Write((int)objList.Count);
+            if (objList.Count <= 0)
                 return;
-
-            // README : Read the notes in Vec3's ReadList to know why the commented out part is wrong...
-            // TODO : Cleanup
-            // int itrCode = XnaInfo.GetContentTypeReaderIndex(obj[0].GetReaderName());
-            for (int i = 0; i < obj.Count; ++i)
-            {
-                // writer.Write7BitEncodedInt(itrCode);
-                obj[i].WriteInstance(writer, logger);
-            }
+            for (int i = 0; i < objList.Count; ++i)
+                objList[i].WriteInstance(writer, logger);
         }
 
         #endregion
@@ -312,10 +305,12 @@ namespace MagickaPUP.XnaClasses
 
         // As ugly as this is, this is actually very similar to what the real XNA framework does when an user implements their own Content Type Readers and Writers...
         // README : Should try to find a way to get rid of the large switch and just try to make use of a similar system to this one...? maybe?
+        /*
         public virtual string GetReaderName()
         {
             return "__none__";
         }
+        */
 
         // This shit is pretty fucking dumb, should probably move it into a separate PrimaryXnaObject class that inherits from XnaObject or whatever...
         // Because this should contain a list of ALL of the required content readers to read through this specific object, including its child objects.
@@ -332,6 +327,14 @@ namespace MagickaPUP.XnaClasses
         public virtual bool ShouldAppendNullObject()
         {
             return false;
+        }
+
+        public virtual ContentTypeReader GetObjectContentTypeReader() {
+            throw new Exception($"Base Object type XnaObject has no content type reader for Object of type \"{this.GetType()}\"!");
+        }
+
+        public virtual ContentTypeReader GetListContentTypeReader() {
+            throw new Exception($"Base Object type XnaObject has no content type reader for List<Object> of type \"{this.GetType()}\"!");
         }
 
         #endregion

@@ -127,10 +127,6 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         #region PrivateMethods - Write
 
-        // TODO : Modify this code to get the content type readers from the context var instead. We'll add them somewhere when reading the object.
-        // We can still use the required content readers getter method, the point is that I want to be a bit more consistent with the idea of what I want to end up doing in the future when I modify the read side of the code...
-        // The point of these modifications is that we will eventually be capable of writing the correct writer indices without hardcoding a list of all of the known readers... but only once I finally get around finishing the implementation of the rest of this fucking code!!!
-        // In short, this impl breaks everything and I must rewrite a ton of shit to get back to a working product...
         private void WriteContentTypeReaders(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Fetching Content Type Readers...");
@@ -138,24 +134,16 @@ namespace MagickaPUP.XnaClasses.Xnb
             writer.ContentTypeReaders.AddReaders(this.ContentTypeReaders);
             
             logger?.Log(1, $"Content Type Readers found : {writer.ContentTypeReaders.Count}");
-            if (writer.ContentTypeReaders.Count > 0)
-            {
-                logger?.Log(1, "Writing Content Type Readers...");
 
-                // If the obtained object defines its own content type reader list, then we write those...
-                writer.Write7BitEncodedInt(writer.ContentTypeReaders.Count);
-                foreach (var reader in writer.ContentTypeReaders.ContentTypeReaders)
-                    reader.WriteInstance(writer, logger);
-            }
-            else
-            {
-                logger?.Log(1, "Defaulting to writing all known content type readers...");
-                
-                // If the obtained object does not define its own content type reader list, then we write them all just in case...
-                writer.Write7BitEncodedInt(XnaInfo.ContentTypeReaders.Length);
-                foreach (var reader in XnaInfo.ContentTypeReaders)
-                    reader.WriteInstance(writer, logger);
-            }
+            // The obtained object defines its own content type reader list.
+            // Write the content type readers defined by the input file.
+            // Note that if a required content type reader is not present on this list, it will be added prior to writing the content type readers.
+            // That step is performed automatically during the XNB data read process.
+            // Each time an XnaObject.ReadObject() call is performed, the requested content type writer is added if it is not present.
+            logger?.Log(1, "Writing Content Type Readers...");
+            writer.Write7BitEncodedInt(writer.ContentTypeReaders.Count);
+            foreach (var reader in writer.ContentTypeReaders.ContentTypeReaders)
+                reader.WriteInstance(writer, logger);
         }
 
         private void WriteSharedResourceCount(MBinaryWriter writer, DebugLogger logger = null)

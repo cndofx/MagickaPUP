@@ -243,9 +243,9 @@ namespace MagickaPUP.XnaClasses
             this.WriteTag(writer, logger);
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetListContentTypeReader()
         {
-            return "Microsoft.Xna.Framework.Content.ModelReader";
+            return new ContentTypeReader("Microsoft.Xna.Framework.Content.ModelReader", 0);
         }
 
         #endregion

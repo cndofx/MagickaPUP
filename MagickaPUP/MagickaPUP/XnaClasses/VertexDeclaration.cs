@@ -139,9 +139,9 @@ namespace MagickaPUP.XnaClasses
             }
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return "Microsoft.Xna.Framework.Content.VertexDeclarationReader";
+            return new ContentTypeReader("Microsoft.Xna.Framework.Content.VertexDeclarationReader", 0);
         }
 
         #endregion

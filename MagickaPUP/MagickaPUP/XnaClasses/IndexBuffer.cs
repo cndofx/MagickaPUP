@@ -115,9 +115,9 @@ namespace MagickaPUP.XnaClasses
             // writer.Write(this.data);
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return "Microsoft.Xna.Framework.Content.IndexBufferReader";
+            return new ContentTypeReader("Microsoft.Xna.Framework.Content.IndexBufferReader", 0);
         }
 
         #endregion

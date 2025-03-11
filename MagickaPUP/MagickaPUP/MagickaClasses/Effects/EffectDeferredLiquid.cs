@@ -116,9 +116,9 @@ namespace MagickaPUP.MagickaClasses.Effects
             writer.Write(this.IceNormalMap); /* ER */
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return "PolygonHead.Pipeline.RenderDeferredLiquidEffectReader, PolygonHead";
+            return new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredLiquidEffectReader, PolygonHead", 0);
         }
 
         #endregion

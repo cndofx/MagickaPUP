@@ -64,9 +64,9 @@ namespace MagickaPUP.MagickaClasses.Map
             }
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return "PolygonHead.Pipeline.BiTreeModelReader, PolygonHead";
+            return new ContentTypeReader("PolygonHead.Pipeline.BiTreeModelReader, PolygonHead", 0);
         }
 
         #endregion

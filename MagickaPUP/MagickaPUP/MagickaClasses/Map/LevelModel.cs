@@ -289,9 +289,9 @@ namespace MagickaPUP.MagickaClasses.Map
             this.navMesh.WriteInstance(writer, logger);
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return "Magicka.ContentReaders.LevelModelReader, Magicka";
+            return new ContentTypeReader("Magicka.ContentReaders.LevelModelReader, Magicka", 0);
         }
 
         public override bool ShouldAppendNullObject()

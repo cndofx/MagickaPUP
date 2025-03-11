@@ -75,9 +75,9 @@ namespace MagickaPUP.XnaClasses
             writer.Write(this.buffer);
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return "Microsoft.Xna.Framework.Content.VertexBufferReader";
+            return new ContentTypeReader("Microsoft.Xna.Framework.Content.VertexBufferReader", 0);
         }
 
         #endregion

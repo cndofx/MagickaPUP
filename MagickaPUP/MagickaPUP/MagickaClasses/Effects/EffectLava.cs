@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using MagickaPUP.XnaClasses;
 
 namespace MagickaPUP.MagickaClasses.Effects
 {
@@ -123,9 +124,9 @@ namespace MagickaPUP.MagickaClasses.Effects
             writer.Write(RockNormalMap); /* ER */
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return "PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral";
+            return new ContentTypeReader("PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
         }
 
         #endregion

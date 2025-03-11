@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MagickaPUP.XnaClasses;
 
 namespace MagickaPUP.MagickaClasses.Effects
 {
@@ -196,9 +197,9 @@ namespace MagickaPUP.MagickaClasses.Effects
             }
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return "PolygonHead.Pipeline.RenderDeferredEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral";
+            return new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
         }
 
         #endregion

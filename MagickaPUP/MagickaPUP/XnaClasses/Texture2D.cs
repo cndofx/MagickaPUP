@@ -224,9 +224,9 @@ namespace MagickaPUP.XnaClasses
                 this.data[i].WriteInstance(writer, logger);
         }
 
-        public override string GetReaderName()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return "Microsoft.Xna.Framework.Content.Texture2DReader";
+            return new ContentTypeReader("Microsoft.Xna.Framework.Content.Texture2DReader", 0);
         }
 
         #endregion

@@ -15,41 +15,63 @@ namespace MagickaPUP.Core.Args
 
         public static bool ParseBool(string str)
         {
+            bool ans;
             try
             {
-                bool ans = bool.Parse(str);
-                return ans;
+                ans = bool.Parse(str);
             }
             catch
             {
-                return false;
+                try
+                {
+                    ans = long.Parse(str) > 0;
+                }
+                catch
+                {
+                    try
+                    {
+                        ans = double.Parse(str) > 0.0d;
+                    }
+                    catch
+                    {
+                        ans = false;
+                    }
+                }
             }
+            return ans;
         }
 
-        public static int ParseInt(string str)
+        public static long ParseInt(string str)
         {
-            try
-            {
-                int ans = int.Parse(str);
-                return ans;
-            }
-            catch
-            {
-                return 0;
-            }
+            return (int)ParseLong(str);
         }
 
         public static long ParseLong(string str)
         {
+            long ans;
             try
             {
-                long ans = long.Parse(str);
-                return ans;
+                ans = long.Parse(str);
             }
             catch
             {
-                return 0;
+                try
+                {
+                    ans = (long)double.Parse(str);
+                }
+                catch
+                {
+                    try
+                    {
+                        ans = bool.Parse(str) ? 1 : 0;
+                    }
+                    catch
+                    {
+                        ans = 0;
+                    }
+                }
             }
+            return ans;
         }
 
         public static float ParseFloat(string str)

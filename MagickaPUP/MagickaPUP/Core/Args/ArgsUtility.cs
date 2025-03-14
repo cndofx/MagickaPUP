@@ -41,7 +41,7 @@ namespace MagickaPUP.Core.Args
             return ans;
         }
 
-        public static long ParseInt(string str)
+        public static int ParseInt(string str)
         {
             return (int)ParseLong(str);
         }

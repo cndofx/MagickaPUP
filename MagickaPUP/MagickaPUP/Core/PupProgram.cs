@@ -257,7 +257,7 @@ namespace MagickaPUP.Core
         {
             // The latest call to the debug command will be the one to determine the final debug level.
             // Every call to the debug command will set the debug level for all commands after it.
-            this.debugLevel = int.Parse(args[current + 1]);
+            this.debugLevel = ArgsUtility.ParseInt(args[current + 1]);
         }
 
         private void CmdIndent(string[] args, int current)
@@ -265,7 +265,7 @@ namespace MagickaPUP.Core
             // Same as CmdDebug, the latest call to this command will be applied to all subsequent cmd for unpacking or packing that is called afterward.
             // Also note that as of writing this comment, this command only affects unpacking, not packing, since the JSON input files for packing can have any indent depth.
             // In short, this only affects when unpacking and writing output JSON files.
-            this.indentAllowed = bool.Parse(args[current + 1]);
+            this.indentAllowed = ArgsUtility.ParseBool(args[current + 1]);
         }
 
         private void CmdPack(string[] args, int current)

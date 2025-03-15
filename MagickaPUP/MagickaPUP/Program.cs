@@ -1,5 +1,6 @@
 ﻿using MagickaPUP.Core;
 using MagickaPUP.Core.Content.Data;
+using MagickaPUP.Core.Content.Processor.Derived;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,12 +14,16 @@ namespace MagickaPUP
     {
         static void Main(string[] args)
         {
-            bool testing = true;
+            bool testing = false;
             if (testing)
             {
-                if(args.Length > 0)
-                    foreach(string arg in args)
-                        Console.WriteLine(FileTypeDetector.GetFileType(arg));
+                if (args.Length > 0)
+                    foreach (string arg in args)
+                    {
+                        XnbContentProcessor processor = new XnbContentProcessor();
+                        processor.Process(arg);
+                    }
+                        // Console.WriteLine(FileTypeDetector.GetFileType(arg));
             }
             else
             {

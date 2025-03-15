@@ -20,12 +20,18 @@ namespace MagickaPUP.Core.Content.Processor
 
         public void Process(string inputFile, string outputFile)
         {
-            throw new NotImplementedException();
+            ContentType inputContentType = GetContentType(inputFile);
+            ContentType outputContentType = GetContentType(outputFile);
+            Process(inputFile, inputContentType, outputFile, outputContentType);
         }
 
         public void Process(string inputFile, ContentType inputType, string outputFile, ContentType outputType)
         {
-            throw new NotImplementedException();
+            using (var inputStream = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
+            using (var outputStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write))
+            {
+                Process(inputStream, inputType, outputStream, outputType);
+            }
         }
 
         public void Process(Stream inputStream, ContentType inputType, Stream outputStream, ContentType outputType)
@@ -43,7 +49,7 @@ namespace MagickaPUP.Core.Content.Processor
         private ContentType GetContentType(string fileName)
         {
             string extension = GetFileNameExtension(fileName);
-            switch (extension)
+            switch (extension) // NOTE : Maybe this would be better suited for a Dict<string, ContentType>, or something like that?
             {
                 default:
                     return ContentType.Unknown;

@@ -29,6 +29,17 @@ namespace MagickaPUP.Core.Content.Data
             return length;
         }
 
+        // We don't trust extensions here, so we check the data from the stream rather than following what the extension says...
+        // NOTE : This function should never be used as it is pointless to open the stream, check the file type, close the stream, and then open it
+        // again to process it once more... but it exists as a helper for simpler cases.
+        public static FileType GetFileType(string fileName)
+        {
+            using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+            {
+                return GetFileType(stream);
+            }
+        }
+
         public static FileType GetFileType(Stream stream)
         {
             FileType ans = FileType.Unknown;

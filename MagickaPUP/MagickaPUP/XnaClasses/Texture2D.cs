@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace MagickaPUP.XnaClasses
 {
     // Surface format is an i32 used by XNA framework to determine the format type of the texture within the XNB file.
-    // It determines how the RGB data is laid out within the file, and what time of data is stored within the file.
+    // It determines how the RGB data is laid out within the file, and what type of data is stored within the file.
     // This information is crucial to be able to properly interpret the contents of the data buffer of the image.
     public enum SurfaceFormat
     {

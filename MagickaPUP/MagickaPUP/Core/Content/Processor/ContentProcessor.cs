@@ -23,14 +23,16 @@ namespace MagickaPUP.Core.Content.Processor
             throw new NotImplementedException();
         }
 
+        #region PublicMethods - Process
+
         public void Process(string inputFile, string outputFile)
         {
-            ContentType inputContentType = GetContentType(inputFile);
-            ContentType outputContentType = GetContentType(outputFile);
+            FileType inputContentType = GetContentType(inputFile);
+            FileType outputContentType = GetContentType(outputFile);
             Process(inputFile, inputContentType, outputFile, outputContentType);
         }
 
-        public void Process(string inputFile, ContentType inputType, string outputFile, ContentType outputType)
+        public void Process(string inputFile, FileType inputType, string outputFile, FileType outputType)
         {
             using (var inputStream = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
             using (var outputStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write))
@@ -39,7 +41,7 @@ namespace MagickaPUP.Core.Content.Processor
             }
         }
 
-        public void Process(Stream inputStream, ContentType inputType, Stream outputStream, ContentType outputType)
+        public void Process(Stream inputStream, FileType inputType, Stream outputStream, FileType outputType)
         {
             ImportPipeline importer = GetImportPipeline(inputType);
             ExportPipeline exporter = GetExportPipeline(outputType);
@@ -48,6 +50,17 @@ namespace MagickaPUP.Core.Content.Processor
             exporter.Export(outputStream, xnbFile);
         }
 
+        public void Process(string fileName)
+        {
+            string extension = GetFileNameExtension(fileName);
+        }
+
+        #endregion
+
+        #region PublicMethods - Process Specific Types
+
+        #endregion
+
         #region PrivateMethods - ContentType and Extensions
 
         private string GetFileNameExtension(string fileName)
@@ -55,39 +68,57 @@ namespace MagickaPUP.Core.Content.Processor
             return Path.GetExtension(fileName).ToLower();
         }
 
-        private ContentType GetContentType(string fileName)
+        private FileType GetContentType(string fileName)
         {
             string extension = GetFileNameExtension(fileName);
             switch (extension) // NOTE : Maybe this would be better suited for a Dict<string, ContentType>, or something like that?
             {
                 default:
-                    return ContentType.Unknown;
+                    return FileType.Unknown;
                 case "xnb":
-                    return ContentType.Xnb;
+                    return FileType.Xnb;
                 case "json":
-                    return ContentType.Json;
+                    return FileType.Json;
                 case "png":
                 case "jpg:":
                 case "bmp":
-                    return ContentType.Image;
+                    return FileType.Image;
             }
         }
 
+        /*
+        private string GetOutputExtension(string inputExtension)
+        {
+            switch (inputExtension)
+            {
+                case "png"
+            }
+        }
+
+        private string GetOutputFileName(string inputFileName)
+        {
+            string inputExtension = Path.GetExtension(inputFileName);
+            string outputExtension = GetOutputExtension(inputExtension);
+
+
+            string outputFileName = Path.GetFileName(inputFileName) + "." + outputExtension;
+        }
+        */
         #endregion
 
         #region PrivateMethods - Import Pipeline
 
-        ImportPipeline GetImportPipeline(ContentType contentType)
+        ImportPipeline GetImportPipeline(FileType contentType)
         {
             switch (contentType)
             {
                 default:
                     throw new Exception("Unknown input content type");
-                case ContentType.Xnb:
+                case FileType.Xnb:
                     return new XnbImporter();
-                case ContentType.Json:
+                case FileType.Json:
                     return new JsonImporter();
-                case ContentType.Image:
+                case FileType.Image:
                     return new ImageImporter();
             }
         }
@@ -96,17 +127,17 @@ namespace MagickaPUP.Core.Content.Processor
 
         #region PrivateMethods - Export Pipeline
 
-        ExportPipeline GetExportPipeline(ContentType contentType)
+        ExportPipeline GetExportPipeline(FileType contentType)
         {
             switch (contentType)
             {
                 default:
                     throw new Exception("Unknown output content type");
-                case ContentType.Xnb:
+                case FileType.Xnb:
                     return new XnbExporter();
-                case ContentType.Json:
+                case FileType.Json:
                     return new JsonExporter();
-                case ContentType.Image:
+                case FileType.Image:
                     return new ImageExporter();
             }
         }

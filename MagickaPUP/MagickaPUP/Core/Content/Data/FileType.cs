@@ -8,7 +8,7 @@ namespace MagickaPUP.Core.Content.Data
 {
     // This enum is a custom enum that is used by MagickaPUP's ContentProcessor class to determine what type of content to use when generating the import and
     // export pipeline calls for each type of file and stream.
-    public enum ContentType
+    public enum FileType
     {
         Auto = 0,
         Unknown,

@@ -55,6 +55,22 @@ namespace MagickaPUP.Core.Content.Processor
             }
         }
 
+        public void Process(string inputFile)
+        {
+            using (var inputStream = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
+            using (var outputStream = new MemoryStream())
+            {
+                Process(inputStream, outputStream);
+                outputStream.Position = 0;
+                string outputFile = Path.GetFileName(inputFile) + "." + FileTypeExtension.GetExtension(FileTypeDetector.GetFileType(outputStream));
+                // File.WriteAllBytes(outputFile, outputStream.ToArray());
+                using (var outputFileStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write))
+                {
+                    outputStream.WriteTo(outputFileStream);
+                }
+            }
+        }
+
         private ImporterBase<XnbFile> GetImporter(FileType fileType)
         {
             switch (fileType)

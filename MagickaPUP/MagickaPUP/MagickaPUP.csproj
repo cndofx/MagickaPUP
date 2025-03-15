@@ -75,7 +75,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Args\ArgsUtility.cs" />
-    <Compile Include="Core\Content\Data\ContentType.cs" />
+    <Compile Include="Core\Content\Data\FileType.cs" />
+    <Compile Include="Core\Content\Data\FileTypeDetector.cs" />
     <Compile Include="Core\Content\Managers\ContentManager.cs" />
     <Compile Include="Core\Content\Pipeline\Export\Derived\ImageExporter.cs" />
     <Compile Include="Core\Content\Pipeline\Export\Derived\JsonExporter.cs" />

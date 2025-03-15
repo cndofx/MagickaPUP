@@ -53,12 +53,12 @@ namespace MagickaPUP.Core.Content.Data
 
             long bufferLength = GetBufferLength(stream.Length);
 
+            // Get the current position within the input stream so that we can restore it later
+            long startPosition = stream.Position;
+
             // Buffer to store the sequence of magic bytes for the stream we're reading to help detect the file type
             byte[] magicBytes = new byte[bufferLength];
             stream.Read(magicBytes, 0, magicBytes.Length);
-
-            // Get the current position within the input stream so that we can restore it later
-            long startPosition = stream.Position;
 
             // Find the corresponding magic bytes sequence for the current file data
             foreach (var entry in filesMagicBytes)

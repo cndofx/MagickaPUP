@@ -1,5 +1,8 @@
 ﻿using MagickaPUP.Core.Content.Data;
+using MagickaPUP.Core.Content.Pipeline.Export.Derived;
+using MagickaPUP.Core.Content.Pipeline.Export;
 using MagickaPUP.Utility.IO;
+using MagickaPUP.XnaClasses.Xnb;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -235,6 +238,11 @@ namespace MagickaPUP.XnaClasses
         public override FileType GetFileTypeUnpacked()
         {
             return FileType.Image;
+        }
+
+        public override ExporterBase<XnbFile> GetUnpackExporter()
+        {
+            return new ImageExporter();
         }
     }
 }

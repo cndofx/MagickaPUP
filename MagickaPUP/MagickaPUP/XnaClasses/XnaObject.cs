@@ -16,6 +16,7 @@ using MagickaPUP.XnaClasses.Xna.Data;
 using MagickaPUP.Core.Content.Pipeline.Export;
 using MagickaPUP.Core.Content.Pipeline.Export.Derived;
 using MagickaPUP.Core.Content.Data;
+using MagickaPUP.XnaClasses.Xnb;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -345,6 +346,11 @@ namespace MagickaPUP.XnaClasses
         public virtual FileType GetFileTypeUnpacked()
         {
             return FileType.Json;
+        }
+
+        public virtual ExporterBase<XnbFile> GetUnpackExporter()
+        {
+            return new JsonExporter();
         }
 
         #endregion

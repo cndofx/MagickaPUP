@@ -90,12 +90,11 @@
     <Compile Include="Core\Args\ArgParser.cs" />
     <Compile Include="Core\Args\CmdEntry.cs" />
     <Compile Include="MagickaClasses\Data\MagickaContentTypeReaders.cs" />
-    <Compile Include="Utility\Compression\BitBuffer.cs" />
-    <Compile Include="Utility\Compression\DecompressStream.cs" />
-    <Compile Include="Utility\Compression\LzxEncoder.cs" />
-    <Compile Include="Utility\Compression\LzxData.cs" />
-    <Compile Include="Utility\Compression\LzxDecoder.cs" />
-    <Compile Include="Utility\Compression\LzxState.cs" />
+    <Compile Include="Utility\Compression\Lzx\BitBuffer.cs" />
+    <Compile Include="Utility\Compression\Lzx\LzxData.cs" />
+    <Compile Include="Utility\Compression\Lzx\LzxDecoder.cs" />
+    <Compile Include="Utility\Compression\Lzx\LzxEncoder.cs" />
+    <Compile Include="Utility\Compression\Lzx\LzxState.cs" />
     <Compile Include="Utility\Exceptions\LzxException.cs" />
     <Compile Include="Utility\Exceptions\MagickaException.cs" />
     <Compile Include="Utility\IO\DebugLogger.cs" />

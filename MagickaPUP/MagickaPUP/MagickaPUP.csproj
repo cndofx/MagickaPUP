@@ -74,9 +74,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Args\ArgsUtility.cs" />
     <Compile Include="Core\Content\Controllers\ContentController.cs" />
     <Compile Include="Core\Content\Controllers\Derived\ContentControllerJson.cs" />
     <Compile Include="Core\Content\Managers\ContentManager.cs" />
+    <Compile Include="Core\Content\Pipeline\Export\Derived\ImageExporter.cs" />
+    <Compile Include="Core\Content\Pipeline\Export\Derived\JsonExporter.cs" />
+    <Compile Include="Core\Content\Pipeline\Export\Derived\XnbExporter.cs" />
+    <Compile Include="Core\Content\Pipeline\Export\ExportPipeline.cs" />
+    <Compile Include="Core\Content\Pipeline\Import\Derived\ImageImporter.cs" />
+    <Compile Include="Core\Content\Pipeline\Import\Derived\JsonImporter.cs" />
+    <Compile Include="Core\Content\Pipeline\Import\Derived\XnbImporter.cs" />
+    <Compile Include="Core\Content\Pipeline\Import\ImportPipeline.cs" />
     <Compile Include="Core\PupProgram.cs" />
     <Compile Include="Core\Args\ArgParser.cs" />
     <Compile Include="Core\Args\CmdEntry.cs" />

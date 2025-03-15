@@ -1,4 +1,8 @@
 ﻿using MagickaPUP.Core.Content.Data;
+using MagickaPUP.Core.Content.Pipeline.Export;
+using MagickaPUP.Core.Content.Pipeline.Export.Derived;
+using MagickaPUP.Core.Content.Pipeline.Import;
+using MagickaPUP.Core.Content.Pipeline.Import.Derived;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,7 +43,7 @@ namespace MagickaPUP.Core.Content.Processor
             throw new NotImplementedException();
         }
 
-        #region PrivateMethods
+        #region PrivateMethods - ContentType and Extensions
 
         private string GetFileNameExtension(string fileName)
         {
@@ -61,6 +65,44 @@ namespace MagickaPUP.Core.Content.Processor
                 case "jpg:":
                 case "bmp":
                     return ContentType.Image;
+            }
+        }
+
+        #endregion
+
+        #region PrivateMethods - Import Pipeline
+
+        ImportPipeline GetImportPipeline(ContentType contentType)
+        {
+            switch (contentType)
+            {
+                default:
+                    throw new Exception("Unknown input content type");
+                case ContentType.Xnb:
+                    return new XnbImporter();
+                case ContentType.Json:
+                    return new JsonImporter();
+                case ContentType.Image:
+                    return new ImageImporter();
+            }
+        }
+
+        #endregion
+
+        #region PrivateMethods - Export Pipeline
+
+        ExportPipeline GetExportPipeline(ContentType contentType)
+        {
+            switch (contentType)
+            {
+                default:
+                    throw new Exception("Unknown output content type");
+                case ContentType.Xnb:
+                    return new XnbExporter();
+                case ContentType.Json:
+                    return new JsonExporter();
+                case ContentType.Image:
+                    return new ImageExporter();
             }
         }
 

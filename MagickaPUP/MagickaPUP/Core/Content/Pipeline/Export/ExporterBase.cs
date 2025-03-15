@@ -16,12 +16,13 @@ namespace MagickaPUP.Core.Content.Pipeline.Export
     // file stream and memory stream support out of the box) and be yet another intermediate in-memory representation that can be further processed by
     // yet another pipeline class for more complex pipelining.
 
-    public abstract class ExportPipeline
+    public abstract class ExporterBase<T>
     {
-        public ExportPipeline()
+        public ExporterBase()
         { }
 
-        public abstract void Export(string fileName, XnbFile data);
-        public abstract void Export(Stream stream, XnbFile data);
+        public abstract void Export(Stream stream, T data);
     }
+
+    // NOTE : When XWB support is added, we will have ExportPipeline<XnbFile> for XNA objects and ExportPipeline<XwbFile> for XWB audios.
 }

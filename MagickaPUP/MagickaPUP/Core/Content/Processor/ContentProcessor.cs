@@ -3,6 +3,7 @@ using MagickaPUP.Core.Content.Pipeline.Export;
 using MagickaPUP.Core.Content.Pipeline.Export.Derived;
 using MagickaPUP.Core.Content.Pipeline.Import;
 using MagickaPUP.Core.Content.Pipeline.Import.Derived;
+using MagickaPUP.Core.Content.Pipeline.Import.Helper;
 using MagickaPUP.XnaClasses.Xnb;
 using System;
 using System.Collections.Generic;
@@ -84,7 +85,8 @@ namespace MagickaPUP.Core.Content.Processor
         }
         */
 
-        public void Process(Stream inputStream, Stream outputStream, ImportPipeline importer, ExportPipeline exporter)
+        /*
+        public void Process(Stream inputStream, Stream outputStream, ImporterBase importer, ExporterBase exporter)
         {
             XnbFile xnbFile = importer.Import(inputStream);
             exporter.Export(outputStream, xnbFile);
@@ -92,8 +94,8 @@ namespace MagickaPUP.Core.Content.Processor
 
         public void Process(string inputFileName, string outputFileName, FileType inputType, FileType outputType)
         {
-            ImportPipeline importer = GetImportPipeline(inputType);
-            ExportPipeline exporter = GetExportPipeline(outputType);
+            ImporterBase importer = GetImportPipeline(inputType);
+            ExporterBase exporter = GetExportPipeline(outputType);
 
             using (var inputStream = new FileStream(inputFileName, FileMode.Open, FileAccess.Read))
             using (var outputStream = new FileStream(outputFileName, FileMode.Create, FileAccess.Write))
@@ -109,24 +111,85 @@ namespace MagickaPUP.Core.Content.Processor
 
             Process(inputFileName, outputFileName, inputType, outputType);
         }
+        */
 
         public void Process(string inputFileName)
         {
-            FileType inputType = FileTypeDetector.GetFileType(inputFileName);
+            // FileType inputType = FileTypeDetector.GetFileType(inputFileName);
+            // 
+            // // TODO : Get rid of this, implement system where we get the file type from the input stream after getting the xnb data, otherwise we just cannot know
+            // // for sure whether we want a json or a png or whatever the fuck...
+            // 
+            // switch (inputType)
+            // {
+            //     
+            // }
+            // 
+            // FileType outputType = FileTypeDetector.GetFileType(outputFileName);
+            // 
+            // string outputFileName = Path.GetFileName(inputFileName) + "." + FileTypeExtension.GetExtension(outputType);
+            // 
+            // Process(inputFileName, outputFileName, inputType, outputType);
+        }
 
-            // TODO : Get rid of this, implement system where we get the file type from the input stream after getting the xnb data, otherwise we just cannot know
-            // for sure whether we want a json or a png or whatever the fuck...
+        // XNB -> JSON, PNG, etc...
+        public void Unpack<T>(Stream inputStream, Stream outputStream)
+        {
+            var importer = new XnbImporter();
+            XnbFile xnbFile = importer.Import(inputStream);
 
+            var exporter = xnbFile.XnbFileData.PrimaryObject.GetUnpackExporter();
+            exporter.Export(outputStream, xnbFile);
+        }
+
+        // public void Pack()
+
+        /*
+        public void Process(Stream inputStream, Stream outputStream)
+        {
+            FileType inputType;
+            FileType outputType;
+
+            inputType = FileTypeDetector.GetFileType(inputStream);
             switch (inputType)
             {
-                
+                case FileType.Xnb:
+                    {
+                        var importer = new XnbImporter();
+                        XnbFile xnbFile = importer.Import(inputStream);
+
+                        var exporter = xnbFile.GetExporter();
+                        exporter.Export(xnbFile);
+                    }
+                    break;
+                case FileType.Json:
+                    importer = new JsonImporter();
+                    break;
+                case FileType.Image:
+                    importer = new ImageImporter();
+                    break;
+                default:
+                    importer = new UnknownTypeImporter();
+                    break;
             }
 
-            FileType outputType = FileTypeDetector.GetFileType(outputFileName);
+        }
+        */
 
-            string outputFileName = Path.GetFileName(inputFileName) + "." + FileTypeExtension.GetExtension(outputType);
+        public void Unpack(Stream inputStream, Stream outputStream)
+        {
+            FileType inputType = FileTypeDetector.GetFileType(inputStream);
+            switch (inputType)
+            {
+                case FileType.Xnb:
+                    UnpackXnb(inputStream, outputStream);
+                    break;
+            }
+        }
 
-            Process(inputFileName, outputFileName, inputType, outputType);
+        public void UnpackXnb(Stream inputStream, Stream outputStream)
+        {
+
         }
 
         #endregion
@@ -182,6 +245,7 @@ namespace MagickaPUP.Core.Content.Processor
 
         #region PrivateMethods - Import Pipeline
 
+        /*
         ImportPipeline GetImportPipeline(FileType contentType)
         {
             switch (contentType)
@@ -196,11 +260,13 @@ namespace MagickaPUP.Core.Content.Processor
                     return new ImageImporter();
             }
         }
+        */
 
         #endregion
 
         #region PrivateMethods - Export Pipeline
 
+        /*
         ExportPipeline GetExportPipeline(FileType contentType)
         {
             switch (contentType)
@@ -215,6 +281,7 @@ namespace MagickaPUP.Core.Content.Processor
                     return new ImageExporter();
             }
         }
+        */
 
         #endregion
     }

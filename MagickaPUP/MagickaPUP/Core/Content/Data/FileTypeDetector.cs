@@ -43,7 +43,7 @@ namespace MagickaPUP.Core.Content.Data
         {
             using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-                return GetFileType(stream);
+                return FileTypeFromStream(stream);
             }
         }
 
@@ -91,6 +91,22 @@ namespace MagickaPUP.Core.Content.Data
             if (fileExtensions.ContainsKey(extension))
                 return fileExtensions[extension];
             return ans;
+        }
+
+        // NOTE : I say a lot that "we don't trust extensions here", but... since XNA is so windows-centric, it simply is easier to just look at the extensions
+        // to check what file type we're working with, even if they can be wrong...
+        // This default behaviour can ofc be changed very easily, but it also comes with its own issues, so this is the way I've chosen to deal with the issue for now.
+        public static FileType GetFileType(string fileName)
+        {
+            FileType ans = FileTypeFromExtension(fileName);
+            if (ans == FileType.Unknown)
+                ans = FileTypeFromStream(fileName); // If the extension does not shed any light as to what type of file we're working with, we then start checking with the internal file data as a last resort. Maybe this is not the best default behaviour, but it is what it is...
+            return ans;
+        }
+
+        public static FileType GetFileType(Stream stream)
+        {
+            return FileTypeFromStream(stream);
         }
 
         private static bool BuffersAreEqual(byte[] buffer1, byte[] buffer2, int length)

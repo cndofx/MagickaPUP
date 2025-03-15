@@ -1,4 +1,5 @@
 ﻿using MagickaPUP.Core;
+using MagickaPUP.Core.Content.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,8 +13,18 @@ namespace MagickaPUP
     {
         static void Main(string[] args)
         {
-            PupProgram p = new PupProgram();
-            p.Run(args);
+            bool testing = true;
+            if (testing)
+            {
+                if(args.Length > 0)
+                    foreach(string arg in args)
+                        Console.WriteLine(FileTypeDetector.GetFileType(arg));
+            }
+            else
+            {
+                PupProgram p = new PupProgram();
+                p.Run(args);
+            }
         }
     }
 }

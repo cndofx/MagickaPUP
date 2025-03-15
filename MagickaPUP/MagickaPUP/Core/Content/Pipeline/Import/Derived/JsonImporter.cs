@@ -8,13 +8,8 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.Core.Content.Pipeline.Import.Derived
 {
-    public class JsonImporter : ImportPipeline
+    public class JsonImporter : ImporterBase<XnbFile>
     {
-        public override XnbFile Import(string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
         public override XnbFile Import(Stream stream)
         {
             throw new NotImplementedException();

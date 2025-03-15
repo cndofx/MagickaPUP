@@ -8,16 +8,8 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.Core.Content.Pipeline.Export.Derived
 {
-    public class XnbExporter : ExportPipeline
+    public class XnbExporter : ExporterBase<XnbFile>
     {
-        public XnbExporter()
-        { }
-
-        public override void Export(string fileName, XnbFile data)
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Export(Stream stream, XnbFile data)
         {
             throw new NotImplementedException();

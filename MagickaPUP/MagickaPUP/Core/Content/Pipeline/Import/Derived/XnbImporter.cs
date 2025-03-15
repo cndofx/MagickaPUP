@@ -9,25 +9,8 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.Core.Content.Pipeline.Import.Derived
 {
-    public class XnbImporter : ImportPipeline
+    public class XnbImporter : ImporterBase<XnbFile>
     {
-        private DebugLogger logger;
-
-        public XnbImporter()
-        {
-            this.logger = null;
-        }
-
-        public XnbImporter(DebugLogger logger)
-        {
-            this.logger = logger;
-        }
-
-        public override XnbFile Import(string fileName)
-        {
-            throw new NotImplementedException();
-        }
-
         public override XnbFile Import(Stream stream)
         {
             throw new NotImplementedException();

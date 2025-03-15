@@ -16,81 +16,14 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.Core.Content.Processor
 {
-    // Processes content of a given type T.
-    // For example, specialises in a pipeline for content that translates data back and forth between different formats, but internally, the format is T
-    // eg: T = XnbFile, T = XwbFile, etc... stuff like that.
-    public class ContentProcessor
+    // NOTE : For now, this class is kinda pointless, but it will all make sense once the XWB support is added... if ever...
+    public abstract class ContentProcessor<T>
     {
-        public ContentProcessor()
-        { }
+        public abstract void Pack(Stream inputStream, Stream outputStream);
+        public abstract void Unpack(Stream inputStream, Stream outputStream);
+        public abstract void Process(Stream inputStream, Stream outputStream);
+        public abstract void Process(string inputFileName);
 
-        public void Pack(Stream inputStream, Stream outputStream)
-        {
-            var importer = GetImporter(FileTypeDetector.GetFileType(inputStream));
-            XnbFile xnbFile = importer.Import(inputStream);
-
-            var exporter = new XnbExporter();
-            exporter.Export(outputStream, xnbFile);
-        }
-
-        public void Unpack(Stream inputStream, Stream outputStream)
-        {
-            var importer = GetImporter(FileTypeDetector.GetFileType(inputStream));
-            XnbFile xnbFile = importer.Import(inputStream);
-
-            var exporter = GetExporter(xnbFile);
-            exporter.Export(outputStream, xnbFile);
-        }
-
-        public void Process(Stream inputStream, Stream outputStream)
-        {
-            var inputType = FileTypeDetector.GetFileType(inputStream);
-            if (inputType == FileType.Xnb)
-            {
-                Unpack(inputStream, outputStream);
-            }
-            else
-            {
-                Pack(inputStream, outputStream);
-            }
-        }
-
-        public void Process(string inputFile)
-        {
-            using (var inputStream = new FileStream(inputFile, FileMode.Open, FileAccess.Read))
-            using (var outputStream = new MemoryStream())
-            {
-                Process(inputStream, outputStream);
-                outputStream.Position = 0;
-                string outputFile = Path.GetFileName(inputFile) + "." + FileTypeExtension.GetExtension(FileTypeDetector.GetFileType(outputStream));
-                // File.WriteAllBytes(outputFile, outputStream.ToArray());
-                using (var outputFileStream = new FileStream(outputFile, FileMode.Create, FileAccess.Write))
-                {
-                    outputStream.WriteTo(outputFileStream);
-                }
-            }
-        }
-
-        private ImporterBase<XnbFile> GetImporter(FileType fileType)
-        {
-            switch (fileType)
-            {
-                case FileType.Xnb:
-                    return new XnbImporter();
-                case FileType.Image:
-                    return new ImageImporter();
-                case FileType.Json:
-                    return new JsonImporter();
-            }
-            return null;
-        }
-
-        private ExporterBase<XnbFile> GetExporter(XnbFile xnbFile)
-        {
-            if (xnbFile.XnbFileData.PrimaryObject is Texture2D)
-                return new ImageExporter();
-            return new JsonExporter();
-        }
-
+        // NOTE : Maybe in the future we need a Pack method that uses stuff like a Pack(list<stream> inputStreams, List<Stream> outputStreams); or whatever...
     }
 }

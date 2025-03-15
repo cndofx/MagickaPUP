@@ -1,4 +1,5 @@
-﻿using MagickaPUP.Utility.IO;
+﻿using MagickaPUP.Core.Content.Data;
+using MagickaPUP.Utility.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -230,5 +231,10 @@ namespace MagickaPUP.XnaClasses
         }
 
         #endregion
+
+        public override FileType GetFileTypeUnpacked()
+        {
+            return FileType.Image;
+        }
     }
 }

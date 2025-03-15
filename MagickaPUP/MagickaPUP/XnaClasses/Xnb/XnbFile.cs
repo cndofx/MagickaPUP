@@ -10,6 +10,7 @@ using MagickaPUP.Utility.Compression;
 using System.IO;
 using System.Runtime.InteropServices.ComTypes;
 using MagickaPUP.Core.Content.Pipeline.Export;
+using MagickaPUP.Core.Content.Data;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
@@ -333,9 +334,9 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         #endregion
 
-        public ExportPipeline GetExporter()
+        public FileType GetFileType()
         {
-            return XnbFileData.PrimaryObject.GetExporter();
+            return XnbFileData.PrimaryObject.GetFileTypeUnpacked();
         }
     }
 }

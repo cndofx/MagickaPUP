@@ -16,12 +16,13 @@ namespace MagickaPUP.Core.Content.Pipeline.Import
     // file stream and memory stream support out of the box) and be yet another intermediate in-memory representation that can be further processed by
     // yet another pipeline class for more complex pipelining.
 
-    public abstract class ImportPipeline
+    public abstract class ImporterBase<T>
     {
-        public ImportPipeline()
+        public ImporterBase()
         { }
 
-        public abstract XnbFile Import(string fileName);
-        public abstract XnbFile Import(Stream stream);
+        public abstract T Import(Stream stream);
     }
+
+    // NOTE : Read note at end of ExportPipeline<T> class
 }

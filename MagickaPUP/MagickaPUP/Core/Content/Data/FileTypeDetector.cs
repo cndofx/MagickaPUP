@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace MagickaPUP.Core.Content.Data
 {
     // Helper static class with utility functions to get the file type of an input stream of data
+    // We do this instead of trusting extensions so that we can ensure that we can load just fine even files with wrong extension or no extension or streams whose
+    // origin we don't know (eg: users who generate data in memory and make calls to MagickaPUP as if it were a library rather than using the CLI program)
     public static class FileTypeDetector
     {
         private static readonly Dictionary<byte[], FileType> filesMagicBytes = new()
@@ -16,24 +18,25 @@ namespace MagickaPUP.Core.Content.Data
             { new byte[] { 0x58, 0x4E, 0x42 }, FileType.Xnb },
             { new byte[] { 0x89, 0x50, 0x4E, 0x47 }, FileType.Image } // TODO : Add support for all other types of formats
         };
-        private static readonly int filesMagicBytesBufferLength = GetMagicBytesMaxLength(); // Store the largest length of all the magic bytes sequences stored in the dict. Wish we could make this constexpr tho since the dict is never going to be modified during runtime...
+        private static readonly long longestKeyLength = MagicBytesGetLongestKeyLength(); // Store the largest length of all the magic bytes sequences stored in the dict. Wish we could make this constexpr tho since the dict is never going to be modified during runtime...
 
-        private static int GetMagicBytesMaxLength()
+        private static long MagicBytesGetLongestKeyLength()
         {
-            int length = 0;
+            long length = 0;
             foreach (var entry in filesMagicBytes)
                 if (entry.Key.Length > length)
                     length = entry.Key.Length;
             return length;
         }
 
-        // NOTE : An issue exists when reading streams that contain less bytes than the largest expected identifier sequence, and that is quite dangerous...
         public static FileType GetFileType(Stream stream)
         {
             FileType ans = FileType.Unknown;
 
+            long bufferLength = GetBufferLength(stream.Length);
+
             // Buffer to store the sequence of magic bytes for the stream we're reading to help detect the file type
-            byte[] magicBytes = new byte[filesMagicBytesBufferLength];
+            byte[] magicBytes = new byte[bufferLength];
             stream.Read(magicBytes, 0, magicBytes.Length);
 
             // Get the current position within the input stream so that we can restore it later
@@ -42,10 +45,13 @@ namespace MagickaPUP.Core.Content.Data
             // Find the corresponding magic bytes sequence for the current file data
             foreach (var entry in filesMagicBytes)
             {
-                if (BuffersAreEqual(entry.Key, magicBytes, entry.Key.Length))
+                if (entry.Key.Length <= bufferLength) // Ensures that streams that are shorter in length than the length of a given file identifier are skipped (for example, we have a valid empty JSON file, that's 2 bytes "{}", but checking against the key "XNB" would read 1 byte out of bounds. This prevents that issue.
                 {
-                    ans = entry.Value;
-                    break;
+                    if (BuffersAreEqual(entry.Key, magicBytes, entry.Key.Length))
+                    {
+                        ans = entry.Value;
+                        break;
+                    }
                 }
             }
 
@@ -61,6 +67,11 @@ namespace MagickaPUP.Core.Content.Data
                 if (buffer1[i] != buffer2[i])
                     return false;
             return true;
+        }
+
+        private static long GetBufferLength(long streamLength)
+        {
+            return Math.Min(longestKeyLength, streamLength);
         }
     }
 }

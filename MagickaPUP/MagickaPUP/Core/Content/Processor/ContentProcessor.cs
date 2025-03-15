@@ -42,6 +42,19 @@ namespace MagickaPUP.Core.Content.Processor
             exporter.Export(outputStream, xnbFile);
         }
 
+        public void Process(Stream inputStream, Stream outputStream)
+        {
+            var inputType = FileTypeDetector.GetFileType(inputStream);
+            if (inputType == FileType.Xnb)
+            {
+                Unpack(inputStream, outputStream);
+            }
+            else
+            {
+                Pack(inputStream, outputStream);
+            }
+        }
+
         private ImporterBase<XnbFile> GetImporter(FileType fileType)
         {
             switch (fileType)

@@ -3,6 +3,7 @@ using MagickaPUP.Core.Content.Pipeline.Export;
 using MagickaPUP.Core.Content.Pipeline.Export.Derived;
 using MagickaPUP.Core.Content.Pipeline.Import;
 using MagickaPUP.Core.Content.Pipeline.Import.Derived;
+using MagickaPUP.XnaClasses.Xnb;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -40,7 +41,11 @@ namespace MagickaPUP.Core.Content.Processor
 
         public void Process(Stream inputStream, ContentType inputType, Stream outputStream, ContentType outputType)
         {
-            throw new NotImplementedException();
+            ImportPipeline importer = GetImportPipeline(inputType);
+            ExportPipeline exporter = GetExportPipeline(outputType);
+
+            XnbFile xnbFile = importer.Import(inputStream);
+            exporter.Export(outputStream, xnbFile);
         }
 
         #region PrivateMethods - ContentType and Extensions

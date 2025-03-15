@@ -15,6 +15,7 @@ using MagickaPUP.MagickaClasses.PhysicsEntities;
 using MagickaPUP.XnaClasses.Xna.Data;
 using MagickaPUP.Core.Content.Pipeline.Export;
 using MagickaPUP.Core.Content.Pipeline.Export.Derived;
+using MagickaPUP.Core.Content.Data;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -329,9 +330,21 @@ namespace MagickaPUP.XnaClasses
             throw new Exception($"Base Object type XnaObject has no content type reader for List<Object> of type \"{this.GetType()}\"!");
         }
 
-        public virtual ExportPipeline GetExporter()
+        // The file type used by Magicka (the game) when an object is in its XNA packed form.
+        // XNB by default, but could be other types like xwb and such.
+        // NOTE : This could become useless in the future, as it would make more sense to simply have a different class for XWB.
+        // What I mean with this is that since XWB is not an XNB, rather than XnbFile and XnbFileData we should probably have an XwbFile class for this case.
+        // But we'll see in the future when the time comes what is it that I do...
+        public virtual FileType GetFileTypePacked()
         {
-            return new JsonExporter();
+            return FileType.Xnb;
+        }
+
+        // The file type used by MagickaPUP (the tool) when an object is in its unpacked form.
+        // JSON by default, but could be other types like png, wav, or any other type that users can easily edit by hand.
+        public virtual FileType GetFileTypeUnpacked()
+        {
+            return FileType.Json;
         }
 
         #endregion

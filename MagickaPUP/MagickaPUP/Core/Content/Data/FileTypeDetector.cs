@@ -20,6 +20,13 @@ namespace MagickaPUP.Core.Content.Data
         };
         private static readonly long longestKeyLength = MagicBytesGetLongestKeyLength(); // Store the largest length of all the magic bytes sequences stored in the dict. Wish we could make this constexpr tho since the dict is never going to be modified during runtime...
 
+        private static readonly Dictionary<string, FileType> fileExtensions = new()
+        {
+            { "json", FileType.Json},
+            { "xnb", FileType.Xnb },
+            { "png", FileType.Image }
+        };
+
         private static long MagicBytesGetLongestKeyLength()
         {
             long length = 0;
@@ -32,7 +39,7 @@ namespace MagickaPUP.Core.Content.Data
         // We don't trust extensions here, so we check the data from the stream rather than following what the extension says...
         // NOTE : This function should never be used as it is pointless to open the stream, check the file type, close the stream, and then open it
         // again to process it once more... but it exists as a helper for simpler cases.
-        public static FileType GetFileType(string fileName)
+        public static FileType FileTypeFromStream(string fileName)
         {
             using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
@@ -40,7 +47,7 @@ namespace MagickaPUP.Core.Content.Data
             }
         }
 
-        public static FileType GetFileType(Stream stream)
+        public static FileType FileTypeFromStream(Stream stream)
         {
             FileType ans = FileType.Unknown;
 
@@ -69,6 +76,20 @@ namespace MagickaPUP.Core.Content.Data
             // Restore the position from which we started reading
             stream.Position = startPosition;
 
+            return ans;
+        }
+
+        // We don't trust extensions here, BUT... it can still be useful to use extensions to identify files instead of checking stream data in some cases.
+        // The primary reason for adding support for this is the fact that:
+        //  -> Linux-world type of tools usually check file types by reading magic bits. (eg: default behaviour of trying to open an sh file that is marked as executable is running the script inside)
+        //  -> Windows-world type of tools usually check file types by reading the extension. (eg: default behaviour of trying to open a bat file that has a different extension is to open it as whatever the extension is rather than the file contents)
+        // In the case of XNA and monogame, the behaviour is kind of inconsistent. Some things are extension based, others are contents based...
+        public static FileType FileTypeFromExtension(string fileName)
+        {
+            string extension = Path.GetExtension(fileName).ToLower();
+            FileType ans = FileType.Unknown;
+            if (fileExtensions.ContainsKey(extension))
+                return fileExtensions[extension];
             return ans;
         }
 

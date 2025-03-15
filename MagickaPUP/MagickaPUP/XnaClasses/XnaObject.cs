@@ -13,6 +13,8 @@ using System.Text.Json.Serialization;
 using MagickaPUP.MagickaClasses.Character;
 using MagickaPUP.MagickaClasses.PhysicsEntities;
 using MagickaPUP.XnaClasses.Xna.Data;
+using MagickaPUP.Core.Content.Pipeline.Export;
+using MagickaPUP.Core.Content.Pipeline.Export.Derived;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -329,12 +331,19 @@ namespace MagickaPUP.XnaClasses
             return false;
         }
 
-        public virtual ContentTypeReader GetObjectContentTypeReader() {
+        public virtual ContentTypeReader GetObjectContentTypeReader()
+        {
             throw new Exception($"Base Object type XnaObject has no content type reader for Object of type \"{this.GetType()}\"!");
         }
 
-        public virtual ContentTypeReader GetListContentTypeReader() {
+        public virtual ContentTypeReader GetListContentTypeReader()
+        {
             throw new Exception($"Base Object type XnaObject has no content type reader for List<Object> of type \"{this.GetType()}\"!");
+        }
+
+        public virtual ExportPipeline GetExporter()
+        {
+            return new JsonExporter();
         }
 
         #endregion

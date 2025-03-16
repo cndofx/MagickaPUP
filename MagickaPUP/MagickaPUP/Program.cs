@@ -4,6 +4,11 @@ using MagickaPUP.Core.Content.Processor.Derived;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Drawing;
+using MagickaPUP.XnaClasses.Xnb;
+using MagickaPUP.Utility.IO;
+using MagickaPUP.XnaClasses;
+using System.Drawing.Imaging;
 
 // Fucking Magicka Packer-Unpacker baby!!!
 // Main Program entry point
@@ -14,16 +19,42 @@ namespace MagickaPUP
     {
         static void Main(string[] args)
         {
-            bool testing = false;
-            if (testing)
+            int testing = 1;
+            if (testing == 0)
             {
                 if (args.Length > 0)
+                {
                     foreach (string arg in args)
                     {
                         XnbContentProcessor processor = new XnbContentProcessor();
                         processor.Process(arg);
                     }
-                        // Console.WriteLine(FileTypeDetector.GetFileType(arg));
+                    // Console.WriteLine(FileTypeDetector.GetFileType(arg));
+                }
+            }
+            else
+            if (testing == 1)
+            {
+                if (args.Length <= 0)
+                    return;
+
+                DebugLogger logger = new DebugLogger("logger", 1);
+                using (var stream = new FileStream(args[0], FileMode.Open, FileAccess.Read))
+                using (var reader = new MBinaryReader(stream))
+                {
+                    XnbFile xnbFile = new XnbFile(reader, logger);
+                    if (xnbFile.XnbFileData.PrimaryObject is Texture2D)
+                    {
+                        Console.WriteLine("It is a texture!");
+                        Texture2D texture = xnbFile.XnbFileData.PrimaryObject as Texture2D;
+                        Bitmap bmp = texture.GetBitmap();
+                        bmp.Save(args[0] + "_OUTPUT.png", ImageFormat.Png);
+                    }
+                    else
+                    {
+                        Console.WriteLine("It is not a texture...");
+                    }
+                }
             }
             else
             {

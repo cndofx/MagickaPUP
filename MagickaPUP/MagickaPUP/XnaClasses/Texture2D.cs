@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using MagickaPUP.Utility.Compression.Dxt;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -236,10 +237,31 @@ namespace MagickaPUP.XnaClasses
 
         public Bitmap GetBitmap()
         {
+            byte[] imageDataBuffer = this.data[0].imageData;
+
+            switch (this.format)
+            {
+                case SurfaceFormat.Color: // Color is OK, fully supported, no extra steps required
+                    break;
+                case SurfaceFormat.Dxt1:
+                    imageDataBuffer = Dxt1Decompressor.Decompress(imageDataBuffer, this.width, this.height);
+                    break;
+                case SurfaceFormat.Dxt2:
+                case SurfaceFormat.Dxt3: // DXT2 and DXT3 are the same algorithmically. The difference is that DXT2 assumes premultiplied alpha, so we need to handle that later on. For now, this is pretty meh, but ok enough. TODO : Implement proper DXT2 handling...
+                    imageDataBuffer = Dxt3Decompressor.Decompress(imageDataBuffer, this.width, this.height);
+                    break;
+                case SurfaceFormat.Dxt4:
+                case SurfaceFormat.Dxt5: // Same as above...
+                    imageDataBuffer = Dxt5Decompressor.Decompress(imageDataBuffer, this.width, this.height);
+                    break;
+                default:
+                    throw new Exception($"Unsupported surface format: \"{this.format}\"");
+            }
+
             Bitmap bmp = new Bitmap(this.width, this.height, PixelFormat.Format32bppArgb);
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, this.width, this.height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
             IntPtr data = bmpData.Scan0;
-            Marshal.Copy(this.data[0].imageData, 0, data, this.data[0].imageData.Length);
+            Marshal.Copy(imageDataBuffer, 0, data, imageDataBuffer.Length);
             bmp.UnlockBits(bmpData);
             return bmp;
         }

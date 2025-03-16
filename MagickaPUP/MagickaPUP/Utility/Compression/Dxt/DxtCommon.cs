@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.Utility.Compression.Dxt
 {
-    public static class DxtUtil
+    public static class DxtCommon
     {
         public static void ConvertRgb565ToRgb888(ushort color, out byte r, out byte g, out byte b)
         {

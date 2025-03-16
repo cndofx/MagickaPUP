@@ -2,18 +2,15 @@
 
 namespace MagickaPUP.Utility.Compression.Dxt
 {
-    public class Dxt1Decompressor
+    public static class Dxt1Decompressor
     {
-        public Dxt1Decompressor()
-        { }
-
-        internal static byte[] DecompressDxt1(byte[] imageData, int width, int height)
+        public static byte[] Decompress(byte[] imageData, int width, int height)
         {
             using (MemoryStream imageStream = new MemoryStream(imageData))
-                return DecompressDxt1(imageStream, width, height);
+                return Decompress(imageStream, width, height);
         }
 
-        internal static byte[] DecompressDxt1(Stream imageStream, int width, int height)
+        public static byte[] Decompress(Stream imageStream, int width, int height)
         {
             byte[] imageData = new byte[width * height * 4];
 
@@ -26,7 +23,7 @@ namespace MagickaPUP.Utility.Compression.Dxt
                 {
                     for (int x = 0; x < blockCountX; x++)
                     {
-                        DecompressDxt1Block(imageReader, x, y, blockCountX, width, height, imageData);
+                        DecompressBlock(imageReader, x, y, blockCountX, width, height, imageData);
                     }
                 }
             }
@@ -34,7 +31,7 @@ namespace MagickaPUP.Utility.Compression.Dxt
             return imageData;
         }
 
-        private static void DecompressDxt1Block(BinaryReader imageReader, int x, int y, int blockCountX, int width, int height, byte[] imageData)
+        public static void DecompressBlock(BinaryReader imageReader, int x, int y, int blockCountX, int width, int height, byte[] imageData)
         {
             ushort c0 = imageReader.ReadUInt16();
             ushort c1 = imageReader.ReadUInt16();

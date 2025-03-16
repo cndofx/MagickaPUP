@@ -241,8 +241,8 @@ namespace MagickaPUP.XnaClasses
 
             switch (this.format)
             {
-                case SurfaceFormat.Color: // Color is OK, fully supported, no extra steps required
-                    break;
+                // case SurfaceFormat.Color: // Color is OK, fully supported, no extra steps required
+                //     break;
                 case SurfaceFormat.Dxt1:
                     imageDataBuffer = Dxt1Decompressor.Decompress(imageDataBuffer, this.width, this.height);
                     break;
@@ -255,7 +255,8 @@ namespace MagickaPUP.XnaClasses
                     imageDataBuffer = Dxt5Decompressor.Decompress(imageDataBuffer, this.width, this.height);
                     break;
                 default:
-                    throw new Exception($"Unsupported surface format: \"{this.format}\"");
+                    // For some reason BGR32 is the same as RGB32? wtf? shouldn't the channels be swapped around??
+                    break;// throw new Exception($"Unsupported surface format: \"{this.format}\"");
             }
 
             Bitmap bmp = new Bitmap(this.width, this.height, PixelFormat.Format32bppArgb);

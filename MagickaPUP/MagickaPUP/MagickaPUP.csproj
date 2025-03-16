@@ -99,6 +99,10 @@
     <Compile Include="Core\Args\ArgParser.cs" />
     <Compile Include="Core\Args\CmdEntry.cs" />
     <Compile Include="MagickaClasses\Data\MagickaContentTypeReaders.cs" />
+    <Compile Include="Utility\Compression\Dxt\Dxt1Decompressor.cs" />
+    <Compile Include="Utility\Compression\Dxt\Dxt3Decompressor.cs" />
+    <Compile Include="Utility\Compression\Dxt\Dxt5Decompressor.cs" />
+    <Compile Include="Utility\Compression\Dxt\DxtCommon.cs" />
     <Compile Include="Utility\Compression\Lzx\BitBuffer.cs" />
     <Compile Include="Utility\Compression\Lzx\LzxData.cs" />
     <Compile Include="Utility\Compression\Lzx\LzxDecoder.cs" />

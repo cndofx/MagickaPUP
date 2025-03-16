@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -104,7 +107,8 @@ namespace MagickaPUP.XnaClasses
         #region Variables
 
         public int dataSize { get; set; }
-        public uint[] imageData { get; set; }
+        // public uint[] imageData { get; set; }
+        public byte[] imageData { get; set; }
 
         #endregion
 
@@ -113,7 +117,7 @@ namespace MagickaPUP.XnaClasses
         public Texture2DData()
         {
             this.dataSize = 0;
-            this.imageData = new uint[this.dataSize];
+            this.imageData = new byte[this.dataSize];
         }
 
         #endregion
@@ -127,9 +131,9 @@ namespace MagickaPUP.XnaClasses
             this.dataSize = reader.ReadInt32();
 
             // Ugly hack to read byte array as numbers using C#'s built in Json deserializer without it using base 64 strings...
-            this.imageData = new uint[this.dataSize];
+            this.imageData = new byte[this.dataSize];
             for (int i = 0; i < this.dataSize; ++i)
-                this.imageData[i] = (uint)reader.ReadByte();
+                this.imageData[i] = reader.ReadByte();
         }
 
         public static Texture2DData Read(MBinaryReader reader, DebugLogger logger = null)
@@ -145,9 +149,11 @@ namespace MagickaPUP.XnaClasses
 
             writer.Write(this.dataSize);
 
+            writer.Write(this.imageData);
+
             // Ugly hack to read byte array as numbers using C#'s built in Json serializer without it using base 64 strings...
-            for (int i = 0; i < this.dataSize; ++i)
-                writer.Write((byte)this.imageData[i]);
+            // for (int i = 0; i < this.dataSize; ++i)
+            //     writer.Write((byte)this.imageData[i]);
         }
 
         #endregion
@@ -226,6 +232,16 @@ namespace MagickaPUP.XnaClasses
             logger?.Log(2, $" - Writing {this.mipCount} mip maps.");
             for (int i = 0; i < this.mipCount; ++i)
                 this.data[i].WriteInstance(writer, logger);
+        }
+
+        public Bitmap GetBitmap()
+        {
+            Bitmap bmp = new Bitmap(this.width, this.height, PixelFormat.Format32bppArgb);
+            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, this.width, this.height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            IntPtr data = bmpData.Scan0;
+            Marshal.Copy(this.data[0].imageData, 0, data, this.data[0].imageData.Length);
+            bmp.UnlockBits(bmpData);
+            return bmp;
         }
 
         public override ContentTypeReader GetObjectContentTypeReader()

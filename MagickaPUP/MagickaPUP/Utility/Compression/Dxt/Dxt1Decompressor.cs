@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MagickaPUP.Utility.Compression.Dxt
+{
+    public class Dxt1Decompressor
+    {
+        public Dxt1Decompressor()
+        { }
+
+
+    }
+}

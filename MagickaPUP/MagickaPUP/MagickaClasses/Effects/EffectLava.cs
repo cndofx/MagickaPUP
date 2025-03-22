@@ -124,9 +124,9 @@ namespace MagickaPUP.MagickaClasses.Effects
             writer.Write(RockNormalMap); /* ER */
         }
 
-        public override ContentTypeReader GetObjectContentTypeReader()
+        public override ContentTypeReaderStorage GetObjectContentTypeReader()
         {
-            return new ContentTypeReader("PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
+            return new ContentTypeReaderStorage("PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
         }
 
         #endregion

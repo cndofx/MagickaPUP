@@ -7,12 +7,12 @@ namespace MagickaPUP.Utility.IO
     public class Context
     {
         public DebugLogger Logger { get; protected set; }
-        public List<ContentTypeReader> ContentTypeReaders { get; protected set; }
+        public List<ContentTypeReaderStorage> ContentTypeReaders { get; protected set; }
 
         public Context()
         {
             this.Logger = null;
-            this.ContentTypeReaders = new List<ContentTypeReader>();
+            this.ContentTypeReaders = new List<ContentTypeReaderStorage>();
         }
     }
 

@@ -31,7 +31,7 @@ namespace MagickaPUP.XnaClasses.Xnb
     {
         #region Variables - Public
 
-        public ContentTypeReader[] ContentTypeReaders { get; set; }
+        public ContentTypeReaderStorage[] ContentTypeReaders { get; set; }
         public XnaObject PrimaryObject { get; set; }
         public XnaObject[] SharedResources { get; set; }
 
@@ -90,9 +90,9 @@ namespace MagickaPUP.XnaClasses.Xnb
             // Get the amount of type readers and iterate through all of them.
             int typeReaderCount = reader.Read7BitEncodedInt();
             logger?.Log(1, $"Content Type Reader Count : {typeReaderCount}");
-            this.ContentTypeReaders = new ContentTypeReader[typeReaderCount];
+            this.ContentTypeReaders = new ContentTypeReaderStorage[typeReaderCount];
             for (int i = 0; i < typeReaderCount; ++i)
-                this.ContentTypeReaders[i] = ContentTypeReader.Read(reader, logger);
+                this.ContentTypeReaders[i] = ContentTypeReaderStorage.Read(reader, logger);
 
             // Add the readers to the current context reader too so that we can use them later on with the correct indices.
             reader.ContentTypeReaders.AddReaders(this.ContentTypeReaders);

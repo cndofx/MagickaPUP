@@ -259,9 +259,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
                 this.AdvancedSettings.Write(writer, logger);
         }
 
-        public override ContentTypeReader GetObjectContentTypeReader()
+        public override ContentTypeReaderStorage GetObjectContentTypeReader()
         {
-            return new ContentTypeReader("Magicka.ContentReaders.PhysicsEntityTemplateReader, Magicka", 0);
+            return new ContentTypeReaderStorage("Magicka.ContentReaders.PhysicsEntityTemplateReader, Magicka", 0);
         }
 
         public static PhysicsEntityTemplate Read(MBinaryReader reader, DebugLogger logger = null)

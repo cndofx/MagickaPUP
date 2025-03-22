@@ -618,9 +618,9 @@ namespace MagickaPUP.MagickaClasses.Character
                 aura.Write(writer, logger);
         }
 
-        public override ContentTypeReader GetObjectContentTypeReader()
+        public override ContentTypeReaderStorage GetObjectContentTypeReader()
         {
-            return new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0);
+            return new ContentTypeReaderStorage("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0);
         }
 
         #endregion

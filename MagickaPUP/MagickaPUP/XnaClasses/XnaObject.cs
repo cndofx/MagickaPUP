@@ -131,7 +131,34 @@ namespace MagickaPUP.XnaClasses
 
         #region Static Methods
 
-        public static T ReadObject<T>(MBinaryReader reader, DebugLogger logger = null)
+        public static T ReadObject<T>(MBinaryReader reader, DebugLogger logger = null) where T : XnaObject, new()
+        {
+            var obj = new T();
+
+            ContentTypeReader contentTypeReader = obj.GetObjectContentTypeReader();
+            int index;
+            int realIndex;
+
+            logger?.Log(1, $"Requesting ContentTypeReader \"{contentTypeReader.Name}\" to read type \"{obj.GetType().Name}\"");
+            index = reader.ContentTypeReaders.GetReaderIndex(contentTypeReader.Name);
+            if (index < 0)
+                index = reader.ContentTypeReaders.AddReader(contentTypeReader); // We are permissive and allow input XNB files that are malformed and lack content type readers. That way, we can correct them ourselves later on by recompiling.
+            realIndex = index + 1;
+
+            logger?.Log(1, $"Reading XNA Object with required ContentTypeReader \"{contentTypeReader.Name}\", index {realIndex}...");
+            int expectedIndex = reader.Read7BitEncodedInt(); // NOTE : If the requested index does not match, we don't care, as mentioned before, we're permissive so that we can recompile and fix broken XNB files.
+            obj.ReadInstance(reader, logger);
+            return obj;
+        }
+
+        public static string ReadObject(MBinaryReader reader, DebugLogger logger = null)
+        {
+            int aux = reader.Read7BitEncodedInt();
+            string ans = reader.ReadString();
+            return ans;
+        }
+
+        public static T ReadObjectz<T>(MBinaryReader reader, DebugLogger logger = null)
         {
             // Read a 7 bit encoded int to obtain the index (starting at 1) of the required content type reader.
             int indexContentTypeReaderXnb = reader.Read7BitEncodedInt();
@@ -282,7 +309,8 @@ namespace MagickaPUP.XnaClasses
 
             #endregion
 
-            ContentTypeReader contentTypeReader = default(T).GetListContentTypeReader();
+            var aux = Activator.CreateInstance<T>();
+            ContentTypeReader contentTypeReader = aux.GetListContentTypeReader();
             int index;
             int realIndex;
 

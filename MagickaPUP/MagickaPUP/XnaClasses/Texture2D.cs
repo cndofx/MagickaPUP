@@ -238,6 +238,7 @@ namespace MagickaPUP.XnaClasses
         public Bitmap GetBitmap()
         {
             byte[] imageDataBuffer = this.data[0].imageData;
+            bool mustSwapChannelsRB = false;
 
             switch (this.format)
             {
@@ -245,14 +246,17 @@ namespace MagickaPUP.XnaClasses
                 //     break;
                 case SurfaceFormat.Dxt1:
                     imageDataBuffer = Dxt1Decompressor.Decompress(imageDataBuffer, this.width, this.height);
+                    mustSwapChannelsRB = true;
                     break;
                 case SurfaceFormat.Dxt2:
                 case SurfaceFormat.Dxt3: // DXT2 and DXT3 are the same algorithmically. The difference is that DXT2 assumes premultiplied alpha, so we need to handle that later on. For now, this is pretty meh, but ok enough. TODO : Implement proper DXT2 handling...
                     imageDataBuffer = Dxt3Decompressor.Decompress(imageDataBuffer, this.width, this.height);
+                    mustSwapChannelsRB = true;
                     break;
                 case SurfaceFormat.Dxt4:
                 case SurfaceFormat.Dxt5: // Same as above...
                     imageDataBuffer = Dxt5Decompressor.Decompress(imageDataBuffer, this.width, this.height);
+                    mustSwapChannelsRB = true;
                     break;
                 default:
                     // For some reason BGR32 is the same as RGB32? wtf? shouldn't the channels be swapped around??
@@ -260,11 +264,14 @@ namespace MagickaPUP.XnaClasses
             }
 
             // Swap the R and B channels, since the data is in BGR rather than RGB
-            for (int i = 0; i < width * height; ++i)
+            if (mustSwapChannelsRB)
             {
-                byte temp = imageDataBuffer[i * 4 + 0];
-                imageDataBuffer[i * 4 + 0] = imageDataBuffer[i * 4 + 2];
-                imageDataBuffer[i * 4 + 2] = temp;
+                for (int i = 0; i < width * height; ++i)
+                {
+                    byte temp = imageDataBuffer[i * 4 + 0];
+                    imageDataBuffer[i * 4 + 0] = imageDataBuffer[i * 4 + 2];
+                    imageDataBuffer[i * 4 + 2] = temp;
+                }
             }
 
             Bitmap bmp = new Bitmap(this.width, this.height, PixelFormat.Format32bppArgb);

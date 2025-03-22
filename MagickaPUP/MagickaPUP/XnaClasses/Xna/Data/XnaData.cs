@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Xna.Data
 {
-    public static class XnaInfo
+    public static class XnaData
     {
         public enum ContentTypeReaderIndex
         {

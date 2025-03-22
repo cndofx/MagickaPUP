@@ -563,5 +563,10 @@ namespace MagickaPUP.XnaClasses
         }
 
         #endregion
+
+        public override ContentTypeReader GetObjectContentTypeReader()
+        {
+            return new ContentTypeReader("Microsoft.Xna.Framework.Content.ModelReader", 0);
+        }
     }
 }

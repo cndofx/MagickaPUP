@@ -259,6 +259,14 @@ namespace MagickaPUP.XnaClasses
                     break;// throw new Exception($"Unsupported surface format: \"{this.format}\"");
             }
 
+            // Swap the R and B channels, since the data is in BGR rather than RGB
+            for (int i = 0; i < width * height; ++i)
+            {
+                byte temp = imageDataBuffer[i * 4 + 0];
+                imageDataBuffer[i * 4 + 0] = imageDataBuffer[i * 4 + 2];
+                imageDataBuffer[i * 4 + 2] = temp;
+            }
+
             Bitmap bmp = new Bitmap(this.width, this.height, PixelFormat.Format32bppArgb);
             BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, this.width, this.height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
             IntPtr data = bmpData.Scan0;

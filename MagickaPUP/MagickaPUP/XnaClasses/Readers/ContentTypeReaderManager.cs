@@ -12,6 +12,22 @@ namespace MagickaPUP.XnaClasses.Readers
             { new ContentTypeReader(), new XnaObject() },
         };
 
+        public object Get(string name, int version)
+        {
+            return Get(new ContentTypeReader(name, version));
+        }
 
+        public object Get(ContentTypeReader contentType)
+        {
+            if (this.contentTypeReaders.ContainsKey(contentType))
+                return this.contentTypeReaders[contentType];
+            return null;
+        }
+
+        public void Add(ContentTypeReader contentTypeReader, object content)
+        {
+            if (!this.contentTypeReaders.ContainsKey(contentTypeReader))
+                this.contentTypeReaders.Add(contentTypeReader, content);
+        }
     }
 }

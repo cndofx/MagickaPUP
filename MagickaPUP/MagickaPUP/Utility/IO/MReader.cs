@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Remoting.Messaging;
+using MagickaPUP.XnaClasses.Readers;
 
 namespace MagickaPUP.Utility.IO
 {
@@ -15,6 +16,7 @@ namespace MagickaPUP.Utility.IO
     {
         #region Variables
 
+        public ContentTypeReaderManager ContentTypeReaderManager { get; set; }
         public ContentTypeReaderStorageList ContentTypeReaders { get; private set; }
 
         #endregion

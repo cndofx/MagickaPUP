@@ -1,4 +1,5 @@
 ﻿using MagickaPUP.XnaClasses;
+using MagickaPUP.XnaClasses.Readers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +13,7 @@ namespace MagickaPUP.Utility.IO
     {
         #region Variables
 
+        public ContentTypeReaderManager ContentTypeReaderManager { get; set; }
         public ContentTypeReaderStorageList ContentTypeReaders { get; private set; }
 
         #endregion

@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class StringReader : TypeReader<string>
+    public class Texture2DReader : TypeReader<Texture2D>
     {
-        public StringReader()
+        public Texture2DReader()
         { }
 
-        public override string Read(MBinaryReader reader, DebugLogger logger = null)
+        public override Texture2D Read(MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }
 
-        public override void Write(string instance, MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(Texture2D instance, MBinaryWriter writer, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

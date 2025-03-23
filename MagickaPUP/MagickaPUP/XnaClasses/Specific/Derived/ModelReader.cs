@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class StringReader : TypeReader<string>
+    public class ModelReader : TypeReader<Model>
     {
-        public StringReader()
+        public ModelReader()
         { }
 
-        public override string Read(MBinaryReader reader, DebugLogger logger = null)
+        public override Model Read(MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }
 
-        public override void Write(string instance, MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(Model instance, MBinaryWriter writer, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

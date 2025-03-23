@@ -15,6 +15,6 @@ namespace MagickaPUP.XnaClasses.Specific
         public TypeReader()
         { }
         public abstract T Read(MBinaryReader reader, DebugLogger logger = null);
-        public abstract void Write(MBinaryWriter writer, DebugLogger logger = null);
+        public abstract void Write(T instance, MBinaryWriter writer, DebugLogger logger = null);
     }
 }

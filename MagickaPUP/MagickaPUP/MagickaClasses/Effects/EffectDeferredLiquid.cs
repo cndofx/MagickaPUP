@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace MagickaPUP.MagickaClasses.Effects
 {
     // Basically, this is the Effect class for water and all other liquids that are not lava, like wine, etc...
-    internal class EffectDeferredLiquid : Effect
+    public class EffectDeferredLiquid : Effect
     {
         #region Variables
 

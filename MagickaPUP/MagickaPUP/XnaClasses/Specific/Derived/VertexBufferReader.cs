@@ -1,4 +1,5 @@
-﻿using MagickaPUP.Utility.IO;
+﻿
+using MagickaPUP.Utility.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class StringReader : TypeReader<string>
+    public class VertexBufferReader : TypeReader<VertexBuffer>
     {
-        public StringReader()
+        public VertexBufferReader()
         { }
 
-        public override string Read(MBinaryReader reader, DebugLogger logger = null)
+        public override VertexBuffer Read(MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }
 
-        public override void Write(string instance, MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(VertexBuffer instance, MBinaryWriter writer, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

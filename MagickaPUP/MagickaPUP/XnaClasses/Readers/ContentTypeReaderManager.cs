@@ -43,7 +43,8 @@ namespace MagickaPUP.XnaClasses.Readers
         {
             if (this.contentTypeReaders.ContainsKey(contentType))
                 return this.contentTypeReaders[contentType];
-            return null;
+            throw new Exception($"The ContentTypeReader \"{contentType.Name}\" is not implemented yet!"); // If the requested content type reader does not exist within the dictionary, then we just say it is not supported yet and bail out.
+            // return null;
         }
 
         public void Add(string name, int version, object obj) // TODO : Same as below for the "obj" param...

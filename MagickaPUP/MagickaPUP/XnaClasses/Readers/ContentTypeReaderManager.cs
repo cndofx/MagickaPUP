@@ -1,5 +1,6 @@
 ﻿using MagickaPUP.MagickaClasses.Character;
 using MagickaPUP.MagickaClasses.Effects;
+using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.MagickaClasses.PhysicsEntities;
 using System;
@@ -12,8 +13,9 @@ namespace MagickaPUP.XnaClasses.Readers
 {
     public class ContentTypeReaderManager
     {
+        // TODO : Replace all of these placeholder / dummy new() expressions with actual reader classes so that we can properly read the contents of each of these objects.
         public Dictionary<ContentTypeReader, object> contentTypeReaders = new() {
-            { new ContentTypeReader(), new XnaObject() },
+            { new ContentTypeReader(), new XnaObject() }, // TODO : Get rid of this shit maybe?
             { new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0), new CharacterTemplate() },
             { new ContentTypeReader("PolygonHead.Pipeline.AdditiveEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0), new EffectAdditive() },
             { new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0), new EffectDeferred() },
@@ -27,6 +29,9 @@ namespace MagickaPUP.XnaClasses.Readers
             { new ContentTypeReader("Microsoft.Xna.Framework.Content.Texture2DReader", 0), new Texture2D() },
             { new ContentTypeReader("Microsoft.Xna.Framework.Content.VertexBufferReader", 0), new VertexBuffer() },
             { new ContentTypeReader("Microsoft.Xna.Framework.Content.VertexDeclarationReader", 0), new VertexDeclaration() },
+            { new ContentTypeReader("Microsoft.Xna.Framework.Content.StringReader", 0), default(string) }, // TODO : Implement a reader class...
+            { new ContentTypeReader("Microsoft.Xna.Framework.Content.ListReader`1[[Microsoft.Xna.Framework.Vector3, Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d]]", 0), new List<Vec3>() }, // TODO : Implement reader class for generic list reading and for specific List<T> reading, such as the list of vec3...
+            { new ContentTypeReader("Microsoft.Xna.Framework.Content.Vector3Reader", 0), new Vec3() },
         };
 
         public object Get(string name, int version)

@@ -81,6 +81,11 @@ namespace MagickaPUP.XnaClasses.Readers
         };
         // TODO : Maybe with these changes, we can get rid of the whole XnaObject class and the WriteInstance() and ReadInstance() methods?
 
+        public Dictionary<Type, ContentTypeReader> contentTypeWriters = new()
+        {
+            { typeof(string), new ContentTypeReader() }
+        };
+
         public TypeReader<object> Get(string name, int version)
         {
             return Get(new ContentTypeReader(name, version));

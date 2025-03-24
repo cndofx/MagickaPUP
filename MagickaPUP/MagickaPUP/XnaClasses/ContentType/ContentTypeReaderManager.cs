@@ -103,9 +103,14 @@ namespace MagickaPUP.XnaClasses.Readers
         {
             if (this.contentTypeReaders.ContainsKey(contentType))
                 return this.contentTypeReaders[contentType];
-
-            // If the requested content type reader does not exist within the dictionary, then we just say it is not supported yet and bail out.
             throw new Exception($"The ContentTypeReader \"{contentType.Name}\" is not implemented yet!");
+        }
+
+        public TypeWriterBase GetTypeWriter(Type type)
+        {
+            if(this.contentTypeWriters.ContainsKey(type))
+                return this.contentTypeWriters[type];
+            throw new Exception($"The ContentTypeReader for type \"{type.Name}\" could not be found!");
         }
 
         public void AddTypeData(TypeData typeData)

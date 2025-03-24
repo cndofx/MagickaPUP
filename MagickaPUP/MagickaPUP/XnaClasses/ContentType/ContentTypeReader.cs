@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MagickaPUP.XnaClasses.Readers
+namespace MagickaPUP.XnaClasses
 {
     public struct ContentTypeReader
     {

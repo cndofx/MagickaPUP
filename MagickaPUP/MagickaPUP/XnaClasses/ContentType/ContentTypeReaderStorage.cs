@@ -8,6 +8,12 @@ namespace MagickaPUP.XnaClasses
     // It also makes it clearer what the difference is between the ContentTypeReaderManager and this class.
     // The ContentTypeReaderManager is in charge of managining lookups for all content type readers known to this program.
     // The ContentTypeReaderStorage is in charge of managining lookups for all content type readers known to a given specific XNB file.
+    // NOTE : This class is useful for 2 main purposes:
+    // 1) Detecting malformed XNB files on XNB decompilation.
+    // When reading an input XNB file, if we find a request to read a content type reader that is not found on the file's header, then we can error out.
+    // Note that we could become more permissive with a flag in the future so as to allow XNB recompilation for fixup, altough this usecase is kind of rare in the
+    // context of Magicka modding.
+    // 2) Storing the content type readers required as we go writing the data of the ouput XNB file on XNB compilation.
     public class ContentTypeReaderStorage
     {
         public List<ContentTypeReader> ContentTypeReaders { get; private set; }

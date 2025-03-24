@@ -69,5 +69,11 @@ namespace MagickaPUP.XnaClasses.Readers
             foreach (var typeDataEntry in typeDataArray)
                 AddTypeData(typeDataEntry);
         }
+
+        public void AddTypeData(List<TypeData> typeDataArray)
+        {
+            foreach (var typeDataEntry in typeDataArray)
+                AddTypeData(typeDataEntry);
+        }
     }
 }

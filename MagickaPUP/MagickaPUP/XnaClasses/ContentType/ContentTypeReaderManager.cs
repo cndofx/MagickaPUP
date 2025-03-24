@@ -169,6 +169,13 @@ namespace MagickaPUP.XnaClasses.Readers
             throw new Exception($"The TypeWriter for ContentTypeReader \"{contentType.Name}\" is not implemented yet!");
         }
 
+        public ContentTypeReader GetContentTypeReader(Type type)
+        {
+            if(this.contentTypeMap.ContainsKey(type))
+                return this.contentTypeMap[type];
+            throw new Exception($"Could not find a Content Type mapping for Type \"{type.Name}\"");
+        }
+
         public void AddTypeData(TypeData typeData)
         {
             this.contentTypeReaders.Add(typeData.ContentTypeReader, typeData.TypeReader);

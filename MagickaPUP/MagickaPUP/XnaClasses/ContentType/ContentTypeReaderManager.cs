@@ -37,7 +37,13 @@ namespace MagickaPUP.XnaClasses.Readers
         {
             TypeData[] defaultTypeData =
             {
-                new TypeData()
+                new TypeData
+                (
+                    typeof(CharacterTemplate),
+                    new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0),
+                    new CharacterTemplateReader(),
+                    new CharacterTemplateWriter()
+                )
             };
 
             AddTypeData(defaultTypeData);

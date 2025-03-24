@@ -56,6 +56,42 @@ namespace MagickaPUP.XnaClasses
             return -1;
         }
 
+        public int GetReaderIndex(ContentTypeReader reader)
+        {
+            #region Comment
+
+            // The logic of this function is as follows:
+            // We look for the content type reader that has exactly the information we're looking for, aka, both the name and version match with our query.
+            // If we cannot find it, we search for the next best candidate, which is the first reader whose reader name matches with our query.
+            // This is done because it's pretty clear that XNA programmers mostly preferred to encode the version in the reader string itself rather than
+            // the fucking dedicated version number field... which leads to most readers having a version field with value 0, making it completely meaningless.
+            // We could just ignore it like we used to, but there comes a time where potentially the reader version COULD come into play at some point in the future.
+            // Who knows what kind of content type readers we could find??? That's why this shit is here... it slows down lookup a bit, but that's ok, for the sake
+            // of making sure that future code works just fine...
+
+            #endregion
+
+            int bestCandidate = -1;
+
+            for (int i = 0; i < this.ContentTypeReaders.Count; ++i)
+            {
+                if (reader.Name == ContentTypeReaders[i].Name)
+                {
+                    if (reader.Version == this.ContentTypeReaders[i].Version)
+                    {
+                        bestCandidate = i;
+                        break;
+                    }
+                    else
+                    {
+                        bestCandidate = i; // We simply set this to be the best candidate out of them all, but we keep searching in case we find a better one.
+                    }
+                }
+            }
+            
+            return bestCandidate;
+        }
+
         #endregion
 
         #region PublicMethods - ContainsReader

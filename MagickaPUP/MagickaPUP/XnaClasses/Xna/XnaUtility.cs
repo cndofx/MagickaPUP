@@ -36,9 +36,21 @@ namespace MagickaPUP.XnaClasses.Xna
             return ans;
         }
 
-        public static void WriteObject<T>(MBinaryWriter writer, DebugLogger logger = null)
+        public static void WriteObject<T>(T obj, MBinaryWriter writer, DebugLogger logger = null)
         {
+            if (obj == null)
+            {
+                WriteNullObject(writer, logger);
+                return;
+            }
+
             // TODO : Implement
+        }
+
+        private static void WriteNullObject(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            logger?.Log(1, "Writing NULL object to XNB file...");
+            writer.Write7BitEncodedInt(0);
         }
 
         private static void LogContentTypeReader(ContentTypeReader reader, DebugLogger logger)

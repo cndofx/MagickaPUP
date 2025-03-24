@@ -24,6 +24,8 @@ namespace MagickaPUP.XnaClasses
             this.ContentTypeReaders = new List<ContentTypeReader>();
         }
 
+        #region PublicMethods - AddReaders
+
         public int AddReader(ContentTypeReader reader)
         {
             this.ContentTypeReaders.Add(reader);
@@ -42,6 +44,10 @@ namespace MagickaPUP.XnaClasses
                 this.ContentTypeReaders.Add(reader);
         }
 
+        #endregion
+
+        #region PublicMethods - GetReaderIndex
+
         public int GetReaderIndex(string name)
         {
             for (int i = 0; i < this.ContentTypeReaders.Count; ++i)
@@ -50,9 +56,14 @@ namespace MagickaPUP.XnaClasses
             return -1;
         }
 
+        #endregion
+
+        #region PublicMethods - ContainsReader
+
         public bool ContainsReader(string name) {
             return GetReaderIndex(name) >= 0;
         }
-        
+
+        #endregion
     }
 }

@@ -13,7 +13,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public PhysicsEntityTemplateReader()
         { }
 
-        public override PhysicsEntityTemplate Read(MBinaryReader reader, DebugLogger logger = null)
+        public override PhysicsEntityTemplate Read(PhysicsEntityTemplate instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

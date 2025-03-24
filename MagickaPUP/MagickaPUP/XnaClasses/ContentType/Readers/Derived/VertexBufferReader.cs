@@ -13,7 +13,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public VertexBufferReader()
         { }
 
-        public override VertexBuffer Read(MBinaryReader reader, DebugLogger logger = null)
+        public override VertexBuffer Read(VertexBuffer instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

@@ -13,7 +13,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public EffectDeferredLiquidReader()
         { }
 
-        public override EffectDeferredLiquid Read(MBinaryReader reader, DebugLogger logger = null)
+        public override EffectDeferredLiquid Read(EffectDeferredLiquid instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

@@ -12,7 +12,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public Texture2DReader()
         { }
 
-        public override Texture2D Read(MBinaryReader reader, DebugLogger logger = null)
+        public override Texture2D Read(Texture2D instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

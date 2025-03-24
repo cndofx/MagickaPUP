@@ -20,6 +20,12 @@ namespace MagickaPUP.XnaClasses.Readers
             public TypeWriter<object> TypeWriter;
         }
 
+        public TypeData THING = new TypeData() {
+            ContentTypeReader = new ContentTypeReader(),
+            TypeReader = new CharacterTemplateReader(),
+            TypeWriter = null
+        };
+
         // TODO : Replace all of these placeholder / dummy new() expressions with actual reader classes so that we can properly read the contents of each of these objects.
         public Dictionary<ContentTypeReader, object> contentTypeReaders = new() {
             {

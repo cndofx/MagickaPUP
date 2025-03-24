@@ -13,7 +13,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public EffectLavaReader()
         { }
 
-        public override EffectLava Read(MBinaryReader reader, DebugLogger logger = null)
+        public override EffectLava Read(EffectLava instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

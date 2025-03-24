@@ -16,7 +16,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public ListReader()
         { }
 
-        public override List<T> Read(MBinaryReader reader, DebugLogger logger = null)
+        public override List<T> Read(List<T> instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

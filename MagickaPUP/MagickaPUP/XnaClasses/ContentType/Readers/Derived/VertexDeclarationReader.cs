@@ -12,7 +12,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public VertexDeclarationReader()
         { }
 
-        public override VertexDeclaration Read(MBinaryReader reader, DebugLogger logger = null)
+        public override VertexDeclaration Read(VertexDeclaration instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

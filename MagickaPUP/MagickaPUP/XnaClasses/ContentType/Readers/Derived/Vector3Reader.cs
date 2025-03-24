@@ -13,7 +13,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public Vector3Reader()
         { }
 
-        public override Vec3 Read(MBinaryReader reader, DebugLogger logger = null)
+        public override Vec3 Read(Vec3 instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

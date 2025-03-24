@@ -12,7 +12,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public ModelReader()
         { }
 
-        public override Model Read(MBinaryReader reader, DebugLogger logger = null)
+        public override Model Read(Model instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

@@ -13,7 +13,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public BiTreeModelReader()
         { }
 
-        public override BiTreeModel Read(MBinaryReader reader, DebugLogger logger = null)
+        public override BiTreeModel Read(BiTreeModel instance, MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

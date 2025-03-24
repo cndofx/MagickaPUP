@@ -30,78 +30,12 @@ namespace MagickaPUP.XnaClasses.Readers
             }
         }
 
-        public Dictionary<ContentTypeReader, TypeReaderBase> contentTypeReaders = new() {
-            {
-                new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0),
-                new CharacterTemplateReader()
-            },
-            {
-                new ContentTypeReader("PolygonHead.Pipeline.AdditiveEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0),
-                new EffectAdditiveReader()
-            },
-            {
-                new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0),
-                new EffectDeferredReader()
-            },
-            {
-                new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredLiquidEffectReader, PolygonHead", 0),
-                new EffectDeferredLiquidReader()
-            },
-            {
-                new ContentTypeReader("PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0),
-                new EffectLavaReader()
-            },
-            {
-                new ContentTypeReader("PolygonHead.Pipeline.BiTreeModelReader, PolygonHead", 0),
-                new BiTreeModelReader()
-            },
-            {
-                new ContentTypeReader("Magicka.ContentReaders.LevelModelReader, Magicka", 0),
-                new LevelModelReader()
-            },
-            {
-                new ContentTypeReader("Magicka.ContentReaders.PhysicsEntityTemplateReader, Magicka", 0),
-                new PhysicsEntityTemplateReader()
-            },
-            {
-                new ContentTypeReader("Microsoft.Xna.Framework.Content.IndexBufferReader", 0),
-                new IndexBufferReader()
-            },
-            {
-                new ContentTypeReader("Microsoft.Xna.Framework.Content.ModelReader", 0),
-                new ModelReader()
-            },
-            {
-                new ContentTypeReader("Microsoft.Xna.Framework.Content.Texture2DReader", 0),
-                new Texture2DReader()
-            },
-            {
-                new ContentTypeReader("Microsoft.Xna.Framework.Content.VertexBufferReader", 0),
-                new VertexBufferReader()
-            },
-            {
-                new ContentTypeReader("Microsoft.Xna.Framework.Content.VertexDeclarationReader", 0),
-                new VertexDeclarationReader()
-            },
-            {
-                new ContentTypeReader("Microsoft.Xna.Framework.Content.StringReader", 0),
-                new StringReader()
-            },
-            {
-                new ContentTypeReader("Microsoft.Xna.Framework.Content.ListReader`1[[Microsoft.Xna.Framework.Vector3, Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d]]", 0),
-                new ListReader<Vec3>()
-            },
-            {
-                new ContentTypeReader("Microsoft.Xna.Framework.Content.Vector3Reader", 0),
-                new Vector3Reader()
-            },
-        };
-
+        public Dictionary<ContentTypeReader, TypeReaderBase> contentTypeReaders = new();
         public Dictionary<Type, TypeWriterBase> contentTypeWriters = new();
 
         public ContentTypeReaderManager()
         {
-            // TODO : Implement
+
         }
 
         public TypeReaderBase GetTypeReader(ContentTypeReader contentType)

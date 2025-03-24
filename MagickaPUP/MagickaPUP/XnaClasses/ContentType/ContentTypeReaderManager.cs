@@ -63,5 +63,11 @@ namespace MagickaPUP.XnaClasses.Readers
             this.contentTypeReaders.Add(typeData.ContentTypeReader, typeData.TypeReader);
             this.contentTypeWriters.Add(typeData.ContentType, typeData.TypeWriter);
         }
+
+        public void AddTypeData(TypeData[] typeDataArray)
+        {
+            foreach (var typeDataEntry in typeDataArray)
+                AddTypeData(typeDataEntry);
+        }
     }
 }

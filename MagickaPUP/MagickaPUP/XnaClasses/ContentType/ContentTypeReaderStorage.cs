@@ -119,8 +119,19 @@ namespace MagickaPUP.XnaClasses
 
         #region PublicMethods - ContainsReader
 
-        public bool ContainsReader(string name) {
-            return GetReaderIndex(name) >= 0;
+        public bool ContainsReader(ContentTypeReader reader)
+        {
+            return GetReaderIndex(reader) >= 0;
+        }
+
+        public bool ContainsReader(string name)
+        {
+            return ContainsReader(new ContentTypeReader(name));
+        }
+
+        public bool ContainsReader(string name, int version)
+        {
+            return ContainsReader(new ContentTypeReader(name, version));
         }
 
         #endregion

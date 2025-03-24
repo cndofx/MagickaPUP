@@ -22,14 +22,23 @@ namespace MagickaPUP.XnaClasses.Xna
                 return null;
             }
 
-            if (indexMem < 0 || indexMem >= reader.ContentTypeReaders.Count)
+            if (indexMem < 0 || indexMem >= reader.ContentTypeReaderStorage.Count)
             {
                 throw new Exception($"Requested Content Type Reader does not exist! (Index = {indexXnb})");
             }
 
+            ContentTypeReader contentTypeReader = reader.ContentTypeReaderStorage.GetReader(indexMem);
+            LogContentTypeReader(contentTypeReader, logger);
 
+            var typeReader = reader.ContentTypeReaderManager.Get(contentTypeReader);
+            ans = (T)typeReader.Read(reader, logger); // TODO : Implement a check that throws an exception if the requested reader returns a type that is not casteable to T.
 
             return ans;
+        }
+
+        private static void LogContentTypeReader(ContentTypeReader reader, DebugLogger logger)
+        {
+            logger?.Log(1, $"Required ContentTypeReader : {{ Name = \"{reader.Name}\", Version = {reader.Version} }}");
         }
     }
 }

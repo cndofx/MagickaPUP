@@ -112,17 +112,6 @@ namespace MagickaPUP.XnaClasses.Readers
             // return null;
         }
 
-        public void Add(string name, int version, TypeReaderBase typeReader) // TODO : Same as below for the "obj" param...
-        {
-            Add(new ContentTypeReader(name, version), typeReader);
-        }
-
-        public void Add(ContentTypeReader contentTypeReader, TypeReaderBase typeReader) // TODO : Rename "content" for "reader" or "readerInstance" something like that
-        {
-            if (!this.contentTypeReaders.ContainsKey(contentTypeReader))
-                this.contentTypeReaders.Add(contentTypeReader, typeReader);
-        }
-
         public void AddTypeData(TypeData typeData)
         {
             this.contentTypeReaders.Add(typeData.ContentTypeReader, typeData.TypeReader);

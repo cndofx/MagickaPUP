@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -48,14 +49,6 @@ namespace MagickaPUP.XnaClasses
 
         #region PublicMethods - GetReaderIndex
 
-        public int GetReaderIndex(string name)
-        {
-            for (int i = 0; i < this.ContentTypeReaders.Count; ++i)
-                if (name == ContentTypeReaders[i].Name)
-                    return i;
-            return -1;
-        }
-
         public int GetReaderIndex(ContentTypeReader reader)
         {
             #region Comment
@@ -73,6 +66,12 @@ namespace MagickaPUP.XnaClasses
             // the corresponding version value, which would make it a completely different key and prevent the rest of the code from breaking. That would make this
             // lookup completely pointless and actually wrong, since it could offer a reader that may or may not be valid for the specified version of the content.
             // For now, this hack stays... we'll see in the future what happens... I'm sure it will actually come bite me in the ass in the future. I can feel it.
+
+            // Note that the old implementation used to be as simple as:
+            // for (int i = 0; i < this.ContentTypeReaders.Count; ++i)
+            // if (name == ContentTypeReaders[i].Name && version == ContentTypeReaders[i].Version)
+            //     return i;
+            // return -1;
 
             #endregion
 
@@ -93,8 +92,18 @@ namespace MagickaPUP.XnaClasses
                     }
                 }
             }
-            
+
             return bestCandidate;
+        }
+
+        public int GetReaderIndex(string name)
+        {
+            return GetReaderIndex(new ContentTypeReader(name));
+        }
+
+        public int GetReaderIndex(string name, int version)
+        {
+            return GetReaderIndex(new ContentTypeReader(name, version));
         }
 
         #endregion

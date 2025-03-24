@@ -197,9 +197,9 @@ namespace MagickaPUP.MagickaClasses.Effects
             }
         }
 
-        public override ContentTypeReaderStorage GetObjectContentTypeReader()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return new ContentTypeReaderStorage("PolygonHead.Pipeline.RenderDeferredEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
+            return new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
         }
 
         #endregion

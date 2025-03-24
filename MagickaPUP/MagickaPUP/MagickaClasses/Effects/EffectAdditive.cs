@@ -67,9 +67,9 @@ namespace MagickaPUP.MagickaClasses.Effects
             writer.Write(this.texture);
         }
 
-        public override ContentTypeReaderStorage GetObjectContentTypeReader()
+        public override ContentTypeReader GetObjectContentTypeReader()
         {
-            return new ContentTypeReaderStorage("PolygonHead.Pipeline.AdditiveEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
+            return new ContentTypeReader("PolygonHead.Pipeline.AdditiveEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
         }
 
         #endregion

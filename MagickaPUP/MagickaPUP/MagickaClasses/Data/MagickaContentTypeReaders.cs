@@ -10,17 +10,17 @@ namespace MagickaPUP.MagickaClasses.Data
     public static class MagickaContentTypeReaders
     {
         // PolygonHead Readers
-        public static readonly ContentTypeReaderStorage BiTreeModelReader = new ContentTypeReaderStorage("PolygonHead.Pipeline.BiTreeModelReader, PolygonHead", 0);
-        public static readonly ContentTypeReaderStorage EffectDeferredReader = new ContentTypeReaderStorage("PolygonHead.Pipeline.RenderDeferredEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
-        public static readonly ContentTypeReaderStorage EffectAdditiveReader = new ContentTypeReaderStorage("PolygonHead.Pipeline.AdditiveEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
-        public static readonly ContentTypeReaderStorage EffectLiquidReader = new ContentTypeReaderStorage("PolygonHead.Pipeline.RenderDeferredLiquidEffectReader, PolygonHead", 0);
-        public static readonly ContentTypeReaderStorage EffectLavaReader = new ContentTypeReaderStorage("PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
+        public static readonly ContentTypeReader BiTreeModelReader = new ContentTypeReader("PolygonHead.Pipeline.BiTreeModelReader, PolygonHead", 0);
+        public static readonly ContentTypeReader EffectDeferredReader = new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
+        public static readonly ContentTypeReader EffectAdditiveReader = new ContentTypeReader("PolygonHead.Pipeline.AdditiveEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
+        public static readonly ContentTypeReader EffectLiquidReader = new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredLiquidEffectReader, PolygonHead", 0);
+        public static readonly ContentTypeReader EffectLavaReader = new ContentTypeReader("PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0);
 
 
         // Magicka Readers
-        public static readonly ContentTypeReaderStorage LevelModelReader = new ContentTypeReaderStorage("Magicka.ContentReaders.LevelModelReader, Magicka", 0);
-        public static readonly ContentTypeReaderStorage CharacterTemplateReader = new ContentTypeReaderStorage("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0);
-        public static readonly ContentTypeReaderStorage PhysicsEntityTemplateReader = new ContentTypeReaderStorage("Magicka.ContentReaders.PhysicsEntityTemplateReader, Magicka", 0);
+        public static readonly ContentTypeReader LevelModelReader = new ContentTypeReader("Magicka.ContentReaders.LevelModelReader, Magicka", 0);
+        public static readonly ContentTypeReader CharacterTemplateReader = new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0);
+        public static readonly ContentTypeReader PhysicsEntityTemplateReader = new ContentTypeReader("Magicka.ContentReaders.PhysicsEntityTemplateReader, Magicka", 0);
 
         /*
         public enum ContentTypeReaderIndex

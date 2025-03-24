@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace MagickaPUP.XnaClasses
 {
-    public class ContentTypeReaderList
+    public class ContentTypeReaderStorageList
     {
         public List<ContentTypeReader> ContentTypeReaders { get; private set; }
         public int Count { get { return this.ContentTypeReaders.Count; } }
 
-        public ContentTypeReaderList()
+        public ContentTypeReaderStorageList()
         {
             this.ContentTypeReaders = new List<ContentTypeReader>();
         }

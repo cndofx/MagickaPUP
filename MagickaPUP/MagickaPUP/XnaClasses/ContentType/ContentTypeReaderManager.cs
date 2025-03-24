@@ -99,6 +99,11 @@ namespace MagickaPUP.XnaClasses.Readers
 
         public Dictionary<Type, TypeWriterBase> contentTypeWriters = new();
 
+        public ContentTypeReaderManager()
+        {
+            // TODO : Implement
+        }
+
         public TypeReaderBase GetTypeReader(ContentTypeReader contentType)
         {
             if (this.contentTypeReaders.ContainsKey(contentType))
@@ -118,6 +123,5 @@ namespace MagickaPUP.XnaClasses.Readers
             this.contentTypeReaders.Add(typeData.ContentTypeReader, typeData.TypeReader);
             this.contentTypeWriters.Add(typeData.ContentType, typeData.TypeWriter);
         }
-
     }
 }

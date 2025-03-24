@@ -31,7 +31,8 @@ namespace MagickaPUP.XnaClasses.Readers
         }
 
         public Dictionary<ContentTypeReader, TypeReaderBase> contentTypeReaders = new();
-        public Dictionary<Type, TypeWriterBase> contentTypeWriters = new();
+        public Dictionary<ContentTypeReader, TypeWriterBase> contentTypeWriters = new();
+        public Dictionary<Type, ContentTypeReader> contentTypeMap = new();
 
         public ContentTypeReaderManager()
         {
@@ -158,20 +159,21 @@ namespace MagickaPUP.XnaClasses.Readers
         {
             if (this.contentTypeReaders.ContainsKey(contentType))
                 return this.contentTypeReaders[contentType];
-            throw new Exception($"The ContentTypeReader \"{contentType.Name}\" is not implemented yet!");
+            throw new Exception($"The TypeReader for ContentTypeReader \"{contentType.Name}\" is not implemented yet!");
         }
 
-        public TypeWriterBase GetTypeWriter(Type type)
+        public TypeWriterBase GetTypeWriter(ContentTypeReader contentType)
         {
-            if(this.contentTypeWriters.ContainsKey(type))
-                return this.contentTypeWriters[type];
-            throw new Exception($"The ContentTypeReader for type \"{type.Name}\" could not be found!");
+            if(this.contentTypeWriters.ContainsKey(contentType))
+                return this.contentTypeWriters[contentType];
+            throw new Exception($"The TypeWriter for ContentTypeReader \"{contentType.Name}\" is not implemented yet!");
         }
 
         public void AddTypeData(TypeData typeData)
         {
             this.contentTypeReaders.Add(typeData.ContentTypeReader, typeData.TypeReader);
-            this.contentTypeWriters.Add(typeData.ContentType, typeData.TypeWriter);
+            this.contentTypeWriters.Add(typeData.ContentTypeReader, typeData.TypeWriter);
+            this.contentTypeMap.Add(typeData.ContentType, typeData.ContentTypeReader);
         }
 
         public void AddTypeData(TypeData[] typeDataArray)

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class CharacterTemplateReader : TypeReader<CharacterTemplate>
+    public class CharacterTemplateWriter : TypeReader<CharacterTemplate>
     {
-        public CharacterTemplateReader()
+        public CharacterTemplateWriter()
         { }
 
         public override CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)

@@ -7,17 +7,17 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class VertexDeclarationReader : TypeReader<VertexDeclaration>
+    public class IndexBufferWriter : TypeReader<IndexBuffer>
     {
-        public VertexDeclarationReader()
+        public IndexBufferWriter()
         { }
 
-        public override VertexDeclaration Read(MBinaryReader reader, DebugLogger logger = null)
+        public override IndexBuffer Read(MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }
 
-        public override void Write(VertexDeclaration instance, MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(IndexBuffer instance, MBinaryWriter writer, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

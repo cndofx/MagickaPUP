@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class PhysicsEntityTemplateReader : TypeReader<PhysicsEntityTemplate>
+    public class PhysicsEntityTemplateWriter : TypeReader<PhysicsEntityTemplate>
     {
-        public PhysicsEntityTemplateReader()
+        public PhysicsEntityTemplateWriter()
         { }
 
         public override PhysicsEntityTemplate Read(MBinaryReader reader, DebugLogger logger = null)

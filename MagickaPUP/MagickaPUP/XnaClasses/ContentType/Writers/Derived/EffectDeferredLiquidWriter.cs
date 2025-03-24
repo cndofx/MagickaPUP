@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class EffectDeferredLiquidReader : TypeReader<EffectDeferredLiquid>
+    public class EffectDeferredLiquidWriter : TypeReader<EffectDeferredLiquid>
     {
-        public EffectDeferredLiquidReader()
+        public EffectDeferredLiquidWriter()
         { }
 
         public override EffectDeferredLiquid Read(MBinaryReader reader, DebugLogger logger = null)

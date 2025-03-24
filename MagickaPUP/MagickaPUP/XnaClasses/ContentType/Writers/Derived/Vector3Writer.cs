@@ -1,4 +1,4 @@
-﻿using MagickaPUP.MagickaClasses.Effects;
+﻿using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.Utility.IO;
 using System;
 using System.Collections.Generic;
@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class EffectLavaReader : TypeReader<EffectLava>
+    public class Vector3Writer : TypeReader<Vec3>
     {
-        public EffectLavaReader()
+        public Vector3Writer()
         { }
 
-        public override EffectLava Read(MBinaryReader reader, DebugLogger logger = null)
+        public override Vec3 Read(MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }
 
-        public override void Write(EffectLava instance, MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(Vec3 instance, MBinaryWriter writer, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

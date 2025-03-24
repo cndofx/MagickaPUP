@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class Texture2DReader : TypeReader<Texture2D>
+    public class Texture2DWriter : TypeReader<Texture2D>
     {
-        public Texture2DReader()
+        public Texture2DWriter()
         { }
 
         public override Texture2D Read(MBinaryReader reader, DebugLogger logger = null)

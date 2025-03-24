@@ -1,4 +1,4 @@
-﻿
+﻿using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.Utility.IO;
 using System;
 using System.Collections.Generic;
@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class VertexBufferReader : TypeReader<VertexBuffer>
+    public class LevelModelWriter : TypeReader<LevelModel>
     {
-        public VertexBufferReader()
+        public LevelModelWriter()
         { }
 
-        public override VertexBuffer Read(MBinaryReader reader, DebugLogger logger = null)
+        public override LevelModel Read(MBinaryReader reader, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }
 
-        public override void Write(VertexBuffer instance, MBinaryWriter writer, DebugLogger logger = null)
+        public override void Write(LevelModel instance, MBinaryWriter writer, DebugLogger logger = null)
         {
             throw new NotImplementedException();
         }

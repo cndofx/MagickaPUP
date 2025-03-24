@@ -11,9 +11,9 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
     // NOTE : Both the Read and Write methods should call in the future the WriteObject and ReadObject functions from the reader and writer.
     // Yes, that means that we need to move the logic for object writing and reading from XnaObject into the binary reader and writer classes.
     // And probably also rename those classes to ContentReader and ContentWriter or whatever the fuck...
-    public class ListReader<T> : TypeReader<List<T>>
+    public class ListWriter<T> : TypeReader<List<T>>
     {
-        public ListReader()
+        public ListWriter()
         { }
 
         public override List<T> Read(MBinaryReader reader, DebugLogger logger = null)

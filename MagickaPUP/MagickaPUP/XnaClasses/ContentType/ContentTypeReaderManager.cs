@@ -43,6 +43,111 @@ namespace MagickaPUP.XnaClasses.Readers
                     new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0),
                     new CharacterTemplateReader(),
                     new CharacterTemplateWriter()
+                ),
+                new TypeData
+                (
+                    typeof(EffectAdditive),
+                    new ContentTypeReader("PolygonHead.Pipeline.AdditiveEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0),
+                    new EffectAdditiveReader(),
+                    new EffectAdditiveWriter()
+                ),
+                new TypeData
+                (
+                    typeof(EffectDeferred),
+                    new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0),
+                    new EffectDeferredReader(),
+                    new EffectDeferredWriter()
+                ),
+                new TypeData
+                (
+                    typeof(EffectDeferredLiquid),
+                    new ContentTypeReader("PolygonHead.Pipeline.RenderDeferredLiquidEffectReader, PolygonHead", 0),
+                    new EffectDeferredLiquidReader(),
+                    new EffectDeferredLiquidWriter()
+                ),
+                new TypeData
+                (
+                    typeof(EffectLava),
+                    new ContentTypeReader("PolygonHead.Pipeline.LavaEffectReader, PolygonHead, Version=1.0.0.0, Culture=neutral", 0),
+                    new EffectLavaReader(),
+                    new EffectLavaWriter()
+                ),
+                new TypeData
+                (
+                    typeof(BiTreeModel),
+                    new ContentTypeReader("PolygonHead.Pipeline.BiTreeModelReader, PolygonHead", 0),
+                    new BiTreeModelReader(),
+                    new BiTreeModelWriter()
+                ),
+                new TypeData
+                (
+                    typeof(LevelModel),
+                    new ContentTypeReader("Magicka.ContentReaders.LevelModelReader, Magicka", 0),
+                    new LevelModelReader(),
+                    new LevelModelWriter()
+                ),
+                new TypeData
+                (
+                    typeof(PhysicsEntityTemplate),
+                    new ContentTypeReader("Magicka.ContentReaders.PhysicsEntityTemplateReader, Magicka", 0),
+                    new PhysicsEntityTemplateReader(),
+                    new PhysicsEntityTemplateWriter()
+                ),
+                new TypeData
+                (
+                    typeof(IndexBuffer),
+                    new ContentTypeReader("Microsoft.Xna.Framework.Content.IndexBufferReader", 0),
+                    new IndexBufferReader(),
+                    new IndexBufferWriter()
+                ),
+                new TypeData
+                (
+                    typeof(Model),
+                    new ContentTypeReader("Microsoft.Xna.Framework.Content.ModelReader", 0),
+                    new ModelReader(),
+                    new ModelWriter()
+                ),
+                new TypeData
+                (
+                    typeof(Texture2D),
+                    new ContentTypeReader("Microsoft.Xna.Framework.Content.Texture2DReader", 0),
+                    new Texture2DReader(),
+                    new Texture2DWriter()
+                ),
+                new TypeData
+                (
+                    typeof(VertexBuffer),
+                    new ContentTypeReader("Microsoft.Xna.Framework.Content.VertexBufferReader", 0),
+                    new VertexBufferReader(),
+                    new VertexBufferWriter()
+                ),
+                new TypeData
+                (
+                    typeof(VertexDeclaration),
+                    new ContentTypeReader("Microsoft.Xna.Framework.Content.VertexDeclarationReader", 0),
+                    new VertexDeclarationReader(),
+                    new VertexDeclarationWriter()
+                ),
+                new TypeData
+                (
+                    typeof(string),
+                    new ContentTypeReader("Microsoft.Xna.Framework.Content.StringReader", 0),
+                    new StringReader(),
+                    new StringWriter()
+                ),
+                new TypeData
+                (
+                    typeof(List<Vec3>),
+                    new ContentTypeReader("Microsoft.Xna.Framework.Content.ListReader`1[[Microsoft.Xna.Framework.Vector3, Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d]]", 0),
+                    new ListReader<Vec3>(),
+                    new ListWriter<Vec3>()
+                ),
+                new TypeData
+                (
+                    typeof(Vec3),
+                    new ContentTypeReader("Microsoft.Xna.Framework.Content.Vector3Reader", 0),
+                    new Vector3Reader(),
+                    new Vector3Writer()
                 )
             };
 

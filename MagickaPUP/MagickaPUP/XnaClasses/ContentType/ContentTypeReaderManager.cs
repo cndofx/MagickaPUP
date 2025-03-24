@@ -16,12 +16,21 @@ namespace MagickaPUP.XnaClasses.Readers
     {
         public struct TypeData
         {
+            public Type ContentType;
             public ContentTypeReader ContentTypeReader;
             public TypeReaderBase TypeReader;
             public TypeWriterBase TypeWriter;
+
+            public TypeData(Type type, ContentTypeReader contentTypeReader, TypeReaderBase typeReader, TypeWriterBase typeWriter)
+            {
+                this.ContentType = type;
+                this.ContentTypeReader = contentTypeReader;
+                this.TypeReader = typeReader;
+                this.TypeWriter = typeWriter;
+            }
         }
 
-        public Dictionary<ContentTypeReader, object> contentTypeReaders = new() {
+        public Dictionary<ContentTypeReader, TypeReaderBase> contentTypeReaders = new() {
             {
                 new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0),
                 new CharacterTemplateReader()
@@ -87,12 +96,8 @@ namespace MagickaPUP.XnaClasses.Readers
                 new Vector3Reader()
             },
         };
-        // TODO : Maybe with these changes, we can get rid of the whole XnaObject class and the WriteInstance() and ReadInstance() methods?
 
-        public Dictionary<Type, ContentTypeReader> contentTypeWriters = new()
-        {
-            { typeof(string), new ContentTypeReader() }
-        };
+        public Dictionary<Type, TypeWriterBase> contentTypeWriters = new();
 
         public TypeReader<object> Get(string name, int version)
         {
@@ -107,15 +112,22 @@ namespace MagickaPUP.XnaClasses.Readers
             // return null;
         }
 
-        public void Add(string name, int version, object obj) // TODO : Same as below for the "obj" param...
+        public void Add(string name, int version, TypeReaderBase typeReader) // TODO : Same as below for the "obj" param...
         {
-            Add(new ContentTypeReader(name, version), obj);
+            Add(new ContentTypeReader(name, version), typeReader);
         }
 
-        public void Add(ContentTypeReader contentTypeReader, object content) // TODO : Rename "content" for "reader" or "readerInstance" something like that
+        public void Add(ContentTypeReader contentTypeReader, TypeReaderBase typeReader) // TODO : Rename "content" for "reader" or "readerInstance" something like that
         {
             if (!this.contentTypeReaders.ContainsKey(contentTypeReader))
-                this.contentTypeReaders.Add(contentTypeReader, content);
+                this.contentTypeReaders.Add(contentTypeReader, typeReader);
         }
+
+        public void AddTypeData(TypeData typeData)
+        {
+            this.contentTypeReaders.Add(typeData.ContentTypeReader, typeData.TypeReader);
+            this.contentTypeWriters.Add(typeData.ContentType, typeData.TypeWriter);
+        }
+
     }
 }

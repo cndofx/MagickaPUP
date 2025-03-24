@@ -40,8 +40,7 @@ namespace MagickaPUP.XnaClasses.Readers
                 new TypeData()
             };
 
-            foreach(var typeData in defaultTypeData)
-                AddTypeData(typeData);
+            AddTypeData(defaultTypeData);
         }
 
         public TypeReaderBase GetTypeReader(ContentTypeReader contentType)

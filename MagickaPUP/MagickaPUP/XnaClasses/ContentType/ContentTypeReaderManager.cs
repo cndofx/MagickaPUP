@@ -35,7 +35,13 @@ namespace MagickaPUP.XnaClasses.Readers
 
         public ContentTypeReaderManager()
         {
+            TypeData[] defaultTypeData =
+            {
+                new TypeData()
+            };
 
+            foreach(var typeData in defaultTypeData)
+                AddTypeData(typeData);
         }
 
         public TypeReaderBase GetTypeReader(ContentTypeReader contentType)

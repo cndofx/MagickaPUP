@@ -72,13 +72,14 @@ namespace MagickaPUP.XnaClasses.Readers
             },
             {
                 new ContentTypeReader("Microsoft.Xna.Framework.Content.ListReader`1[[Microsoft.Xna.Framework.Vector3, Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d]]", 0),
-                new List<Vec3>() // TODO : Implement
+                new ListReader<Vec3>()
             },
             {
                 new ContentTypeReader("Microsoft.Xna.Framework.Content.Vector3Reader", 0),
                 new Vector3Reader()
             },
         };
+        // TODO : Maybe with these changes, we can get rid of the whole XnaObject class and the WriteInstance() and ReadInstance() methods?
 
         public TypeReader<object> Get(string name, int version)
         {

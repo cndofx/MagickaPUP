@@ -21,7 +21,6 @@ namespace MagickaPUP.XnaClasses.Readers
             public TypeWriterBase TypeWriter;
         }
 
-        // TODO : Replace all of these placeholder / dummy new() expressions with actual reader classes so that we can properly read the contents of each of these objects.
         public Dictionary<ContentTypeReader, object> contentTypeReaders = new() {
             {
                 new ContentTypeReader("Magicka.ContentReaders.CharacterTemplateReader, Magicka, Version=1.0.0.0, Culture=neutral", 0),

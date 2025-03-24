@@ -22,6 +22,11 @@ namespace MagickaPUP.XnaClasses.Xna
                 return null;
             }
 
+            if (indexMem < 0 || indexMem >= reader.ContentTypeReaders.Count)
+            {
+                throw new Exception($"Requested Content Type Reader does not exist! (Index = {indexContentTypeReaderXnb})");
+            }
+
             return ans;
         }
     }

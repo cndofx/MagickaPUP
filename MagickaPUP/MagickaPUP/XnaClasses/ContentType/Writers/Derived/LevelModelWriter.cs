@@ -1,5 +1,6 @@
 ﻿using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.Utility.IO;
+using MagickaPUP.XnaClasses.ContentType.Writers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +9,10 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class LevelModelWriter : TypeReader<LevelModel>
+    public class LevelModelWriter : TypeWriter<LevelModel>
     {
         public LevelModelWriter()
         { }
-
-        public override LevelModel Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            throw new NotImplementedException();
-        }
 
         public override void Write(LevelModel instance, MBinaryWriter writer, DebugLogger logger = null)
         {

@@ -1,4 +1,5 @@
 ﻿using MagickaPUP.Utility.IO;
+using MagickaPUP.XnaClasses.ContentType.Writers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,15 +8,10 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Specific.Derived
 {
-    public class StringWriter : TypeReader<string>
+    public class StringWriter : TypeWriter<string>
     {
         public StringWriter()
         { }
-
-        public override string Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            throw new NotImplementedException();
-        }
 
         public override void Write(string instance, MBinaryWriter writer, DebugLogger logger = null)
         {

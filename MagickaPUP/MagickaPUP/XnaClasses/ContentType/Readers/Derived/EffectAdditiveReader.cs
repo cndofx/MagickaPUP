@@ -16,10 +16,5 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         {
             throw new NotImplementedException();
         }
-
-        public override void Write(EffectAdditive instance, MBinaryWriter writer, DebugLogger logger = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

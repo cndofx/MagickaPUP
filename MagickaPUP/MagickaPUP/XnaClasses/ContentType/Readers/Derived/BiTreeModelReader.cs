@@ -17,10 +17,5 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         {
             throw new NotImplementedException();
         }
-
-        public override void Write(BiTreeModel instance, MBinaryWriter writer, DebugLogger logger = null)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

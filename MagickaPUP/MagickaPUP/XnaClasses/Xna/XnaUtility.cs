@@ -30,8 +30,8 @@ namespace MagickaPUP.XnaClasses.Xna
             ContentTypeReader contentTypeReader = reader.ContentTypeReaderStorage.GetReader(indexMem);
             LogContentTypeReader(contentTypeReader, logger);
 
-            var typeReader = reader.ContentTypeReaderManager.Get(contentTypeReader);
-            ans = (T)typeReader.Read(reader, logger); // TODO : Implement a check that throws an exception if the requested reader returns a type that is not casteable to T.
+            var typeReader = reader.ContentTypeReaderManager.GetTypeReader(contentTypeReader);
+            ans = (T)typeReader.Read(null, reader, logger); // TODO : Implement a check that throws an exception if the requested reader returns a type that is not casteable to T.
 
             return ans;
         }
@@ -43,6 +43,8 @@ namespace MagickaPUP.XnaClasses.Xna
                 WriteNullObject(writer, logger);
                 return;
             }
+
+            // ContentTypeReader contentTypeReader = 
 
             // TODO : Implement
         }

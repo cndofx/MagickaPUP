@@ -3,6 +3,7 @@ using MagickaPUP.MagickaClasses.Effects;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.MagickaClasses.PhysicsEntities;
+using MagickaPUP.XnaClasses.ContentType.Writers;
 using MagickaPUP.XnaClasses.Specific;
 using MagickaPUP.XnaClasses.Specific.Derived;
 using System;
@@ -12,6 +13,13 @@ namespace MagickaPUP.XnaClasses.Readers
 {
     public class ContentTypeReaderManager
     {
+        public struct TypeData
+        {
+            public ContentTypeReader ContentTypeReader;
+            public TypeReader<object> TypeReader;
+            public TypeWriter<object> TypeWriter;
+        }
+
         // TODO : Replace all of these placeholder / dummy new() expressions with actual reader classes so that we can properly read the contents of each of these objects.
         public Dictionary<ContentTypeReader, object> contentTypeReaders = new() {
             {

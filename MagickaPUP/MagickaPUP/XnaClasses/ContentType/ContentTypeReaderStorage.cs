@@ -69,6 +69,11 @@ namespace MagickaPUP.XnaClasses
             // Who knows what kind of content type readers we could find??? That's why this shit is here... it slows down lookup a bit, but that's ok, for the sake
             // of making sure that future code works just fine...
 
+            // NOTE : This could potentially be fixed by doing the correct thing, which is adding another entry to the readers manager with the same string, but
+            // the corresponding version value, which would make it a completely different key and prevent the rest of the code from breaking. That would make this
+            // lookup completely pointless and actually wrong, since it could offer a reader that may or may not be valid for the specified version of the content.
+            // For now, this hack stays... we'll see in the future what happens... I'm sure it will actually come bite me in the ass in the future. I can feel it.
+
             #endregion
 
             int bestCandidate = -1;

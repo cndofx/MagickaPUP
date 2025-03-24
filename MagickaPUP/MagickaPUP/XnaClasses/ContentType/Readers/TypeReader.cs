@@ -13,7 +13,7 @@ namespace MagickaPUP.XnaClasses.Specific
         public TypeReader()
         { }
 
-        public abstract T Read(T instance, MBinaryReader reader, DebugLogger logger = null); // NOTE : Even in XNA and Monogame, this instance parameter is mostly fucking useless... for the most part, this works as a way to trick the fucking stupid compiler into knowing what the correct method to call is. A workaround to avoid having to use this shit would be to simply remove it in this case, since the base Read() method is already implemented taking an object param, but whatever... fuck this shit, for now it's ok, I guess...
+        public abstract T Read(T instance, MBinaryReader reader, DebugLogger logger = null); // NOTE : Even in XNA and Monogame, this instance parameter is mostly fucking useless... for the most part, this works as a way to trick the fucking stupid compiler into knowing what the correct method to call is. A workaround to avoid having to use this shit would be to simply remove it in this case, since the base Read() method is already implemented taking an object param, but whatever... fuck this shit, for now it's ok, I guess... in short, this should be a testament to how fucking badly thought out the XNA content pipeline is. Even the FNA devs made a fucking blogpost shitting on it (https://flibitijibibo.com/xnacontent.html), what the fuck is this crappy pipeline, I swear to God!
 
         public override object Read(object instance, MBinaryReader reader, DebugLogger logger = null)
         {

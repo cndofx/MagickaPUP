@@ -140,9 +140,9 @@ namespace MagickaPUP.XnaClasses
             int realIndex;
 
             logger?.Log(1, $"Requesting ContentTypeReader \"{contentTypeReader.Name}\" to read type \"{obj.GetType().Name}\"");
-            index = reader.ContentTypeReaders.GetReaderIndex(contentTypeReader.Name);
+            index = reader.ContentTypeReaderStorage.GetReaderIndex(contentTypeReader.Name);
             if (index < 0)
-                index = reader.ContentTypeReaders.AddReader(contentTypeReader); // We are permissive and allow input XNB files that are malformed and lack content type readers. That way, we can correct them ourselves later on by recompiling.
+                index = reader.ContentTypeReaderStorage.AddReader(contentTypeReader); // We are permissive and allow input XNB files that are malformed and lack content type readers. That way, we can correct them ourselves later on by recompiling.
             realIndex = index + 1;
 
             logger?.Log(1, $"Reading XNA Object with required ContentTypeReader \"{contentTypeReader.Name}\", index {realIndex}...");
@@ -176,13 +176,13 @@ namespace MagickaPUP.XnaClasses
                 return (T)obj;
             }
 
-            if (indexContentTypeReaderReal < 0 || indexContentTypeReaderReal >= reader.ContentTypeReaders.Count)
+            if (indexContentTypeReaderReal < 0 || indexContentTypeReaderReal >= reader.ContentTypeReaderStorage.Count)
             {
                 throw new Exception($"Requested Content Type Reader does not exist! (Index = {indexContentTypeReaderXnb})");
             }
 
             // Get the content type reader
-            ContentTypeReader contentTypeReader = reader.ContentTypeReaders.ContentTypeReaders[indexContentTypeReaderReal]; // TODO : Change this to get the readers from a CTX var in the future.
+            ContentTypeReader contentTypeReader = reader.ContentTypeReaderStorage.ContentTypeReaders[indexContentTypeReaderReal]; // TODO : Change this to get the readers from a CTX var in the future.
             logger?.Log(1, $"Required Content Type Reader : {{ name = \"{contentTypeReader.Name}\", index = {indexContentTypeReaderXnb}}}");
 
             // Read the data and return the constructed object
@@ -262,9 +262,9 @@ namespace MagickaPUP.XnaClasses
             int realIndex;
 
             logger?.Log(1, $"Requesting ContentTypeReader \"{contentTypeReader.Name}\" to read type \"{obj.GetType().Name}\"");
-            index = writer.ContentTypeReaders.GetReaderIndex(contentTypeReader.Name);
+            index = writer.ContentTypeReaderStorage.GetReaderIndex(contentTypeReader.Name);
             if (index < 0)
-                index = writer.ContentTypeReaders.AddReader(contentTypeReader);
+                index = writer.ContentTypeReaderStorage.AddReader(contentTypeReader);
             realIndex = index + 1;
 
             logger?.Log(1, $"Writing XNA Object with required ContentTypeReader \"{contentTypeReader.Name}\", index {realIndex}...");
@@ -280,9 +280,9 @@ namespace MagickaPUP.XnaClasses
             int realIndex;
 
             logger?.Log(1, $"Requesting ContentTypeReader \"{contentTypeReader.Name}\" to read type \"{str.GetType().Name}\"");
-            index = writer.ContentTypeReaders.GetReaderIndex(contentTypeReader.Name);
+            index = writer.ContentTypeReaderStorage.GetReaderIndex(contentTypeReader.Name);
             if(index < 0)
-                index = writer.ContentTypeReaders.AddReader(contentTypeReader);
+                index = writer.ContentTypeReaderStorage.AddReader(contentTypeReader);
             realIndex = index + 1;
 
             logger?.Log(1, $"Writing String with required ContentTypeReader \"{contentTypeReader.Name}\", index {realIndex}...");
@@ -315,9 +315,9 @@ namespace MagickaPUP.XnaClasses
             int realIndex;
 
             logger?.Log(1, $"Requesting ContentTypeReader \"{contentTypeReader.Name}\" to read type \"{objList.GetType().Name}\"");
-            index = writer.ContentTypeReaders.GetReaderIndex(contentTypeReader.Name);
+            index = writer.ContentTypeReaderStorage.GetReaderIndex(contentTypeReader.Name);
             if (index < 0)
-                index = writer.ContentTypeReaders.AddReader(contentTypeReader);
+                index = writer.ContentTypeReaderStorage.AddReader(contentTypeReader);
             realIndex = index + 1;
 
             logger?.Log(1, $"Writing List of XNA Objects with required ContentTypeReader \"{contentTypeReader.Name}\", index {realIndex}...");

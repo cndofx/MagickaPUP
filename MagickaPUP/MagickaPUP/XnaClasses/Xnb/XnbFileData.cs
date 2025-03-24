@@ -95,7 +95,7 @@ namespace MagickaPUP.XnaClasses.Xnb
                 this.ContentTypeReaders[i] = ContentTypeReader.Read(reader, logger);
 
             // Add the readers to the current context reader too so that we can use them later on with the correct indices.
-            reader.ContentTypeReaders.AddReaders(this.ContentTypeReaders);
+            reader.ContentTypeReaderStorage.AddReaders(this.ContentTypeReaders);
         }
         
         private void ReadSharedResourceCount(MBinaryReader reader, DebugLogger logger = null)
@@ -138,10 +138,10 @@ namespace MagickaPUP.XnaClasses.Xnb
         {
             logger?.Log(1, "Fetching Content Type Readers...");
             // Add the content type readers to the context writer's list of readers so that they can be used later on.
-            writer.ContentTypeReaders.AddReaders(this.ContentTypeReaders);
-            writer.ContentTypeReaders.AddReaders(writer2.ContentTypeReaders.ContentTypeReaders);
+            writer.ContentTypeReaderStorage.AddReaders(this.ContentTypeReaders);
+            writer.ContentTypeReaderStorage.AddReaders(writer2.ContentTypeReaderStorage.ContentTypeReaders);
             
-            logger?.Log(1, $"Content Type Readers found : {writer.ContentTypeReaders.Count}");
+            logger?.Log(1, $"Content Type Readers found : {writer.ContentTypeReaderStorage.Count}");
 
             // The obtained object defines its own content type reader list.
             // Write the content type readers defined by the input file.
@@ -149,8 +149,8 @@ namespace MagickaPUP.XnaClasses.Xnb
             // That step is performed automatically during the XNB data read process.
             // Each time an XnaObject.ReadObject() call is performed, the requested content type writer is added if it is not present.
             logger?.Log(1, "Writing Content Type Readers...");
-            writer.Write7BitEncodedInt(writer.ContentTypeReaders.Count);
-            foreach (var reader in writer.ContentTypeReaders.ContentTypeReaders)
+            writer.Write7BitEncodedInt(writer.ContentTypeReaderStorage.Count);
+            foreach (var reader in writer.ContentTypeReaderStorage.ContentTypeReaders)
                 reader.WriteInstance(writer, logger);
         }
 

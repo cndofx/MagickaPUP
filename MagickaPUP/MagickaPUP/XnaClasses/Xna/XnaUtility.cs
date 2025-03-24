@@ -36,6 +36,11 @@ namespace MagickaPUP.XnaClasses.Xna
             return ans;
         }
 
+        public static void WriteObject<T>(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            // TODO : Implement
+        }
+
         private static void LogContentTypeReader(ContentTypeReader reader, DebugLogger logger)
         {
             logger?.Log(1, $"Required ContentTypeReader : {{ Name = \"{reader.Name}\", Version = {reader.Version} }}");

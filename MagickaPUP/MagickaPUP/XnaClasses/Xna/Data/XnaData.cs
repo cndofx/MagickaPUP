@@ -8,5 +8,6 @@ namespace MagickaPUP.XnaClasses.Xna.Data
 {
     public static class XnaData
     {
+
     }
 }

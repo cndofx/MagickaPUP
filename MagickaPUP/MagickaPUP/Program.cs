@@ -19,7 +19,7 @@ namespace MagickaPUP
     {
         static void Main(string[] args)
         {
-            int testing = 1;
+            int testing = -1;
             if (testing == 0)
             {
                 if (args.Length > 0)

@@ -240,6 +240,8 @@ namespace MagickaPUP.XnaClasses
             byte[] imageDataBuffer = this.data[0].imageData;
             bool mustSwapChannelsRB = false;
 
+            Console.WriteLine($"The format is : \"{this.format}\"");
+
             switch (this.format)
             {
                 // case SurfaceFormat.Color: // Color is OK, fully supported, no extra steps required

@@ -28,8 +28,9 @@ namespace MagickaPUP.XnaClasses.Xna
             }
 
             ContentTypeReader contentTypeReader = reader.ContentTypeReaderStorage.GetReader(indexMem);
-            LogContentTypeReader(contentTypeReader, logger);
+            logger?.Log(1, ()=>$"Requesting ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)} to read object of type \"{typeof(T).GetType().Name}\"");
 
+            logger?.Log(1, () => $"Reading XNA Object with required ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)}");
             var typeReader = reader.ContentTypeReaderManager.GetTypeReader(contentTypeReader);
             ans = (T)typeReader.Read(null, reader, logger); // TODO : Implement a check that throws an exception if the requested reader returns a type that is not casteable to T.
 
@@ -44,9 +45,20 @@ namespace MagickaPUP.XnaClasses.Xna
                 return;
             }
 
-            ContentTypeReader contentTypeReader = writer.ContentTypeReaderManager.GetContentTypeReader(obj.GetType()); // NOTE : That the GetContentTypeReader() method returns one of the versions of the reader for the requested type. If you want to use a different version of the reader, then you can just change the .Version field from the returned content type reader struct and use that. If the version exists, it will be used instead. Obviously, this is just a workaround for now, which doesn't really matter since in Magicka all content type readers only have a single version (AFAIK)...
+            var contentTypeReader = writer.ContentTypeReaderManager.GetContentTypeReader(obj.GetType()); // NOTE : That the GetContentTypeReader() method returns one of the versions of the reader for the requested type. If you want to use a different version of the reader, then you can just change the .Version field from the returned content type reader struct and use that. If the version exists, it will be used instead. Obviously, this is just a workaround for now, which doesn't really matter since in Magicka all content type readers only have a single version (AFAIK)...
+            var typeWriter = writer.ContentTypeReaderManager.GetTypeWriter(contentTypeReader);
+            int indexXnb;
+            int indexMem;
 
-            // TODO : Implement
+            logger?.Log(1, ()=>$"Requesting ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)} to read object of type \"{obj.GetType().Name}\"");
+            indexMem = writer.ContentTypeReaderStorage.GetReaderIndex(contentTypeReader);
+            if (indexMem < 0)
+                indexMem = writer.ContentTypeReaderStorage.AddReader(contentTypeReader);
+            indexXnb = indexMem + 1;
+
+            logger?.Log(1, ()=>$"Writing XNA Object with required ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)}");
+            writer.Write7BitEncodedInt(indexXnb);
+            typeWriter.Write(obj, writer, logger);
         }
 
         // WriteObject overload that specifies the version of the type to write so that other programs that will read this data will know which version of their
@@ -62,9 +74,9 @@ namespace MagickaPUP.XnaClasses.Xna
             writer.Write7BitEncodedInt(0);
         }
 
-        private static void LogContentTypeReader(ContentTypeReader reader, DebugLogger logger)
+        private static string GetContentTypeReaderFormattedString(ContentTypeReader reader)
         {
-            logger?.Log(1, $"Required ContentTypeReader : {{ Name = \"{reader.Name}\", Version = {reader.Version} }}");
+            return $"{{ Name : \"{reader.Name}\", Version : {reader.Version} }}";
         }
     }
 }

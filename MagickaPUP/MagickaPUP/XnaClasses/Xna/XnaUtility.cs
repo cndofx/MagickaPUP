@@ -7,6 +7,22 @@ using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses.Xna
 {
+    #region Comment - Indirections in your indirections
+
+    // NOTE : A warning for anyone delving into this code... sadly, since this is C# and we can't do the compiletime "tricks" for data with template specialization
+    // and stuff like that that we can do in C++, I have found myself forced to follow Microsoft's philosophy to most of their C# code (including XNA...)
+    // "Just add another layer of indirection!!!!"
+    // I heard you liked indirections, so we added indirections to your indirections so that you can indirection while you indirection!
+    // The code is not all that bad, but I am not proud of it knowing how this could have been FAR BETTER if I had chosen to use C++ from the start for this
+    // project. If there's a better way to do this in C#, I'm sorry, I simply am not as experienced with this language and just don't know how to solve this fucking
+    // war crime.
+    // The code here may seem like it is ok... it's not. Just look at the fucking type manager's implementation. All that RTTI makes me cry. Most C# programmers may
+    // think that's just normal. Personally, I just want to fucking die. But this language does not let me fucking template specialize, so it is what it is!
+    
+    // PS : I want to fucking kill myself!
+
+    #endregion
+
     public static class XnaUtility
     {
         public static T ReadObject<T>(MBinaryReader reader, DebugLogger logger = null) where T : class

@@ -26,6 +26,7 @@ namespace MagickaPUP.Utility.IO
         public MBinaryReader(Stream stream) : base(stream)
         {
             this.ContentTypeReaderStorage = new ContentTypeReaderStorage();
+            this.ContentTypeReaderManager = new ContentTypeReaderManager();
         }
 
         #endregion

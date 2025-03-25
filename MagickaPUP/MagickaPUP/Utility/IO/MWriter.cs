@@ -23,6 +23,7 @@ namespace MagickaPUP.Utility.IO
         public MBinaryWriter(Stream stream) : base(stream)
         {
             this.ContentTypeReaderStorage = new ContentTypeReaderStorage();
+            this.ContentTypeReaderManager = new ContentTypeReaderManager();
         }
 
         #endregion

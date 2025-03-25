@@ -37,7 +37,7 @@ namespace MagickaPUP.XnaClasses.Xna
             return ans;
         }
 
-        public static void WriteObject<T>(T obj, MBinaryWriter writer, DebugLogger logger = null)
+        public static void WriteObject<T>(T obj, MBinaryWriter writer, DebugLogger logger = null) where T : class
         {
             if (obj == null)
             {

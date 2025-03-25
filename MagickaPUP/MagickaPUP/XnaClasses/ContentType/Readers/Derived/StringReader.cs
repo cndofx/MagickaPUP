@@ -14,7 +14,8 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
 
         public override string Read(string instance, MBinaryReader reader, DebugLogger logger = null)
         {
-            throw new NotImplementedException();
+            string ans = reader.ReadString();
+            return ans;
         }
     }
 }

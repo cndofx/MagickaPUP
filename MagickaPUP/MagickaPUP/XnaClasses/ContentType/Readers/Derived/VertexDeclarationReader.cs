@@ -14,7 +14,9 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
 
         public override VertexDeclaration Read(VertexDeclaration instance, MBinaryReader reader, DebugLogger logger = null)
         {
-            throw new NotImplementedException();
+            VertexDeclaration ans = new VertexDeclaration();
+            ans.ReadInstance(reader, logger);
+            return ans;
         }
     }
 }

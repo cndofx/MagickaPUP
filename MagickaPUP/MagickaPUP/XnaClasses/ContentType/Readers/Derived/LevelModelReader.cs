@@ -15,7 +15,9 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
 
         public override LevelModel Read(LevelModel instance, MBinaryReader reader, DebugLogger logger = null)
         {
-            throw new NotImplementedException();
+            LevelModel ans = new LevelModel();
+            ans.ReadInstance(reader, logger);
+            return ans;
         }
     }
 }

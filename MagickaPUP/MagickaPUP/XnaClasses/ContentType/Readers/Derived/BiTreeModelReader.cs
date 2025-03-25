@@ -15,7 +15,9 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
 
         public override BiTreeModel Read(BiTreeModel instance, MBinaryReader reader, DebugLogger logger = null)
         {
-            throw new NotImplementedException();
+            BiTreeModel ans = new BiTreeModel();
+            ans.ReadInstance(reader, logger);
+            return ans;
         }
     }
 }

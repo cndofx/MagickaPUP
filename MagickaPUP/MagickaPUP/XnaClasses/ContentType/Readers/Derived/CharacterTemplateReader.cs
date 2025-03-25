@@ -15,7 +15,9 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
 
         public override CharacterTemplate Read(CharacterTemplate instance, MBinaryReader reader, DebugLogger logger = null)
         {
-            throw new NotImplementedException();
+            CharacterTemplate ans = new CharacterTemplate();
+            ans.ReadInstance(reader, logger);
+            return ans;
         }
     }
 }

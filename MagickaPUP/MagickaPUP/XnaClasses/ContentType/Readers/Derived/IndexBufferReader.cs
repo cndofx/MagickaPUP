@@ -14,7 +14,9 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
 
         public override IndexBuffer Read(IndexBuffer instance, MBinaryReader reader, DebugLogger logger = null)
         {
-            throw new NotImplementedException();
+            IndexBuffer ans = new IndexBuffer();
+            ans.ReadInstance(reader, logger);
+            return ans;
         }
     }
 }

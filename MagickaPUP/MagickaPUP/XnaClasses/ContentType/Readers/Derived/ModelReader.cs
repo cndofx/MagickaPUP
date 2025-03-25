@@ -14,7 +14,9 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
 
         public override Model Read(Model instance, MBinaryReader reader, DebugLogger logger = null)
         {
-            throw new NotImplementedException();
+            Model ans = new Model();
+            ans.ReadInstance(reader, logger);
+            return ans;
         }
     }
 }

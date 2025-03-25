@@ -14,7 +14,9 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
 
         public override EffectAdditive Read(EffectAdditive instance, MBinaryReader reader, DebugLogger logger = null)
         {
-            throw new NotImplementedException();
+            EffectAdditive ans = new EffectAdditive();
+            ans.ReadInstance(reader, logger);
+            return ans;
         }
     }
 }

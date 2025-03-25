@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MagickaPUP.XnaClasses.Xna;
 
 namespace MagickaPUP.MagickaClasses.Physics
 {
@@ -73,9 +74,9 @@ namespace MagickaPUP.MagickaClasses.Physics
             this.vertexColorEnabled = reader.ReadBoolean();
             this.displacementMap = reader.ReadString(); /* ER */
             this.ttl = reader.ReadSingle();
-            this.vertices = XnaObject.ReadObject<VertexBuffer>(reader, logger);
-            this.indices = XnaObject.ReadObject<IndexBuffer>(reader, logger);
-            this.declaration = XnaObject.ReadObject<VertexDeclaration>(reader, logger);
+            this.vertices = XnaUtility.ReadObject<VertexBuffer>(reader, logger);
+            this.indices = XnaUtility.ReadObject<IndexBuffer>(reader, logger);
+            this.declaration = XnaUtility.ReadObject<VertexDeclaration>(reader, logger);
             this.vertexStride = reader.ReadInt32();
             this.numVertices = reader.ReadInt32();
             this.primitiveCount = reader.ReadInt32();
@@ -102,9 +103,9 @@ namespace MagickaPUP.MagickaClasses.Physics
             writer.Write(this.vertexColorEnabled);
             writer.Write(this.displacementMap); /* ER */
             writer.Write(this.ttl);
-            XnaObject.WriteObject(this.vertices, writer, logger);
-            XnaObject.WriteObject(this.indices, writer, logger);
-            XnaObject.WriteObject(this.declaration, writer, logger);
+            XnaUtility.WriteObject(this.vertices, writer, logger);
+            XnaUtility.WriteObject(this.indices, writer, logger);
+            XnaUtility.WriteObject(this.declaration, writer, logger);
             writer.Write(this.vertexStride);
             writer.Write(this.numVertices);
             writer.Write(this.primitiveCount);

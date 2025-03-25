@@ -1,5 +1,6 @@
 ﻿using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
+using MagickaPUP.XnaClasses.Xna;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,9 +55,9 @@ namespace MagickaPUP.MagickaClasses.Liquids
         {
             logger?.Log(1, "Reading Lava...");
 
-            this.vertices = XnaObject.ReadObject<VertexBuffer>(reader, logger);
-            this.indices = XnaObject.ReadObject<IndexBuffer>(reader, logger);
-            this.declaration = XnaObject.ReadObject<VertexDeclaration>(reader, logger);
+            this.vertices = XnaUtility.ReadObject<VertexBuffer>(reader, logger);
+            this.indices = XnaUtility.ReadObject<IndexBuffer>(reader, logger);
+            this.declaration = XnaUtility.ReadObject<VertexDeclaration>(reader, logger);
 
             this.vertexStride = reader.ReadInt32();
             this.numVertices = reader.ReadInt32();
@@ -86,9 +87,9 @@ namespace MagickaPUP.MagickaClasses.Liquids
 
             logger?.Log(1, "Writing Lava...");
 
-            XnaObject.WriteObject(this.vertices, writer, logger);
-            XnaObject.WriteObject(this.indices, writer, logger);
-            XnaObject.WriteObject(this.declaration, writer, logger);
+            XnaUtility.WriteObject(this.vertices, writer, logger);
+            XnaUtility.WriteObject(this.indices, writer, logger);
+            XnaUtility.WriteObject(this.declaration, writer, logger);
 
             writer.Write(this.vertexStride);
             writer.Write(this.numVertices);

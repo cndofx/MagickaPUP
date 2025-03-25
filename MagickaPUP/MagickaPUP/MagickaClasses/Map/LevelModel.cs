@@ -13,6 +13,7 @@ using MagickaPUP.MagickaClasses.Areas;
 using MagickaPUP.XnaClasses;
 using System.Security.Policy;
 using MagickaPUP.MagickaClasses.Collision;
+using MagickaPUP.XnaClasses.Xna;
 
 namespace MagickaPUP.MagickaClasses.Map
 {
@@ -101,7 +102,7 @@ namespace MagickaPUP.MagickaClasses.Map
 
             // Read the Binary Tree for the primary asset, which is the map mesh.
             // Is this a binary tree to replicate a very shitty version of Doom's binary space partition? could it be?
-            this.model = XnaObject.ReadObject<BiTreeModel>(reader, logger);
+            this.model = XnaUtility.ReadObject<BiTreeModel>(reader, logger);
 
             // Load animated parts in the level
             this.numAnimatedParts = reader.ReadInt32();
@@ -208,7 +209,7 @@ namespace MagickaPUP.MagickaClasses.Map
             logger?.Log(1, "Writing ModelLevel...");
 
             // Write 7 bit integer index for BiTreeModel Reader and then write the BiTreeModel itself.
-            XnaObject.WriteObject(this.model, writer, logger);
+            XnaUtility.WriteObject(this.model, writer, logger);
 
             // Write the number of animated parts in the model as i32
             writer.Write(this.numAnimatedParts);

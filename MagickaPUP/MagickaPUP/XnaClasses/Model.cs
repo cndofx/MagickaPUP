@@ -8,6 +8,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
+using MagickaPUP.XnaClasses.Xna;
 
 // TODO : Implement
 // TODO : Change all of the object Tags with XnaObject tags so that they can read and written using the system that has been implemented in this codebase...
@@ -287,7 +288,7 @@ namespace MagickaPUP.XnaClasses
 
             ModelBone bone = new ModelBone();
 
-            bone.name = XnaObject.ReadObject<string>(reader, logger);
+            bone.name = XnaUtility.ReadObject<string>(reader, logger);
             bone.transform = Matrix.Read(reader, null);
             bone.index = idx;
 
@@ -329,7 +330,7 @@ namespace MagickaPUP.XnaClasses
             this.numVertexDeclarations = reader.ReadInt32();
             for (int i = 0; i < this.numVertexDeclarations; ++i)
             {
-                VertexDeclaration vertexDeclaration = XnaObject.ReadObject<VertexDeclaration>(reader, logger);
+                VertexDeclaration vertexDeclaration = XnaUtility.ReadObject<VertexDeclaration>(reader, logger);
                 this.vertexDeclarations.Add(vertexDeclaration);
             }
         }
@@ -350,13 +351,13 @@ namespace MagickaPUP.XnaClasses
         {
             logger?.Log(1, "Reading Mesh...");
 
-            string name = XnaObject.ReadObject<string>(reader, logger);
+            string name = XnaUtility.ReadObject<string>(reader, logger);
             ModelBone parentBone = this.ReadBoneReference(reader, logger);
             int parentBoneIndex = parentBone == null ? -1 : parentBone.index;
             BoundingSphere boundingSphere = BoundingSphere.Read(reader, logger);
-            VertexBuffer vertexBuffer = XnaObject.ReadObject<VertexBuffer>(reader, logger);
-            IndexBuffer indexBuffer = XnaObject.ReadObject<IndexBuffer>(reader, logger);
-            object obj = XnaObject.ReadObject<object>(reader, logger);
+            VertexBuffer vertexBuffer = XnaUtility.ReadObject<VertexBuffer>(reader, logger);
+            IndexBuffer indexBuffer = XnaUtility.ReadObject<IndexBuffer>(reader, logger);
+            object obj = XnaUtility.ReadObject<object>(reader, logger);
             ModelMeshPart[] meshParts = this.ReadMeshParts(reader, logger);
 
             ModelMesh current = new ModelMesh(name, parentBoneIndex, boundingSphere, vertexBuffer, indexBuffer, meshParts);
@@ -393,7 +394,7 @@ namespace MagickaPUP.XnaClasses
 
             int vertexDeclarationIndex = reader.ReadInt32();
 
-            object obj = XnaObject.ReadObject<object>(reader, logger);
+            object obj = XnaUtility.ReadObject<object>(reader, logger);
 
             // The shared resource index is a 7bit encoded integer that contains the index of the shared resource which corresponds to
             // the Material (known as "Effect" in the XNA framework) that is used by this mesh part.
@@ -414,7 +415,7 @@ namespace MagickaPUP.XnaClasses
         private void ReadTag(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Tag...");
-            this.tag = XnaObject.ReadObject<object>(reader, logger);
+            this.tag = XnaUtility.ReadObject<object>(reader, logger);
         }
 
         #endregion
@@ -450,7 +451,7 @@ namespace MagickaPUP.XnaClasses
         {
             logger?.Log(1, "Writing Bone...");
 
-            XnaObject.WriteObject(bone.name, writer, logger);
+            XnaUtility.WriteObject(bone.name, writer, logger);
             bone.transform.WriteInstance(writer, logger);
         }
 
@@ -489,7 +490,7 @@ namespace MagickaPUP.XnaClasses
             writer.Write(this.numVertexDeclarations);
             foreach (var decl in this.vertexDeclarations)
             {
-                XnaObject.WriteObject(decl, writer, logger);
+                XnaUtility.WriteObject(decl, writer, logger);
             }
         }
 
@@ -508,11 +509,11 @@ namespace MagickaPUP.XnaClasses
         {
             logger?.Log(1, "Writing Mesh...");
 
-            XnaObject.WriteObject(mesh.name, writer, logger);
+            XnaUtility.WriteObject(mesh.name, writer, logger);
             this.WriteBoneReference(writer, mesh.parentBone, logger);
             mesh.boundingSphere.WriteInstance(writer, logger);
-            XnaObject.WriteObject(mesh.vertexBuffer, writer, logger);
-            XnaObject.WriteObject(mesh.indexBuffer, writer, logger);
+            XnaUtility.WriteObject(mesh.vertexBuffer, writer, logger);
+            XnaUtility.WriteObject(mesh.indexBuffer, writer, logger);
             writer.Write7BitEncodedInt((int)0); // TODO : This is the code for writing the tag object for the mesh. As of now, it always writes null. Replace this when you change object tags with XnaObject tags.
             this.WriteMeshParts(writer, mesh.meshParts, logger);
         }

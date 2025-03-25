@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.Utility.IO;
+using MagickaPUP.XnaClasses.Xna;
 
 namespace MagickaPUP.MagickaClasses.Collision
 {
@@ -52,7 +53,7 @@ namespace MagickaPUP.MagickaClasses.Collision
             if (!this.hasCollision)
                 return;
             
-            this.vertices = XnaObject.ReadObject<List<Vec3>>(reader, logger);
+            this.vertices = XnaUtility.ReadObject<List<Vec3>>(reader, logger);
 
             logger?.Log(1, $" - Num Vertices  : {this.vertices.Count}");
 
@@ -83,7 +84,7 @@ namespace MagickaPUP.MagickaClasses.Collision
             if (!this.hasCollision)
                 return;
 
-            XnaObject.WriteObject(this.vertices, writer, logger);
+            XnaUtility.WriteObject(this.vertices, writer, logger);
 
             writer.Write(this.numTriangles);
             for (int i = 0; i < this.numTriangles; ++i)

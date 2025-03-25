@@ -5,6 +5,7 @@ using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
+using MagickaPUP.XnaClasses.Xna;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
@@ -115,7 +116,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.GibTrailEffect = reader.ReadString();
 
             // Model
-            this.Model = XnaObject.ReadObject<Model>(reader, logger);
+            this.Model = XnaUtility.ReadObject<Model>(reader, logger);
 
             // Collision mesh
             this.HasCollision = reader.ReadBoolean();
@@ -123,7 +124,7 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             this.CollisionTriangles = new List<CollisionTriangle>();
             if (this.HasCollision)
             {
-                this.CollisionVertices = XnaObject.ReadObject<List<Vec3>>(reader, logger);
+                this.CollisionVertices = XnaUtility.ReadObject<List<Vec3>>(reader, logger);
                 int numTriangles = reader.ReadInt32();
                 for (int i = 0; i < numTriangles; ++i)
                 {
@@ -219,8 +220,9 @@ namespace MagickaPUP.MagickaClasses.PhysicsEntities
             writer.Write(this.GibTrailEffect);
 
             // Model
-            XnaObject.WriteObject(this.Model, writer, logger);
+            XnaUtility.WriteObject(this.Model, writer, logger);
 
+            // TODO : Check this out, I think this has a bug? FIXME!!! The reader code uses a ReadObject() call, why don't we do it here??? did I mess up or did I forget something I was aware of back when I wrote this code?
             // Collision mesh
             writer.Write(this.HasCollision);
             if (this.HasCollision)

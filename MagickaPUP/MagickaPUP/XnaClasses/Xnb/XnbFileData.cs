@@ -8,6 +8,7 @@ using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.Compression;
 using System.IO;
+using MagickaPUP.XnaClasses.Xna;
 
 namespace MagickaPUP.XnaClasses.Xnb
 {
@@ -92,7 +93,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, $"Content Type Reader Count : {typeReaderCount}");
             this.ContentTypeReaders = new ContentTypeReader[typeReaderCount];
             for (int i = 0; i < typeReaderCount; ++i)
-                this.ContentTypeReaders[i] = ContentTypeReader.Read(reader, logger);
+                this.ContentTypeReaders[i] = new ContentTypeReader(reader, logger);
 
             // Add the readers to the current context reader too so that we can use them later on with the correct indices.
             reader.ContentTypeReaderStorage.AddReaders(this.ContentTypeReaders);
@@ -112,7 +113,7 @@ namespace MagickaPUP.XnaClasses.Xnb
         private void ReadPrimaryObject(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Primary Object...");
-            this.PrimaryObject = XnaObject.ReadObject<XnaObject>(reader, logger);
+            this.PrimaryObject = XnaUtility.ReadObject<XnaObject>(reader, logger);
             logger?.Log(1, "Finished Reading Primary Object!");
         }
 
@@ -123,7 +124,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             for (int i = 0; i < this.SharedResources.Length; ++i)
             {
                 logger.Log(1, $"Reading Shared Resource {(i + 1)} / {this.SharedResources.Length}...");
-                var sharedResource = XnaObject.ReadObject<XnaObject>(reader, logger);
+                var sharedResource = XnaUtility.ReadObject<XnaObject>(reader, logger);
                 this.SharedResources[i] = sharedResource;
             }
             
@@ -151,7 +152,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, "Writing Content Type Readers...");
             writer.Write7BitEncodedInt(writer.ContentTypeReaderStorage.Count);
             foreach (var reader in writer.ContentTypeReaderStorage.ContentTypeReaders)
-                reader.WriteInstance(writer, logger);
+                reader.Write(writer, logger);
         }
 
         private void WriteSharedResourceCount(MBinaryWriter writer, DebugLogger logger = null)
@@ -172,7 +173,7 @@ namespace MagickaPUP.XnaClasses.Xnb
         private void WritePrimaryObject(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Primary Object...");
-            XnaObject.WriteObject(this.PrimaryObject, writer, logger); // First we write the 7 bit encoded integer for the content reader index, then we write the object itself.
+            XnaUtility.WriteObject(this.PrimaryObject, writer, logger); // First we write the 7 bit encoded integer for the content reader index, then we write the object itself.
         }
 
         private void WriteSharedResources(MBinaryWriter writer, DebugLogger logger = null)
@@ -181,13 +182,13 @@ namespace MagickaPUP.XnaClasses.Xnb
 
             if (ShouldAppendNullObject())
             {
-                XnaObject.WriteEmptyObject(writer, logger);
+                XnaUtility.WriteObject<object>(null, writer, logger);
             }
             else
             {
                 for (int i = 0; i < this.SharedResources.Length; ++i)
                 {
-                    XnaObject.WriteObject(this.SharedResources[i], writer, logger);
+                    XnaUtility.WriteObject(this.SharedResources[i], writer, logger);
                 }
             }
         }

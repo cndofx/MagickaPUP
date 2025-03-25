@@ -8,6 +8,7 @@ using MagickaPUP.MagickaClasses.Generic;
 using MagickaPUP.XnaClasses;
 using MagickaPUP.MagickaClasses.Effects;
 using System.Runtime.Remoting.Messaging;
+using MagickaPUP.XnaClasses.Xna;
 
 namespace MagickaPUP.MagickaClasses.Map
 {
@@ -95,10 +96,10 @@ namespace MagickaPUP.MagickaClasses.Map
 
             logger?.Log(2, $" - Vertices : {this.numVertices}");
 
-            this.vertexDeclaration = XnaObject.ReadObject<VertexDeclaration>(reader, logger); // this used to call VertexDeclaration.Read(reader);
-            this.vertexBuffer = XnaObject.ReadObject<VertexBuffer>(reader, logger); // this used to call VertexBuffer.Read(reader);
-            this.indexBuffer = XnaObject.ReadObject<IndexBuffer>(reader, logger); // this used to call IndexBuffer.Read(reader);
-            this.effect = XnaObject.ReadObject<Effect>(reader, logger); // this used to call Effect.Read(reader);
+            this.vertexDeclaration = XnaUtility.ReadObject<VertexDeclaration>(reader, logger); // this used to call VertexDeclaration.Read(reader);
+            this.vertexBuffer = XnaUtility.ReadObject<VertexBuffer>(reader, logger); // this used to call VertexBuffer.Read(reader);
+            this.indexBuffer = XnaUtility.ReadObject<IndexBuffer>(reader, logger); // this used to call IndexBuffer.Read(reader);
+            this.effect = XnaUtility.ReadObject<Effect>(reader, logger); // this used to call Effect.Read(reader);
 
             this.primitiveCount = reader.ReadInt32();
             this.startIndex = reader.ReadInt32();
@@ -136,10 +137,10 @@ namespace MagickaPUP.MagickaClasses.Map
             writer.Write(this.numVertices);
             writer.Write(this.vertexStride);
 
-            XnaObject.WriteObject(this.vertexDeclaration, writer, logger);
-            XnaObject.WriteObject(this.vertexBuffer, writer, logger);
-            XnaObject.WriteObject(this.indexBuffer, writer, logger);
-            XnaObject.WriteObject(this.effect, writer, logger);
+            XnaUtility.WriteObject(this.vertexDeclaration, writer, logger);
+            XnaUtility.WriteObject(this.vertexBuffer, writer, logger);
+            XnaUtility.WriteObject(this.indexBuffer, writer, logger);
+            XnaUtility.WriteObject(this.effect, writer, logger);
 
             writer.Write(this.primitiveCount);
             writer.Write(this.startIndex);

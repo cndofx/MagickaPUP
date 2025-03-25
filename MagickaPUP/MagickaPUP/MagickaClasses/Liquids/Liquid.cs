@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MagickaPUP.MagickaClasses.Effects;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
+using MagickaPUP.XnaClasses.Xna;
 
 namespace MagickaPUP.MagickaClasses.Liquids
 {
@@ -62,7 +63,7 @@ namespace MagickaPUP.MagickaClasses.Liquids
 
             Liquid ans = new Liquid();
             
-            Effect effect = XnaObject.ReadObject<Effect>(reader, logger);
+            Effect effect = XnaUtility.ReadObject<Effect>(reader, logger);
 
             if (effect is EffectDeferredLiquid)
             {
@@ -89,7 +90,7 @@ namespace MagickaPUP.MagickaClasses.Liquids
         {
             logger?.Log(1, "Writing Liquid...");
 
-            XnaObject.WriteObject(this.effect, writer, logger);
+            XnaUtility.WriteObject(this.effect, writer, logger);
             // this.effect.WriteInstance(writer, logger);
 
             // throw new Exception("Base Liquid type cannot be written! Type is polymorphic and a child type must be used!");

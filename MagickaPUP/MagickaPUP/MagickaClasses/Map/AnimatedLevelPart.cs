@@ -11,6 +11,7 @@ using MagickaPUP.MagickaClasses.Areas;
 using MagickaPUP.MagickaClasses.Lightning;
 using MagickaPUP.MagickaClasses.Collision;
 using MagickaPUP.MagickaClasses.Nav;
+using MagickaPUP.XnaClasses.Xna;
 
 namespace MagickaPUP.MagickaClasses.Map
 {
@@ -109,7 +110,7 @@ namespace MagickaPUP.MagickaClasses.Map
 
             this.affectShields = reader.ReadBoolean();
             
-            this.model = XnaObject.ReadObject<Model>(reader, logger); // This Model is an XNA model, not a model in Magicka's map model format. XNA models contain bone data and animation data.
+            this.model = XnaUtility.ReadObject<Model>(reader, logger); // This Model is an XNA model, not a model in Magicka's map model format. XNA models contain bone data and animation data.
 
             // Load Mesh Settings
             // TODO : we'll have to figure out what each setting is by reading the possible strings and what each does...
@@ -164,7 +165,7 @@ namespace MagickaPUP.MagickaClasses.Map
             if (this.hasCollision)
             {
                 this.collisionMaterial = (CollisionMaterial)reader.ReadByte(); // enum CollisionMaterials
-                this.collisionVertices = XnaObject.ReadObject<List<Vec3>>(reader, logger); // read list of vertices of the collision mesh.
+                this.collisionVertices = XnaUtility.ReadObject<List<Vec3>>(reader, logger); // read list of vertices of the collision mesh.
                 this.numCollisionTriangles = reader.ReadInt32();
                 for (int i = 0; i < this.numCollisionTriangles; ++i)
                 {
@@ -205,7 +206,7 @@ namespace MagickaPUP.MagickaClasses.Map
             writer.Write(this.affectShields);
 
             // Write Model
-            XnaObject.WriteObject(this.model, writer, logger);
+            XnaUtility.WriteObject(this.model, writer, logger);
 
             // Write Mesh Settings
             writer.Write(this.numMeshSettings);
@@ -257,7 +258,7 @@ namespace MagickaPUP.MagickaClasses.Map
             if (this.hasCollision)
             {
                 writer.Write((byte)this.collisionMaterial);
-                XnaObject.WriteObject(this.collisionVertices, writer, logger);
+                XnaUtility.WriteObject(this.collisionVertices, writer, logger);
                 writer.Write(this.numCollisionTriangles);
                 foreach (var tri in this.collisionTriangles)
                 {

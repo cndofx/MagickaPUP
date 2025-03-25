@@ -130,7 +130,7 @@ namespace MagickaPUP.XnaClasses
         #endregion
 
         #region Static Methods
-
+        /*
         public static T ReadObject<T>(MBinaryReader reader, DebugLogger logger = null) where T : XnaObject, new()
         {
             var obj = new T();
@@ -328,7 +328,7 @@ namespace MagickaPUP.XnaClasses
             for (int i = 0; i < objList.Count; ++i)
                 objList[i].WriteInstance(writer, logger);
         }
-
+        */
         #endregion
 
         #region Config Methods

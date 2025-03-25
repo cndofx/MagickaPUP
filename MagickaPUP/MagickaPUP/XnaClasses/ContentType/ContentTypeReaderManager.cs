@@ -140,7 +140,7 @@ namespace MagickaPUP.XnaClasses.Readers
                 (
                     typeof(List<Vec3>),
                     new ContentTypeReader("Microsoft.Xna.Framework.Content.ListReader`1[[Microsoft.Xna.Framework.Vector3, Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d]]", 0),
-                    new ListReader<Vec3>(),
+                    new ListReader<Vec3, Vector3Reader>(),
                     new ListWriter<Vec3>()
                 ),
                 new TypeData

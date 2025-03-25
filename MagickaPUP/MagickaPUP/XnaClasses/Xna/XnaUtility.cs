@@ -28,7 +28,7 @@ namespace MagickaPUP.XnaClasses.Xna
             }
 
             ContentTypeReader contentTypeReader = reader.ContentTypeReaderStorage.GetReader(indexMem);
-            logger?.Log(1, ()=>$"Requesting ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)} to read object of type \"{typeof(T).GetType().Name}\"");
+            logger?.Log(1, ()=>$"Requesting ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)} to read object of type \"{typeof(T).Name}\"");
 
             logger?.Log(1, () => $"Reading XNA Object with required ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)}");
             var typeReader = reader.ContentTypeReaderManager.GetTypeReader(contentTypeReader);
@@ -50,7 +50,7 @@ namespace MagickaPUP.XnaClasses.Xna
             int indexXnb;
             int indexMem;
 
-            logger?.Log(1, ()=>$"Requesting ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)} to read object of type \"{obj.GetType().Name}\"");
+            logger?.Log(1, ()=>$"Requesting ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)} to read object of type \"{typeof(T).Name}\"");
             indexMem = writer.ContentTypeReaderStorage.GetReaderIndex(contentTypeReader);
             if (indexMem < 0)
                 indexMem = writer.ContentTypeReaderStorage.AddReader(contentTypeReader);

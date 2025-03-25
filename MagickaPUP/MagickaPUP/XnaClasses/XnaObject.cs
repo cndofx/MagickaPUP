@@ -62,7 +62,6 @@ namespace MagickaPUP.XnaClasses
     [JsonDerivedType(typeof(NavMesh), typeDiscriminator: "nav_mesh")]
     [JsonDerivedType(typeof(Triangle), typeDiscriminator: "nav_triangle")]
     [JsonDerivedType(typeof(ForceField), typeDiscriminator: "force_field")]
-    [JsonDerivedType(typeof(ContentTypeReader), typeDiscriminator: "xna_content_type_reader")]
     [JsonDerivedType(typeof(IndexBuffer), typeDiscriminator: "xna_index_buffer")]
     [JsonDerivedType(typeof(Model), typeDiscriminator: "xna_model")]
     [JsonDerivedType(typeof(VertexBuffer), typeDiscriminator: "xna_vertex_buffer")]

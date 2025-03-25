@@ -44,10 +44,17 @@ namespace MagickaPUP.XnaClasses.Xna
                 return;
             }
 
-            // ContentTypeReader contentTypeReader = 
+            ContentTypeReader contentTypeReader = writer.ContentTypeReaderManager.GetContentTypeReader(obj.GetType()); // NOTE : That the GetContentTypeReader() method returns one of the versions of the reader for the requested type. If you want to use a different version of the reader, then you can just change the .Version field from the returned content type reader struct and use that. If the version exists, it will be used instead. Obviously, this is just a workaround for now, which doesn't really matter since in Magicka all content type readers only have a single version (AFAIK)...
 
             // TODO : Implement
         }
+
+        // WriteObject overload that specifies the version of the type to write so that other programs that will read this data will know which version of their
+        // readers for this content type they must invoke.
+        // public static void WriteObject<T>(T obj, int version, MBinaryWriter writer, DebugLogger logger = null)
+        // {
+        //     // TODO : Implement
+        // }
 
         private static void WriteNullObject(MBinaryWriter writer, DebugLogger logger = null)
         {

@@ -1,4 +1,5 @@
-﻿using MagickaPUP.Utility.IO;
+﻿using MagickaPUP.MagickaClasses.Character.Attachments;
+using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace MagickaPUP.MagickaClasses.Item
         public string ItemID { get; set; }
         public string ItemName { get; set; }
         public string ItemDescription { get; set; }
+        public Sound[] Sounds { get; set; }
 
         #endregion
 
@@ -37,6 +39,11 @@ namespace MagickaPUP.MagickaClasses.Item
             this.ItemID = reader.ReadString();
             this.ItemName = reader.ReadString();
             this.ItemDescription = reader.ReadString();
+
+            int numSounds = reader.ReadInt32();
+            this.Sounds = new Sound[numSounds];
+            for (int i = 0; i < numSounds; ++i)
+                this.Sounds[i] = new Sound(reader, logger);
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

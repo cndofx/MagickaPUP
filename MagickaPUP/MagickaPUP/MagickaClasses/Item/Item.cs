@@ -13,10 +13,32 @@ namespace MagickaPUP.MagickaClasses.Item
     // TODO : In the future, get rid of this XnaObject inheritance for code cleanup...
     public class Item : XnaObject
     {
+        #region Variables
+
+        #endregion
+
+        #region Constructor
+
         public Item()
         { }
 
-        // TODO : Implement
+        #endregion
+
+        #region PublicMethods - Read and Write
+
+        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        {
+            throw new NotImplementedException("Read Item is not implemented yet!");
+        }
+
+        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        {
+            throw new NotImplementedException("Write Item is not implemented yet!");
+        }
+
+        #endregion
+
+        #region PublicMethods - Static
 
         public static Item Read(MBinaryReader reader, DebugLogger logger = null)
         {
@@ -30,5 +52,7 @@ namespace MagickaPUP.MagickaClasses.Item
             if(item != null)
                 item.WriteInstance(writer, logger);
         }
+
+        #endregion
     }
 }

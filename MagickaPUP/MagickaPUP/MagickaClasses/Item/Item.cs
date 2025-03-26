@@ -15,6 +15,10 @@ namespace MagickaPUP.MagickaClasses.Item
     {
         #region Variables
 
+        public string ItemID { get; set; }
+        public string ItemName { get; set; }
+        public string ItemDescription { get; set; }
+
         #endregion
 
         #region Constructor
@@ -28,11 +32,19 @@ namespace MagickaPUP.MagickaClasses.Item
 
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
+            logger?.Log(1, "Reading Item...");
+
+            this.ItemID = reader.ReadString();
+            this.ItemName = reader.ReadString();
+            this.ItemDescription = reader.ReadString();
+
             throw new NotImplementedException("Read Item is not implemented yet!");
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
+            logger?.Log(1, "Writing Item...");
+
             throw new NotImplementedException("Write Item is not implemented yet!");
         }
 

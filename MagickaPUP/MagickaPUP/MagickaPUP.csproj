@@ -310,7 +310,6 @@
     <Compile Include="XnaClasses\Texture2D.cs" />
     <Compile Include="XnaClasses\VertexBuffer.cs" />
     <Compile Include="XnaClasses\VertexDeclaration.cs" />
-    <Compile Include="XnaClasses\Xna\Data\XnaContentTypeReaders.cs" />
     <Compile Include="XnaClasses\Xna\Data\XnaData.cs" />
     <Compile Include="XnaClasses\XnaObject.cs" />
     <Compile Include="XnaClasses\Xna\Data\XnaVersion.cs" />

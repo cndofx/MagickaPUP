@@ -8,7 +8,7 @@ namespace MagickaPUP.XnaClasses.Xna.Data
 {
     public static class XnaVersion
     {
-        public enum XnaVersionByte
+        public enum XnaVersionByte : byte
         {
             Version_3_1 = 4,
             Version_4 = 5

@@ -100,6 +100,8 @@
     <Compile Include="Core\Args\CmdEntry.cs" />
     <Compile Include="MagickaClasses\Data\MagickaContentTypeReaders.cs" />
     <Compile Include="MagickaClasses\Generic\ListVec3.cs" />
+    <Compile Include="MagickaClasses\Item\Item.cs" />
+    <Compile Include="MagickaClasses\Item\Sound.cs" />
     <Compile Include="Utility\Compression\Dxt\Dxt1Decompressor.cs" />
     <Compile Include="Utility\Compression\Dxt\Dxt3Decompressor.cs" />
     <Compile Include="Utility\Compression\Dxt\Dxt5Decompressor.cs" />

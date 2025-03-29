@@ -131,7 +131,7 @@ namespace MagickaPUP.MagickaClasses.Character
         public float BreakFreeStrength { get; set; }
 
         // Abilities
-        public int NumAbilities { get; set; }
+        public int NumAbilities { get; set; } // TODO : Get rid of this count and just have it be automatically inferred from the Abilities array length... same with any other NumWhatever or WhateverCount variables throughout the entire code, specially the level / map related code...
         public AbilityStorage[] Abilities {get;set;}
 
         // Movement Properties

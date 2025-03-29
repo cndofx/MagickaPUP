@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using MagickaPUP.Utility.Exceptions;
+
 namespace MagickaPUP.MagickaClasses.Item
 {
     // NOTE : With the new object implementation, even classes that can be primary objects (like this one) don't really need to inherit from XnaObject.
@@ -43,6 +45,9 @@ namespace MagickaPUP.MagickaClasses.Item
 
         // Effects
         public string[] Effects { get; set; }
+
+        // Lights
+        public PointLightHolder PointLightHolder { get; set; }
 
         #endregion
 
@@ -88,6 +93,11 @@ namespace MagickaPUP.MagickaClasses.Item
             this.Effects = new string[numEffects];
             for(int i = 0; i < numEffects; ++i)
                 this.Effects[i] = reader.ReadString();
+
+            int numLightHolders = reader.ReadInt32();
+            if (numLightHolders > 1)
+                throw new MagickaReadException("Magicka Items may only have one light!");
+            this.PointLightHolder = new PointLightHolder(reader, logger);
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

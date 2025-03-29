@@ -28,10 +28,13 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities
             this.FuzzyExpression = string.Empty;
             this.NumAnimations = 0;
             this.AnimationKeys = new string[0];
+            this.Ability = null;
         }
 
         public AbilityStorage(MBinaryReader reader, DebugLogger logger = null)
         {
+            logger?.Log(1, "Reading Ability Data...");
+
             this.AbilityName = reader.ReadString();
             AbilityType abilityType; // Read the TODO at the top of this class's variable declarations to understand what you've got to do lol...
             bool success = Enum.TryParse<AbilityType>(this.AbilityName, true, out abilityType);
@@ -104,7 +107,7 @@ namespace MagickaPUP.MagickaClasses.Character.Abilities
 
         public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
-            logger?.Log(1, "Writing AbilityStorage...");
+            logger?.Log(1, "Writing Ability Data...");
 
             writer.Write(this.AbilityName);
 

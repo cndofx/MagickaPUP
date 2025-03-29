@@ -6,6 +6,8 @@ using System.Collections.Generic;
 namespace MagickaPUP.MagickaClasses.Character
 {
     // NOTE : Yes, this is NOT an XnaObject... tbh, all classes should be modified to stop this stupid inheritance and virtual/override bullshit. But that requires some massive rework at this point...
+    // TODO : Maybe convert this into a struct?
+    // TODO : Maybe rename this class to CharacterResistance so that we can more easily identify which one of the resistances we're using without writing the entire namespace?
     public class Resistance
     {
         #region Variables

@@ -1,4 +1,5 @@
 ﻿using MagickaPUP.MagickaClasses.Character.Attachments;
+using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 using System;
@@ -16,10 +17,24 @@ namespace MagickaPUP.MagickaClasses.Item
     {
         #region Variables
 
+        // Item strings
         public string ItemID { get; set; }
         public string ItemName { get; set; }
         public string ItemDescription { get; set; }
+
+        // Sounds
         public Sound[] Sounds { get; set; }
+
+        // Item properties
+        public bool Pickable { get; set; }
+        public bool Bound { get; set; }
+        public int BlockValue { get; set; }
+        public WeaponClass WeaponClass { get; set; } // NOTE : Maybe rename this to ItemType or whatever?
+        public float CooldownTime { get; set; }
+        public bool HideModel { get; set; }
+        public bool HideEffect { get; set; }
+        public bool PauseSounds { get; set; }
+
 
         #endregion
 
@@ -44,6 +59,8 @@ namespace MagickaPUP.MagickaClasses.Item
             this.Sounds = new Sound[numSounds];
             for (int i = 0; i < numSounds; ++i)
                 this.Sounds[i] = new Sound(reader, logger);
+
+
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

@@ -98,6 +98,8 @@ namespace MagickaPUP.MagickaClasses.Item
                 throw new MagickaReadException("Magicka Items may only have one light!");
             this.PointLightHolder = new PointLightHolder(reader, logger);
 
+            this.SpecialAbilityData = new SpecialAbilityStorage(reader, logger);
+
             throw new NotImplementedException("Read Item is not implemented yet!");
         }
 

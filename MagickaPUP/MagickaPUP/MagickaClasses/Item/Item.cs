@@ -41,6 +41,9 @@ namespace MagickaPUP.MagickaClasses.Item
         // Passive Ability
         public PassiveAbility PassiveAbility { get; set; }
 
+        // Effects
+        public string[] Effects { get; set; }
+
         #endregion
 
         #region Constructor
@@ -80,6 +83,11 @@ namespace MagickaPUP.MagickaClasses.Item
                 this.Resistances[i] = new Resistance(reader, logger);
 
             this.PassiveAbility = new PassiveAbility(reader, logger);
+
+            int numEffects = reader.ReadInt32();
+            this.Effects = new string[numEffects];
+            for(int i = 0; i < numEffects; ++i)
+                this.Effects[i] = reader.ReadString();
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

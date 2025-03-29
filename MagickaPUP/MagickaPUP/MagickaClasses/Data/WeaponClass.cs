@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MagickaPUP.MagickaClasses.Data
+{
+    public enum WeaponClass : byte
+    {
+        Default,
+        Thrust_Fast,
+        Thrust_Medium,
+        Thrust_Slow,
+        Crush_Fast,
+        Crush_Medium,
+        Crush_Slow,
+        Slash_Fast,
+        Slash_Medium,
+        Slash_Slow,
+        Throw_Fast,
+        Throw_Medium,
+        Throw_Slow,
+        Unarmed,
+        Handgun,
+        Rifle,
+        Machinegun,
+        Heavy,
+        Staff,
+        NewAnimationSet0,
+        NewAnimationSet1,
+        NewAnimationSet2,
+        NewAnimationSet3,
+        NewAnimationSet4,
+        NewAnimationSet5,
+        NewAnimationSet6,
+        NewAnimationSet7,
+        COUNT
+    }
+}

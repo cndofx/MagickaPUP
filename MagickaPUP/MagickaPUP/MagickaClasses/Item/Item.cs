@@ -4,6 +4,7 @@ using MagickaPUP.XnaClasses;
 using System;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.MagickaClasses.Item.SpecialAbilities;
+using MagickaPUP.MagickaClasses.Character.Events;
 
 namespace MagickaPUP.MagickaClasses.Item
 {
@@ -47,6 +48,22 @@ namespace MagickaPUP.MagickaClasses.Item
         // Special Ability
         public SpecialAbilityStorage SpecialAbilityData { get; set; }
 
+        // Weapon Properties
+        // TODO : Maybe in the future pack this whole data into 3 structs: MeleeData, RangedData and GunData... maybe?
+        // I mean, all properties HAVE to be present even if the weapon is of any given type that does not use all of them, so yeah...
+        // it would just be to make organization a bit easier to deal with.
+        public float MeleeRange { get; set; }
+        public bool MeleeMultiHit { get; set; }
+        public ConditionCollection MeleeConditions { get; set; }
+        public float RangedRange { get; set; }
+        public bool Facing { get; set; }
+        public float Homing { get; set; }
+        public float RangedElevation { get; set; }
+        public float RangedDanger { get; set; }
+        public float GunRange { get; set; }
+        public int GunClip { get; set; }
+        public int GunRate { get; set; }
+        public float GunAccuracy { get; set; }
 
         #endregion
 

@@ -1,14 +1,9 @@
-﻿using MagickaPUP.MagickaClasses.Character.Attachments;
-using MagickaPUP.MagickaClasses.Data;
+﻿using MagickaPUP.MagickaClasses.Data;
 using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using MagickaPUP.Utility.Exceptions;
+using MagickaPUP.MagickaClasses.Item.SpecialAbilities;
 
 namespace MagickaPUP.MagickaClasses.Item
 {
@@ -48,6 +43,10 @@ namespace MagickaPUP.MagickaClasses.Item
 
         // Lights
         public PointLightHolder PointLightHolder { get; set; }
+
+        // Special Ability
+        public SpecialAbilityStorage SpecialAbilityData { get; set; }
+
 
         #endregion
 

@@ -60,7 +60,14 @@ namespace MagickaPUP.MagickaClasses.Item
             for (int i = 0; i < numSounds; ++i)
                 this.Sounds[i] = new Sound(reader, logger);
 
-
+            this.Pickable = reader.ReadBoolean();
+            this.Bound = reader.ReadBoolean();
+            this.BlockValue = reader.ReadInt32();
+            this.WeaponClass = (WeaponClass)reader.ReadByte();
+            this.CooldownTime = reader.ReadSingle();
+            this.HideModel = reader.ReadBoolean();
+            this.HideEffect = reader.ReadBoolean();
+            this.PauseSounds = reader.ReadBoolean();
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

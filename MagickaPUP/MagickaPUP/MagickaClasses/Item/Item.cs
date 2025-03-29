@@ -42,7 +42,7 @@ namespace MagickaPUP.MagickaClasses.Item
         // Effects
         public string[] Effects { get; set; }
 
-        // Lights
+        // Point Lights
         public PointLightHolder PointLightHolder { get; set; }
 
         // Special Ability
@@ -80,15 +80,18 @@ namespace MagickaPUP.MagickaClasses.Item
         {
             logger?.Log(1, "Reading Item...");
 
+            // Item strings
             this.ItemID = reader.ReadString();
             this.ItemName = reader.ReadString();
             this.ItemDescription = reader.ReadString();
 
+            // Sounds
             int numSounds = reader.ReadInt32();
             this.Sounds = new Sound[numSounds];
             for (int i = 0; i < numSounds; ++i)
                 this.Sounds[i] = new Sound(reader, logger);
 
+            // Item Properties
             this.Pickable = reader.ReadBoolean();
             this.Bound = reader.ReadBoolean();
             this.BlockValue = reader.ReadInt32();
@@ -98,24 +101,32 @@ namespace MagickaPUP.MagickaClasses.Item
             this.HideEffect = reader.ReadBoolean();
             this.PauseSounds = reader.ReadBoolean();
 
+            // Resistances
             int numResistances = reader.ReadInt32();
             this.Resistances = new Resistance[numResistances];
             for(int i = 0; i < numResistances; ++i)
                 this.Resistances[i] = new Resistance(reader, logger);
 
+            // Passive Ability
             this.PassiveAbility = new PassiveAbility(reader, logger);
 
+            // Effects
             int numEffects = reader.ReadInt32();
             this.Effects = new string[numEffects];
             for(int i = 0; i < numEffects; ++i)
                 this.Effects[i] = reader.ReadString();
 
+            // Point Lights
             int numLightHolders = reader.ReadInt32();
             if (numLightHolders > 1)
                 throw new MagickaReadException("Magicka Items may only have one light!");
             this.PointLightHolder = new PointLightHolder(reader, logger);
 
+            // Special Ability
             this.SpecialAbilityData = new SpecialAbilityStorage(reader, logger);
+
+            // Weapon Properties
+            // TODO : Finish implementing
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

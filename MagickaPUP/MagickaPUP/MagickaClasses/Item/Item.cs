@@ -35,6 +35,8 @@ namespace MagickaPUP.MagickaClasses.Item
         public bool HideEffect { get; set; }
         public bool PauseSounds { get; set; }
 
+        // Resistances
+        public Resistance[] Resistances { get; set; }
 
         #endregion
 
@@ -68,6 +70,12 @@ namespace MagickaPUP.MagickaClasses.Item
             this.HideModel = reader.ReadBoolean();
             this.HideEffect = reader.ReadBoolean();
             this.PauseSounds = reader.ReadBoolean();
+
+            int numResistances = reader.ReadInt32();
+            this.Resistances = new Resistance[numResistances];
+            for(int i = 0; i < numResistances; ++i)
+                this.Resistances[i] = new Resistance(reader, logger);
+
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

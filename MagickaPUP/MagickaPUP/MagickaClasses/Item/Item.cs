@@ -90,6 +90,8 @@ namespace MagickaPUP.MagickaClasses.Item
         public float GunAccuracy { get; set; }
 
         // Gun Asset Strings
+        // NOTE : All of these values can actually be null or empty strings. Magicka's code will simply default to using numeric ID 0 for all of them when the
+        // input path strings are empty or null. Otherwise, it will use the strings' hashes as the ID.
         public string GunSoundID { get; set; }
         public string GunMuzzleEffectID { get; set; }
         public string GunShellsEffectID { get; set; }

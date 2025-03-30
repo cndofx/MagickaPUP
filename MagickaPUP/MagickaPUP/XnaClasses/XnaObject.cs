@@ -17,6 +17,7 @@ using MagickaPUP.Core.Content.Pipeline.Export;
 using MagickaPUP.Core.Content.Pipeline.Export.Derived;
 using MagickaPUP.Core.Content.Data;
 using MagickaPUP.XnaClasses.Xnb;
+using MagickaPUP.MagickaClasses.Item;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -70,6 +71,7 @@ namespace MagickaPUP.XnaClasses
     [JsonDerivedType(typeof(Texture2DData), typeDiscriminator: "xna_texture_2d_data")]
     [JsonDerivedType(typeof(CharacterTemplate), typeDiscriminator: "Character")]
     [JsonDerivedType(typeof(PhysicsEntityTemplate), typeDiscriminator: "PhysicsEntity")]
+    [JsonDerivedType(typeof(Item), typeDiscriminator: "Item")]
     public class XnaObject
     {
         #region Instance Methods

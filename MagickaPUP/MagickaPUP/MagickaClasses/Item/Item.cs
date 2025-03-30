@@ -5,6 +5,7 @@ using System;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.MagickaClasses.Item.SpecialAbilities;
 using MagickaPUP.MagickaClasses.Character.Events;
+using MagickaPUP.MagickaClasses.Character.Aura;
 
 namespace MagickaPUP.MagickaClasses.Item
 {
@@ -111,6 +112,8 @@ namespace MagickaPUP.MagickaClasses.Item
         public string Model { get; set; } /* ER */
         public float Scale { get; set; }
 
+        // Auras
+        public AuraStorage[] Auras { get; set; }
 
         #endregion
 
@@ -201,6 +204,12 @@ namespace MagickaPUP.MagickaClasses.Item
             // Model Properties
             this.Scale = reader.ReadSingle();
             this.Model = reader.ReadString();
+
+            // Auras
+            int numAuras = reader.ReadInt32();
+            this.Auras = new AuraStorage[numAuras];
+            for(int i = 0; i < numAuras; ++i)
+                this.Auras[i] = new AuraStorage(reader, logger);
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

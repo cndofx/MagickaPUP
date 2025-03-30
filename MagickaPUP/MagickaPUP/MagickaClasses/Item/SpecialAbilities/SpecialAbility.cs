@@ -31,6 +31,7 @@ namespace MagickaPUP.MagickaClasses.Item.SpecialAbilities
             this.Hash= reader.ReadString();
 
             int numElements = reader.ReadInt32();
+            logger?.Log(1, $" - Num Elements : {numElements}");
             this.Elements = new Elements[numElements];
             for(int i = 0; i < numElements; ++i)
                 this.Elements[i] = (Elements)reader.ReadInt32();

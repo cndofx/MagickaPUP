@@ -141,6 +141,7 @@ namespace MagickaPUP.MagickaClasses.Item
 
             // Sounds
             int numSounds = reader.ReadInt32();
+            logger?.Log(1, $" - Num Sounds : {numSounds}");
             this.Sounds = new Sound[numSounds];
             for (int i = 0; i < numSounds; ++i)
                 this.Sounds[i] = new Sound(reader, logger);
@@ -157,6 +158,7 @@ namespace MagickaPUP.MagickaClasses.Item
 
             // Resistances
             int numResistances = reader.ReadInt32();
+            logger?.Log(1, $" - Num Resistances : {numResistances}");
             this.Resistances = new Resistance[numResistances];
             for (int i = 0; i < numResistances; ++i)
                 this.Resistances[i] = new Resistance(reader, logger);
@@ -176,12 +178,17 @@ namespace MagickaPUP.MagickaClasses.Item
 
             // Point Lights
             int numLightHolders = reader.ReadInt32();
+            logger?.Log(1, $" - Num Lights : {numLightHolders}");
+            if (numLightHolders == 1)
+                this.PointLightHolder = new PointLightHolder(reader, logger);
+            else
             if (numLightHolders > 1)
                 throw new MagickaReadException("Magicka Items may only have one light!");
-            this.PointLightHolder = new PointLightHolder(reader, logger);
 
             // Special Ability
             this.SpecialAbilityData = new SpecialAbilityStorage(reader, logger);
+
+            logger.Log(1, $" - Has Special Ability : {this.SpecialAbilityData.HasSpecialAbility}");
 
             // Weapon Properties (1)
             this.MeleeRange = reader.ReadSingle();
@@ -209,13 +216,25 @@ namespace MagickaPUP.MagickaClasses.Item
             this.NonTracerSprite = reader.ReadString();
             this.TracerSprite = reader.ReadString();
 
+            logger?.Log(1, $"GunSoundID        : {this.GunSoundID}");
+            logger?.Log(1, $"GunMuzzleEffectID : {this.GunMuzzleEffectID}");
+            logger?.Log(1, $"GunShellsEffectID : {this.GunShellsEffectID}");
+            logger?.Log(1, $"TracerVelocity    : {this.TracerVelocity}");
+            logger?.Log(1, $"NonTracerSprite   : {this.NonTracerSprite}");
+            logger?.Log(1, $"TracerSprite      : {this.TracerSprite}");
+
             // Gun Conditions
             this.GunConditions = new ConditionCollection(reader, logger);
+
+            // Ranged Conditions
             this.RangedConditions = new ConditionCollection(reader, logger);
 
             // Model Properties
             this.Scale = reader.ReadSingle();
             this.Model = reader.ReadString();
+
+            logger?.Log(1, $" - Model Mesh  : {this.Model}");
+            logger?.Log(1, $" - Model Scale : {this.Scale}");
 
             // Auras
             // TODO : Ensure that this is correctly implemented

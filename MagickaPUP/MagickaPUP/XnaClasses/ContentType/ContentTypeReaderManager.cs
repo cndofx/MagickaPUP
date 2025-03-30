@@ -1,10 +1,13 @@
 ﻿using MagickaPUP.MagickaClasses.Character;
 using MagickaPUP.MagickaClasses.Effects;
 using MagickaPUP.MagickaClasses.Generic;
+using MagickaPUP.MagickaClasses.Item;
 using MagickaPUP.MagickaClasses.Map;
 using MagickaPUP.MagickaClasses.PhysicsEntities;
 using MagickaPUP.XnaClasses.ContentType.Readers;
+using MagickaPUP.XnaClasses.ContentType.Readers.Derived;
 using MagickaPUP.XnaClasses.ContentType.Writers;
+using MagickaPUP.XnaClasses.ContentType.Writers.Derived;
 using MagickaPUP.XnaClasses.Specific;
 using MagickaPUP.XnaClasses.Specific.Derived;
 using System;
@@ -149,6 +152,13 @@ namespace MagickaPUP.XnaClasses.Readers
                     new ContentTypeReader("Microsoft.Xna.Framework.Content.Vector3Reader", 0),
                     new Vector3Reader(),
                     new Vector3Writer()
+                ),
+                new TypeData
+                (
+                    typeof(Item),
+                    new ContentTypeReader("Magicka.ContentReaders.ItemReader, Magicka, Version=1.0.0.0, Culture=neutral", 0),
+                    new ItemReader(),
+                    new ItemWriter()
                 )
             };
 

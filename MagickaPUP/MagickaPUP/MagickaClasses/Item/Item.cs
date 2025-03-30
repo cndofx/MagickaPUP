@@ -109,6 +109,7 @@ namespace MagickaPUP.MagickaClasses.Item
         public ConditionCollection RangedConditions { get; set; }
 
         // Model Properties
+        public string ProjectileModel { get; set; } /* ER */
         public string Model { get; set; } /* ER */
         public float Scale { get; set; }
 
@@ -226,15 +227,19 @@ namespace MagickaPUP.MagickaClasses.Item
             // Gun Conditions
             this.GunConditions = new ConditionCollection(reader, logger);
 
+            // Model Properties (1)
+            this.ProjectileModel = reader.ReadString();
+
             // Ranged Conditions
             this.RangedConditions = new ConditionCollection(reader, logger);
 
-            // Model Properties
+            // Model Properties (2)
             this.Scale = reader.ReadSingle();
             this.Model = reader.ReadString();
 
-            logger?.Log(1, $" - Model Mesh  : {this.Model}");
-            logger?.Log(1, $" - Model Scale : {this.Scale}");
+            logger?.Log(1, $" - Projectile Model : {this.ProjectileModel}");
+            logger?.Log(1, $" - Model            : {this.Model}");
+            logger?.Log(1, $" - Model Scale      : {this.Scale}");
 
             // Auras
             // TODO : Ensure that this is correctly implemented

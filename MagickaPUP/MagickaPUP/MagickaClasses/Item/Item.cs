@@ -13,6 +13,30 @@ namespace MagickaPUP.MagickaClasses.Item
     // TODO : In the future, get rid of this XnaObject inheritance for code cleanup...
     public class Item : XnaObject
     {
+        #region Structs
+
+        // Read futher ahead to see the TODO comment regarding these structs...
+        // The reason I have not used them yet is that I don't really know if it would make sense to put Homing inside of Ranged and Facing inside of Melee...
+        // Who knows, we can divide that on the GUI side or whatever and just let the JSON side be more "raw" / "simpler"...
+        /*
+        public struct MeleeData
+        {
+            public float MeleeRange { get; set; }
+            public bool MeleeMultiHit { get; set; }
+            public ConditionCollection MeleeConditions { get; set; }
+        }
+
+        public struct RangedData
+        {
+
+        }
+
+        public struct GunData
+        { }
+        */
+
+        #endregion
+
         #region Variables
 
         // Item strings
@@ -58,11 +82,11 @@ namespace MagickaPUP.MagickaClasses.Item
         public float RangedRange { get; set; }
         public bool Facing { get; set; }
         public float Homing { get; set; }
-        public float RangedElevation { get; set; }
+        public float RangedElevation { get; set; } // This appears to be an angle in degrees (which then gets translated into radians internally, but the XNB data itself is in degrees)
         public float RangedDanger { get; set; }
         public float GunRange { get; set; }
         public int GunClip { get; set; }
-        public int GunRate { get; set; }
+        public int GunRate { get; set; } // This value is stored as an i32 within the XNB files, but is then converted into an f32 in memory within Magicka's code... why? who knows!
         public float GunAccuracy { get; set; }
 
         #endregion
@@ -126,7 +150,18 @@ namespace MagickaPUP.MagickaClasses.Item
             this.SpecialAbilityData = new SpecialAbilityStorage(reader, logger);
 
             // Weapon Properties
-            // TODO : Finish implementing
+            this.MeleeRange = reader.ReadSingle();
+            this.MeleeMultiHit = reader.ReadBoolean();
+            this.MeleeConditions = new ConditionCollection(reader, logger);
+            this.RangedRange = reader.ReadSingle();
+            this.Facing = reader.ReadBoolean();
+            this.Homing = reader.ReadSingle();
+            this.RangedElevation = reader.ReadSingle();
+            this.RangedDanger = reader.ReadSingle();
+            this.GunRange = reader.ReadSingle();
+            this.GunClip = reader.ReadInt32();
+            this.GunRate = reader.ReadInt32();
+            this.GunAccuracy = reader.ReadSingle();
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

@@ -78,7 +78,6 @@ namespace MagickaPUP.MagickaClasses.Item
         // it would just be to make organization a bit easier to deal with.
         public float MeleeRange { get; set; }
         public bool MeleeMultiHit { get; set; }
-        public ConditionCollection MeleeConditions { get; set; }
         public float RangedRange { get; set; }
         public bool Facing { get; set; }
         public float Homing { get; set; }
@@ -98,6 +97,16 @@ namespace MagickaPUP.MagickaClasses.Item
         public float TracerVelocity { get; set; }
         public string NonTracerSprite { get; set; }
         public string TracerSprite { get; set; }
+
+        // Melee Condition Collection
+        public ConditionCollection MeleeConditions { get; set; }
+
+        // Gun Condition Collection
+        public ConditionCollection GunConditions { get; set; }
+
+        // Ranged Condition Collection
+        public ConditionCollection RangedConditions { get; set; }
+
 
         #endregion
 
@@ -180,6 +189,11 @@ namespace MagickaPUP.MagickaClasses.Item
             this.TracerVelocity = reader.ReadSingle();
             this.NonTracerSprite = reader.ReadString();
             this.TracerSprite = reader.ReadString();
+
+            // Gun Conditions
+            this.GunConditions = new ConditionCollection(reader, logger);
+            this.RangedConditions = new ConditionCollection(reader, logger);
+
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

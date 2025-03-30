@@ -30,6 +30,7 @@ namespace MagickaPUP.MagickaClasses.Character.Events
             logger?.Log(1, "Reading ConditionCollection...");
 
             this.numEvents = reader.ReadInt32();
+            logger?.Log(1, $" - Num Events : {numEvents}");
             this.eventCollection = new EventCollection[this.numEvents];
             for (int i = 0; i < this.numEvents; ++i)
                 this.eventCollection[i] = new EventCollection(reader, logger);

@@ -135,6 +135,10 @@ namespace MagickaPUP.MagickaClasses.Item
             this.ItemName = reader.ReadString();
             this.ItemDescription = reader.ReadString();
 
+            logger?.Log(1, $" - ItemID          : {this.ItemID}");
+            logger?.Log(1, $" - ItemName        : {this.ItemName}");
+            logger?.Log(1, $" - ItemDescription : {this.ItemDescription}");
+
             // Sounds
             int numSounds = reader.ReadInt32();
             this.Sounds = new Sound[numSounds];
@@ -154,7 +158,7 @@ namespace MagickaPUP.MagickaClasses.Item
             // Resistances
             int numResistances = reader.ReadInt32();
             this.Resistances = new Resistance[numResistances];
-            for(int i = 0; i < numResistances; ++i)
+            for (int i = 0; i < numResistances; ++i)
                 this.Resistances[i] = new Resistance(reader, logger);
 
             // Passive Ability
@@ -162,9 +166,13 @@ namespace MagickaPUP.MagickaClasses.Item
 
             // Effects
             int numEffects = reader.ReadInt32();
+            logger?.Log(1, $" - Num Effects : {numEffects}");
             this.Effects = new string[numEffects];
-            for(int i = 0; i < numEffects; ++i)
+            for (int i = 0; i < numEffects; ++i)
+            {
+                logger?.Log(1, $" - Effect : {this.Effects[i]}");
                 this.Effects[i] = reader.ReadString();
+            }
 
             // Point Lights
             int numLightHolders = reader.ReadInt32();

@@ -107,6 +107,10 @@ namespace MagickaPUP.MagickaClasses.Item
         // Ranged Condition Collection
         public ConditionCollection RangedConditions { get; set; }
 
+        // Model Properties
+        public string Model { get; set; } /* ER */
+        public float Scale { get; set; }
+
 
         #endregion
 
@@ -194,6 +198,9 @@ namespace MagickaPUP.MagickaClasses.Item
             this.GunConditions = new ConditionCollection(reader, logger);
             this.RangedConditions = new ConditionCollection(reader, logger);
 
+            // Model Properties
+            this.Scale = reader.ReadSingle();
+            this.Model = reader.ReadString();
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

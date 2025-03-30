@@ -175,10 +175,14 @@ namespace MagickaPUP.MagickaClasses.Item
             // Special Ability
             this.SpecialAbilityData = new SpecialAbilityStorage(reader, logger);
 
-            // Weapon Properties
+            // Weapon Properties (1)
             this.MeleeRange = reader.ReadSingle();
             this.MeleeMultiHit = reader.ReadBoolean();
+
+            // Melee Condition Collection
             this.MeleeConditions = new ConditionCollection(reader, logger);
+            
+            // Weapon Properties (2)
             this.RangedRange = reader.ReadSingle();
             this.Facing = reader.ReadBoolean();
             this.Homing = reader.ReadSingle();

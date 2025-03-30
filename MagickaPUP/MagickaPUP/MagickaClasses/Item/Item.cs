@@ -89,6 +89,11 @@ namespace MagickaPUP.MagickaClasses.Item
         public int GunRate { get; set; } // This value is stored as an i32 within the XNB files, but is then converted into an f32 in memory within Magicka's code... why? who knows!
         public float GunAccuracy { get; set; }
 
+        // Gun Asset Strings
+        public string GunSoundID { get; set; }
+        public string GunMuzzleEffectID { get; set; }
+        public string GunShellsEffectID { get; set; }
+
         #endregion
 
         #region Constructor

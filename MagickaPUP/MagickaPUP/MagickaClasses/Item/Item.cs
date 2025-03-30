@@ -89,12 +89,15 @@ namespace MagickaPUP.MagickaClasses.Item
         public int GunRate { get; set; } // This value is stored as an i32 within the XNB files, but is then converted into an f32 in memory within Magicka's code... why? who knows!
         public float GunAccuracy { get; set; }
 
-        // Gun Asset Strings
+        // Assets Strings and Data
         // NOTE : All of these values can actually be null or empty strings. Magicka's code will simply default to using numeric ID 0 for all of them when the
         // input path strings are empty or null. Otherwise, it will use the strings' hashes as the ID.
         public string GunSoundID { get; set; }
         public string GunMuzzleEffectID { get; set; }
         public string GunShellsEffectID { get; set; }
+        public float TracerVelocity { get; set; }
+        public string NonTracerSprite { get; set; }
+        public string TracerSprite { get; set; }
 
         #endregion
 
@@ -170,10 +173,13 @@ namespace MagickaPUP.MagickaClasses.Item
             this.GunRate = reader.ReadInt32();
             this.GunAccuracy = reader.ReadSingle();
 
-            // Gun Assets Strings
+            // Assets Strings and Data
             this.GunSoundID = reader.ReadString();
             this.GunMuzzleEffectID = reader.ReadString();
             this.GunShellsEffectID = reader.ReadString();
+            this.TracerVelocity = reader.ReadSingle();
+            this.NonTracerSprite = reader.ReadString();
+            this.TracerSprite = reader.ReadString();
 
             throw new NotImplementedException("Read Item is not implemented yet!");
         }

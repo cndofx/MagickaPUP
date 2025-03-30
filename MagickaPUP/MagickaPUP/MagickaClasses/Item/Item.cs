@@ -168,6 +168,11 @@ namespace MagickaPUP.MagickaClasses.Item
             this.GunRate = reader.ReadInt32();
             this.GunAccuracy = reader.ReadSingle();
 
+            // Gun Assets Strings
+            this.GunSoundID = reader.ReadString();
+            this.GunMuzzleEffectID = reader.ReadString();
+            this.GunShellsEffectID = reader.ReadString();
+
             throw new NotImplementedException("Read Item is not implemented yet!");
         }
 

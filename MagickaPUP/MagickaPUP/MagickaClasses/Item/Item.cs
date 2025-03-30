@@ -206,17 +206,18 @@ namespace MagickaPUP.MagickaClasses.Item
             this.Model = reader.ReadString();
 
             // Auras
+            // TODO : Ensure that this is correctly implemented
             int numAuras = reader.ReadInt32();
             this.Auras = new AuraStorage[numAuras];
             for(int i = 0; i < numAuras; ++i)
                 this.Auras[i] = new AuraStorage(reader, logger);
-
-            throw new NotImplementedException("Read Item is not implemented yet!");
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Item...");
+
+            // TODO : Implement writing code
 
             throw new NotImplementedException("Write Item is not implemented yet!");
         }

@@ -68,7 +68,7 @@ namespace MagickaPUP.MagickaClasses.Item
         public string[] Effects { get; set; }
 
         // Point Lights
-        public PointLightHolder PointLightHolder { get; set; } // TODO : Make into an array so that handling is easier to perform without having to add a flag that specifies if we have a point light or not, or without having to make the point light holder into a class and then being able to assign null within the JSON file... in short, a fucking hacky workaround, but whatever... it is what it is...
+        public PointLightHolder[] Lights { get; set; } // This being an array is a hacky workaround but it makes sense to a certain degree... in Magicka, XNB files for Items contain a list of point lights, but the game only supports 1 single point light so it throws an exception if more than 1 light was found. This could be understood as actually containing an i32 bool that says whether a light exists or not, but yeah... we could instead have a bool HasLight property and call it a day. But doing it this way, we ensure that multi-light objects are supported in the future if an engine rewrite is ever made in the future, which could allow supporting multiple lights. This feels like the easiest way to go, altough not the cleanest... This change also makes it possible to read XNB files for items that have no lights and actually getting an empty object (array in this case) rather than a default constructed light, which would make re-generating the XNB file actually wrong and add a light with 0 initialized values (those 0s coming from mpup's Item PointLightHolder's default constructor, not the game itself, ofc...)
 
         // Special Ability
         public SpecialAbilityStorage SpecialAbilityData { get; set; }
@@ -180,11 +180,13 @@ namespace MagickaPUP.MagickaClasses.Item
             // Point Lights
             int numLightHolders = reader.ReadInt32();
             logger?.Log(1, $" - Num Lights : {numLightHolders}");
-            if (numLightHolders == 1)
-                this.PointLightHolder = new PointLightHolder(reader, logger);
-            else
+            
             if (numLightHolders > 1)
                 throw new MagickaReadException("Magicka Items may only have one light!");
+
+            this.Lights = new PointLightHolder[numLightHolders];
+            for (int i = 0; i < numLightHolders; ++i)
+                this.Lights[i] = new PointLightHolder(reader, logger);
 
             // Special Ability
             this.SpecialAbilityData = new SpecialAbilityStorage(reader, logger);

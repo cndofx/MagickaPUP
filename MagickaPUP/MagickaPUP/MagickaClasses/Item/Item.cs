@@ -253,7 +253,34 @@ namespace MagickaPUP.MagickaClasses.Item
         {
             logger?.Log(1, "Writing Item...");
 
-            // TODO : Implement writing code
+            writer.Write(this.ItemID);
+            writer.Write(this.ItemName);
+            writer.Write(this.ItemDescription);
+
+            writer.Write((int)this.Sounds.Length);
+            foreach (var sound in this.Sounds)
+                sound.Write(writer, logger);
+
+            writer.Write(this.Pickable);
+            writer.Write(this.Bound);
+            writer.Write(this.BlockValue);
+            writer.Write((byte)this.WeaponClass);
+            writer.Write(this.CooldownTime);
+            writer.Write(this.HideModel);
+            writer.Write(this.HideEffect);
+            writer.Write(this.PauseSounds);
+
+            writer.Write((int)this.Resistances.Length);
+            foreach(var resistance in this.Resistances)
+                resistance.Write(writer, logger);
+
+            this.PassiveAbility.Write(writer, logger);
+
+            writer.Write((int)this.Effects.Length);
+            foreach (var effect in this.Effects)
+                writer.Write(effect);
+
+            // TODO : Finish implementation
 
             throw new NotImplementedException("Write Item is not implemented yet!");
         }

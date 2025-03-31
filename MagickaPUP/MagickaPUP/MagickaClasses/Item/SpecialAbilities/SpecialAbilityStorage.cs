@@ -24,7 +24,7 @@ namespace MagickaPUP.MagickaClasses.Item.SpecialAbilities
 
         public SpecialAbilityStorage(MBinaryReader reader, DebugLogger logger = null)
         {
-            logger?.Log(1, "Reading SpecialAbility Data...");
+            logger?.Log(1, "Reading Special Ability Data...");
 
             this.HasSpecialAbility = reader.ReadBoolean();
             if (this.HasSpecialAbility)
@@ -41,9 +41,14 @@ namespace MagickaPUP.MagickaClasses.Item.SpecialAbilities
 
         public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
-            logger?.Log(1, "Writing SpecialAbility Data...");
+            logger?.Log(1, "Writing Special Ability Data...");
 
-            throw new NotImplementedException("Write SpecialAbility Data is not implemented yet!");
+            writer.Write(this.HasSpecialAbility);
+            if (this.HasSpecialAbility)
+            {
+                writer.Write(this.SpecialAbilityRechargeTime);
+                this.SpecialAbility.Write(writer, logger);
+            }
         }
     }
 }

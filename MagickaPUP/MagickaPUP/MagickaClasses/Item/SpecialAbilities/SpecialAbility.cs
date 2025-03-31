@@ -37,11 +37,17 @@ namespace MagickaPUP.MagickaClasses.Item.SpecialAbilities
                 this.Elements[i] = (Elements)reader.ReadInt32();
         }
 
-        public static void Write(SpecialAbility instance, MBinaryWriter writer, DebugLogger logger = null)
+        public void Write(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Special Ability...");
 
-            throw new NotImplementedException("Write SpecialAbility is not implemented yet!");
+            writer.Write(this.Type);
+            writer.Write(this.Animation);
+            writer.Write(this.Hash);
+
+            writer.Write((int)this.Elements.Length);
+            foreach (var element in this.Elements)
+                writer.Write((int)element);
         }
     }
 }

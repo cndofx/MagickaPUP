@@ -29,24 +29,54 @@ namespace MagickaPUP.XnaClasses
             this.ContentTypeReaders = new List<ContentTypeReader>();
         }
 
-        #region PublicMethods - AddReaders
+        #region PublicMethods - AddReaders (Checked)
+
+        // These methods only allow adding readers if they are not already within the list of cached readers.
+        // This behaviour automatically prevents duplicate entries.
 
         public int AddReader(ContentTypeReader reader)
         {
-            this.ContentTypeReaders.Add(reader);
-            return this.ContentTypeReaders.Count - 1;
+            int ans = GetReaderIndex(reader);
+            if (ans < 0)
+            {
+                this.ContentTypeReaders.Add(reader);
+                ans = this.ContentTypeReaders.Count - 1;
+            }
+            return ans;
         }
 
         public void AddReaders(ContentTypeReader[] readers)
         {
             foreach (var reader in readers)
-                this.ContentTypeReaders.Add(reader);
+                AddReader(reader);
         }
 
         public void AddReaders(List<ContentTypeReader> readers)
         {
             foreach (var reader in readers)
-                this.ContentTypeReaders.Add(reader);
+                AddReader(reader);
+        }
+
+        #endregion
+
+        #region PublicMethods - AddReaders (Unchecked)
+
+        public int AddReaderUnchecked(ContentTypeReader reader)
+        {
+            this.ContentTypeReaders.Add(reader);
+            return this.ContentTypeReaders.Count - 1;
+        }
+
+        public void AddReadersUnchecked(ContentTypeReader[] readers)
+        {
+            foreach (var reader in readers)
+                AddReaderUnchecked(reader);
+        }
+
+        public void AddReadersUnchecked(List<ContentTypeReader> readers)
+        {
+            foreach (var reader in readers)
+                AddReaderUnchecked(reader);
         }
 
         #endregion

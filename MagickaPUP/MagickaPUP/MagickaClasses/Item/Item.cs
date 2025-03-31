@@ -282,7 +282,13 @@ namespace MagickaPUP.MagickaClasses.Item
             foreach (var effect in this.Effects)
                 writer.Write(effect);
 
-            // TODO : Finish implementation
+            if (this.Lights.Length > 1)
+                throw new MagickaWriteException("Magicka Items may only have one light!");
+            writer.Write((int)this.Lights.Length);
+            foreach(var light in this.Lights)
+                light.Write(writer, logger);
+
+
 
             throw new NotImplementedException("Write Item is not implemented yet!");
         }

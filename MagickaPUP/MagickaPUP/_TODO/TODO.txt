@@ -22,3 +22,4 @@
 	- Separate the arg parsing part from the rest of the program.
 		- The rest of the code should be a library / DLL or whatever
 		- The mpupcli program should be a separate program (basically, decouple the program logic from the CLI interface so that this code is more easily reusable in the future for mpupgui or any other program...)
+- Improve the cli interface so that --help / -h / \? etc... can be used, and so that it displays commands separated by category (modify CmdEntry so that it has categories, or separate the list of commands as a dict by categories or whatever you choose...)

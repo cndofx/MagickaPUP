@@ -17,3 +17,8 @@
 - TODO : Move XNA Math classes from Magicka Generic classes into the Xna classes and maybe make a Math subdirectory there.
 - Modify the file operations so that we work over memory streams instead. UPDATE : Modify the code so that we read and write internally always into memory streams. That way, we can write and read everything in one go from memory. Also allows updating the information within the header way more easily later on. Also should probably delay writing header data and required content readers when writing XNB files so that we can also slowly push those in order into the memory on the ctx var or content writer or whatever. That way, each class is responsible for adding their required readers (and the content reader list is responsible for not adding requested readers which are already present in the list, kinda like how a set would work)
 - Modify the code so that we use the new ContentManager class rather than the Packer and Unpacker classes. Either that or move the new cleaner logic to each corresponding place.
+- Modify the arg parsing side of the code so that it works a bit more like ffmpeg with automatic file type detection and stuff like that... Also, modify:
+	- The -i command means --input, the pack and unpack process should be determined automatically
+	- Separate the arg parsing part from the rest of the program.
+		- The rest of the code should be a library / DLL or whatever
+		- The mpupcli program should be a separate program (basically, decouple the program logic from the CLI interface so that this code is more easily reusable in the future for mpupgui or any other program...)

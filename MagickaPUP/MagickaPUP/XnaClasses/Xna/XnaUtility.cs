@@ -67,9 +67,7 @@ namespace MagickaPUP.XnaClasses.Xna
             int indexMem;
 
             logger?.Log(1, ()=>$"Requesting ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)} to read object of type \"{typeof(T).Name}\"");
-            indexMem = writer.ContentTypeReaderStorage.GetReaderIndex(contentTypeReader);
-            if (indexMem < 0)
-                indexMem = writer.ContentTypeReaderStorage.AddReader(contentTypeReader);
+            indexMem = writer.ContentTypeReaderStorage.AddReader(contentTypeReader); // NOTE : If the reader is already present, it will NOT be added again to the list. Instead, the index of the already existing reader will be returned, which ensures that readers stay as unique entries within the list of content type readers required within the generated XNB file data.
             indexXnb = indexMem + 1;
 
             logger?.Log(1, ()=>$"Writing XNA Object with required ContentTypeReader {GetContentTypeReaderFormattedString(contentTypeReader)}");

@@ -6,6 +6,7 @@ using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.MagickaClasses.Item.SpecialAbilities;
 using MagickaPUP.MagickaClasses.Character.Events;
 using MagickaPUP.MagickaClasses.Character.Aura;
+using System.Runtime.Remoting.Messaging;
 
 namespace MagickaPUP.MagickaClasses.Item
 {
@@ -273,7 +274,7 @@ namespace MagickaPUP.MagickaClasses.Item
             writer.Write(this.PauseSounds);
 
             writer.Write((int)this.Resistances.Length);
-            foreach(var resistance in this.Resistances)
+            foreach (var resistance in this.Resistances)
                 resistance.Write(writer, logger);
 
             this.PassiveAbility.Write(writer, logger);
@@ -285,12 +286,45 @@ namespace MagickaPUP.MagickaClasses.Item
             if (this.Lights.Length > 1)
                 throw new MagickaWriteException("Magicka Items may only have one light!");
             writer.Write((int)this.Lights.Length);
-            foreach(var light in this.Lights)
+            foreach (var light in this.Lights)
                 light.Write(writer, logger);
 
+            this.SpecialAbilityData.Write(writer, logger);
 
+            writer.Write(this.MeleeRange);
+            writer.Write(this.MeleeMultiHit);
 
-            throw new NotImplementedException("Write Item is not implemented yet!");
+            this.MeleeConditions.Write(writer, logger);
+
+            writer.Write(this.RangedRange);
+            writer.Write(this.Facing);
+            writer.Write(this.Homing);
+            writer.Write(this.RangedElevation);
+            writer.Write(this.RangedDanger);
+            writer.Write(this.GunRange);
+            writer.Write(this.GunClip);
+            writer.Write(this.GunRate);
+            writer.Write(this.GunAccuracy);
+
+            writer.Write(this.GunSoundID);
+            writer.Write(this.GunMuzzleEffectID);
+            writer.Write(this.GunShellsEffectID);
+            writer.Write(this.TracerVelocity);
+            writer.Write(this.NonTracerSprite);
+            writer.Write(this.TracerSprite);
+
+            this.GunConditions.Write(writer, logger);
+            
+            writer.Write(this.ProjectileModel);
+
+            this.RangedConditions.Write(writer, logger);
+
+            writer.Write(this.Scale);
+            writer.Write(this.Model);
+
+            writer.Write((int)this.Auras.Length);
+            foreach(var aura in this.Auras)
+                aura.Write(writer, logger);
         }
 
         #endregion

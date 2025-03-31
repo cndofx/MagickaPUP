@@ -68,7 +68,7 @@ namespace MagickaPUP.MagickaClasses.Item
         public string[] Effects { get; set; }
 
         // Point Lights
-        public PointLightHolder PointLightHolder { get; set; }
+        public PointLightHolder PointLightHolder { get; set; } // TODO : Make into an array so that handling is easier to perform without having to add a flag that specifies if we have a point light or not, or without having to make the point light holder into a class and then being able to assign null within the JSON file... in short, a fucking hacky workaround, but whatever... it is what it is...
 
         // Special Ability
         public SpecialAbilityStorage SpecialAbilityData { get; set; }

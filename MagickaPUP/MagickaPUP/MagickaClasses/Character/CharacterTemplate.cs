@@ -365,9 +365,13 @@ namespace MagickaPUP.MagickaClasses.Character
             this.HitTolerance = reader.ReadInt32();
             this.KnockdownTolerance = reader.ReadSingle();
             this.ScoreValue = reader.ReadInt32();
-            this.ExperienceValue = reader.ReadInt32();
-            this.RewardOnKill = reader.ReadBoolean();
-            this.RewardOnOverkill = reader.ReadBoolean();
+            // TODO : Implement
+            // if (reader.is_new_version_or_whatever)// NOTE : These values are only read in modern Magicka. Older versions of Magicka does not contain these values, so a flag exists to check what version we're working with.
+            {
+                this.ExperienceValue = reader.ReadInt32();
+                this.RewardOnKill = reader.ReadBoolean();
+                this.RewardOnOverkill = reader.ReadBoolean();
+            }
             this.Regeneration = reader.ReadInt32();
             this.MaxPanic = reader.ReadSingle();
             this.ZapModifier = reader.ReadSingle();
@@ -536,9 +540,13 @@ namespace MagickaPUP.MagickaClasses.Character
             writer.Write(this.HitTolerance);
             writer.Write(this.KnockdownTolerance);
             writer.Write(this.ScoreValue);
-            writer.Write(this.ExperienceValue);
-            writer.Write(this.RewardOnKill);
-            writer.Write(this.RewardOnOverkill);
+            // TODO : Implement
+            // if(this.writer.is_new_version_or_whatever)
+            {
+                writer.Write(this.ExperienceValue);
+                writer.Write(this.RewardOnKill);
+                writer.Write(this.RewardOnOverkill);
+            }
             writer.Write(this.Regeneration);
             writer.Write(this.MaxPanic);
             writer.Write(this.ZapModifier);

@@ -78,6 +78,8 @@ namespace MagickaPUP.Core
                 new CmdEntry("-v", "--version", "", "Display the current version of the program", 0, CmdVersion),
                 new CmdEntry("-r", "--read", "", "Make the program run in a continuous read loop where further commands will be read from stdin", 0, CmdReadMode),
                 new CmdEntry("-P", "--pause-on-finish", "", "Make the program pause and wait for user input when all operations are finished", 0, CmdPauseOnFinish),
+                new CmdEntry("-I", "--input-version", "<version>", "Set the Magicka version for the input XNB files (default = latest)", 1, CmdSetVersionInput),
+                new CmdEntry("-O", "--output-version", "<version>", "Set the Magicka version for the output XNB files. (default = latest)", 1, CmdSetVersionOutput),
             };
         }
 
@@ -359,6 +361,18 @@ namespace MagickaPUP.Core
             putln($"Registered Unpacker : (\"{iFilename}\", \"{oFilename}\")");
             Unpacker u = new Unpacker(iFilename, oFilename, debuglvl, shouldIndent);
             this.unpackers.Add(u);
+        }
+
+        private void CmdSetVersionInput(string[] args, int current)
+        {
+            // TODO : Implement
+            throw new NotImplementedException("CmdSetVersionInput");
+        }
+
+        private void CmdSetVersionOutput(string[] args, int current)
+        {
+            // TODO : Implement
+            throw new NotImplementedException("CmdSetVersionOutput");
         }
 
         #endregion

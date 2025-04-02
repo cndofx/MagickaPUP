@@ -23,6 +23,8 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
             var contentTypeReader = writer.ContentTypeReaderManager.GetContentTypeReader(typeof(T));
             writer.ContentTypeReaderStorage.AddReader(contentTypeReader);
 
+            // WRITE THE FUCKING COUNT!!!
+            writer.Write((int)instance.Count);
 
             // Write the data of this type
             TypeWriterBase elementWriter = new TWriter();

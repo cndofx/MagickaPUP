@@ -8,7 +8,7 @@ namespace MagickaPUP.MagickaClasses.Data.Audio
 {
     // This banks enum refers to audio banks, as in the types of an audio.
     [Flags]
-    public enum Banks : ushort // Curiously, this is an u16 within magicka's code but also magicka reads this value as an i32, so that means it stores within the XNB files this data wasting 32 bits that will never be used lol?
+    public enum Banks : ushort // Curiously, this enum is of type u16 (ushort) within magicka's code (just as it is here), but Magicka's readers read this value as an i32 instead, so that means it stores within the XNB files this data wasting 16 extra bits from the 32 bit integer that will never be used lol? Thankfully we can maybe use this for automatic type detection when trying to figure out what version the XNB for a CharacterTemplate is, maybe???
     {
         WaveBank = 1,
         Music = 2,

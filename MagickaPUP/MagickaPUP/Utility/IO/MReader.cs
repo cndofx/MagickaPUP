@@ -21,6 +21,7 @@ namespace MagickaPUP.Utility.IO
         {
             this.ContentTypeReaderStorage = new ContentTypeReaderStorage();
             this.ContentTypeReaderManager = new ContentTypeReaderManager();
+            this.GameVersion = GameVersion.Auto;
         }
 
         #endregion

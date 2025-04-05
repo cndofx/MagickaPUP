@@ -120,6 +120,9 @@
     <Compile Include="Utility\Compression\Lzx\LzxState.cs" />
     <Compile Include="Utility\Exceptions\LzxException.cs" />
     <Compile Include="Utility\Exceptions\MagickaException.cs" />
+    <Compile Include="Utility\IO\Data\ContextReaderSettings.cs" />
+    <Compile Include="Utility\IO\Data\ContextWriterSettings.cs" />
+    <Compile Include="Utility\IO\Data\GameVersion.cs" />
     <Compile Include="Utility\IO\DebugLogger.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\AdvancedSettings.cs" />
     <Compile Include="MagickaClasses\PhysicsEntities\BoundingBox.cs" />

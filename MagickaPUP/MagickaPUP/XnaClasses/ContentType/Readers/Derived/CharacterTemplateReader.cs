@@ -17,7 +17,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
         public override CharacterTemplate Read(CharacterTemplate instance, MBinaryReader reader, DebugLogger logger = null)
         {
             CharacterTemplate ans = null;
-            switch (reader.GameVersion
+            switch (reader.GameVersion)
             {
                 default:
                 case GameVersion.Auto: // NOTE : This may or may not be a terrible fucking idea, but I could not come up with anything better after thinking a lot about it...

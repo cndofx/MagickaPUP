@@ -16,7 +16,7 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
 
         public override void Write(CharacterTemplate instance, MBinaryWriter writer, DebugLogger logger = null)
         {
-            instance.WriteCharacterInstance(writer, writer.GameVersion, logger);
+            CharacterTemplate.Write(instance, writer, logger);
         }
     }
 }

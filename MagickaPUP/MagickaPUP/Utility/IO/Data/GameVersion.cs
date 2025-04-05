@@ -40,12 +40,14 @@ namespace MagickaPUP.Utility.IO.Data
         {
             switch (version)
             {
+                case GameVersion.Auto:
                 case GameVersion.New:
                     return "Modern Magicka";
                 case GameVersion.Old:
                     return "Old Magicka";
+                default:
+                    return "Unkown Magicka Version";
             }
-            return "Unknown Magicka Version";
         }
     }
 }

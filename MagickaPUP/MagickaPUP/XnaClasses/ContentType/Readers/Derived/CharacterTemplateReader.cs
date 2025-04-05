@@ -20,7 +20,15 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
             switch (reader.GameVersion)
             {
                 default:
-                case GameVersion.Auto: // NOTE : This may or may not be a terrible fucking idea, but I could not come up with anything better after thinking a lot about it...
+                case GameVersion.Auto:
+
+                    // NOTE : This may or may not be a terrible fucking idea, but I could not come up with anything better after thinking a lot about it...
+
+                    // NOTE : There are some edge cases where automatic version detection fails.
+                    // One such case is when the entire segment of the XNB file that contains the CharacterTemplate data is filled with 0 bytes,
+                    // and a NULL padding is added for crash prevention at the end of the file (just what mpup does... so this problem also
+                    // happens when decompiling XNB files generate by mpup).
+
                     {
                         var positionBackup = reader.BaseStream.Position;
                         try

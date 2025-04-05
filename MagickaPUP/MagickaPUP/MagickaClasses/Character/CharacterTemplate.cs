@@ -367,7 +367,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.HitTolerance = reader.ReadInt32();
             this.KnockdownTolerance = reader.ReadSingle();
             this.ScoreValue = reader.ReadInt32();
-            if(gameVersion == GameVersion.New) // Modern Magicka Values
+            if(gameVersion != GameVersion.Old) // Modern Magicka Values
             {
                 this.ExperienceValue = reader.ReadInt32();
                 this.RewardOnKill = reader.ReadBoolean();
@@ -542,7 +542,7 @@ namespace MagickaPUP.MagickaClasses.Character
             writer.Write(this.HitTolerance);
             writer.Write(this.KnockdownTolerance);
             writer.Write(this.ScoreValue);
-            if(gameVersion == GameVersion.New) // Modern Magicka Values
+            if(gameVersion != GameVersion.Old) // Modern Magicka Values
             {
                 writer.Write(this.ExperienceValue);
                 writer.Write(this.RewardOnKill);

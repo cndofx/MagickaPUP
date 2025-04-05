@@ -1,15 +1,7 @@
-﻿using MagickaPUP.MagickaClasses.Generic;
-using MagickaPUP.XnaClasses;
-using MagickaPUP.Utility.IO;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Runtime.Remoting.Messaging;
-using MagickaPUP.XnaClasses.Readers;
+﻿using System.IO;
 using MagickaPUP.Utility.IO.Data;
+using MagickaPUP.XnaClasses;
+using MagickaPUP.XnaClasses.Readers;
 
 namespace MagickaPUP.Utility.IO
 {

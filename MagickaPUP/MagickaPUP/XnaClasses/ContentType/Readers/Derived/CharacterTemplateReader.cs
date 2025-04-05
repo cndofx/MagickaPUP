@@ -21,38 +21,44 @@ namespace MagickaPUP.XnaClasses.Specific.Derived
             {
                 default:
                 case GameVersion.Auto: // NOTE : This may or may not be a terrible fucking idea, but I could not come up with anything better after thinking a lot about it...
-                    try
                     {
-                        ans = ReadNew(instance, reader, logger);
-                    }
-                    catch
-                    {
-                        ans = ReadOld(instance, reader, logger);
+                        var positionBackup = reader.BaseStream.Position;
+                        try
+                        {
+                            ans = ReadInternal(positionBackup, GameVersion.New, instance, reader, logger);
+                        }
+                        catch
+                        {
+                            ans = ReadInternal(positionBackup, GameVersion.Old, instance, reader, logger);
+                        }
                     }
                     break; // If all else fails, then the input data is malformed as fuck!
-
+                
                 case GameVersion.Old:
-                    ans = ReadOld(instance, reader, logger);
+                    {
+                        ans = ReadInternal(GameVersion.New, instance, reader, logger);
+                    }
                     break;
 
                 case GameVersion.New:
-                    ans = ReadNew(instance, reader, logger);
+                    {
+                        ans = ReadInternal(GameVersion.New, instance, reader, logger);
+                    }
                     break;
             }
             return ans;
         }
 
-        private CharacterTemplate ReadOld(CharacterTemplate instance, MBinaryReader reader, DebugLogger logger = null)
+        private CharacterTemplate ReadInternal(long positionBackup, GameVersion version, CharacterTemplate instance, MBinaryReader reader, DebugLogger logger = null)
         {
-            CharacterTemplate ans = new CharacterTemplate();
-            ans.ReadInstance(reader, logger);
-            return ans;
+            reader.BaseStream.Position = positionBackup;
+            return ReadInternal(version, instance, reader, logger);
         }
 
-        private CharacterTemplate ReadNew(CharacterTemplate instance, MBinaryReader reader, DebugLogger logger = null)
+        private CharacterTemplate ReadInternal(GameVersion version, CharacterTemplate instance, MBinaryReader reader, DebugLogger logger = null)
         {
             CharacterTemplate ans = new CharacterTemplate();
-            ans.ReadInstance(reader, logger);
+            ans.ReadCharacterInstance(reader, version, logger);
             return ans;
         }
     }

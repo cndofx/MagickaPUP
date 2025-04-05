@@ -271,7 +271,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
         #region PublicMethods
 
-        public void ReadCharacterInstance(MBinaryReader reader, GameVersion gameVersion, DebugLogger logger = null)
+        private void ReadCharacterInstance(MBinaryReader reader, GameVersion gameVersion, DebugLogger logger = null)
         {
             logger?.Log(1, $"Reading CharacterTemplate for {GameVersionData.GetGameVersionString(gameVersion)}...");
 
@@ -481,14 +481,7 @@ namespace MagickaPUP.MagickaClasses.Character
                 this.Auras[i] = new AuraStorage(reader, logger);
         }
 
-        public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)
-        {
-            var ans = new CharacterTemplate();
-            ans.ReadInstance(reader, logger);
-            return ans;
-        }
-
-        public void WriteCharacterInstance(MBinaryWriter writer, GameVersion gameVersion, DebugLogger logger = null)
+        private void WriteCharacterInstance(MBinaryWriter writer, GameVersion gameVersion, DebugLogger logger = null)
         {
             logger?.Log(1, $"Writing CharacterTemplate for {GameVersionData.GetGameVersionString(gameVersion)}...");
 
@@ -625,6 +618,50 @@ namespace MagickaPUP.MagickaClasses.Character
             writer.Write(this.NumAuras);
             foreach (var aura in this.Auras)
                 aura.Write(writer, logger);
+        }
+
+        public static CharacterTemplate Read(MBinaryReader reader, DebugLogger logger = null)
+        {
+            var ans = new CharacterTemplate();
+
+            switch (reader.GameVersion)
+            {
+                default:
+                case GameVersion.Auto:
+                    {
+                        var positionBackup = reader.BaseStream.Position;
+                        try
+                        {
+                            reader.BaseStream.Position = positionBackup;
+                            ans.ReadCharacterInstance(reader, GameVersion.New, logger);
+                        }
+                        catch
+                        {
+                            reader.BaseStream.Position = positionBackup;
+                            ans.ReadCharacterInstance(reader, GameVersion.Old, logger);
+                        }
+                    }
+                    break; // If all else fails, then the input data is malformed as fuck!
+
+                case GameVersion.Old:
+                    {
+                        ans.ReadCharacterInstance(reader, GameVersion.Old, logger);
+                    }
+                    break;
+
+                case GameVersion.New:
+                    {
+                        ans.ReadCharacterInstance(reader, GameVersion.New, logger);
+                    }
+                    break;
+            }
+
+            return ans;
+        }
+
+        public static void Write(CharacterTemplate instance, MBinaryWriter writer, DebugLogger logger = null)
+        {
+            instance.WriteCharacterInstance(writer, writer.GameVersion, logger);
         }
 
         public override ContentTypeReader GetObjectContentTypeReader()

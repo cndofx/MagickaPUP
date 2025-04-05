@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Remoting.Messaging;
 using MagickaPUP.XnaClasses.Readers;
+using MagickaPUP.Utility.IO.Data;
 
 namespace MagickaPUP.Utility.IO
 {
@@ -18,6 +19,7 @@ namespace MagickaPUP.Utility.IO
 
         public ContentTypeReaderManager ContentTypeReaderManager { get; private set; }
         public ContentTypeReaderStorage ContentTypeReaderStorage { get; private set; }
+        public GameVersion GameVersion { get; set; }
 
         #endregion
 

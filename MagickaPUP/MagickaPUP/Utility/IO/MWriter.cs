@@ -1,4 +1,5 @@
-﻿using MagickaPUP.XnaClasses;
+﻿using MagickaPUP.Utility.IO.Data;
+using MagickaPUP.XnaClasses;
 using MagickaPUP.XnaClasses.Readers;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,7 @@ namespace MagickaPUP.Utility.IO
 
         public ContentTypeReaderManager ContentTypeReaderManager { get; private set; }
         public ContentTypeReaderStorage ContentTypeReaderStorage { get; private set; }
+        public GameVersion GameVersion { get; set; }
 
         #endregion
 

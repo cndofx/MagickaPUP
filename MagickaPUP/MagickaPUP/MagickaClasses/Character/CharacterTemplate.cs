@@ -15,6 +15,7 @@ using System.Text.Json.Serialization;
 using MagickaPUP.Utility.Exceptions;
 using System.Runtime.Remoting.Messaging;
 using MagickaPUP.XnaClasses.Xna.Data;
+using MagickaPUP.Utility.IO.Data;
 
 namespace MagickaPUP.MagickaClasses.Character
 {
@@ -270,9 +271,9 @@ namespace MagickaPUP.MagickaClasses.Character
 
         #region PublicMethods
 
-        public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
+        public void ReadCharacterInstance(MBinaryReader reader, GameVersion gameVersion, DebugLogger logger = null)
         {
-            logger?.Log(1, "Reading CharacterTemplate...");
+            logger?.Log(1, $"Reading CharacterTemplate for {GameVersionData.GetGameVersionString(gameVersion)}...");
 
             // Internally, Magicka computes a hash for both of these ID strings after reading them, but we don't need it here.
             // Magicka also passes the strings to lower invariant, but we don't need to do that. We can work with whatever we want considering
@@ -366,8 +367,7 @@ namespace MagickaPUP.MagickaClasses.Character
             this.HitTolerance = reader.ReadInt32();
             this.KnockdownTolerance = reader.ReadSingle();
             this.ScoreValue = reader.ReadInt32();
-            // TODO : Implement
-            // if (reader.is_new_version_or_whatever)// NOTE : These values are only read in modern Magicka. Older versions of Magicka does not contain these values, so a flag exists to check what version we're working with.
+            if(gameVersion == GameVersion.New) // Modern Magicka Values
             {
                 this.ExperienceValue = reader.ReadInt32();
                 this.RewardOnKill = reader.ReadBoolean();
@@ -388,6 +388,7 @@ namespace MagickaPUP.MagickaClasses.Character
 
             // Read resistances (elemental resistances)
             this.NumResistances = reader.ReadInt32();
+            logger?.Log(1, $" - NumResistances : {NumResistances}");
             this.Resistances = new Resistance[this.NumResistances];
             for (int i = 0; i < this.NumResistances; ++i)
             {
@@ -487,9 +488,9 @@ namespace MagickaPUP.MagickaClasses.Character
             return ans;
         }
 
-        public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
+        public void WriteCharacterInstance(MBinaryWriter writer, GameVersion gameVersion, DebugLogger logger = null)
         {
-            logger?.Log(1, "Writing CharacterTemplate...");
+            logger?.Log(1, $"Writing CharacterTemplate for {GameVersionData.GetGameVersionString(gameVersion)}...");
 
             // Character ID Strings
             writer.Write(this.CharacterID);
@@ -541,8 +542,7 @@ namespace MagickaPUP.MagickaClasses.Character
             writer.Write(this.HitTolerance);
             writer.Write(this.KnockdownTolerance);
             writer.Write(this.ScoreValue);
-            // TODO : Implement
-            // if(this.writer.is_new_version_or_whatever)
+            if(gameVersion == GameVersion.New) // Modern Magicka Values
             {
                 writer.Write(this.ExperienceValue);
                 writer.Write(this.RewardOnKill);

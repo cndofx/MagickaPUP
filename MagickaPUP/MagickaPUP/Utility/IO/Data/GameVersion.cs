@@ -33,4 +33,19 @@ namespace MagickaPUP.Utility.IO.Data
         - New / Modern: -mv new / modern, --magicka-version new / modern
             Sets the Magicka version to "new Magicka". Any version after the fields "ExperienceValue", "RewardOnKill" and "RewardOnOverkill" were added.
     */
+
+    public static class GameVersionData
+    {
+        public static string GetGameVersionString(GameVersion version)
+        {
+            switch (version)
+            {
+                case GameVersion.New:
+                    return "Modern Magicka";
+                case GameVersion.Old:
+                    return "Old Magicka";
+            }
+            return "Unknown Magicka Version";
+        }
+    }
 }

@@ -47,7 +47,16 @@ namespace MagickaPUP.Core
             try
             {
                 var xnbFile = ReadXnbFile();
-                WriteJsonFile(xnbFile);
+                if (xnbFile.XnbFileData.PrimaryObject is Texture2D)
+                {
+                    var tex = xnbFile.XnbFileData.PrimaryObject as Texture2D;
+                    var bitmap = tex.GetBitmap();
+                    bitmap.Save($"{this.writefilename}.png", System.Drawing.Imaging.ImageFormat.Png);
+                }
+                else
+                {
+                    WriteJsonFile(xnbFile);
+                }
             }
             catch (MagickaReadExceptionPermissive) // NOTE : If you think about it, all magicka exceptions are isolated to their specific file, so we don't really need a "permissive" one, just catch the base MagickaException class and call it a day!
             {

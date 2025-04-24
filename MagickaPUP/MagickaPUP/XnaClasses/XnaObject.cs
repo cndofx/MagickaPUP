@@ -48,7 +48,10 @@ namespace MagickaPUP.XnaClasses
     [JsonDerivedType(typeof(Locator), typeDiscriminator: "locator")]
     [JsonDerivedType(typeof(Trigger), typeDiscriminator: "trigger")]
     [JsonDerivedType(typeof(Effect), typeDiscriminator: "effect")]
+    [JsonDerivedType(typeof(EffectAdditive), typeDiscriminator: "effect_additive")]
     [JsonDerivedType(typeof(EffectDeferred), typeDiscriminator: "effect_deferred")]
+    [JsonDerivedType(typeof(EffectDeferredLiquid), typeDiscriminator: "effect_deferred_liquid")]
+    [JsonDerivedType(typeof(EffectLava), typeDiscriminator: "effect_lava")]
     [JsonDerivedType(typeof(MagickaClasses.Generic.BoundingBox), typeDiscriminator: "bounding_box")] // TODO : This BB class should not be a primary object ever, along with many other classes... we should clean this shit up to speed up serialization tbh.
     [JsonDerivedType(typeof(Matrix), typeDiscriminator: "matrix")]
     [JsonDerivedType(typeof(Quaternion), typeDiscriminator: "quaternion")]

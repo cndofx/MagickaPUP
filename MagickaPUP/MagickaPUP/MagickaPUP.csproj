@@ -279,6 +279,7 @@
     <Compile Include="Utility\Exceptions\MagickaWriteException.cs" />
     <Compile Include="XnaClasses\Animation.cs" />
     <Compile Include="XnaClasses\ContentType\ContentTypeReaderStorage.cs" />
+    <Compile Include="XnaClasses\ContentType\Readers\Derived\EffectReader.cs" />
     <Compile Include="XnaClasses\ContentType\Readers\Derived\ItemReader.cs" />
     <Compile Include="XnaClasses\ContentType\Readers\TypeReaderBase.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\BiTreeModelWriter.cs" />
@@ -287,6 +288,7 @@
     <Compile Include="XnaClasses\ContentType\Writers\Derived\EffectDeferredLiquidWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\EffectDeferredWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\EffectLavaWriter.cs" />
+    <Compile Include="XnaClasses\ContentType\Writers\Derived\EffectWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\IndexBufferWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\ItemWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\LevelModelWriter.cs" />
@@ -300,6 +302,7 @@
     <Compile Include="XnaClasses\ContentType\Writers\Derived\VertexDeclarationWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\TypeWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\TypeWriterBase.cs" />
+    <Compile Include="XnaClasses\EffectCode.cs" />
     <Compile Include="XnaClasses\IndexBuffer.cs" />
     <Compile Include="XnaClasses\Model.cs" />
     <Compile Include="XnaClasses\ContentType\ContentTypeReader.cs" />

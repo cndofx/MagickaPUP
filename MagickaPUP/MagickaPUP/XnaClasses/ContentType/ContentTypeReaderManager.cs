@@ -159,7 +159,13 @@ namespace MagickaPUP.XnaClasses.Readers
                     new ContentTypeReader("Magicka.ContentReaders.ItemReader, Magicka, Version=1.0.0.0, Culture=neutral", 0),
                     new ItemReader(),
                     new ItemWriter()
-                )
+                ),
+                new TypeData(
+                    typeof(EffectCode),
+                    new ContentTypeReader("Microsoft.Xna.Framework.Content.EffectReader", 0),
+                    new EffectReader(),
+                    new EffectWriter()
+                ),
             };
 
             AddTypeData(defaultTypeData);

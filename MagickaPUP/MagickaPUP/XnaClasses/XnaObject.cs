@@ -75,6 +75,7 @@ namespace MagickaPUP.XnaClasses
     [JsonDerivedType(typeof(CharacterTemplate), typeDiscriminator: "Character")]
     [JsonDerivedType(typeof(PhysicsEntityTemplate), typeDiscriminator: "PhysicsEntity")]
     [JsonDerivedType(typeof(Item), typeDiscriminator: "Item")]
+    [JsonDerivedType(typeof(EffectCode), typeDiscriminator: "EffectShaderCode")]
     public class XnaObject
     {
         #region Instance Methods

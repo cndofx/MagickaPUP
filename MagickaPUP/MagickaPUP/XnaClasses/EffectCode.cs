@@ -19,25 +19,29 @@ namespace MagickaPUP.XnaClasses
     #endregion
     public class EffectCode : XnaObject
     {
-        int CodeByteCount { get; set; }
-        byte[] CodeByteBuffer { get; set; }
+        public int NumBytes { get; set; }
+        public byte[] CodeBuffer { get; set; }
 
         public EffectCode()
         {
-            this.CodeByteCount = 0;
-            this.CodeByteBuffer = Array.Empty<byte>();
+            this.NumBytes = 0;
+            this.CodeBuffer = Array.Empty<byte>();
         }
 
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading Effect Shader Code...");
-            throw new NotImplementedException("Read EffectCode is not implemented yet!");
+
+            this.NumBytes = reader.ReadInt32();
+            this.CodeBuffer = reader.ReadBytes(this.NumBytes);
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
         {
             logger?.Log(1, "Writing Effect Shader Code...");
-            throw new NotImplementedException("Write EffectCode is not implemented yet!");
+
+            writer.Write(this.NumBytes);
+            writer.Write(this.CodeBuffer, 0, this.NumBytes);
         }
     }
 }

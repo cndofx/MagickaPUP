@@ -22,7 +22,7 @@ namespace MagickaPUP.XnaClasses
         int CodeByteCount { get; set; }
         byte[] CodeByteBuffer { get; set; }
 
-        EffectCode()
+        public EffectCode()
         {
             this.CodeByteCount = 0;
             this.CodeByteBuffer = Array.Empty<byte>();

@@ -32,7 +32,7 @@ namespace MagickaPUP.XnaClasses.ContentType.Readers.Derived
             for (int i = 0; i < capacity; ++i)
             {
                 KeyT key = (KeyT)keyReader.Read(null, reader, logger);
-                ValueT value = (ValueT)valueReader.Read(null, reader, logger);
+                ValueT value = (ValueT)valueReader.Read(null, reader, logger); // NOTE : Since this is dict<KeyT, object>, this should be a ReadObject() call, probably, since that's how the dicts in XNA seem to work. Idk, we'll figure it out later.
                 ans.Add(key, value);
             }
             return ans;

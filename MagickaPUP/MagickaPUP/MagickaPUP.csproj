@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -67,6 +68,7 @@
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -120,6 +122,9 @@
     <Compile Include="Utility\Compression\Lzx\LzxState.cs" />
     <Compile Include="Utility\Exceptions\LzxException.cs" />
     <Compile Include="Utility\Exceptions\MagickaException.cs" />
+    <Compile Include="Utility\Interop\Com\ComHelper.cs" />
+    <Compile Include="Utility\Interop\DirectX\D3DX.cs" />
+    <Compile Include="Utility\Interop\Forms\FormHelper.cs" />
     <Compile Include="Utility\IO\Data\ContextReaderSettings.cs" />
     <Compile Include="Utility\IO\Data\ContextWriterSettings.cs" />
     <Compile Include="Utility\IO\Data\GameVersion.cs" />

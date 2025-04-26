@@ -1,4 +1,5 @@
 ﻿using MagickaPUP.Utility.IO;
+using MagickaPUP.XnaClasses.Xna;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,9 @@ namespace MagickaPUP.XnaClasses
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {
             logger?.Log(1, "Reading EffectMaterial...");
-            throw new NotImplementedException("Read EffectMaterial is not implemented yet!");
+
+            this.EffectName = reader.ReadString();
+            this.Parameters = XnaUtility.ReadObject<Dictionary<string, object>>(reader, logger); // TODO : Implement the reader for dictionaries, otherwise this code will just fucking fail when it's called lol...
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)

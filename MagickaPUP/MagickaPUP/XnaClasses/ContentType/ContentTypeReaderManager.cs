@@ -166,13 +166,13 @@ namespace MagickaPUP.XnaClasses.Readers
                     new EffectReader(),
                     new EffectWriter()
                 ),
-                new TypeData
+                /*new TypeData // Temporarily disabled since I need to figure out how XNA handles getting the correct type reader for this object type.
                 (
                     typeof(Dictionary<string, object>),
                     new ContentTypeReader("TODO : FIND THE STRING LOL"),
-                    new DictionaryReader<string, object>(),
-                    new DictionaryWriter<string, object>()
-                ),
+                    new DictionaryReader<string, object, SOMETHING, SOMETHING>(),
+                    new DictionaryWriter<string, object, SOMETHING, SOMETHING>()
+                ),*/
             };
 
             AddTypeData(defaultTypeData);

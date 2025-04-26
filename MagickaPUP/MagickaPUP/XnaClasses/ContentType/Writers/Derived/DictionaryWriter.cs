@@ -15,6 +15,7 @@ namespace MagickaPUP.XnaClasses.ContentType.Writers.Derived
 
         public override void Write(Dictionary<KeyT, ValueT> instance, MBinaryWriter writer, DebugLogger logger = null)
         {
+            // TODO : Implement fix for dictionary writer!!!
             writer.Write(instance.Count);
             foreach(var pair in instance)
             {

@@ -16,11 +16,19 @@ namespace MagickaPUP.XnaClasses
     // and then assigns each of the properties within the dict to the created effect if they exist within the effect's code
     // and if they are of a type supported by XNA / D3D's shaders.
 
+    // TODO : Check that this actually works and does what I think it does...
+
     #endregion
     public class EffectMaterial : XnaObject
     {
+        string EffectName { get; set; } // ER. The name of the shader XNB file that we want to instantiate.
+        Dictionary<string, object> Parameters { get; set; } // Dict<str, obj>. The list of the parameters of the shader.
+
         public EffectMaterial()
-        { }
+        {
+            this.EffectName = string.Empty;
+            this.Parameters = new Dictionary<string, object>();
+        }
 
         public override void ReadInstance(MBinaryReader reader, DebugLogger logger = null)
         {

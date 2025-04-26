@@ -308,6 +308,7 @@
     <Compile Include="XnaClasses\ContentType\Writers\TypeWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\TypeWriterBase.cs" />
     <Compile Include="XnaClasses\EffectCode.cs" />
+    <Compile Include="XnaClasses\EffectMaterial.cs" />
     <Compile Include="XnaClasses\IndexBuffer.cs" />
     <Compile Include="XnaClasses\Model.cs" />
     <Compile Include="XnaClasses\ContentType\ContentTypeReader.cs" />

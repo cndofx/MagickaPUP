@@ -166,6 +166,13 @@ namespace MagickaPUP.XnaClasses.Readers
                     new EffectReader(),
                     new EffectWriter()
                 ),
+                new TypeData
+                (
+                    typeof(Dictionary<string, object>),
+                    new ContentTypeReader("TODO : FIND THE STRING LOL"),
+                    new DictionaryReader<string, object>(),
+                    new DictionaryWriter<string, object>()
+                ),
             };
 
             AddTypeData(defaultTypeData);

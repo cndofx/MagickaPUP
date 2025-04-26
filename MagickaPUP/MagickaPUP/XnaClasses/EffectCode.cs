@@ -1,9 +1,6 @@
-﻿using MagickaPUP.Utility.IO;
+﻿using MagickaPUP.Utility.Interop.DirectX;
+using MagickaPUP.Utility.IO;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -34,6 +31,14 @@ namespace MagickaPUP.XnaClasses
 
             this.NumBytes = reader.ReadInt32();
             this.CodeBuffer = reader.ReadBytes(this.NumBytes);
+
+
+            // Console.WriteLine("The Fake Code is:");
+            // for (int i = 0; i < this.NumBytes; ++i)
+            //     Console.WriteLine($"{(int)this.CodeBuffer[i]}");
+
+            Console.WriteLine("The Real Code is:");
+            Console.WriteLine(GetShaderCode());
         }
 
         public override void WriteInstance(MBinaryWriter writer, DebugLogger logger = null)
@@ -42,6 +47,11 @@ namespace MagickaPUP.XnaClasses
 
             writer.Write(this.NumBytes);
             writer.Write(this.CodeBuffer, 0, this.NumBytes);
+        }
+
+        public string GetShaderCode()
+        {
+            return D3DX.DisassembleEffect(this.CodeBuffer);
         }
     }
 }

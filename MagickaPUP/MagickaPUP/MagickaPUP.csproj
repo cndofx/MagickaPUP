@@ -284,11 +284,13 @@
     <Compile Include="Utility\Exceptions\MagickaWriteException.cs" />
     <Compile Include="XnaClasses\Animation.cs" />
     <Compile Include="XnaClasses\ContentType\ContentTypeReaderStorage.cs" />
+    <Compile Include="XnaClasses\ContentType\Readers\Derived\DictionaryReader.cs" />
     <Compile Include="XnaClasses\ContentType\Readers\Derived\EffectReader.cs" />
     <Compile Include="XnaClasses\ContentType\Readers\Derived\ItemReader.cs" />
     <Compile Include="XnaClasses\ContentType\Readers\TypeReaderBase.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\BiTreeModelWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\CharacterTemplateWriter.cs" />
+    <Compile Include="XnaClasses\ContentType\Writers\Derived\DictionaryWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\EffectAdditiveWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\EffectDeferredLiquidWriter.cs" />
     <Compile Include="XnaClasses\ContentType\Writers\Derived\EffectDeferredWriter.cs" />

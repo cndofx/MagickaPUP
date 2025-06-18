@@ -160,7 +160,8 @@ namespace MagickaPUP.XnaClasses.Readers
                     new ItemReader(),
                     new ItemWriter()
                 ),
-                new TypeData(
+                new TypeData
+                (
                     typeof(EffectCode),
                     new ContentTypeReader("Microsoft.Xna.Framework.Content.EffectReader", 0),
                     new EffectReader(),

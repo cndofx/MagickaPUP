@@ -47,16 +47,7 @@ namespace MagickaPUP.Core
             try
             {
                 var xnbFile = ReadXnbFile();
-                if (xnbFile.XnbFileData.PrimaryObject is Texture2D)
-                {
-                    var tex = xnbFile.XnbFileData.PrimaryObject as Texture2D;
-                    var bitmap = tex.GetBitmap();
-                    bitmap.Save($"{this.writefilename}.png", System.Drawing.Imaging.ImageFormat.Png);
-                }
-                else
-                {
-                    WriteJsonFile(xnbFile);
-                }
+                WriteSystemFile(this.writefilename, xnbFile);
             }
             catch (MagickaReadExceptionPermissive) // NOTE : If you think about it, all magicka exceptions are isolated to their specific file, so we don't really need a "permissive" one, just catch the base MagickaException class and call it a day!
             {
@@ -77,12 +68,36 @@ namespace MagickaPUP.Core
             return xnbFile;
         }
 
-        private void WriteJsonFile(XnbFile xnbFile)
+        private void WriteFileJson(string name, XnbFile xnbFile)
         {
             // Write the output JSON file
             logger?.Log(1, "Writing JSON file...");
-            File.WriteAllText(this.writefilename, JsonSerializer.Serialize(xnbFile, new JsonSerializerOptions() { WriteIndented = this.shouldIndent }));
+            File.WriteAllText(name, JsonSerializer.Serialize(xnbFile, new JsonSerializerOptions() { WriteIndented = this.shouldIndent }));
             logger?.Log(1, "Finished writing JSON file!");
+        }
+
+        private void WriteFilePng(string name, XnbFile xnbFile)
+        {
+            //Write the output PNG file
+            logger?.Log(1, "Writing PNG file...");
+            var tex = xnbFile.XnbFileData.PrimaryObject as Texture2D;
+            var bitmap = tex.GetBitmap();
+            bitmap.Save(name, System.Drawing.Imaging.ImageFormat.Png);
+            logger?.Log(1, "Finished writing PNG file!");
+        }
+
+        private void WriteSystemFile(string name, XnbFile xnbFile)
+        {
+            // Texture2D needs to be processed as image files
+            if (xnbFile.XnbFileData.PrimaryObject is Texture2D)
+            {
+                WriteFilePng($"{name}.png", xnbFile);
+            }
+            // All other types are treated as JSON
+            else
+            {
+                WriteFileJson($"{name}.xnb", xnbFile);
+            }
         }
 
         #endregion

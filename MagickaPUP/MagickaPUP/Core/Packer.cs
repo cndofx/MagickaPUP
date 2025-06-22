@@ -53,7 +53,7 @@ namespace MagickaPUP.Core
 
             try
             {
-                var xnbFile = ReadJsonFile();
+                var xnbFile = ReadSystemFile();
                 WriteXnbFile(xnbFile);
             }
             catch (MagickaWriteExceptionPermissive) // NOTE : If you think about it, all magicka exceptions are isolated to their specific file, so we don't really need a "permissive" one, just catch the base MagickaException class and call it a day! Altough that would remove support of knowing where an specific exception took place, we can always know where the error comes from by reading the exception message.
@@ -68,7 +68,7 @@ namespace MagickaPUP.Core
 
         #region PrivateMethods
 
-        private XnbFile ReadJsonFile()
+        private XnbFile ReadFileJson()
         {
             // Read the contents of the JSON file
             logger?.Log(1, "Reading input JSON file...");
@@ -83,6 +83,40 @@ namespace MagickaPUP.Core
                 throw new Exception("The JSON file is not valid and has produced a NULL object!");
 
             return obj;
+        }
+
+        private XnbFile ReadFilePng()
+        {
+            // TODO : Implement!!! (the logic was moved due to a bug, now needs to be reimplemented... remember to do that at some point in the future!)
+            
+            // Read the contents of the PNG file
+            //etc...
+
+            // Deserialize the PNG file into the C# XNB File class structure
+            // etc...
+
+            // Throw an exception if the read PNG is not valid
+            // etc...
+
+            return null;
+        }
+
+        private XnbFile ReadSystemFile()
+        {
+            string extension = Path.GetExtension(readFilename).ToLower();
+            if (extension == "json")
+            {
+                return ReadFileJson();
+            }
+            else
+            if (extension == "png")
+            {
+                return ReadFilePng();
+            }
+            else
+            {
+                throw new Exception("Unsupported file type detected!");
+            }
         }
 
         private void WriteXnbFile(XnbFile xnbFile)

@@ -131,9 +131,10 @@ namespace MagickaPUP.MagickaClasses.Map
             }
 
             // Number of physics entity storage
+            // NOTE : Physics entities are like props in the scene. Most of them are objects that can be destroyed and gibbed, such as explosive barrels and whatnot.
             this.numPhysicsEntities = reader.ReadInt32();
             logger?.Log(1, $"Num Physics Entities : {this.numPhysicsEntities}");
-            for (int i = 0; i < this.numPhysicsEntities; ++i) // These are probably kinda like prefab props to be added to the world...? maybe?
+            for (int i = 0; i < this.numPhysicsEntities; ++i)
             {
                 PhysicsEntityStorage physEnt = PhysicsEntityStorage.Read(reader, logger);
                 this.physicsEntities.Add(physEnt);

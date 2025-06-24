@@ -171,7 +171,12 @@ namespace MagickaPUP.MagickaClasses.Map
                 this.collisionDataLevel[i] = LevelModelCollisionData.Read(reader, logger);
             }
 
-            // Form collision mesh triangles? or maybe add collision mesh for camera? it is not clear in the OG code.
+            // Collision layer for camera collision.
+            // This is not clear in the decompiled code from Magicka, but what this does is define an area, sort of like a nav mesh, where the camera can
+            // move within. The camera cannot move outside or point outside of the area defined by this collision mesh, which is how the official mals prevent
+            // the player's camera from going out of bounds.
+            // Maps that don't define this will allow the camera to freely follow the player without any restrictions.
+            // Basically, with this you can sort of "draw" the path through which you want the camera to move during runtime.
             logger?.Log(1, "Collision Layer for Camera:");
             this.collisionDataCamera = LevelModelCollisionData.Read(reader, logger);
 

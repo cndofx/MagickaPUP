@@ -103,13 +103,17 @@ namespace MagickaPUP.Core
 
         private XnbFile ReadSystemFile()
         {
+            // TODO : Maybe roll this back to use the system where we detected the file type based on contents rather than extension? although that was a little bit
+            // slower, and more unix-like, less windows-like, so most users would be quite possibly confused by the idea that extensions don't really mean shit for
+            // the actual binary data stored within the file itself...
+
             string extension = Path.GetExtension(readFilename).ToLower();
-            if (extension == "json")
+            if (extension == ".json")
             {
                 return ReadFileJson();
             }
             else
-            if (extension == "png")
+            if (extension == ".png")
             {
                 return ReadFilePng();
             }

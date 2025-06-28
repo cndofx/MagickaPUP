@@ -1,9 +1,10 @@
-﻿using System;
+﻿using MagickaPUP.Utility.Interop.Com;
+using MagickaPUP.Utility.Interop.Forms;
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Windows.Forms;
-using static MagickaPUP.Utility.Interop.DirectX.D3DX.D3DXInternal;
 
 namespace MagickaPUP.Utility.Interop.DirectX
 {
@@ -67,6 +68,8 @@ namespace MagickaPUP.Utility.Interop.DirectX
                 throw new Exception($"Failed to Create D3D9 Device (HRESULT = {hr})");
 
             ComHelper.Release(d3d9);
+
+            return (IntPtr)null;
         }
         
 
@@ -159,8 +162,8 @@ namespace MagickaPUP.Utility.Interop.DirectX
             // IntPtr p;
             // D3DXDisassembleEffect(IntPtr.Zero, false, out p);
 
-            var form = DummyFormHandler.CreateDummyForm();
-            DummyFormHandler.DestroyDummyForm(form);
+            var form = FormHelper.Create();
+            FormHelper.Release(form);
 
             return "fsa";
             // return DisassembleEffect(code, 0, code.Length);

@@ -94,7 +94,7 @@ namespace MagickaPUP.Core
             bool hasExtension = extension.Length > 0;
             
             string chosenExtension;
-            Action<string, XnbFile> chosenFunction = null;
+            Action<string, XnbFile> chosenFunction;
 
             // Texture2D needs to be processed as image files
             if (xnbFile.XnbFileData.PrimaryObject is Texture2D)

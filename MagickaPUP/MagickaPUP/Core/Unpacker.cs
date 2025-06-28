@@ -6,6 +6,7 @@ using MagickaPUP.XnaClasses.Xnb;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text.Json;
 
 namespace MagickaPUP.Core
@@ -88,16 +89,37 @@ namespace MagickaPUP.Core
 
         private void WriteSystemFile(string name, XnbFile xnbFile)
         {
+            string nameBase = Path.GetFileNameWithoutExtension(name);
+            string extension = Path.GetExtension(name);
+            bool hasExtension = extension.Length > 0;
+            
+            string chosenExtension;
+            Action<string, XnbFile> chosenFunction = null;
+
             // Texture2D needs to be processed as image files
             if (xnbFile.XnbFileData.PrimaryObject is Texture2D)
             {
-                WriteFilePng($"{name}.png", xnbFile);
+                chosenExtension = ".png";
+                chosenFunction = WriteFilePng;
             }
             // All other types are treated as JSON
             else
             {
-                WriteFileJson($"{name}.xnb", xnbFile);
+                chosenExtension = ".json";
+                chosenFunction = WriteFileJson;
             }
+
+            // If the user has provided their own extension, use that instead of the automatically chosen one
+            if (hasExtension)
+                chosenExtension = extension;
+
+            // Call the function and generate the output file
+            chosenFunction($"{nameBase}{chosenExtension}", xnbFile);
+
+            // TODO : In the future, maybe change it so that the provided extension is not just a visual thing. Like, make it so that
+            // when I write ".json", I can force even image files to be generated as json files without having to provide any other compilation flags that are
+            // specific to image files.
+            // That way, we can explore the XNB contents of the image freely from within the JSON without must more effort, including the other mip maps.
         }
 
         #endregion

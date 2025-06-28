@@ -132,9 +132,14 @@ namespace MagickaPUP.Core
 
         private void CleanUpFileNames()
         {
+            // Basically just ensure that the output filename always has a .xnb extension. If the user provided their own, then ensure that we dont needlessly
+            // add it again, otherwise it would look goofy as fuck.
             string writeExtension = Path.GetExtension(this.writeFilename).ToLower();
             if (writeExtension != ".xnb")
                 writeFilename += ".xnb";
+
+            // NOTE : In the future, maybe go back to the old idea of unifying the packing and unpacking processes so that we can just process any file and go back to any
+            // extension we want, as long as the combination is valid, maybe?
         }
 
         #endregion

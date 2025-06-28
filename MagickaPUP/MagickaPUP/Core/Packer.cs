@@ -45,6 +45,8 @@ namespace MagickaPUP.Core
 
         public int Pack()
         {
+            CleanUpFileNames();
+
             this.readFile = new FileStream(this.readFilename, FileMode.Open, FileAccess.Read);
             this.reader = new StreamReader(readFile);
 
@@ -126,6 +128,13 @@ namespace MagickaPUP.Core
         private void WriteXnbFile(XnbFile xnbFile)
         {
             xnbFile.Write(writer, logger);
+        }
+
+        private void CleanUpFileNames()
+        {
+            string writeExtension = Path.GetExtension(this.writeFilename).ToLower();
+            if (writeExtension != ".xnb")
+                writeFilename += ".xnb";
         }
 
         #endregion

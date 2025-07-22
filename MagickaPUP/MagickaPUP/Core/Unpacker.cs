@@ -89,7 +89,10 @@ namespace MagickaPUP.Core
 
         private void WriteSystemFile(string name, XnbFile xnbFile)
         {
+            // TODO : Clean up all of the leftover comments and useless code...
+
             string nameBase = Path.GetFileNameWithoutExtension(name);
+            string pathBase = Path.GetDirectoryName(name);
             string extension = Path.GetExtension(name);
             bool hasExtension = extension.Length > 0;
             
@@ -110,11 +113,21 @@ namespace MagickaPUP.Core
             }
 
             // If the user has provided their own extension, use that instead of the automatically chosen one
-            if (hasExtension)
-                chosenExtension = extension;
+            // if (hasExtension)
+            //     chosenExtension = extension;
+
+            string finalPath = Path.Combine(pathBase, nameBase + chosenExtension);
 
             // Call the function and generate the output file
-            chosenFunction($"{nameBase}{chosenExtension}", xnbFile);
+            chosenFunction(finalPath, xnbFile);
+
+            /*
+            logger?.Log(-1, $"name original : {name}");
+            logger?.Log(-1, $"name base     : {nameBase}");
+            logger?.Log(-1, $"path base     : {pathBase}");
+            logger?.Log(-1, $"name extension: {extension}");
+            logger?.Log(-1, $"final name    : {finalPath}");
+            */
 
             // TODO : In the future, maybe change it so that the provided extension is not just a visual thing. Like, make it so that
             // when I write ".json", I can force even image files to be generated as json files without having to provide any other compilation flags that are

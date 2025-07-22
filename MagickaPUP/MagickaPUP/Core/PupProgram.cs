@@ -272,15 +272,15 @@ namespace MagickaPUP.Core
 
         private void CmdPack(string[] args, int current)
         {
-            CmdPup(CmdPackFile, "xnb", args, current);
+            CmdPup(CmdPackFile, args, current);
         }
 
         private void CmdUnpack(string[] args, int current)
         {
-            CmdPup(CmdUnpackFile, "json", args, current);
+            CmdPup(CmdUnpackFile, args, current);
         }
 
-        private bool CmdPup(Action<string, string, int, bool> pupFile, string outputExtension, string[] args, int current)
+        private bool CmdPup(Action<string, string, int, bool> pupFile, string[] args, int current)
         {
             #region Comment
 
@@ -298,7 +298,7 @@ namespace MagickaPUP.Core
             // If the specified path is a folder, then process the entire folder structure within it and add all of the files for packing / unpacking
             if (Directory.Exists(iName))
             {
-                CmdPupPath(pupFile, outputExtension, iName, oName, lvl, shouldIndent);
+                CmdPupPath(pupFile, iName, oName, lvl, shouldIndent);
                 return true;
             }
 
@@ -313,7 +313,7 @@ namespace MagickaPUP.Core
             return false;
         }
 
-        private void CmdPupPath(Action<string, string, int, bool> pupFile, string outputExtension, string iName, string oName, int debuglvl = 2, bool shouldIndent = false)
+        private void CmdPupPath(Action<string, string, int, bool> pupFile, string iName, string oName, int debuglvl = 2, bool shouldIndent = false)
         {
             #region Comment
             // The purpose of this function is to iterate over the entire folder structure and go adding files to be packed or unpacked.
@@ -334,7 +334,7 @@ namespace MagickaPUP.Core
             foreach (var file in files)
             {
                 iName2 = Path.Combine(iName, file.Name);
-                oName2 = Path.Combine(oName, file.Name) + "." + outputExtension;
+                oName2 = Path.Combine(oName, file.Name);
                 pupFile(iName2, oName2, debuglvl, shouldIndent);
             }
 
@@ -345,7 +345,7 @@ namespace MagickaPUP.Core
                 iName2 = Path.Combine(iName, dir.Name);
                 oName2 = Path.Combine(oName, dir.Name);
                 this.pathsToCreate.Add(oName2);
-                CmdPupPath(pupFile, outputExtension, iName2, oName2, debuglvl);
+                CmdPupPath(pupFile, iName2, oName2, debuglvl);
             }
         }
 

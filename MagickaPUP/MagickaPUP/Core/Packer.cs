@@ -8,6 +8,7 @@ using MagickaPUP.XnaClasses.Xnb;
 using MagickaPUP.XnaClasses.Xna.Data;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.FileSystem;
+using System.Drawing;
 
 namespace MagickaPUP.Core
 {
@@ -56,15 +57,13 @@ namespace MagickaPUP.Core
 
         private XnbFile ReadFileJson(string name)
         {
-            XnbFile xnbFile;
-
             // Read the contents of the JSON file
             logger?.Log(1, "Reading input JSON file...");
             string contents = File.ReadAllText(name);
 
             // Deserialize the JSON file into a tree-like C# class structure
             logger?.Log(1, "Deserializing input JSON file...");
-            xnbFile = JsonSerializer.Deserialize<XnbFile>(contents);
+            XnbFile xnbFile = JsonSerializer.Deserialize<XnbFile>(contents);
 
             // Throw an exception if the read JSON object is not valid
             if (xnbFile == null)
@@ -76,21 +75,14 @@ namespace MagickaPUP.Core
         private XnbFile ReadFilePng(string name)
         {
             logger?.Log(1, "Reading input PNG file...");
+            Bitmap bitmap = new Bitmap(name);
 
-            byte[] data = File.ReadAllBytes(name);
+            logger?.Log(1, "Deserializing input JSON file...");
+            XnbFile xnbFile = new XnbFile();
+            xnbFile.XnbFileData.PrimaryObject = new Texture2D();
+            (xnbFile.XnbFileData.PrimaryObject as Texture2D).SetBitmap(bitmap);
 
-            // TODO : Implement!!! (the logic was moved due to a bug, now needs to be reimplemented... remember to do that at some point in the future!)
-            
-            // Read the contents of the PNG file
-            //etc...
-
-            // Deserialize the PNG file into the C# XNB File class structure
-            // etc...
-
-            // Throw an exception if the read PNG is not valid
-            // etc...
-
-            return null;
+            return xnbFile;
         }
 
         private XnbFile ReadSystemFile(string name)

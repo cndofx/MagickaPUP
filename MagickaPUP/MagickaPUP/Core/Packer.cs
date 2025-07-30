@@ -101,7 +101,7 @@ namespace MagickaPUP.Core
                 ans = ReadFileJson(name);
             }
             else
-            if (extension == ".png")
+            if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp")
             {
                 ans = ReadFilePng(name);
             }

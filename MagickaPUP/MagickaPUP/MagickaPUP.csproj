@@ -122,6 +122,7 @@
     <Compile Include="Utility\Compression\Lzx\LzxState.cs" />
     <Compile Include="Utility\Exceptions\LzxException.cs" />
     <Compile Include="Utility\Exceptions\MagickaException.cs" />
+    <Compile Include="Utility\FileSystem\FileSystemUtility.cs" />
     <Compile Include="Utility\Interop\Com\ComHelper.cs" />
     <Compile Include="Utility\Interop\DirectX\D3DX.cs" />
     <Compile Include="Utility\Interop\Forms\FormHelper.cs" />

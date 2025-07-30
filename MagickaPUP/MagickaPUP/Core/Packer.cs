@@ -101,7 +101,7 @@ namespace MagickaPUP.Core
                 ans = ReadFileJson(name);
             }
             else
-            if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp")
+            if (extension == ".png" || extension == ".jpg" || extension == ".jpeg" || extension == ".bmp") // LMAO WHAT EVEN IS THIS, PLEASE, CAN'T WAIT TO GET RID OF THIS SHIT CODE WHEN I ACTUALLY IMPLEMENT STB IMAGE SUPPORT, PLEASE GOD FORGIVE ME FOR THIS TEMPORARY FUCKING HACK!!!
             {
                 ans = ReadFilePng(name);
             }

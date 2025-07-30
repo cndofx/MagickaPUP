@@ -81,6 +81,8 @@ namespace MagickaPUP.Core
         {
             logger?.Log(1, "Reading input PNG file...");
 
+            byte[] data = File.ReadAllBytes(name);
+
             // TODO : Implement!!! (the logic was moved due to a bug, now needs to be reimplemented... remember to do that at some point in the future!)
             
             // Read the contents of the PNG file

@@ -308,7 +308,7 @@ namespace MagickaPUP.XnaClasses
             {
                 for (int j = 0; j < this.width; ++j)
                 {
-                    Color pixelColor = bitmap.GetPixel(i, j);
+                    Color pixelColor = bitmap.GetPixel(j, i);
 
                     // Remember that the SurfaceFormat Color has BGRA ordering rather than RGBA ordering
                     this.data[0].imageData[globalIndex + 0] = pixelColor.B;

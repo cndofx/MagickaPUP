@@ -316,7 +316,7 @@ namespace MagickaPUP.XnaClasses
                     this.data[0].imageData[globalIndex + 2] = pixelColor.R;
                     this.data[0].imageData[globalIndex + 3] = pixelColor.A;
 
-                    ++globalIndex;
+                    globalIndex += 4;
                 }
             }
         }

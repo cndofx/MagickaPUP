@@ -65,7 +65,8 @@ namespace MagickaPUP.Core
             byte[] data = File.ReadAllBytes(name);
 
             // Create binary reader and read the input XNB file data into an instance of the XnbFile class
-            using (var reader = new MBinaryReader(new MemoryStream(data)))
+            using (var stream = new MemoryStream(data))
+            using (var reader = new MBinaryReader(stream))
             {
                 xnbFile = new XnbFile(reader, this.logger);
             }

@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using MagickaPUP.Utility.Compression.Dxt;
+using MagickaPUP.MagickaClasses.Liquids;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -235,6 +236,8 @@ namespace MagickaPUP.XnaClasses
                 this.data[i].WriteInstance(writer, logger);
         }
 
+        // Extract the internal bitmap data from the Texture2D
+        // TODO : Maybe move this function to be part of the Texture2DData class, and then this one could be GetBitmap(mipIndex)
         public Bitmap GetBitmap()
         {
             byte[] imageDataBuffer = this.data[0].imageData;
@@ -282,6 +285,40 @@ namespace MagickaPUP.XnaClasses
             Marshal.Copy(imageDataBuffer, 0, data, imageDataBuffer.Length);
             bmp.UnlockBits(bmpData);
             return bmp;
+        }
+
+        // Assign the internal bitmap data to the Texture2D
+        // TODO : Maybe move this function to be part of the Texture2DData class, and then this one could be SetBitmap(bitmap, mipIndex)
+        public void SetBitmap(Bitmap bitmap)
+        {
+            this.format = SurfaceFormat.Color;
+
+            this.width = bitmap.Width;
+            this.height = bitmap.Height;
+
+            this.mipCount = 1;
+
+            this.data = new Texture2DData[1];
+            this.data[0] = new Texture2DData();
+            this.data[0].dataSize = this.width * this.height * 4; // For now we're using 32 bpp color to encode our RGBA data, so we're going to have a sizeof(pixel) = 4 bytes = 32 bits, that's where the size comes from. Same is assumed on the bitmap extract / get code above.
+            this.data[0].imageData = new byte[this.data[0].dataSize];
+
+            int globalIndex = 0; // Lazy af, should use a x + y * N fix but I'm short on time rn and this shit is good enough.
+            for (int i = 0; i < this.height; ++i)
+            {
+                for (int j = 0; j < this.width; ++j)
+                {
+                    Color pixelColor = bitmap.GetPixel(i, j);
+
+                    // Remember that the SurfaceFormat Color has BGRA ordering rather than RGBA ordering
+                    this.data[0].imageData[globalIndex + 0] = pixelColor.B;
+                    this.data[0].imageData[globalIndex + 1] = pixelColor.G;
+                    this.data[0].imageData[globalIndex + 2] = pixelColor.R;
+                    this.data[0].imageData[globalIndex + 3] = pixelColor.A;
+
+                    ++globalIndex;
+                }
+            }
         }
 
         public override ContentTypeReader GetObjectContentTypeReader()

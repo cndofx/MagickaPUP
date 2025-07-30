@@ -42,6 +42,7 @@ namespace MagickaPUP.XnaClasses.Xnb
 
         public XnbFileData()
         {
+            this.ContentTypeReaders = new ContentTypeReader[0];
             this.PrimaryObject = new XnaObject();
             this.SharedResources = new XnaObject[0];
         }

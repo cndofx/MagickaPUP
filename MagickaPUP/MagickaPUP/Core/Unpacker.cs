@@ -1,4 +1,5 @@
 ﻿using MagickaPUP.Utility.Exceptions;
+using MagickaPUP.Utility.FileSystem;
 using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 using MagickaPUP.XnaClasses.Xna.Data;
@@ -19,9 +20,7 @@ namespace MagickaPUP.Core
         private string writefilename;
         private bool shouldIndent;
 
-        private MBinaryReader reader;
         private DebugLogger logger;
-        private ReadContext context;
 
         #endregion
 
@@ -32,7 +31,6 @@ namespace MagickaPUP.Core
             this.readfilename = infilename;
             this.writefilename = outfilename;
             this.logger = new DebugLogger("Unpacker", debugLevel);
-            this.context = new ReadContext(reader, logger);
             this.shouldIndent = shouldIndent;
         }
 
@@ -42,12 +40,9 @@ namespace MagickaPUP.Core
 
         public int Unpack()
         {
-            byte[] data = File.ReadAllBytes(this.readfilename);
-            this.reader = new MBinaryReader(new MemoryStream(data));
-
             try
             {
-                var xnbFile = ReadXnbFile();
+                var xnbFile = ReadXnbFile(this.readfilename);
                 WriteSystemFile(this.writefilename, xnbFile);
             }
             catch (MagickaReadExceptionPermissive) // NOTE : If you think about it, all magicka exceptions are isolated to their specific file, so we don't really need a "permissive" one, just catch the base MagickaException class and call it a day!
@@ -62,10 +57,20 @@ namespace MagickaPUP.Core
 
         #region PrivateMethods
 
-        private XnbFile ReadXnbFile()
+        private XnbFile ReadXnbFile(string name)
         {
-            // Read the input XNB file
-            XnbFile xnbFile = new XnbFile(this.reader, this.logger);
+            XnbFile xnbFile;
+
+            // Read the data from the input file as bytes
+            byte[] data = File.ReadAllBytes(name);
+
+            // Create binary reader and read the input XNB file data into an instance of the XnbFile class
+            using (var reader = new MBinaryReader(new MemoryStream(data)))
+            {
+                xnbFile = new XnbFile(reader, this.logger);
+            }
+
+            // return the newly created file
             return xnbFile;
         }
 
@@ -89,13 +94,6 @@ namespace MagickaPUP.Core
 
         private void WriteSystemFile(string name, XnbFile xnbFile)
         {
-            // TODO : Clean up all of the leftover comments and useless code...
-
-            string nameBase = Path.GetFileNameWithoutExtension(name);
-            string pathBase = Path.GetDirectoryName(name);
-            string extension = Path.GetExtension(name);
-            bool hasExtension = extension.Length > 0;
-            
             string chosenExtension;
             Action<string, XnbFile> chosenFunction;
 
@@ -105,29 +103,18 @@ namespace MagickaPUP.Core
                 chosenExtension = ".png";
                 chosenFunction = WriteFilePng;
             }
-            // All other types are treated as JSON
+            // All other types are treated as JSON (for now)
             else
             {
                 chosenExtension = ".json";
                 chosenFunction = WriteFileJson;
             }
 
-            // If the user has provided their own extension, use that instead of the automatically chosen one
-            // if (hasExtension)
-            //     chosenExtension = extension;
-
-            string finalPath = Path.Combine(pathBase, nameBase + chosenExtension);
+            // Generate the string for the final file path
+            string finalPath = FSUtil.GetPathWithoutExtension(name) + chosenExtension;
 
             // Call the function and generate the output file
             chosenFunction(finalPath, xnbFile);
-
-            /*
-            logger?.Log(-1, $"name original : {name}");
-            logger?.Log(-1, $"name base     : {nameBase}");
-            logger?.Log(-1, $"path base     : {pathBase}");
-            logger?.Log(-1, $"name extension: {extension}");
-            logger?.Log(-1, $"final name    : {finalPath}");
-            */
 
             // TODO : In the future, maybe change it so that the provided extension is not just a visual thing. Like, make it so that
             // when I write ".json", I can force even image files to be generated as json files without having to provide any other compilation flags that are

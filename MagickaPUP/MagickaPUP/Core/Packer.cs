@@ -56,25 +56,21 @@ namespace MagickaPUP.Core
 
         private XnbFile ReadFileJson(string name)
         {
-            XnbFile obj;
+            XnbFile xnbFile;
 
-            using (var stream = new FileStream(name, FileMode.Open, FileAccess.Read))
-            using (var reader = new StreamReader(stream))
-            {
-                // Read the contents of the JSON file
-                logger?.Log(1, "Reading input JSON file...");
-                string contents = reader.ReadToEnd();
+            // Read the contents of the JSON file
+            logger?.Log(1, "Reading input JSON file...");
+            string contents = File.ReadAllText(name);
 
-                // Deserialize the JSON file into a tree-like C# class structure
-                logger?.Log(1, "Deserializing input JSON file...");
-                obj = JsonSerializer.Deserialize<XnbFile>(contents);
+            // Deserialize the JSON file into a tree-like C# class structure
+            logger?.Log(1, "Deserializing input JSON file...");
+            xnbFile = JsonSerializer.Deserialize<XnbFile>(contents);
 
-                // Throw an exception if the read JSON object is not valid
-                if (obj == null)
-                    throw new Exception("The JSON file is not valid and has produced a NULL object!");
-            }
+            // Throw an exception if the read JSON object is not valid
+            if (xnbFile == null)
+                throw new Exception("The JSON file is not valid and has produced a NULL object!");
 
-            return obj;
+            return xnbFile;
         }
 
         private XnbFile ReadFilePng(string name)

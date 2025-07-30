@@ -106,7 +106,7 @@ namespace MagickaPUP.Core
             logger?.Log(1, "Reading Input File...");
 
             string extension = Path.GetExtension(readFilename).ToLower();
-            if (extension == ".json")
+            if (extension == ".json") // NOTE : When more extensions are supported, this should probably be changed into a switch(), even tho switch on string compiles to the same as an if-else ladder, it still has better readability...
             {
                 ans = ReadFileJson(name);
             }

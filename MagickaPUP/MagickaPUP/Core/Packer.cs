@@ -77,7 +77,7 @@ namespace MagickaPUP.Core
             logger?.Log(1, "Reading input PNG file...");
             Bitmap bitmap = new Bitmap(name);
 
-            logger?.Log(1, "Deserializing input JSON file...");
+            logger?.Log(1, "Deserializing input PNG file...");
             XnbFile xnbFile = new XnbFile();
             xnbFile.XnbFileData.PrimaryObject = new Texture2D();
             (xnbFile.XnbFileData.PrimaryObject as Texture2D).SetBitmap(bitmap);

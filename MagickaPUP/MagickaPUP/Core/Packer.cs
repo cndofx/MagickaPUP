@@ -7,6 +7,7 @@ using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses.Xnb;
 using MagickaPUP.XnaClasses.Xna.Data;
 using MagickaPUP.Utility.Exceptions;
+using MagickaPUP.Utility.FileSystem;
 
 namespace MagickaPUP.Core
 {
@@ -17,15 +18,7 @@ namespace MagickaPUP.Core
         private string readFilename;
         private string writeFilename;
 
-        private FileStream writeFile;
-        private FileStream readFile;
-
-        private StreamReader reader;
-        private MBinaryWriter writer;
-
         private DebugLogger logger;
-
-        private WriteContext context;
 
         #endregion
 
@@ -36,7 +29,6 @@ namespace MagickaPUP.Core
             this.readFilename = infilename;
             this.writeFilename = outfilename;
             this.logger = new DebugLogger("Packer", debuglevel);
-            this.context = new WriteContext(writer, logger);
         }
 
         #endregion
@@ -45,18 +37,10 @@ namespace MagickaPUP.Core
 
         public int Pack()
         {
-            CleanUpFileNames();
-
-            this.readFile = new FileStream(this.readFilename, FileMode.Open, FileAccess.Read);
-            this.reader = new StreamReader(readFile);
-
-            this.writeFile = new FileStream(this.writeFilename, FileMode.Create, FileAccess.Write);
-            this.writer = new MBinaryWriter(this.writeFile);
-
             try
             {
-                var xnbFile = ReadSystemFile();
-                WriteXnbFile(xnbFile);
+                var xnbFile = ReadSystemFile(this.readFilename);
+                WriteXnbFile(this.writeFilename, xnbFile);
             }
             catch (MagickaWriteExceptionPermissive) // NOTE : If you think about it, all magicka exceptions are isolated to their specific file, so we don't really need a "permissive" one, just catch the base MagickaException class and call it a day! Altough that would remove support of knowing where an specific exception took place, we can always know where the error comes from by reading the exception message.
             {
@@ -70,25 +54,33 @@ namespace MagickaPUP.Core
 
         #region PrivateMethods
 
-        private XnbFile ReadFileJson()
+        private XnbFile ReadFileJson(string name)
         {
-            // Read the contents of the JSON file
-            logger?.Log(1, "Reading input JSON file...");
-            string contents = reader.ReadToEnd();
+            XnbFile obj;
 
-            // Deserialize the JSON file into a tree-like C# class structure
-            logger?.Log(1, "Deserializing input JSON file...");
-            XnbFile obj = JsonSerializer.Deserialize<XnbFile>(contents);
+            using (var stream = new FileStream(name, FileMode.Open, FileAccess.Read))
+            using (var reader = new StreamReader(stream))
+            {
+                // Read the contents of the JSON file
+                logger?.Log(1, "Reading input JSON file...");
+                string contents = reader.ReadToEnd();
 
-            // Throw an exception if the read JSON object is not valid
-            if (obj == null)
-                throw new Exception("The JSON file is not valid and has produced a NULL object!");
+                // Deserialize the JSON file into a tree-like C# class structure
+                logger?.Log(1, "Deserializing input JSON file...");
+                obj = JsonSerializer.Deserialize<XnbFile>(contents);
+
+                // Throw an exception if the read JSON object is not valid
+                if (obj == null)
+                    throw new Exception("The JSON file is not valid and has produced a NULL object!");
+            }
 
             return obj;
         }
 
-        private XnbFile ReadFilePng()
+        private XnbFile ReadFilePng(string name)
         {
+            logger?.Log(1, "Reading input PNG file...");
+
             // TODO : Implement!!! (the logic was moved due to a bug, now needs to be reimplemented... remember to do that at some point in the future!)
             
             // Read the contents of the PNG file
@@ -103,43 +95,43 @@ namespace MagickaPUP.Core
             return null;
         }
 
-        private XnbFile ReadSystemFile()
+        private XnbFile ReadSystemFile(string name)
         {
             // TODO : Maybe roll this back to use the system where we detected the file type based on contents rather than extension? although that was a little bit
             // slower, and more unix-like, less windows-like, so most users would be quite possibly confused by the idea that extensions don't really mean shit for
             // the actual binary data stored within the file itself...
 
+            XnbFile ans;
+
+            logger?.Log(1, "Reading Input File...");
+
             string extension = Path.GetExtension(readFilename).ToLower();
             if (extension == ".json")
             {
-                return ReadFileJson();
+                ans = ReadFileJson(name);
             }
             else
             if (extension == ".png")
             {
-                return ReadFilePng();
+                ans = ReadFilePng(name);
             }
             else
             {
                 throw new Exception("Unsupported file type detected!");
             }
+
+            logger?.Log(1, "Finished Reading Input File!");
+            return ans;
         }
 
-        private void WriteXnbFile(XnbFile xnbFile)
+        private void WriteXnbFile(string name, XnbFile xnbFile)
         {
-            xnbFile.Write(writer, logger);
-        }
-
-        private void CleanUpFileNames()
-        {
-            // Basically just ensure that the output filename always has a .xnb extension. If the user provided their own, then ensure that we dont needlessly
-            // add it again, otherwise it would look goofy as fuck.
-            string writeExtension = Path.GetExtension(this.writeFilename).ToLower();
-            if (writeExtension != ".xnb")
-                writeFilename += ".xnb";
-
-            // NOTE : In the future, maybe go back to the old idea of unifying the packing and unpacking processes so that we can just process any file and go back to any
-            // extension we want, as long as the combination is valid, maybe?
+            string finalPath = FSUtil.GetPathWithoutExtension(name) + ".xnb";
+            using (var stream = new FileStream(finalPath, FileMode.Create, FileAccess.Write))
+            using (var writer = new MBinaryWriter(stream))
+            {
+                xnbFile.Write(writer, logger);
+            }
         }
 
         #endregion

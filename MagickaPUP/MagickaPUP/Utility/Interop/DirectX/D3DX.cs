@@ -46,6 +46,7 @@ namespace MagickaPUP.Utility.Interop.DirectX
             public static extern IntPtr Direct3DCreate9(uint SDKVersion);
         }
 
+        /*
         public static unsafe IntPtr D3DCreateDevice(IntPtr windowHandle)
         {
             IntPtr d3d9 = D3DXInternal.Direct3DCreate9(D3DXInternal.D3D_SDK_VERSION);
@@ -71,6 +72,7 @@ namespace MagickaPUP.Utility.Interop.DirectX
 
             return (IntPtr)null;
         }
+        */
         
 
 

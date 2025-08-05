@@ -9,6 +9,7 @@ namespace MagickaPUP.Utility.Interop.Com
 {
     public static class ComHelper
     {
+        /*
         public static unsafe void Release(IntPtr comPtr)
         {
             // NOTE : All of these are possible alternatives that do not seem to work well with D3D9, or maybe I'm doing something wrong, idk.
@@ -24,5 +25,6 @@ namespace MagickaPUP.Utility.Interop.Com
             delegate* unmanaged[Stdcall]<IntPtr, uint> release = (delegate* unmanaged[Stdcall]<IntPtr, uint>)vtable[2];
             release(comPtr);
         }
+        */
     }
 }

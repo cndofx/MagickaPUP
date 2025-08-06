@@ -17,11 +17,11 @@ namespace MagickaPUP.Utility.IO
 
         #region Constructor
 
-        public MBinaryWriter(Stream stream) : base(stream)
+        public MBinaryWriter(Stream stream, GameVersion gameVersion = GameVersion.Auto) : base(stream)
         {
             this.ContentTypeReaderStorage = new ContentTypeReaderStorage();
             this.ContentTypeReaderManager = new ContentTypeReaderManager();
-            this.GameVersion = GameVersion.Auto;
+            this.GameVersion = gameVersion;
         }
 
         #endregion

@@ -450,7 +450,7 @@ namespace MagickaPUP.Core
 
         private void ExecVersion()
         {
-            Console.WriteLine("MagickaPUP version 1.0.0.0"); // Version format: (itr, major, minor, patch)
+            Console.WriteLine("MagickaPUP version 1.1.0"); // Version format: (major, minor, patch)
         }
 
         private void ExecThink()

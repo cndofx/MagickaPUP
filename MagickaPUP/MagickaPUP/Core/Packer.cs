@@ -9,15 +9,18 @@ using MagickaPUP.XnaClasses.Xna.Data;
 using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.FileSystem;
 using System.Drawing;
+using MagickaPUP.Utility.IO.Data;
 
 namespace MagickaPUP.Core
 {
+    // TODO : Read the TODO within the Unpacker's file, on the UnpackerSettings / UnpackerData struct.
     class Packer
     {
         #region Variables
 
         private string readFilename;
         private string writeFilename;
+        private GameVersion gameVersion;
 
         private DebugLogger logger;
 
@@ -25,11 +28,12 @@ namespace MagickaPUP.Core
 
         #region Constructor
 
-        public Packer(string infilename, string outfilename, int debuglevel = 1)
+        public Packer(string infilename, string outfilename, int debuglevel = 1, GameVersion gameVersion = GameVersion.Auto)
         {
             this.readFilename = infilename;
             this.writeFilename = outfilename;
             this.logger = new DebugLogger("Packer", debuglevel);
+            this.gameVersion = gameVersion;
         }
 
         #endregion
@@ -118,7 +122,7 @@ namespace MagickaPUP.Core
         {
             string finalPath = FSUtil.GetPathWithoutExtension(name) + ".xnb";
             using (var stream = new FileStream(finalPath, FileMode.Create, FileAccess.Write))
-            using (var writer = new MBinaryWriter(stream))
+            using (var writer = new MBinaryWriter(stream, this.gameVersion))
             {
                 xnbFile.Write(writer, logger);
             }

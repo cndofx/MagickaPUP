@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MagickaPUP.Core.Args;
+using MagickaPUP.Utility.IO.Data;
 
 namespace MagickaPUP.Core
 {
@@ -44,6 +45,9 @@ namespace MagickaPUP.Core
         private int debugLevel;
         private bool indentAllowed;
 
+        private GameVersion inputVersion;
+        private GameVersion outputVersion;
+
         private bool displayHelp;
         private bool displayThink;
         private bool displayVersion;
@@ -62,6 +66,11 @@ namespace MagickaPUP.Core
 
             this.debugLevel = 2; // lvl 2 by default.
             this.indentAllowed = false; // false by default.
+
+            // TODO : On the rest of the code, remove ALL of the default values for GameVersion parameters. The default values should only be set here,
+            // at the top level of the entire codepath.
+            this.inputVersion = GameVersion.Auto; // Auto by default.
+            this.outputVersion = GameVersion.Auto; // Auto by default. Also, Auto is kind of useless for output ops, only useful for input ops since it helps determine automatically what version we were probably working with...
 
             this.displayHelp = false;
             this.displayThink = false;
@@ -280,7 +289,9 @@ namespace MagickaPUP.Core
             CmdPup(CmdUnpackFile, args, current);
         }
 
-        private bool CmdPup(Action<string, string, int, bool> pupFile, string[] args, int current)
+        // TODO : Replace the action with the Settings data structure stuff in the future... maybe even make a generic PupSettings struct that can be used by both classes,
+        // and then maybe even change the classes to a single one and just change with a flag the operation to "compile" or "decompile" or whatever...
+        private bool CmdPup(Action<string, string, int, bool, GameVersion> pupFile, string[] args, int current)
         {
             #region Comment
 
@@ -349,30 +360,74 @@ namespace MagickaPUP.Core
             }
         }
 
-        private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2, bool shouldIndent = false)
+        private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2, bool shouldIndent = false, GameVersion gameVersion = GameVersion.Auto)
         {
             putln($"Registered Packer : (\"{iFilename}\", \"{oFilename}\")");
-            Packer p = new Packer(iFilename, oFilename, debuglvl);
+            Packer p = new Packer(iFilename, oFilename, debuglvl, gameVersion);
             this.packers.Add(p);
         }
 
-        private void CmdUnpackFile(string iFilename, string oFilename, int debuglvl = 2, bool shouldIndent = false)
+        private void CmdUnpackFile(string iFilename, string oFilename, int debuglvl = 2, bool shouldIndent = false, GameVersion gameVersion = GameVersion.Auto)
         {
             putln($"Registered Unpacker : (\"{iFilename}\", \"{oFilename}\")");
-            Unpacker u = new Unpacker(iFilename, oFilename, debuglvl, shouldIndent);
+            Unpacker u = new Unpacker(iFilename, oFilename, debuglvl, shouldIndent, gameVersion);
             this.unpackers.Add(u);
         }
 
         private void CmdSetVersionInput(string[] args, int current)
         {
-            // TODO : Implement
-            throw new NotImplementedException("CmdSetVersionInput");
+            // TODO : Abstract away the switch into a separate function that lets us get the version enum from strings. That way, the logic gets less cluttered up,
+            // and we get a singular access point where we can define how the version string parsing is handled... maybe even add in the future support for literal
+            // version numbers, such as 1.10, 1.4, 1.5, etc...
+
+            // TODO : Read the TODO on the CmdSetVersionOutput command...
+
+            string versionStr = args[current + 1].ToLower();
+
+            switch (versionStr)
+            {
+                case "auto":
+                    this.inputVersion = GameVersion.Auto;
+                    break;
+                case "old":
+                    this.inputVersion = GameVersion.Old;
+                    break;
+                case "new":
+                    this.inputVersion = GameVersion.New;
+                    break;
+                default:
+                    throw new Exception($"Unknown Magicka version specified for input: \"{versionStr}\"");
+            }
+
+            // throw new NotImplementedException("CmdSetVersionInput");
         }
 
         private void CmdSetVersionOutput(string[] args, int current)
         {
-            // TODO : Implement
-            throw new NotImplementedException("CmdSetVersionOutput");
+            // TODO : Change the version commands to be kinda like the future plans for the image type output format specifiers.
+            // Something like a flag that lets me says "hey, I want this specific xnb data type to be compiled or decompiled into this
+            // specific type of file or version, etc..."
+            // This will make it more modular and also work nicely with the future plans for supporting custom user defined types through dlls, which will need
+            // their own user defined versioning commands as well.
+
+            string versionStr = args[current + 1].ToLower();
+
+            switch (versionStr)
+            {
+                case "auto":
+                    this.outputVersion = GameVersion.Auto;
+                    break;
+                case "old":
+                    this.outputVersion = GameVersion.Old;
+                    break;
+                case "new":
+                    this.outputVersion = GameVersion.New;
+                    break;
+                default:
+                    throw new Exception($"Unknown Magicka version specified for output: \"{versionStr}\"");
+            }
+
+            // throw new NotImplementedException("CmdSetVersionOutput");
         }
 
         #endregion

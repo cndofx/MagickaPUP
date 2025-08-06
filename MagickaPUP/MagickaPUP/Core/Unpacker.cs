@@ -1,6 +1,7 @@
 ﻿using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.FileSystem;
 using MagickaPUP.Utility.IO;
+using MagickaPUP.Utility.IO.Data;
 using MagickaPUP.XnaClasses;
 using MagickaPUP.XnaClasses.Xna.Data;
 using MagickaPUP.XnaClasses.Xnb;
@@ -12,6 +13,20 @@ using System.Text.Json;
 
 namespace MagickaPUP.Core
 {
+    // TODO : Modify the Unpacker class to use this as data holder and constructor input parameters instead of what it uses right now.
+    // Also do the same for the Packer class.
+    struct UnpackerSettings
+    {
+        public string InputFileName;
+        public string OutputFileName;
+
+        public int DebugLevel;
+
+        public bool JsonShouldIndent;
+
+        public GameVersion GameVersion;
+    }
+
     class Unpacker
     {
         #region Variables
@@ -19,6 +34,7 @@ namespace MagickaPUP.Core
         private string readfilename;
         private string writefilename;
         private bool shouldIndent;
+        private GameVersion gameVersion;
 
         private DebugLogger logger;
 
@@ -26,12 +42,13 @@ namespace MagickaPUP.Core
 
         #region Constructors
 
-        public Unpacker(string infilename, string outfilename, int debugLevel = 1, bool shouldIndent = false)
+        public Unpacker(string infilename, string outfilename, int debugLevel = 1, bool shouldIndent = false, GameVersion gameVersion = GameVersion.Auto)
         {
             this.readfilename = infilename;
             this.writefilename = outfilename;
             this.logger = new DebugLogger("Unpacker", debugLevel);
             this.shouldIndent = shouldIndent;
+            this.gameVersion = gameVersion;
         }
 
         #endregion
@@ -66,7 +83,7 @@ namespace MagickaPUP.Core
 
             // Create binary reader and read the input XNB file data into an instance of the XnbFile class
             using (var stream = new MemoryStream(data))
-            using (var reader = new MBinaryReader(stream))
+            using (var reader = new MBinaryReader(stream, this.gameVersion))
             {
                 xnbFile = new XnbFile(reader, this.logger);
             }

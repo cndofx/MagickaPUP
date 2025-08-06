@@ -291,7 +291,7 @@ namespace MagickaPUP.Core
 
         // TODO : Replace the action with the Settings data structure stuff in the future... maybe even make a generic PupSettings struct that can be used by both classes,
         // and then maybe even change the classes to a single one and just change with a flag the operation to "compile" or "decompile" or whatever...
-        private bool CmdPup(Action<string, string, int, bool, GameVersion> pupFile, string[] args, int current)
+        private bool CmdPup(Action<string, string> pupFile, string[] args, int current)
         {
             #region Comment
 
@@ -303,20 +303,18 @@ namespace MagickaPUP.Core
             // Get cmd input data
             string iName = args[current + 1];
             string oName = args[current + 2];
-            int lvl = this.debugLevel; // The pup functions take the debug level as arg to allow setting different debug levels for each commands issued on the same program execution.
-            bool shouldIndent = this.indentAllowed;
 
             // If the specified path is a folder, then process the entire folder structure within it and add all of the files for packing / unpacking
             if (Directory.Exists(iName))
             {
-                CmdPupPath(pupFile, iName, oName, lvl, shouldIndent);
+                CmdPupPath(pupFile, iName, oName);
                 return true;
             }
 
             // If the specified path is a file, then process the single specified file
             if (File.Exists(iName))
             {
-                pupFile(iName, oName, lvl, shouldIndent);
+                pupFile(iName, oName);
                 return true;
             }
 
@@ -324,7 +322,7 @@ namespace MagickaPUP.Core
             return false;
         }
 
-        private void CmdPupPath(Action<string, string, int, bool> pupFile, string iName, string oName, int debuglvl = 2, bool shouldIndent = false)
+        private void CmdPupPath(Action<string, string> pupFile, string iName, string oName)
         {
             #region Comment
             // The purpose of this function is to iterate over the entire folder structure and go adding files to be packed or unpacked.
@@ -346,7 +344,7 @@ namespace MagickaPUP.Core
             {
                 iName2 = Path.Combine(iName, file.Name);
                 oName2 = Path.Combine(oName, file.Name);
-                pupFile(iName2, oName2, debuglvl, shouldIndent);
+                pupFile(iName2, oName2);
             }
 
 
@@ -356,21 +354,21 @@ namespace MagickaPUP.Core
                 iName2 = Path.Combine(iName, dir.Name);
                 oName2 = Path.Combine(oName, dir.Name);
                 this.pathsToCreate.Add(oName2);
-                CmdPupPath(pupFile, iName2, oName2, debuglvl);
+                CmdPupPath(pupFile, iName2, oName2);
             }
         }
 
-        private void CmdPackFile(string iFilename, string oFilename, int debuglvl = 2, bool shouldIndent = false, GameVersion gameVersion = GameVersion.Auto)
+        private void CmdPackFile(string iFilename, string oFilename)
         {
             putln($"Registered Packer : (\"{iFilename}\", \"{oFilename}\")");
-            Packer p = new Packer(iFilename, oFilename, debuglvl, gameVersion);
+            Packer p = new Packer(iFilename, oFilename, this.debugLevel, this.outputVersion);
             this.packers.Add(p);
         }
 
-        private void CmdUnpackFile(string iFilename, string oFilename, int debuglvl = 2, bool shouldIndent = false, GameVersion gameVersion = GameVersion.Auto)
+        private void CmdUnpackFile(string iFilename, string oFilename)
         {
             putln($"Registered Unpacker : (\"{iFilename}\", \"{oFilename}\")");
-            Unpacker u = new Unpacker(iFilename, oFilename, debuglvl, shouldIndent, gameVersion);
+            Unpacker u = new Unpacker(iFilename, oFilename, this.debugLevel, this.indentAllowed, this.inputVersion);
             this.unpackers.Add(u);
         }
 

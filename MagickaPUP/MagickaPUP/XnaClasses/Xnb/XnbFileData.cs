@@ -68,7 +68,7 @@ namespace MagickaPUP.XnaClasses.Xnb
             logger?.Log(1, "Writing XNB Data...");
 
             using (var memoryStream = new MemoryStream())
-            using (var writerStream = new MBinaryWriter(memoryStream))
+            using (var writerStream = new MBinaryWriter(memoryStream, writer.GameVersion))
             {
                 WritePrimaryObject(writerStream, logger);
                 WriteSharedResources(writerStream, logger);

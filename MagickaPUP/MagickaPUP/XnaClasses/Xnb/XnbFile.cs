@@ -177,7 +177,7 @@ namespace MagickaPUP.XnaClasses.Xnb
                     LzxDecoder dec = new LzxDecoder(16);
 
                     using (var decompressedStream = new MemoryStream(xnbFileSizeDecompressed)) // NOTE : the buffer created is of a flexible size, so even if the input size is wrong, we can still expand if needed.
-                    using (var decompressedReader = new MBinaryReader(decompressedStream))
+                    using (var decompressedReader = new MBinaryReader(decompressedStream, reader.GameVersion))
                     {
                         long startPos = reader.BaseStream.Position;
                         long pos = startPos;

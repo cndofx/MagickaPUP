@@ -1,4 +1,6 @@
-﻿using MagickaPUP.Utility.Interop.DirectX;
+﻿#if TEMPDISABLED
+using MagickaPUP.Utility.Interop.DirectX;
+#endif
 using MagickaPUP.Utility.IO;
 using System;
 
@@ -51,7 +53,11 @@ namespace MagickaPUP.XnaClasses
 
         public string GetShaderCode()
         {
+#if TEMPDISABLED
             return D3DX.DisassembleEffect(this.CodeBuffer);
+#else
+            throw new PlatformNotSupportedException("Shader disassembly is not currently supported");
+#endif
         }
     }
 }

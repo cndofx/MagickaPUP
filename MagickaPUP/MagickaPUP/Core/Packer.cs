@@ -10,6 +10,8 @@ using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.Utility.FileSystem;
 using System.Drawing;
 using MagickaPUP.Utility.IO.Data;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace MagickaPUP.Core
 {
@@ -79,7 +81,7 @@ namespace MagickaPUP.Core
         private XnbFile ReadFilePng(string name)
         {
             logger?.Log(1, "Reading input PNG file...");
-            Bitmap bitmap = new Bitmap(name);
+            using Image<Rgba32> bitmap = Image.Load<Rgba32>(name);
 
             logger?.Log(1, "Deserializing input PNG file...");
             XnbFile xnbFile = new XnbFile();

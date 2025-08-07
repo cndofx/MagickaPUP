@@ -6,7 +6,6 @@ using MagickaPUP.Utility.Exceptions;
 using MagickaPUP.MagickaClasses.Item.SpecialAbilities;
 using MagickaPUP.MagickaClasses.Character.Events;
 using MagickaPUP.MagickaClasses.Character.Aura;
-using System.Runtime.Remoting.Messaging;
 
 namespace MagickaPUP.MagickaClasses.Item
 {

@@ -12,6 +12,8 @@ using MagickaPUP.XnaClasses.Specific;
 using MagickaPUP.XnaClasses.Specific.Derived;
 using System;
 using System.Collections.Generic;
+using StringReader = MagickaPUP.XnaClasses.Specific.Derived.StringReader;
+using StringWriter = MagickaPUP.XnaClasses.Specific.Derived.StringWriter;
 
 namespace MagickaPUP.XnaClasses.Readers
 {

@@ -9,6 +9,7 @@ using MagickaPUP.XnaClasses.Xnb;
 using MagickaPUP.Utility.IO;
 using MagickaPUP.XnaClasses;
 using System.Drawing.Imaging;
+using SixLabors.ImageSharp;
 
 // Fucking Magicka Packer-Unpacker baby!!!
 // Main Program entry point
@@ -47,8 +48,8 @@ namespace MagickaPUP
                     {
                         Console.WriteLine("It is a texture!");
                         Texture2D texture = xnbFile.XnbFileData.PrimaryObject as Texture2D;
-                        Bitmap bmp = texture.GetBitmap();
-                        bmp.Save(args[0] + "_OUTPUT.png", ImageFormat.Png);
+                        Image bmp = texture.GetBitmap();
+                        bmp.Save(args[0] + "_OUTPUT.png");
                     }
                     else
                     {

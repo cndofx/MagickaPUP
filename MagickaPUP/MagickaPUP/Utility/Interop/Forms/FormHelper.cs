@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if TEMPDISABLED
+using System;
 using System.Windows.Forms;
 
 namespace MagickaPUP.Utility.Interop.Forms
@@ -26,3 +27,4 @@ namespace MagickaPUP.Utility.Interop.Forms
         }
     }
 }
+#endif

@@ -8,11 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using MagickaPUP.Utility.Compression.Dxt;
 using MagickaPUP.MagickaClasses.Liquids;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using Color = System.Drawing.Color;
+using Rectangle = System.Drawing.Rectangle;
 
 namespace MagickaPUP.XnaClasses
 {
@@ -238,7 +241,7 @@ namespace MagickaPUP.XnaClasses
 
         // Extract the internal bitmap data from the Texture2D
         // TODO : Maybe move this function to be part of the Texture2DData class, and then this one could be GetBitmap(mipIndex)
-        public Bitmap GetBitmap()
+        public Image GetBitmap()
         {
             byte[] imageDataBuffer = this.data[0].imageData;
             bool mustSwapChannelsRB = false;
@@ -279,17 +282,23 @@ namespace MagickaPUP.XnaClasses
                 }
             }
 
-            Bitmap bmp = new Bitmap(this.width, this.height, PixelFormat.Format32bppArgb);
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, this.width, this.height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-            IntPtr data = bmpData.Scan0;
-            Marshal.Copy(imageDataBuffer, 0, data, imageDataBuffer.Length);
-            bmp.UnlockBits(bmpData);
+            // Bitmap bmp = new Bitmap(this.width, this.height, PixelFormat.Format32bppArgb);
+            // BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, this.width, this.height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+            // IntPtr data = bmpData.Scan0;
+            // Marshal.Copy(imageDataBuffer, 0, data, imageDataBuffer.Length);
+            // bmp.UnlockBits(bmpData);
+            
+            // code above uses Argb32, but Bgra32 is needed to get the correct output. why?
+            // Image<Argb32> bmp = Image.LoadPixelData<Argb32>(imageDataBuffer, this.width, this.height);
+            Image<Bgra32> bmp = Image.LoadPixelData<Bgra32>(imageDataBuffer, this.width, this.height);
+            
             return bmp;
         }
 
         // Assign the internal bitmap data to the Texture2D
         // TODO : Maybe move this function to be part of the Texture2DData class, and then this one could be SetBitmap(bitmap, mipIndex)
-        public void SetBitmap(Bitmap bitmap)
+        public void SetBitmap<TPixel>(Image<TPixel> bitmap)
+            where TPixel : unmanaged, IPixel<TPixel>
         {
             this.format = SurfaceFormat.Color;
 
@@ -303,22 +312,45 @@ namespace MagickaPUP.XnaClasses
             this.data[0].dataSize = this.width * this.height * 4; // For now we're using 32 bpp color to encode our RGBA data, so we're going to have a sizeof(pixel) = 4 bytes = 32 bits, that's where the size comes from. Same is assumed on the bitmap extract / get code above.
             this.data[0].imageData = new byte[this.data[0].dataSize];
 
-            int globalIndex = 0; // Lazy af, should use a x + y * N fix but I'm short on time rn and this shit is good enough.
-            for (int i = 0; i < this.height; ++i)
+            // int globalIndex = 0; // Lazy af, should use a x + y * N fix but I'm short on time rn and this shit is good enough.
+            // for (int i = 0; i < this.height; ++i)
+            // {
+            //     for (int j = 0; j < this.width; ++j)
+            //     {
+            //         Color pixelColor = bitmap.GetPixel(j, i);
+            //
+            //         // Remember that the SurfaceFormat Color has BGRA ordering rather than RGBA ordering
+            //         this.data[0].imageData[globalIndex + 0] = pixelColor.B;
+            //         this.data[0].imageData[globalIndex + 1] = pixelColor.G;
+            //         this.data[0].imageData[globalIndex + 2] = pixelColor.R;
+            //         this.data[0].imageData[globalIndex + 3] = pixelColor.A;
+            //
+            //         globalIndex += 4;
+            //     }
+            // }
+            
+            bitmap.ProcessPixelRows(pixelAccessor =>
             {
-                for (int j = 0; j < this.width; ++j)
+                int globalIndex = 0; // Lazy af, should use a x + y * N fix but I'm short on time rn and this shit is good enough.
+                for (int y = 0; y < this.height; ++y)
                 {
-                    Color pixelColor = bitmap.GetPixel(j, i);
-
-                    // Remember that the SurfaceFormat Color has BGRA ordering rather than RGBA ordering
-                    this.data[0].imageData[globalIndex + 0] = pixelColor.B;
-                    this.data[0].imageData[globalIndex + 1] = pixelColor.G;
-                    this.data[0].imageData[globalIndex + 2] = pixelColor.R;
-                    this.data[0].imageData[globalIndex + 3] = pixelColor.A;
-
-                    globalIndex += 4;
+                    Span<TPixel> row = pixelAccessor.GetRowSpan(y);
+                    for (int x = 0; x < this.width; ++x)
+                    {
+                        TPixel pixel = row[x];
+                        Rgba32 rgbaPixel = new();
+                        pixel.ToRgba32(ref rgbaPixel);
+                
+                        // Remember that the SurfaceFormat Color has BGRA ordering rather than RGBA ordering
+                        this.data[0].imageData[globalIndex + 0] = rgbaPixel.B;
+                        this.data[0].imageData[globalIndex + 1] = rgbaPixel.G;
+                        this.data[0].imageData[globalIndex + 2] = rgbaPixel.R;
+                        this.data[0].imageData[globalIndex + 3] = rgbaPixel.A;
+                
+                        globalIndex += 4;
+                    }
                 }
-            }
+            });
         }
 
         public override ContentTypeReader GetObjectContentTypeReader()

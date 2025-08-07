@@ -1,4 +1,5 @@
-﻿using MagickaPUP.Utility.Interop.Com;
+﻿#if TEMPDISABLED
+using MagickaPUP.Utility.Interop.Com;
 using MagickaPUP.Utility.Interop.Forms;
 using System;
 using System.Runtime.CompilerServices;
@@ -172,3 +173,4 @@ namespace MagickaPUP.Utility.Interop.DirectX
         }
     }
 }
+#endif

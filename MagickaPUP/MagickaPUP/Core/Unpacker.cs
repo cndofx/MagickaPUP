@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json;
+using SixLabors.ImageSharp;
 
 namespace MagickaPUP.Core
 {
@@ -106,7 +107,7 @@ namespace MagickaPUP.Core
             logger?.Log(1, "Writing PNG file...");
             var tex = xnbFile.XnbFileData.PrimaryObject as Texture2D;
             var bitmap = tex.GetBitmap();
-            bitmap.Save(name, System.Drawing.Imaging.ImageFormat.Png);
+            bitmap.Save(FSUtil.GetPathWithoutExtension(name) + ".png");
             logger?.Log(1, "Finished writing PNG file!");
         }
 
